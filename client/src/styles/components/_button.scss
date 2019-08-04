@@ -1,0 +1,29 @@
+.btn {
+    width: 20rem;
+    height: 5rem;
+    border: none;
+    box-shadow: 0px 1px 1px 1px rgba($color: $color-grey, $alpha: .7);
+    font-size: $size-button;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:active {
+        transform: scale(.95);
+    }
+
+    &__cancel {
+        background: $color-danger;
+        color: $color-white;
+    }
+
+    &__register {
+        background: $color-success;
+        color: $color-white;
+    }
+}

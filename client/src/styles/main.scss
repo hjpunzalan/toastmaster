@@ -1,3 +1,9 @@
 @import './abstract/variables';
+@import './abstract/typography';
+
 @import './layout/navbar';
-@import './layout/container'
+@import './layout/container';
+
+@import './pages/register';
+
+@import './components/button';

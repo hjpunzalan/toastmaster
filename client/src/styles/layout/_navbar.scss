@@ -4,8 +4,8 @@
     width: 100%;
     background-color: $color-white;
     align-items: center;
-    padding: .5rem 2rem;
-    border-bottom: 1px solid $color-primary;
+    padding: .5rem 3.5rem;
+    box-shadow: 0px 3px 5px -1px $color-grey;
 
     &__left {
         margin-right: auto;
@@ -26,7 +26,8 @@
     }
 
     &__logo {
-        width: 15rem;
+        width: 12rem;
+        margin-right: 2rem;
     }
 
     &__header {

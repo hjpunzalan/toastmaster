@@ -1,0 +1,56 @@
+.register {
+
+    >hr {
+        border: 1px solid $color-line;
+    }
+
+    >h1 {
+        font-size: $size-title;
+    }
+
+    &__text {
+        font-size: $size-label;
+        margin: 1.5rem 0;
+    }
+
+    &__form {
+        padding: 3rem 2rem;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        >input[type=text] {
+            width: 50%;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            height: 4rem;
+            background: $color-input;
+            border: none;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+
+        >label {
+            font-size: $size-label;
+            display: inline-block;
+            margin: .7rem 0;
+        }
+
+        >input[type=submit] {
+            margin: 4rem 0;
+        }
+
+
+    }
+
+    &__btns {
+        margin-top: 5rem;
+
+        .btn__cancel {
+            margin-right: 3rem;
+        }
+    }
+}
