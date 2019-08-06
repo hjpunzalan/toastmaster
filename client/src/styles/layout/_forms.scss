@@ -1,0 +1,70 @@
+.Form {
+
+    >hr {
+        border: 1px solid $color-line;
+    }
+
+    >h1 {
+        font-size: $size-title;
+    }
+
+    &__text {
+        font-size: $size-label;
+        margin: 1.5rem 0;
+    }
+
+    &__form {
+        padding: 3rem 2rem;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        >input[type=text],
+        >input[type=password] {
+            width: 50%;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            height: 4rem;
+            background: $color-input;
+            border: none;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+
+        >label {
+            font-size: $size-label;
+            display: inline-block;
+            margin: .7rem 0;
+        }
+
+        >input[type=submit] {
+            margin: 4rem 0;
+        }
+
+
+    }
+
+    &__btns {
+        margin: 4rem 0;
+
+        .btn__cancel {
+            margin-right: 3rem;
+        }
+    }
+
+    &__link {
+        display: inline-block;
+        width: fit-content;
+        padding-bottom: .7rem;
+        text-decoration: none;
+        font-size: 1.7rem;
+        color: $color-link;
+
+        &:hover {
+            border-bottom: 3px solid $color-link;
+        }
+    }
+}

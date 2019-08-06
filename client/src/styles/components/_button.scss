@@ -18,12 +18,12 @@
     }
 
     &__cancel {
-        background: $color-danger;
-        color: $color-white;
+        background: $color-grey;
+        color: $color-black;
     }
 
-    &__register {
-        background: $color-success;
+    &__submit {
+        background: $color-secondary;
         color: $color-white;
     }
 }
