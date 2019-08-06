@@ -1,0 +1,19 @@
+.Alert {
+    display: block;
+    font-size: $size-alert;
+    padding: 2rem;
+    line-height: double($size-alert);
+    margin: 2rem 0;
+    border-radius: 2px;
+    width: 100%;
+    max-width: 80rem;
+
+    &__fail {
+        color: $color-danger;
+        background: $color-danger-light;
+    }
+
+    &__success {}
+
+
+}

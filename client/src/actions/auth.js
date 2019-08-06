@@ -1,7 +1,8 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL } from '../actions/types';
-import { setAlert } from './alerts';
+import { setAlert, resetAlert } from './alerts';
 
 export const loginUser = (formData, history) => dispatch => {
+	dispatch(resetAlert()); //Need to be in every action
 	const user = {
 		email: 'hj.punzalan@hotmail.com',
 		password: 'test123'
@@ -13,11 +14,11 @@ export const loginUser = (formData, history) => dispatch => {
 		});
 		history.push('/dashboard');
 	} else {
-		dispatch(setAlert('Invalid credentials', 'fail'));
-
+		const msg = 'Invalid credentials';
 		dispatch({
 			type: LOGIN_FAIL,
-			payload: { msg: 'Invalid credentials' }
+			payload: { msg }
 		});
+		dispatch(setAlert(msg, 'fail'));
 	}
 };

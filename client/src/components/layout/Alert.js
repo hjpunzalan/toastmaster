@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { resetAlert } from '../../actions/alerts';
 import PropTypes from 'prop-types';
 
-const Alert = ({ msg, alertType, resetAlert }) => {
+const Alert = ({ msg, alertType }) => {
 	return (
 		alertType !== null && (
 			<div className={`Alert Alert__${alertType}`}>
 				{msg.map(alert => (
-					<p className={`Alert__msg Alert__msg-${alertType}`}>{alert}</p>
+					<p key={msg} className={`Alert__msg`}>
+						{alert}
+					</p>
 				))}
 			</div>
 		)
@@ -17,7 +18,7 @@ const Alert = ({ msg, alertType, resetAlert }) => {
 
 Alert.propTypes = {
 	msg: PropTypes.array.isRequired,
-	alertType: PropTypes.string.isRequired,
+	alertType: PropTypes.string,
 	resetAlert: PropTypes.func.isRequired
 };
 
@@ -26,7 +27,4 @@ const mapStateToProps = state => ({
 	alertType: state.alerts.alertType
 });
 
-export default connect(
-	mapStateToProps,
-	{ resetAlert }
-)(Alert);
+export default connect(mapStateToProps)(Alert);

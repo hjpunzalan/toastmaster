@@ -1,0 +1,4 @@
+// functions
+@function double($var) {
+    @return 2 * $var;
+}

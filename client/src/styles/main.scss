@@ -1,8 +1,10 @@
 @import './abstract/variables';
 @import './abstract/typography';
+@import './abstract/functions';
 
 @import './layout/navbar';
 @import './layout/container';
 @import './layout/forms';
+@import './layout/alert';
 
 @import './components/button';
