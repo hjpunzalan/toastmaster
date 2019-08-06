@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../../img/logo.jpg';
 
 const Navbar = () => {
 	return (
 		<Fragment>
 			<ul className="Navbar">
-				<div className="Navbar__left">
+				<Link to="/" className="Navbar__left">
 					<li className="Navbar__item">
 						<img className="Navbar__logo" src={logo} alt="logo" />
 					</li>
@@ -17,10 +18,14 @@ const Navbar = () => {
 							A President's Distinguished Club
 						</li>
 					</div>
-				</div>
+				</Link>
 				<div className="Navbar__right">
 					<li className="Navbar__item">News</li>
-					<li className="Navbar__item">Login</li>
+					<li className="Navbar__item">
+						<Link className="Navbar__link" to="/login">
+							Login
+						</Link>
+					</li>
 				</div>
 			</ul>
 		</Fragment>

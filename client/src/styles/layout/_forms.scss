@@ -58,9 +58,9 @@
     &__link {
         display: inline-block;
         width: fit-content;
-        padding-bottom: .7rem;
+        padding-bottom: $padding-link;
         text-decoration: none;
-        font-size: 1.7rem;
+        font-size: $size-link;
         color: $color-link;
 
         &:hover {
