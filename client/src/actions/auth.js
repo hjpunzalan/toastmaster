@@ -1,4 +1,5 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL } from '../actions/types';
+import { setAlert } from './alerts';
 
 export const loginUser = (formData, history) => dispatch => {
 	const user = {
@@ -11,9 +12,12 @@ export const loginUser = (formData, history) => dispatch => {
 			payload: formData
 		});
 		history.push('/dashboard');
-	} else
+	} else {
+		dispatch(setAlert('Invalid credentials', 'fail'));
+
 		dispatch({
 			type: LOGIN_FAIL,
 			payload: { msg: 'Invalid credentials' }
 		});
+	}
 };
