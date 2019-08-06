@@ -10,10 +10,13 @@
 
     &__fail {
         color: $color-danger;
-        background: $color-danger-light;
+        background: $color-danger-background;
     }
 
-    &__success {}
+    &__success {
+        color: $color-success;
+        background: $color-success-background;
+    }
 
 
 }

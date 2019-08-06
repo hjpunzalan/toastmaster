@@ -11,6 +11,7 @@ export default (blankForm, action, ...args) => {
 		handleSubmit: e => {
 			e.preventDefault();
 			action(formData, ...args);
+			setFormData({ ...blankForm });
 		},
 		handleCancel: () => {
 			setFormData({ ...blankForm });

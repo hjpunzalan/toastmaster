@@ -14,7 +14,7 @@ export const loginUser = (formData, history) => dispatch => {
 		});
 		history.push('/dashboard');
 	} else {
-		const msg = 'Invalid credentials';
+		const msg = 'Invalid email or password';
 		dispatch({
 			type: LOGIN_FAIL,
 			payload: { msg }
