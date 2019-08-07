@@ -4,7 +4,7 @@ import { setAlert, resetAlert } from './alerts';
 export const registerUser = formData => dispatch => {
 	const { firstName, lastName, email } = formData;
 	dispatch(resetAlert());
-	const users = [
+	let users = JSON.parse(localStorage.getItem('users')) || [
 		{
 			firstName: 'Jonathan',
 			lastName: 'Punzalan',
@@ -15,9 +15,11 @@ export const registerUser = formData => dispatch => {
 	const checkUsers = users.filter(user => user.email === email);
 
 	if (checkUsers.length === 0) {
+		users.push(formData);
+
 		dispatch({
 			type: REGISTER_SUCCESS,
-			payload: formData
+			payload: users
 		});
 
 		dispatch(

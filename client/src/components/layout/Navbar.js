@@ -20,7 +20,11 @@ const Navbar = () => {
 					</div>
 				</Link>
 				<div className="Navbar__right">
-					<li className="Navbar__item">News</li>
+					<li className="Navbar__item">
+						<Link className="Navbar__link" to="/members">
+							Members
+						</Link>
+					</li>
 					<li className="Navbar__item">
 						<Link className="Navbar__link" to="/login">
 							Login

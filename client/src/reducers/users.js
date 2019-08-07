@@ -11,10 +11,15 @@ export default (state = initialState, action) => {
 
 	switch (type) {
 		case REGISTER_SUCCESS:
+			console.log([...state.users, payload]);
+			localStorage.setItem(
+				'users',
+				JSON.stringify([...state.users, ...payload])
+			);
 			return {
 				//State needs to be first
 				...state,
-				users: [...state.users, payload],
+				users: [...state.users, ...payload],
 				loading: false
 			};
 
