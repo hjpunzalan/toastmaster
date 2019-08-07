@@ -1,9 +1,13 @@
 .Footer {
-    background: $color-secondary-dark;
+    background: $color-footer;
     height: $footer-height;
+    display: flex;
+    width: 100%;
+    padding: 2rem;
+    justify-content: space-around;
 
     &__tagline {
-        width: 10rem;
-        height: auto;
+        width: auto;
+        height: 7vh;
     }
 }

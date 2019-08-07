@@ -1,18 +1,14 @@
 import React from 'react';
-import tagline from '../../img/tagline.svg';
-import ReactSVG from 'react-svg';
+import tagline from '../../img/tagline.png';
 
 const Footer = () => {
 	return (
 		<div className="Footer">
-			<div className="Footer__left">
-				<ReactSVG
-					src={tagline}
-					beforeInjection={svg => {
-						svg.classList.add('Footer__tagline');
-					}}
-				/>
+			<div className="Footer__left">LEFT</div>
+			<div className="Footer__middle">
+				<img src={tagline} className="Footer__tagline" alt="tagline" />
 			</div>
+			<div className="Footer__right">RIGHT</div>
 		</div>
 	);
 };
