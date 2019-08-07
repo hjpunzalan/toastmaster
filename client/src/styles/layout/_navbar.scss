@@ -2,6 +2,7 @@
     list-style-type: none;
     display: flex;
     width: 100%;
+    height: $navbar-height;
     background-color: $color-white;
     align-items: center;
     padding: .5rem 3.5rem;
@@ -29,6 +30,7 @@
     &__logo {
         width: 12rem;
         margin-right: 2rem;
+        height: auto;
     }
 
     &__header {

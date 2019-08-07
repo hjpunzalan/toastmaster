@@ -2,7 +2,7 @@ import React from 'react';
 
 const Landing = () => {
 	return (
-		<div>
+		<div className="Landing">
 			<h1>Under construction....</h1>
 		</div>
 	);

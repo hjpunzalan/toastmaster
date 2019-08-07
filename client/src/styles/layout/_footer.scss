@@ -1,0 +1,9 @@
+.Footer {
+    background: $color-secondary-dark;
+    height: $footer-height;
+
+    &__tagline {
+        width: 10rem;
+        height: auto;
+    }
+}

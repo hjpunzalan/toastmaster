@@ -2,3 +2,7 @@
 @function double($var) {
     @return 2 * $var;
 }
+
+@function containerMinHeight($navbar, $footer) {
+    @return 100vh - ($navbar + $footer);
+}

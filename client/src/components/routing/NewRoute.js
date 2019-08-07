@@ -1,8 +1,10 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { resetAlert } from '../../actions/alerts';
+import Container from '../layout/Container';
+import Alert from '../layout/Alert';
 
 const NewRoute = ({ resetAlert, component: Component, ...rest }) => {
 	//
@@ -12,10 +14,11 @@ const NewRoute = ({ resetAlert, component: Component, ...rest }) => {
 		<Route
 			{...rest}
 			render={props => (
-				<Fragment>
+				<Container>
+					<Alert />
 					{resetAlert()}
 					<Component {...props} />
-				</Fragment>
+				</Container>
 			)}
 		/>
 	);
