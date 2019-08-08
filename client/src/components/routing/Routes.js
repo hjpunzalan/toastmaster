@@ -6,6 +6,8 @@ import Login from '../auth/Login';
 import MemberList from '../pages/Members/MemberList';
 import Dashboard from '../pages/Dashboard/Dashboard';
 import Discussion from '../pages/Discussion/Discussion';
+import Post from '../pages/Post/Post';
+import PostEdit from '../pages/Post/PostEdit';
 
 const Routes = ({ resetAlert }) => {
 	return (
@@ -15,6 +17,8 @@ const Routes = ({ resetAlert }) => {
 			<NewRoute exact path="/members" component={MemberList} />
 			<NewRoute exact path="/discussion" component={Discussion} />
 			<NewRoute exact path="/dashboard" component={Dashboard} />
+			<NewRoute exact path="/discussion/post" component={Post} />
+			<NewRoute exact path="/discussion/post/edit" component={PostEdit} />
 		</Switch>
 	);
 };

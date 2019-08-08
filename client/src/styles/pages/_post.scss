@@ -1,0 +1,38 @@
+.Post {
+    &__post {
+        @include post;
+        margin-bottom: 7rem;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.164);
+
+        &Body {
+            &-title {
+                color: $color-secondary;
+                font-size: $size-discussion-title;
+                margin-bottom: 2rem;
+            }
+        }
+
+        &Buttons {
+            >button {
+                margin: 1rem;
+            }
+        }
+
+    }
+
+    &__comments {
+        @include post;
+
+        &Small {
+            display: flex;
+            align-items: center;
+        }
+
+        &-trash {
+            font-size: 2rem;
+            margin-left: 2rem;
+            color: $color-danger;
+        }
+    }
+
+}

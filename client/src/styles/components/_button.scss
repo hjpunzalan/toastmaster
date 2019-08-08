@@ -22,8 +22,29 @@
         color: $color-black;
     }
 
+    &__delete {
+        background: $color-danger;
+        color: $color-white;
+
+        &-small {
+            background: $color-danger;
+            color: $color-white;
+            width: 10rem;
+            height: 3rem;
+            font-size: $size-alert;
+        }
+    }
+
     &__submit {
         background: $color-secondary;
         color: $color-white;
+
+        &-small {
+            background: $color-secondary-light;
+            color: $color-white;
+            width: 10rem;
+            height: 3rem;
+            font-size: $size-alert;
+        }
     }
 }

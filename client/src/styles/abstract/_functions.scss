@@ -6,3 +6,7 @@
 @function containerMinHeight($navbar, $footer) {
     @return 100vh - ($navbar + $footer);
 }
+
+@function logoHeight($navbarheight) {
+    @return ($navbarheight)-4vh;
+}

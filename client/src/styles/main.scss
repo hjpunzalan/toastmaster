@@ -1,6 +1,7 @@
 @import "./abstract/variables";
 @import "./abstract/typography";
 @import "./abstract/functions";
+@import "./abstract/mixins";
 
 @import "./layout/navbar";
 @import "./layout/container";
@@ -11,4 +12,5 @@
 
 @import "./components/button";
 
-@import './pages//discussion'
+@import './pages/discussion';
+@import './pages/post';

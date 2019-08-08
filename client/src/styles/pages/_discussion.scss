@@ -8,7 +8,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 10rem;
+        margin-bottom: 7rem;
     }
 
     &__search {
@@ -45,7 +45,7 @@
         }
 
         &>input[type=text]:focus {
-            width: 100%;
+            width: 60%;
         }
 
         &>input[type=text]:focus,
@@ -60,9 +60,15 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        margin: 4rem 0;
+        margin: 2rem 0;
         width: 80%;
-        padding-bottom: 2rem;
+        padding: 1rem;
+        text-decoration: none;
+        color: inherit;
+
+        &:hover {
+            background: $color-grey-light;
+        }
 
         &:not(:last-of-type) {
             border-bottom: 1px solid $color-grey;
@@ -72,13 +78,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-right: 4rem;
+            margin-right: 1rem;
+            width: 20%;
 
             &-img {
-                width: 10rem;
+                width: 5rem;
+                display: block;
             }
 
             &-name {
+                display: inline-block;
+                font-weight: 600;
+                text-align: center;
+                width: 100%;
                 margin-top: 1.5rem;
                 font-size: $size-discussion-text;
             }
@@ -93,7 +105,7 @@
             &-header {
                 display: flex;
                 justify-content: space-between;
-                margin-bottom: 2rem;
+                margin-bottom: 1rem;
             }
 
             &-title {
@@ -115,7 +127,7 @@
                 width: 100%;
                 font-size: $size-discussion-text;
                 text-overflow: ellipsis;
-                margin-bottom: 2rem;
+                margin-bottom: 1rem;
             }
 
             &-date {

@@ -17,6 +17,9 @@ const Discussion = () => {
 			<h2 className="Discussion__title">Welcome Jonathan!</h2>
 			<DiscussionHead />
 			<DiscussionPost img={img} count={count} text={text} />
+			<DiscussionPost img={img} count={count} text={text} />
+			<DiscussionPost img={img} count={count} text={text} />
+			<DiscussionPost img={img} count={count} text={text} />
 			<DiscussionPost img={img} count={count2} text={text2} />
 			<DiscussionPost img={img} count={count} text={text2} />
 		</div>
