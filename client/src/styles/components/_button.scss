@@ -1,6 +1,6 @@
 .btn {
     width: 20rem;
-    height: 5rem;
+    height: $button-height;
     border: none;
     box-shadow: 0px 1px 1px 1px rgba($color: $color-grey, $alpha: .7);
     font-size: $size-button;

@@ -26,7 +26,7 @@
             margin-bottom: 2rem;
             height: 4rem;
             background: $color-input;
-            border: none;
+            border: 1px solid $color-grey;
 
             &:focus {
                 outline: none;

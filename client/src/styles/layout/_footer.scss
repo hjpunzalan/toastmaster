@@ -50,7 +50,7 @@
         align-items: center;
 
         &:not(:last-child) {
-            margin-right: 6rem;
+            margin-right: 3rem;
         }
     }
 
@@ -60,11 +60,13 @@
 
 
         &-facebook {
-            color: $color-secondary;
+            color: rgb(33, 71, 128);
         }
 
         &-instagram {
-            color: rgb(255, 0, 34);
+            color: $color-white;
+            border-radius: 25%;
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
         }
     }
 }

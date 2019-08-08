@@ -15,11 +15,21 @@ const Navbar = () => {
 							Southern River Toastmasters
 						</li>
 						<li className="Navbar__item Navbar__header-caption">
-							A President's Distinguished Club
+							A President Distinguished Club
 						</li>
 					</div>
 				</Link>
 				<div className="Navbar__right">
+					<li className="Navbar__item">
+						<Link className="Navbar__link" to="/dashboard">
+							Dashboard
+						</Link>
+					</li>
+					<li className="Navbar__item">
+						<Link className="Navbar__link" to="/discussion">
+							Discussion
+						</Link>
+					</li>
 					<li className="Navbar__item">
 						<Link className="Navbar__link" to="/members">
 							Members
