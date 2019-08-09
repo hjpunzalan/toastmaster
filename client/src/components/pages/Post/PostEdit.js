@@ -1,14 +1,10 @@
 import React from 'react';
-import { Editor, EditorState } from 'draft-js';
+import Editor from '../../utils/slate-editor/Editor/Editor';
 
 const PostEdit = () => {
-	const [editorState, setEditorState] = React.useState(
-		EditorState.createEmpty()
-	);
-
 	return (
 		<div>
-			<Editor editorState={editorState} onChange={setEditorState} />
+			<Editor />
 		</div>
 	);
 };

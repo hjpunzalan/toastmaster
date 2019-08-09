@@ -20,10 +20,10 @@ const Post = () => {
 					<p className="Post__postBody-text">{text}</p>
 					<span className="Post__postBody-date">Date posted: 8/08/2019</span>
 					<div className="Post__postButtons">
-						<Link style={{ textDecoration: 'none' }} to="/discussion/post/edit">
-							<button className="btn btn__submit-small">Edit</button>
+						<Link className="Post__postButtons-edit" to="/discussion/post/edit">
+							Edit
 						</Link>
-						<button className="btn btn__delete-small">Delete</button>
+						<button className="Post__postButtons-delete">Delete</button>
 					</div>
 				</div>
 			</div>
