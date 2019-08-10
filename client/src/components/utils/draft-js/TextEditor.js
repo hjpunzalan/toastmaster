@@ -12,21 +12,27 @@ import {
 } from 'draft-js';
 import 'draft-js-linkify-plugin/lib/plugin.css';
 
+import ReadOnly from './ReadOnly';
+
 export default class TextEditor extends Component {
 	constructor(props) {
 		super(props);
 		this.state = { editorState: EditorState.createEmpty() };
 		this.focus = () => this.refs.editor.focus();
-		this.onChange = editorState => this.setState({ editorState });
+		this.onChange = editorState => {
+			this.saveContent(editorState.getCurrentContent());
+			this.setState({ editorState });
+		};
 		this.handleKeyCommand = this._handleKeyCommand.bind(this);
 		this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
 		this.toggleBlockType = this._toggleBlockType.bind(this);
 		this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
 	}
-	convertToRaw = () => {
-		this.setState({
-			convertedContent: convertToRaw(this.state.editorState.getCurrentContent())
-		});
+	saveContent = content => {
+		window.localStorage.setItem(
+			'content',
+			JSON.stringify(convertToRaw(content))
+		);
 	};
 
 	_handleKeyCommand(command, editorState) {
@@ -80,8 +86,15 @@ export default class TextEditor extends Component {
 		return (
 			<div className="RichEditor-root">
 				<div>
-					<button onClick={this.convertToRaw}>Convert to raw</button>
-					<pre>{JSON.stringify(this.state.convertedContent, null, 2)}</pre>
+					<button
+						onClick={() => {
+							this.convertToRaw();
+							this.setState({ render: true });
+						}}>
+						Convert to raw
+					</button>
+					<pre>{JSON.stringify(this.state.convertedContent)}</pre>
+					<ReadOnly />
 				</div>
 				<div className="RichEditor-root__controls">
 					<InlineStyleControls
