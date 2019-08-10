@@ -1,10 +1,10 @@
 import React from 'react';
-import Editor from '../../utils/slate-editor/Editor/Editor';
+import TextEditor from '../../utils/draft-js/TextEditor';
 
 const PostEdit = () => {
 	return (
 		<div>
-			<Editor />
+			<TextEditor />
 		</div>
 	);
 };
