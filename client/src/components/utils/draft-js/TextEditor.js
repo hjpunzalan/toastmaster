@@ -4,21 +4,24 @@ import { GoListOrdered, GoListUnordered } from 'react-icons/go';
 import { FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
 import Editor from 'draft-js-plugins-editor';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
+import createImagePlugin from 'draft-js-image-plugin';
 import {
+	Modifier,
 	convertToRaw,
 	EditorState,
 	RichUtils,
 	getDefaultKeyBinding
 } from 'draft-js';
-import 'draft-js-linkify-plugin/lib/plugin.css';
-
+import ImageAdd from './ImageAdd/ImageAdd';
 import ReadOnly from './ReadOnly';
+
+const HANDLED = 'handled';
 
 export default class TextEditor extends Component {
 	constructor(props) {
 		super(props);
 		this.state = { editorState: EditorState.createEmpty() };
-		this.focus = () => this.refs.editor.focus();
+		this.focus = () => this.editor.focus();
 		this.onChange = editorState => {
 			this.saveContent(editorState.getCurrentContent());
 			this.setState({ editorState });
@@ -32,6 +35,7 @@ export default class TextEditor extends Component {
 		window.localStorage.setItem(
 			'content',
 			JSON.stringify(convertToRaw(content))
+			//// THIS JSON FILE CAN BE STORED IN STATE and thus DBs
 		);
 	};
 
@@ -65,8 +69,24 @@ export default class TextEditor extends Component {
 			RichUtils.toggleInlineStyle(this.state.editorState, inlineStyle)
 		);
 	}
+
+	handleBeforeInput = (chars, editorState) => {
+		const currentContentState = editorState.getCurrentContent();
+		const selectionState = editorState.getSelection();
+
+		this.onChange(
+			EditorState.push(
+				editorState,
+				Modifier.replaceText(currentContentState, selectionState, chars)
+			)
+		);
+
+		return HANDLED;
+	};
+
 	render() {
 		const linkifyPlugin = createLinkifyPlugin();
+		const imagePlugin = createImagePlugin();
 		const { editorState } = this.state;
 		// If the user changes block type before entering any text, we can
 		// either style the placeholder or hide it. Let's just hide it now.
@@ -85,17 +105,7 @@ export default class TextEditor extends Component {
 
 		return (
 			<div className="RichEditor-root">
-				<div>
-					<button
-						onClick={() => {
-							this.convertToRaw();
-							this.setState({ render: true });
-						}}>
-						Convert to raw
-					</button>
-					<pre>{JSON.stringify(this.state.convertedContent)}</pre>
-					<ReadOnly />
-				</div>
+				<ReadOnly state={editorState} onChange={this.onChange} />
 				<div className="RichEditor-root__controls">
 					<InlineStyleControls
 						editorState={editorState}
@@ -104,10 +114,12 @@ export default class TextEditor extends Component {
 					<BlockStyleControls
 						editorState={editorState}
 						onToggle={this.toggleBlockType}
+						onChange={this.onChange}
 					/>
 				</div>
 				<div className={className} onClick={this.focus}>
 					<Editor
+						handleBeforeInput={this.handleBeforeInput}
 						blockStyleFn={getBlockStyle}
 						customStyleMap={styleMap}
 						editorState={editorState}
@@ -115,9 +127,11 @@ export default class TextEditor extends Component {
 						keyBindingFn={this.mapKeyToEditorCommand}
 						onChange={this.onChange}
 						placeholder="Write something..."
-						ref="editor"
+						ref={element => {
+							this.editor = element;
+						}}
 						spellCheck={true}
-						plugins={[linkifyPlugin]}
+						plugins={[linkifyPlugin, imagePlugin]}
 					/>
 				</div>
 			</div>
@@ -161,6 +175,7 @@ class StyleButton extends React.Component {
 		);
 	}
 }
+
 const BLOCK_TYPES = [
 	{ label: 'H1', style: 'header-one' },
 	{ label: 'H2', style: 'header-two' },
@@ -173,7 +188,7 @@ const BLOCK_TYPES = [
 	}
 ];
 const BlockStyleControls = props => {
-	const { editorState } = props;
+	const { editorState, onChange } = props;
 	const selection = editorState.getSelection();
 	const blockType = editorState
 		.getCurrentContent()
@@ -181,15 +196,20 @@ const BlockStyleControls = props => {
 		.getType();
 	return (
 		<div className="RichEditor-controls">
-			{BLOCK_TYPES.map(type => (
+			{BLOCK_TYPES.map((type, i) => (
 				<StyleButton
-					key={type.label}
+					key={`${type.label}-${i}`}
 					active={type.style === blockType}
 					label={type.label}
 					onToggle={props.onToggle}
 					style={type.style}
 				/>
 			))}
+			<ImageAdd
+				editorState={editorState}
+				onChange={onChange}
+				modifier={createImagePlugin().addImage}
+			/>
 		</div>
 	);
 };
@@ -203,9 +223,9 @@ const InlineStyleControls = props => {
 
 	return (
 		<div className="RichEditor-controls">
-			{INLINE_STYLES.map(type => (
+			{INLINE_STYLES.map((type, i) => (
 				<StyleButton
-					key={type.label}
+					key={`${type.label}-${i}`}
 					active={currentStyle.has(type.style)}
 					label={type.label}
 					onToggle={props.onToggle}
