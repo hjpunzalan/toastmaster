@@ -14,6 +14,7 @@ import {
 } from 'draft-js';
 import ImageAdd from './ImageAdd/ImageAdd';
 import ReadOnly from './ReadOnly';
+import linkifyEditorState from './linkifyEditorState';
 
 const HANDLED = 'handled';
 
@@ -23,8 +24,8 @@ export default class TextEditor extends Component {
 		this.state = { editorState: EditorState.createEmpty() };
 		this.focus = () => this.editor.focus();
 		this.onChange = editorState => {
-			this.saveContent(editorState.getCurrentContent());
 			this.setState({ editorState });
+			this.saveContent(linkifyEditorState(editorState).getCurrentContent());
 		};
 		this.handleKeyCommand = this._handleKeyCommand.bind(this);
 		this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
@@ -105,7 +106,7 @@ export default class TextEditor extends Component {
 
 		return (
 			<div className="RichEditor-root">
-				<ReadOnly state={editorState} onChange={this.onChange} />
+				<ReadOnly onChange={this.onChange} />
 				<div className="RichEditor-root__controls">
 					<InlineStyleControls
 						editorState={editorState}
