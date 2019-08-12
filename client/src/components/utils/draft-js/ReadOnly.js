@@ -3,13 +3,15 @@ import { EditorState, convertFromRaw } from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createImagePlugin from 'draft-js-image-plugin';
+import createEmojiPlugin from 'draft-js-emoji-plugin';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
 import { CompositeDecorator } from 'draft-js';
 
 const ReadOnly = ({ onChange }) => {
 	const linkifyPlugin = createLinkifyPlugin({ target: '_blank' });
 	const imagePlugin = createImagePlugin();
-	const listOfPlugins = [linkifyPlugin, imagePlugin];
+	const emojiPlugin = createEmojiPlugin();
+	const listOfPlugins = [linkifyPlugin, imagePlugin, emojiPlugin];
 
 	const getPluginDecoratorArray = () => {
 		let decorators = [];
@@ -28,7 +30,6 @@ const ReadOnly = ({ onChange }) => {
 	const myFunctionForGrabbingAllPluginDecorators = () => {
 		// I can't quite remember why I had to wrap things in this exact way, but found that I ran into
 		// errors if I did not both have a MultiDecorator and a CompositeDecorator wrapping
-		// This MultiDecorator can now be used as shown in my previous post.
 		return new MultiDecorator([
 			new CompositeDecorator(getPluginDecoratorArray())
 		]);
@@ -49,8 +50,6 @@ const ReadOnly = ({ onChange }) => {
 	// const storedState = EditorState.createWithContent(
 	// 	convertedState.getCurrentContent()
 	// );
-
-	console.log(content);
 	return (
 		<div className="readonly-editor">
 			<Editor

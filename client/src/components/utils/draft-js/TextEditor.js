@@ -2,21 +2,47 @@ import React, { Component } from 'react';
 import { IoMdQuote } from 'react-icons/io';
 import { GoListOrdered, GoListUnordered } from 'react-icons/go';
 import { FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
-import Editor from 'draft-js-plugins-editor';
+import Editor, { composeDecorators } from 'draft-js-plugins-editor';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createImagePlugin from 'draft-js-image-plugin';
+import createEmojiPlugin from 'draft-js-emoji-plugin';
+import createFocusPlugin from 'draft-js-focus-plugin';
+import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
+import createResizeablePlugin from 'draft-js-resizeable-plugin';
 import {
 	Modifier,
 	convertToRaw,
 	EditorState,
 	RichUtils,
-	getDefaultKeyBinding
+	getDefaultKeyBinding,
+	KeyBindingUtil
 } from 'draft-js';
 import ImageAdd from './ImageAdd/ImageAdd';
-import ReadOnly from './ReadOnly';
 import linkifyEditorState from './linkifyEditorState';
 
+const { hasCommandModifier } = KeyBindingUtil;
 const HANDLED = 'handled';
+const emojiPlugin = createEmojiPlugin();
+const { EmojiSuggestions, EmojiSelect } = emojiPlugin;
+const linkifyPlugin = createLinkifyPlugin();
+const focusPlugin = createFocusPlugin();
+const blockDndPlugin = createBlockDndPlugin();
+const resizeablePlugin = createResizeablePlugin();
+
+const decorator = composeDecorators(
+	focusPlugin.decorator,
+	blockDndPlugin.decorator,
+	resizeablePlugin.decorator
+);
+const imagePlugin = createImagePlugin({ decorator });
+const plugins = [
+	linkifyPlugin,
+	emojiPlugin,
+	blockDndPlugin,
+	resizeablePlugin,
+	focusPlugin,
+	imagePlugin
+];
 
 export default class TextEditor extends Component {
 	constructor(props) {
@@ -49,16 +75,8 @@ export default class TextEditor extends Component {
 		return false;
 	}
 	_mapKeyToEditorCommand(e) {
-		if (e.keyCode === 9 /* TAB */) {
-			const newEditorState = RichUtils.onTab(
-				e,
-				this.state.editorState,
-				4 /* maxDepth */
-			);
-			if (newEditorState !== this.state.editorState) {
-				this.onChange(newEditorState);
-			}
-			return;
+		if (e.keyCode === 83 /* `S` key */ && hasCommandModifier(e)) {
+			return 'myeditor-save';
 		}
 		return getDefaultKeyBinding(e);
 	}
@@ -86,8 +104,6 @@ export default class TextEditor extends Component {
 	};
 
 	render() {
-		const linkifyPlugin = createLinkifyPlugin();
-		const imagePlugin = createImagePlugin();
 		const { editorState } = this.state;
 		// If the user changes block type before entering any text, we can
 		// either style the placeholder or hide it. Let's just hide it now.
@@ -106,7 +122,6 @@ export default class TextEditor extends Component {
 
 		return (
 			<div className="RichEditor-root">
-				<ReadOnly onChange={this.onChange} />
 				<div className="RichEditor-root__controls">
 					<InlineStyleControls
 						editorState={editorState}
@@ -116,6 +131,7 @@ export default class TextEditor extends Component {
 						editorState={editorState}
 						onToggle={this.toggleBlockType}
 						onChange={this.onChange}
+						emojiPlugin={emojiPlugin}
 					/>
 				</div>
 				<div className={className} onClick={this.focus}>
@@ -132,8 +148,9 @@ export default class TextEditor extends Component {
 							this.editor = element;
 						}}
 						spellCheck={true}
-						plugins={[linkifyPlugin, imagePlugin]}
+						plugins={plugins}
 					/>
+					<EmojiSuggestions />
 				</div>
 			</div>
 		);
@@ -211,6 +228,9 @@ const BlockStyleControls = props => {
 				onChange={onChange}
 				modifier={createImagePlugin().addImage}
 			/>
+			<div className="RichEditor__addEmoji">
+				<EmojiSelect styl />
+			</div>
 		</div>
 	);
 };
