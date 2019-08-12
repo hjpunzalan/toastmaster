@@ -19,10 +19,11 @@ import {
 } from 'draft-js';
 import ImageAdd from './ImageAdd/ImageAdd';
 import linkifyEditorState from './linkifyEditorState';
+import theme from './emojiPlugin';
 
 const { hasCommandModifier } = KeyBindingUtil;
 const HANDLED = 'handled';
-const emojiPlugin = createEmojiPlugin();
+const emojiPlugin = createEmojiPlugin({ theme });
 const { EmojiSuggestions, EmojiSelect } = emojiPlugin;
 const linkifyPlugin = createLinkifyPlugin();
 const focusPlugin = createFocusPlugin();
@@ -228,9 +229,6 @@ const BlockStyleControls = props => {
 				onChange={onChange}
 				modifier={createImagePlugin().addImage}
 			/>
-			<div className="RichEditor__addEmoji">
-				<EmojiSelect styl />
-			</div>
 		</div>
 	);
 };
@@ -253,6 +251,7 @@ const InlineStyleControls = props => {
 					style={type.style}
 				/>
 			))}
+			<EmojiSelect />
 		</div>
 	);
 };

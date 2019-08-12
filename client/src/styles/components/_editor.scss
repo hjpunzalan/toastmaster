@@ -1,122 +1,113 @@
 .RichEditor-root {
-  background: #fff;
-  width: 80%;
-  border: 1px solid #ddd;
-  font-family: "Georgia", serif;
-  font-size: 14px;
-  padding: 15px;
+    background: #fff;
+    width: 80%;
+    border: 1px solid #ddd;
+    font-family: "Georgia", serif;
+    font-size: 14px;
+    padding: 15px;
 
-  &__controls {
-    display: flex;
-  }
+    &__controls {
+        display: flex;
+    }
 }
 
 .RichEditor-editor {
-  border-top: 1px solid #ddd;
-  cursor: text;
-  font-size: 16px;
-  margin-top: 10px;
+    border-top: 1px solid #ddd;
+    cursor: text;
+    font-size: 16px;
+    margin-top: 10px;
 }
 
 .RichEditor-editor .public-DraftEditorPlaceholder-root,
 .RichEditor-editor .public-DraftEditor-content {
-  margin: 0 -15px -15px;
-  padding: 15px;
+    margin: 0 -15px -15px;
+    padding: 15px;
 }
 
 .RichEditor-editor .public-DraftEditor-content {
-  min-height: 100px;
+    min-height: 100px;
 }
 
 .RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
-  display: none;
+    display: none;
 }
 
 .RichEditor-editor .RichEditor-blockquote {
-  border-left: 5px solid #eee;
-  color: #666;
-  font-family: "Hoefler Text", "Georgia", serif;
-  font-style: italic;
-  margin: 16px 0;
-  padding: 10px 20px;
+    border-left: 5px solid #eee;
+    color: #666;
+    font-family: "Hoefler Text", "Georgia", serif;
+    font-style: italic;
+    margin: 16px 0;
+    padding: 10px 20px;
 }
 
 .RichEditor-editor .public-DraftStyleDefault-pre {
-  background-color: rgba(0, 0, 0, 0.05);
-  font-family: "Inconsolata", "Menlo", "Consolas", monospace;
-  font-size: 16px;
-  padding: 20px;
+    background-color: rgba(0, 0, 0, 0.05);
+    font-family: "Inconsolata", "Menlo", "Consolas", monospace;
+    font-size: 16px;
+    padding: 20px;
 }
 
 .RichEditor-controls {
-  font-family: "Helvetica", sans-serif;
-  display: flex;
-  align-items: center;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  user-select: none;
+    font-family: "Helvetica", sans-serif;
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    user-select: none;
 
-  &:not(:last-of-type) {
-    margin-right: 3rem;
-  }
+    &:not(:last-of-type) {
+        margin-right: 3rem;
+    }
 }
 
 .RichEditor-styleButton {
-  color: rgb(187, 183, 183);
-  cursor: pointer;
-  margin-right: 2rem;
-  padding: 2px 0;
-  display: inline-block;
+    @include editorButtons;
 }
 
 .RichEditor-activeButton {
-  color: #000000;
+    color: #000000;
 }
 
 .RichEditor__addImage {
-  &-addImagePopover {
-    background: #fff;
-    position: absolute;
-    height: 5rem;
-    width: 30rem;
-    border-radius: 2px;
-    padding: 1rem;
-    box-shadow: 0px 4px 30px 0px rgba(220, 220, 220, 1);
-    z-index: 1000;
-  }
+    &-addImagePopover {
+        background: #fff;
+        position: absolute;
+        height: 5rem;
+        width: 30rem;
+        border-radius: 2px;
+        padding: 1rem;
+        box-shadow: 0px 4px 30px 0px rgba(220, 220, 220, 1);
+        z-index: 1000;
+    }
 
-  &-addImageClosedPopover {
-    display: none;
-  }
+    &-addImageClosedPopover {
+        display: none;
+    }
 
-  &-addImageInput {
-    border: 1px solid #ddd;
-    cursor: text;
-    padding: 0.4rem;
-    width: 78%;
-    border-radius: 2px;
-    margin-bottom: 1rem;
-    box-shadow: inset 0px 1px 8px -3px #ababab;
-    background: #fefefe;
-  }
+    &-addImageInput {
+        border: 1px solid #ddd;
+        cursor: text;
+        padding: 0.4rem;
+        width: 78%;
+        border-radius: 2px;
+        margin-bottom: 1rem;
+        box-shadow: inset 0px 1px 8px -3px #ababab;
+        background: #fefefe;
+    }
 
-  &-addImageConfirmButton {
-    background: #fff;
-    border: 1px solid #ddd;
-    padding: 0;
-    color: #888;
-    margin: 0;
-    border-radius: 5rem;
-    cursor: pointer;
-    height: 2.1rem;
-    width: 18%;
-    font-size: $size-label;
-    margin: 0;
-    margin-left: 4%;
-  }
-}
-.RichEditor__addEmoji {
-  div {
-    cursor: pointer;
-  }
+    &-addImageConfirmButton {
+        background: #fff;
+        border: 1px solid #ddd;
+        padding: 0;
+        color: #888;
+        margin: 0;
+        border-radius: 5rem;
+        cursor: pointer;
+        height: 2.1rem;
+        width: 18%;
+        font-size: $size-label;
+        margin: 0;
+        margin-left: 4%;
+    }
 }
