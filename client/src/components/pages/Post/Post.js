@@ -3,7 +3,7 @@ import PostComment from './PostComment';
 import { Link } from 'react-router-dom';
 import img from '../../../img/anonymous.png';
 
-const Post = () => {
+const Post = ({ match: { postId } }) => {
 	const text = `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores
 					pariatur consectetur fuga repellat porro amet assumenda quidem fugit
 					obcaecati, sapiente quibusdam, voluptates, at magnam! Quos dicta

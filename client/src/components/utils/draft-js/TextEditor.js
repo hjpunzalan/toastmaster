@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { onChange } from '../../../actions/post';
 import { IoMdQuote } from 'react-icons/io';
 import { GoListOrdered, GoListUnordered } from 'react-icons/go';
 import { FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
@@ -45,14 +47,14 @@ const plugins = [
 	imagePlugin
 ];
 
-export default class TextEditor extends Component {
+class TextEditor extends Component {
 	constructor(props) {
 		super(props);
 		this.state = { editorState: EditorState.createEmpty() };
 		this.focus = () => this.editor.focus();
 		this.onChange = editorState => {
 			this.setState({ editorState });
-			this.saveContent(linkifyEditorState(editorState).getCurrentContent());
+			this.props.onChange(linkifyEditorState(editorState).getCurrentContent());
 		};
 		this.handleKeyCommand = this._handleKeyCommand.bind(this);
 		this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
@@ -122,41 +124,51 @@ export default class TextEditor extends Component {
 		}
 
 		return (
-			<div className="RichEditor-root">
-				<div className="RichEditor-root__controls">
-					<InlineStyleControls
-						editorState={editorState}
-						onToggle={this.toggleInlineStyle}
-					/>
-					<BlockStyleControls
-						editorState={editorState}
-						onToggle={this.toggleBlockType}
-						onChange={this.onChange}
-						emojiPlugin={emojiPlugin}
-					/>
+			<>
+				<div className="RichEditor-root">
+					<div className="RichEditor-root__controls">
+						<InlineStyleControls
+							editorState={editorState}
+							onToggle={this.toggleInlineStyle}
+						/>
+						<BlockStyleControls
+							editorState={editorState}
+							onToggle={this.toggleBlockType}
+							onChange={this.onChange}
+							emojiPlugin={emojiPlugin}
+						/>
+					</div>
+					<div className={className} onClick={this.focus}>
+						<Editor
+							handleBeforeInput={this.handleBeforeInput}
+							blockStyleFn={getBlockStyle}
+							customStyleMap={styleMap}
+							editorState={editorState}
+							handleKeyCommand={this.handleKeyCommand}
+							keyBindingFn={this.mapKeyToEditorCommand}
+							onChange={this.onChange}
+							placeholder="Write something..."
+							ref={element => {
+								this.editor = element;
+							}}
+							spellCheck={true}
+							plugins={plugins}
+						/>
+						<EmojiSuggestions />
+					</div>
 				</div>
-				<div className={className} onClick={this.focus}>
-					<Editor
-						handleBeforeInput={this.handleBeforeInput}
-						blockStyleFn={getBlockStyle}
-						customStyleMap={styleMap}
-						editorState={editorState}
-						handleKeyCommand={this.handleKeyCommand}
-						keyBindingFn={this.mapKeyToEditorCommand}
-						onChange={this.onChange}
-						placeholder="Write something..."
-						ref={element => {
-							this.editor = element;
-						}}
-						spellCheck={true}
-						plugins={plugins}
-					/>
-					<EmojiSuggestions />
-				</div>
-			</div>
+				<button className="btn btn__submit" onClick={this.props.handleSubmit}>
+					Submit
+				</button>
+			</>
 		);
 	}
 }
+
+export default connect(
+	null,
+	{ onChange }
+)(TextEditor);
 // Custom overrides for "code" style.
 const styleMap = {
 	CODE: {

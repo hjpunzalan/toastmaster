@@ -16,7 +16,7 @@ const Routes = ({ resetAlert }) => {
 			<NewRoute exact path="/members" component={MemberList} />
 			<NewRoute exact path="/discussion" component={Discussion} />
 			<NewRoute exact path="/dashboard" component={Dashboard} />
-			<NewRoute exact path="/discussion/post" component={Post} />
+			<NewRoute exact path="/discussion/post/:postId" component={Post} />
 		</Switch>
 	);
 };

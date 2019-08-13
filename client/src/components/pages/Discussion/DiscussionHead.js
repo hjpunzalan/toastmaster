@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import TextEditor from '../../utils/draft-js/TextEditor';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createPost } from '../../../actions/post';
 
-const DiscussionHead = () => {
+const DiscussionHead = ({ createPost, contentState }) => {
 	const [toggleCreate, setToggleCreate] = useState(false);
+	const [title, setTitle] = useState('');
 
 	const handleToggle = () => {
 		toggleCreate ? setToggleCreate(false) : setToggleCreate(true);
 	};
+
+	const handleSubmit = () => {
+		createPost({ title, contentState });
+		setToggleCreate(false);
+	};
+
 	return (
 		<div className="Discussion__head">
 			{!toggleCreate ? (
@@ -30,9 +40,15 @@ const DiscussionHead = () => {
 						<label htmlFor="title" className="Discussion__create-formLabel">
 							Title:
 						</label>
-						<input type="text" name="title" placeholder="Insert Title" />
-						<TextEditor />
-						<button className="btn btn__submit">Submit</button>
+						<input
+							type="text"
+							name="title"
+							placeholder="Insert Title"
+							value={title}
+							onChange={e => setTitle(e.target.value)}
+							required
+						/>
+						<TextEditor handleSubmit={handleSubmit} />
 					</div>
 				</div>
 			)}
@@ -40,4 +56,16 @@ const DiscussionHead = () => {
 	);
 };
 
-export default DiscussionHead;
+DiscussionHead.propTypes = {
+	createPost: PropTypes.func.isRequired,
+	contentState: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+	contentState: state.post.contentState
+});
+
+export default connect(
+	mapStateToProps,
+	{ createPost }
+)(DiscussionHead);

@@ -2,27 +2,34 @@ import React from 'react';
 import img from '../../../img/anonymous.png';
 import DiscussionHead from './DiscussionHead';
 import DiscussionPost from './DiscussionPost';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-const Discussion = () => {
+const Discussion = ({ post: { posts } }) => {
 	const count = 4;
-	const count2 = 0;
-	const text = `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores
-					pariatur consectetur fuga repellat porro amet assumenda quidem fugit
-					obcaecati, sapiente quibusdam, voluptates, at magnam! Quos dicta
-                    facilis incidunt soluta fuga.`;
-	const text2 = `Test`;
 
 	return (
 		<div className="Discussion">
 			<DiscussionHead />
-			<DiscussionPost img={img} count={count} text={text} />
-			<DiscussionPost img={img} count={count} text={text} />
-			<DiscussionPost img={img} count={count} text={text} />
-			<DiscussionPost img={img} count={count} text={text} />
-			<DiscussionPost img={img} count={count2} text={text2} />
-			<DiscussionPost img={img} count={count} text={text2} />
+			{posts.map(post => (
+				<DiscussionPost
+					key={post.id}
+					title={post.title}
+					id={post.id}
+					img={img}
+					count={count}
+				/>
+			))}
 		</div>
 	);
 };
 
-export default Discussion;
+Discussion.propTypes = {
+	post: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+	post: state.post
+});
+
+export default connect(mapStateToProps)(Discussion);
