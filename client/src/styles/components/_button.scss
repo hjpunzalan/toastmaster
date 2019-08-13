@@ -4,6 +4,7 @@
     border: none;
     box-shadow: 0px 1px 1px 1px rgba($color: $color-grey, $alpha: .7);
     font-size: $size-button;
+    @include links;
 
     &:focus {
         outline: none;

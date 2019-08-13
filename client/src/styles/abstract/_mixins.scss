@@ -57,3 +57,8 @@
     padding: 2px 0;
     display: inline-block;
 }
+
+@mixin links {
+    text-decoration: none;
+    display: inline-block;
+}

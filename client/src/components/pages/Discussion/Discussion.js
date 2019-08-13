@@ -14,7 +14,6 @@ const Discussion = () => {
 
 	return (
 		<div className="Discussion">
-			<h2 className="Discussion__title">Welcome Jonathan!</h2>
 			<DiscussionHead />
 			<DiscussionPost img={img} count={count} text={text} />
 			<DiscussionPost img={img} count={count} text={text} />
