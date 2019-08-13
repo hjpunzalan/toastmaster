@@ -54,20 +54,15 @@ class TextEditor extends Component {
 		this.focus = () => this.editor.focus();
 		this.onChange = editorState => {
 			this.setState({ editorState });
-			this.props.onChange(linkifyEditorState(editorState).getCurrentContent());
+			this.props.onChange(
+				convertToRaw(linkifyEditorState(editorState).getCurrentContent())
+			);
 		};
 		this.handleKeyCommand = this._handleKeyCommand.bind(this);
 		this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
 		this.toggleBlockType = this._toggleBlockType.bind(this);
 		this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
 	}
-	saveContent = content => {
-		window.localStorage.setItem(
-			'content',
-			JSON.stringify(convertToRaw(content))
-			//// THIS JSON FILE CAN BE STORED IN STATE and thus DBs
-		);
-	};
 
 	_handleKeyCommand(command, editorState) {
 		const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -142,7 +137,6 @@ class TextEditor extends Component {
 						<Editor
 							handleBeforeInput={this.handleBeforeInput}
 							blockStyleFn={getBlockStyle}
-							customStyleMap={styleMap}
 							editorState={editorState}
 							handleKeyCommand={this.handleKeyCommand}
 							keyBindingFn={this.mapKeyToEditorCommand}
@@ -170,14 +164,7 @@ export default connect(
 	{ onChange }
 )(TextEditor);
 // Custom overrides for "code" style.
-const styleMap = {
-	CODE: {
-		backgroundColor: 'rgba(0, 0, 0, 0.05)',
-		fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
-		fontSize: 16,
-		padding: 2
-	}
-};
+
 function getBlockStyle(block) {
 	switch (block.getType()) {
 		case 'blockquote':

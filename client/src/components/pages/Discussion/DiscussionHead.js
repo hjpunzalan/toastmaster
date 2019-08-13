@@ -4,18 +4,19 @@ import TextEditor from '../../utils/draft-js/TextEditor';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createPost } from '../../../actions/post';
+import { resetAlert } from '../../../actions/alerts';
 
-const DiscussionHead = ({ createPost, contentState }) => {
+const DiscussionHead = ({ createPost, contentState, resetAlert }) => {
 	const [toggleCreate, setToggleCreate] = useState(false);
 	const [title, setTitle] = useState('');
 
 	const handleToggle = () => {
+		resetAlert();
 		toggleCreate ? setToggleCreate(false) : setToggleCreate(true);
 	};
 
 	const handleSubmit = () => {
-		createPost({ title, contentState });
-		setToggleCreate(false);
+		createPost({ title, contentState, toggleCreate, setToggleCreate });
 	};
 
 	return (
@@ -46,7 +47,6 @@ const DiscussionHead = ({ createPost, contentState }) => {
 							placeholder="Insert Title"
 							value={title}
 							onChange={e => setTitle(e.target.value)}
-							required
 						/>
 						<TextEditor handleSubmit={handleSubmit} />
 					</div>
@@ -67,5 +67,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ createPost }
+	{ createPost, resetAlert }
 )(DiscussionHead);

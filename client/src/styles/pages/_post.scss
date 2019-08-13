@@ -2,13 +2,14 @@
     &__post {
         @include post;
         margin-bottom: 7rem;
+        overflow: hidden;
         @include boxshadow;
 
         &Body {
             &-title {
                 color: $color-secondary;
-                font-size: $size-discussion-title;
-                margin-bottom: 2rem;
+                font-size: $size-post-title;
+                margin-bottom: 6rem;
             }
         }
 

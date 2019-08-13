@@ -27,7 +27,9 @@
     &Body {
         display: flex;
         flex-direction: column;
-        width: 100%;
+        width: 80%;
+        position: relative;
+        // just same as text editor width
 
         &-text {
             display: inline-block;
@@ -35,7 +37,7 @@
             overflow: hidden;
             width: 100%;
             font-size: $size-discussion-text;
-            margin-bottom: 2rem;
+            margin-bottom: 5rem;
         }
 
         &-date {
@@ -43,6 +45,13 @@
 
         }
     }
+
+    &__bottom {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
 
 }
 

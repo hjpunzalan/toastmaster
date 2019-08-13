@@ -6,8 +6,9 @@ import createImagePlugin from 'draft-js-image-plugin';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
 import { CompositeDecorator } from 'draft-js';
+import { connect } from 'react-redux';
 
-const ReadOnly = ({ onChange }) => {
+const ReadOnly = ({ contentState }) => {
 	const linkifyPlugin = createLinkifyPlugin({ target: '_blank' });
 	const imagePlugin = createImagePlugin();
 	const emojiPlugin = createEmojiPlugin();
@@ -35,11 +36,11 @@ const ReadOnly = ({ onChange }) => {
 		]);
 	};
 	let decorator = myFunctionForGrabbingAllPluginDecorators();
-	const content = window.localStorage.getItem('content');
+	const content = contentState;
 	let convertedState;
-	if (content) {
+	if (content !== null) {
 		convertedState = EditorState.createWithContent(
-			convertFromRaw(JSON.parse(content)),
+			convertFromRaw(content),
 			decorator
 			// THIS CAN PARSE JSON OBJECT and display
 		);
@@ -51,15 +52,17 @@ const ReadOnly = ({ onChange }) => {
 	// 	convertedState.getCurrentContent()
 	// );
 	return (
-		<div className="readonly-editor">
-			<Editor
-				onChange={onChange}
-				plugins={listOfPlugins}
-				editorState={convertedState}
-				readOnly={true}
-			/>
-		</div>
+		<Editor
+			onChange={() => {}}
+			plugins={listOfPlugins}
+			editorState={convertedState}
+			readOnly={true}
+		/>
 	);
 };
 
-export default ReadOnly;
+const mapStateToProps = state => ({
+	contentState: state.post.contentState
+});
+
+export default connect(mapStateToProps)(ReadOnly);

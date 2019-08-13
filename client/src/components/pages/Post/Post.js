@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PostComment from './PostComment';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getPost } from '../../../actions/post';
 import img from '../../../img/anonymous.png';
+import ReadOnly from '../../utils/draft-js/ReadOnly';
 
-const Post = ({ match: { postId } }) => {
-	const text = `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores
-					pariatur consectetur fuga repellat porro amet assumenda quidem fugit
-					obcaecati, sapiente quibusdam, voluptates, at magnam! Quos dicta
-                    facilis incidunt soluta fuga.`;
+const Post = ({
+	match: {
+		params: { postId }
+	},
+	getPost,
+	post: { title }
+}) => {
+	useEffect(() => {
+		getPost(postId);
+	}, [getPost, postId]);
+
 	return (
 		<div>
 			<div className="Post__post">
@@ -16,22 +26,38 @@ const Post = ({ match: { postId } }) => {
 					<span className="Post__postUser-name">Random User</span>
 				</div>
 				<div className="Post__postBody">
-					<h3 className="Post__postBody-title">Title</h3>
-					<p className="Post__postBody-text">{text}</p>
-					<span className="Post__postBody-date">Date posted: 8/08/2019</span>
-					<div className="Post__postButtons">
-						<Link className="Post__postButtons-edit" to="/discussion/post/edit">
-							Edit
-						</Link>
-						<button className="Post__postButtons-delete">Delete</button>
+					<h3 className="Post__postBody-title">{title}</h3>
+					<div className="Post__postBody-text">
+						<ReadOnly />
+					</div>
+					<div className="Post__bottom">
+						<span className="Post__postBody-date">Date posted: 8/08/2019</span>
+						<div className="Post__postButtons">
+							<Link
+								className="Post__postButtons-edit"
+								to="/discussion/post/edit">
+								Edit
+							</Link>
+							<button className="Post__postButtons-delete">Delete</button>
+						</div>
 					</div>
 				</div>
 			</div>
-			<PostComment img={img} text={text} />
-			<PostComment img={img} text={text} />
-			<PostComment img={img} text={text} />
+			<PostComment img={img} text={'testing'} />
 		</div>
 	);
 };
 
-export default Post;
+Post.propTypes = {
+	getPost: PropTypes.func.isRequired,
+	post: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+	post: state.post
+});
+
+export default connect(
+	mapStateToProps,
+	{ getPost }
+)(Post);
