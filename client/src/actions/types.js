@@ -7,3 +7,4 @@ export const RESET_ALERT = 'RESET_ALERT';
 export const POST_CREATE = 'POST_CREATE';
 export const ON_CHANGE = 'ON_CHANGE';
 export const GET_POST = 'GET_POST';
+export const TOGGLE_CREATE_POST = 'TOGGLE_CREATE_POST';

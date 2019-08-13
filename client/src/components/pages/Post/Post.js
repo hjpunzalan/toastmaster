@@ -12,21 +12,25 @@ const Post = ({
 		params: { postId }
 	},
 	getPost,
-	post: { title }
+	post: {
+		post: { title }
+	}
 }) => {
 	useEffect(() => {
 		getPost(postId);
 	}, [getPost, postId]);
 
+	console.log(title);
+
 	return (
 		<div>
+			<h1 className="Post__title">{title}</h1>
 			<div className="Post__post">
 				<div className="Post__postUser">
 					<img src={img} alt="user-logo" className="Post__postUser-img" />
 					<span className="Post__postUser-name">Random User</span>
 				</div>
 				<div className="Post__postBody">
-					<h3 className="Post__postBody-title">{title}</h3>
 					<div className="Post__postBody-text">
 						<ReadOnly />
 					</div>

@@ -1,17 +1,20 @@
 .Post {
+    width: 100%;
+
+    &__title {
+        overflow-wrap: break-word;
+        color: $color-secondary;
+        font-size: $size-post-title;
+        margin-bottom: 6rem;
+    }
+
     &__post {
         @include post;
         margin-bottom: 7rem;
         overflow: hidden;
         @include boxshadow;
 
-        &Body {
-            &-title {
-                color: $color-secondary;
-                font-size: $size-post-title;
-                margin-bottom: 6rem;
-            }
-        }
+
 
         &Buttons {
 

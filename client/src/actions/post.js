@@ -1,10 +1,22 @@
-import { POST_CREATE, ON_CHANGE, GET_POST } from '../actions/types';
+import {
+	POST_CREATE,
+	ON_CHANGE,
+	GET_POST,
+	TOGGLE_CREATE_POST
+} from '../actions/types';
 import uuid from 'uuid/v4';
 import { setAlert, resetAlert } from './alerts';
 export const onChange = editorState => dispatch => {
 	dispatch({
 		type: ON_CHANGE,
 		payload: editorState
+	});
+};
+
+export const toggleCreatePost = edit => dispatch => {
+	dispatch({
+		type: TOGGLE_CREATE_POST,
+		payload: !edit
 	});
 };
 
@@ -19,14 +31,12 @@ export const createPost = ({
 	// need to include auth
 	if (title.length === 0) {
 		dispatch(setAlert('Post needs a title', 'fail'));
-		return;
+	} else {
+		dispatch({
+			type: POST_CREATE,
+			payload: { title, contentState, id: uuid() }
+		});
 	}
-	dispatch({
-		type: POST_CREATE,
-		payload: { title, contentState, id: uuid() }
-	});
-
-	toggle && setToggle(false);
 };
 
 export const getPost = id => dispatch => {

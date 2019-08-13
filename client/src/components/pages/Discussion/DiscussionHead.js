@@ -3,25 +3,30 @@ import { FaSearch } from 'react-icons/fa';
 import TextEditor from '../../utils/draft-js/TextEditor';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createPost } from '../../../actions/post';
+import { createPost, toggleCreatePost } from '../../../actions/post';
 import { resetAlert } from '../../../actions/alerts';
 
-const DiscussionHead = ({ createPost, contentState, resetAlert }) => {
-	const [toggleCreate, setToggleCreate] = useState(false);
+const DiscussionHead = ({
+	createPost,
+	contentState,
+	resetAlert,
+	edit,
+	toggleCreatePost
+}) => {
 	const [title, setTitle] = useState('');
 
 	const handleToggle = () => {
 		resetAlert();
-		toggleCreate ? setToggleCreate(false) : setToggleCreate(true);
+		toggleCreatePost(edit);
 	};
 
 	const handleSubmit = () => {
-		createPost({ title, contentState, toggleCreate, setToggleCreate });
+		createPost({ title, contentState });
+		setTitle('');
 	};
-
 	return (
 		<div className="Discussion__head">
-			{!toggleCreate ? (
+			{!edit ? (
 				<>
 					<button className="btn btn__submit" onClick={handleToggle}>
 						Create a new post
@@ -47,6 +52,7 @@ const DiscussionHead = ({ createPost, contentState, resetAlert }) => {
 							placeholder="Insert Title"
 							value={title}
 							onChange={e => setTitle(e.target.value)}
+							maxLength={80}
 						/>
 						<TextEditor handleSubmit={handleSubmit} />
 					</div>
@@ -58,14 +64,16 @@ const DiscussionHead = ({ createPost, contentState, resetAlert }) => {
 
 DiscussionHead.propTypes = {
 	createPost: PropTypes.func.isRequired,
-	contentState: PropTypes.object.isRequired
+	contentState: PropTypes.object.isRequired,
+	edit: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-	contentState: state.post.contentState
+	contentState: state.post.contentState,
+	edit: state.post.edit
 });
 
 export default connect(
 	mapStateToProps,
-	{ createPost, resetAlert }
+	{ createPost, resetAlert, toggleCreatePost }
 )(DiscussionHead);

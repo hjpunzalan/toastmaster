@@ -62,7 +62,7 @@ const ReadOnly = ({ contentState }) => {
 };
 
 const mapStateToProps = state => ({
-	contentState: state.post.contentState
+	contentState: state.post.post.contentState
 });
 
 export default connect(mapStateToProps)(ReadOnly);

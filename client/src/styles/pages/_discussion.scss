@@ -36,6 +36,7 @@
 
                 input[type=text] {
                     padding: .5rem;
+                    max-width: 600px;
                     width: 60%;
                 }
 
@@ -136,8 +137,7 @@
         &Body {
             display: flex;
             flex-direction: column;
-            width: 100%;
-            overflow: hidden;
+            width: 80%;
 
             &-header {
                 display: flex;
@@ -148,6 +148,10 @@
             &-title {
                 color: $color-secondary;
                 font-size: $size-discussion-title;
+                padding-right: 1rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             &-chat {
