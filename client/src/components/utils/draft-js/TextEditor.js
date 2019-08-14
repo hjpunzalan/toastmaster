@@ -14,12 +14,14 @@ import createResizeablePlugin from 'draft-js-resizeable-plugin';
 import {
 	Modifier,
 	convertToRaw,
+	convertFromRaw,
 	EditorState,
 	RichUtils,
 	getDefaultKeyBinding,
 	KeyBindingUtil
 } from 'draft-js';
 import ImageAdd from './ImageAdd/ImageAdd';
+import pluginDecorator from './pluginDecorator';
 import linkifyEditorState from './linkifyEditorState';
 import theme from './emojiPlugin';
 
@@ -31,14 +33,13 @@ const linkifyPlugin = createLinkifyPlugin();
 const focusPlugin = createFocusPlugin();
 const blockDndPlugin = createBlockDndPlugin();
 const resizeablePlugin = createResizeablePlugin();
-
-const decorator = composeDecorators(
+const imageDecorator = composeDecorators(
 	focusPlugin.decorator,
 	blockDndPlugin.decorator,
 	resizeablePlugin.decorator
 );
-const imagePlugin = createImagePlugin({ decorator });
-const plugins = [
+const imagePlugin = createImagePlugin({ imageDecorator });
+const listOfPlugins = [
 	linkifyPlugin,
 	emojiPlugin,
 	blockDndPlugin,
@@ -46,11 +47,19 @@ const plugins = [
 	focusPlugin,
 	imagePlugin
 ];
+const decorator = pluginDecorator(listOfPlugins);
 
 class TextEditor extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { editorState: EditorState.createEmpty() }; //Always makes a new content whenever rendered
+		this.state = {
+			editorState: this.props.contentState
+				? EditorState.createWithContent(
+						convertFromRaw(this.props.contentState),
+						decorator
+				  )
+				: EditorState.createEmpty()
+		}; //Always makes a new content whenever rendered
 		this.focus = () => this.editor.focus();
 		this.onChange = editorState => {
 			this.setState({ editorState });
@@ -102,8 +111,8 @@ class TextEditor extends Component {
 	};
 
 	handleSubmit = () => {
-		this.setState({ editorState: EditorState.createEmpty() }); // Whenever submit is pressed, the current state of editor will reset
 		this.props.handleSubmit();
+		this.setState({ editorState: EditorState.createEmpty() }); // Whenever submit is pressed, the current state of editor will reset
 	};
 
 	render() {
@@ -151,7 +160,7 @@ class TextEditor extends Component {
 								this.editor = element;
 							}}
 							spellCheck={true}
-							plugins={plugins}
+							plugins={listOfPlugins}
 						/>
 						<EmojiSuggestions />
 					</div>

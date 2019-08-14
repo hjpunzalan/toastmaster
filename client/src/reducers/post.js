@@ -1,6 +1,7 @@
 import {
 	POST_CREATE,
 	GET_POST,
+	UPDATE_POST,
 	TOGGLE_CREATE_POST,
 	ADD_COMMENT
 } from '../actions/types';
@@ -34,6 +35,21 @@ export default (state = initialState, action) => {
 				edit: false,
 				loading: false,
 				post: state.posts.find(p => p.id === payload)
+			};
+		case UPDATE_POST:
+			const index = state.posts.indexOf(
+				state.posts.find(p => p.id === payload.id)
+			);
+
+			let newPosts = state.posts;
+			newPosts[index] = {
+				...payload,
+				comments: state.posts[index].comments
+			};
+			return {
+				...state,
+				edit: false,
+				posts: newPosts
 			};
 		case ADD_COMMENT:
 			return {

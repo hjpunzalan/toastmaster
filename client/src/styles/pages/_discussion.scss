@@ -9,44 +9,44 @@
         align-items: center;
         justify-content: center;
         margin-bottom: 7rem;
+    }
 
-        .Discussion__create {
-            display: flex;
-            flex-direction: column;
+    &__create {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        button.btn.btn__cancel {
+            width: 10rem;
+            height: 3rem;
+        }
+
+        &-title {
+            margin-top: 4rem;
+            font-size: $size-title;
+            color: $color-primary;
+
+
+            &:focus {
+                outline: none;
+                border: none;
+            }
+        }
+
+        &-form {
+            margin-top: 5rem;
             width: 100%;
 
-            button.btn.btn__cancel {
-                width: 10rem;
-                height: 3rem;
+            input[type=text] {
+                padding: .5rem;
+                max-width: 600px;
+                width: 60%;
             }
 
-            &-title {
-                margin-top: 4rem;
-                font-size: $size-title;
-                color: $color-primary;
-
-
-                &:focus {
-                    outline: none;
-                    border: none;
-                }
-            }
-
-            &-form {
-                margin-top: 5rem;
-                width: 100%;
-
-                input[type=text] {
-                    padding: .5rem;
-                    max-width: 600px;
-                    width: 60%;
-                }
-
-                &Label {
-                    font-size: $size-label;
-                    margin-right: 2rem;
-                    font-weight: 600;
-                }
+            &Label {
+                font-size: $size-label;
+                margin-right: 2rem;
+                font-weight: 600;
             }
         }
     }

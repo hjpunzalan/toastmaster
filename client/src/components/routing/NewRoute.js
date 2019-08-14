@@ -15,8 +15,8 @@ const NewRoute = ({ resetAlert, component: Component, ...rest }) => {
 			{...rest}
 			render={props => (
 				<Container>
-					<Alert />
 					{resetAlert()}
+					<Alert />
 					<Component {...props} />
 				</Container>
 			)}

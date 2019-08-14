@@ -12,7 +12,6 @@ export default (state = initialState, action) => {
 				...state,
 				contentState: payload
 			};
-
 		default:
 			return state;
 	}

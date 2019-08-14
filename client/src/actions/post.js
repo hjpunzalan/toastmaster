@@ -2,6 +2,7 @@ import {
 	POST_CREATE,
 	ON_CHANGE,
 	GET_POST,
+	UPDATE_POST,
 	TOGGLE_CREATE_POST,
 	ADD_COMMENT
 } from '../actions/types';
@@ -21,12 +22,7 @@ export const toggleCreatePost = edit => dispatch => {
 	});
 };
 
-export const createPost = ({
-	title,
-	contentState,
-	toggle,
-	setToggle
-}) => dispatch => {
+export const createPost = ({ title, contentState }) => dispatch => {
 	dispatch(resetAlert()); //Need to be in every action with alert
 	// { title , user, date, contentState}
 	// need to include auth
@@ -58,4 +54,22 @@ export const addComment = contentState => dispatch => {
 		type: ADD_COMMENT,
 		payload: { contentState, id: uuid() }
 	});
+};
+
+export const updatePost = ({
+	postId,
+	newTitle,
+	newContentState
+}) => dispatch => {
+	dispatch(resetAlert());
+	if (newTitle.length === 0) {
+		dispatch(setAlert('Post needs a title', 'fail'));
+	} else {
+		dispatch({
+			type: UPDATE_POST,
+			payload: { title: newTitle, contentState: newContentState, id: postId }
+		});
+
+		dispatch(getPost(postId));
+	}
 };

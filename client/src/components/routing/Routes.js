@@ -6,9 +6,9 @@ import Login from '../auth/Login';
 import MemberList from '../pages/Members/MemberList';
 import Dashboard from '../pages/Dashboard/Dashboard';
 import Discussion from '../pages/Discussion/Discussion';
-import Post from '../pages/Post/Post';
+import Post from '../pages/Discussion/Post/Post';
 
-const Routes = ({ resetAlert }) => {
+const Routes = () => {
 	return (
 		<Switch>
 			<NewRoute exact path="/register" component={Register} />

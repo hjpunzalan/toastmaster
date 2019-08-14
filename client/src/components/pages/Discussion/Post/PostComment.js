@@ -1,6 +1,6 @@
 import React from 'react';
 import { IoIosTrash } from 'react-icons/io';
-import ReadOnly from '../../utils/draft-js/ReadOnly';
+import ReadOnly from '../../../utils/draft-js/ReadOnly';
 
 const PostComment = ({ img, contentState }) => {
 	return (

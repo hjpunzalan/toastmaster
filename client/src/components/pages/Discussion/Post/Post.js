@@ -1,18 +1,25 @@
 import React, { useEffect } from 'react';
 import PostComment from './PostComment';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getPost, addComment } from '../../../actions/post';
-import img from '../../../img/anonymous.png';
-import ReadOnly from '../../utils/draft-js/ReadOnly';
-import TextEditor from '../../utils/draft-js/TextEditor';
+import {
+	getPost,
+	addComment,
+	toggleCreatePost
+} from '../../../../actions/post';
+import { resetAlert } from '../../../../actions/alerts';
+import img from '../../../../img/anonymous.png';
+import ReadOnly from '../../../utils/draft-js/ReadOnly';
+import TextEditor from '../../../utils/draft-js/TextEditor';
+import PostEditor from './PostEditor';
 
 const Post = ({
 	match: {
 		params: { postId }
 	},
 	getPost,
+	toggleCreatePost,
+	edit,
 	addComment,
 	post: { contentState, comments, title },
 	textEditor
@@ -25,8 +32,21 @@ const Post = ({
 		addComment(textEditor.contentState);
 	};
 
-	return (
-		<div>
+	const handleToggle = () => {
+		resetAlert();
+		toggleCreatePost(edit);
+	};
+
+	return edit ? (
+		<PostEditor
+			contentState={contentState}
+			title={title}
+			postId={postId}
+			handleToggle={handleToggle}
+			textEditor={textEditor}
+		/>
+	) : (
+		<>
 			<h1 className="Post__title">{title}</h1>
 			<div className="Post__post">
 				<div className="Post__postUser">
@@ -40,11 +60,9 @@ const Post = ({
 					<div className="Post__bottom">
 						<span className="Post__postBody-date">Date posted: 8/08/2019</span>
 						<div className="Post__postButtons">
-							<Link
-								className="Post__postButtons-edit"
-								to="/discussion/post/edit">
+							<button className="Post__postButtons-edit" onClick={handleToggle}>
 								Edit
-							</Link>
+							</button>
 							<button className="Post__postButtons-delete">Delete</button>
 						</div>
 					</div>
@@ -60,7 +78,7 @@ const Post = ({
 				<h2 className="Post__addComment-title">Add Comment</h2>
 				<TextEditor handleSubmit={handleSubmit} />
 			</div>
-		</div>
+		</>
 	);
 };
 
@@ -71,11 +89,12 @@ Post.propTypes = {
 };
 
 const mapStateToProps = state => ({
+	edit: state.post.edit,
 	post: state.post.post,
 	textEditor: state.textEditor
 });
 
 export default connect(
 	mapStateToProps,
-	{ getPost, addComment }
+	{ getPost, addComment, toggleCreatePost }
 )(Post);

@@ -52,7 +52,7 @@ const DiscussionHead = ({
 							placeholder="Insert Title"
 							value={title}
 							onChange={e => setTitle(e.target.value)}
-							maxLength={80}
+							maxLength={80} // so it doesnt pollute the post too much
 						/>
 						<TextEditor handleSubmit={handleSubmit} />
 					</div>
