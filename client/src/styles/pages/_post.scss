@@ -40,12 +40,11 @@
 
     }
 
-    &__comments {
+    &__comment {
         @include post;
 
-        &Small {
-            display: flex;
-            align-items: center;
+        &:not(:last-of-type) {
+            border-bottom: 1px solid $color-grey;
         }
 
         &-trash {

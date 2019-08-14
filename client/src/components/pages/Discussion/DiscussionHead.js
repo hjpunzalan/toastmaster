@@ -69,7 +69,7 @@ DiscussionHead.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	contentState: state.post.contentState,
+	contentState: state.textEditor.contentState,
 	edit: state.post.edit
 });
 

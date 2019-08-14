@@ -13,18 +13,16 @@ const Post = ({
 		params: { postId }
 	},
 	getPost,
-	post: {
-		post: { title, comments },
-		contentState
-	},
-	addComment
+	addComment,
+	post: { contentState, comments, title },
+	textEditor
 }) => {
 	useEffect(() => {
 		getPost(postId);
 	}, [getPost, postId]);
 
 	const handleSubmit = () => {
-		addComment(contentState, postId);
+		addComment(textEditor.contentState);
 	};
 
 	return (
@@ -37,7 +35,7 @@ const Post = ({
 				</div>
 				<div className="Post__postBody">
 					<div className="Post__postBody-text">
-						{/* <ReadOnly />  Need to fixv the contentState */}
+						<ReadOnly contentState={contentState} />
 					</div>
 					<div className="Post__bottom">
 						<span className="Post__postBody-date">Date posted: 8/08/2019</span>
@@ -52,10 +50,12 @@ const Post = ({
 					</div>
 				</div>
 			</div>
-			{comments.length > 0 &&
-				comments.map(c => (
-					<PostComment key={c.id} img={img} text={c.contentState} />
-				))}
+			<div className="Post__comments">
+				{comments.length > 0 &&
+					comments.map(c => (
+						<PostComment key={c.id} img={img} contentState={c.contentState} />
+					))}
+			</div>
 			<div className="Post__addComment">
 				<h2 className="Post__addComment-title">Add Comment</h2>
 				<TextEditor handleSubmit={handleSubmit} />
@@ -71,7 +71,8 @@ Post.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	post: state.post
+	post: state.post.post,
+	textEditor: state.textEditor
 });
 
 export default connect(

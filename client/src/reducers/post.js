@@ -1,6 +1,5 @@
 import {
 	POST_CREATE,
-	ON_CHANGE,
 	GET_POST,
 	TOGGLE_CREATE_POST,
 	ADD_COMMENT
@@ -10,7 +9,6 @@ const initialState = {
 	loading: true,
 	posts: [],
 	post: null,
-	contentState: {}, //need to refactor into a separate reducer
 	edit: false,
 	error: {}
 };
@@ -21,19 +19,14 @@ export default (state = initialState, action) => {
 		case TOGGLE_CREATE_POST:
 			return {
 				...state,
+				contentState: {},
 				edit: payload
-			};
-		case ON_CHANGE:
-			return {
-				...state,
-				contentState: payload //need to refactor into separate global state
 			};
 		case POST_CREATE:
 			return {
 				...state,
 				edit: false,
-				posts: [{ ...payload, comments: [] }, ...state.posts],
-				contentState: {}
+				posts: [{ ...payload, comments: [] }, ...state.posts]
 			};
 		case GET_POST:
 			return {
@@ -45,8 +38,7 @@ export default (state = initialState, action) => {
 		case ADD_COMMENT:
 			return {
 				...state,
-				post: { ...state.post, comments: [...state.post.comments, payload] },
-				contentState: {}
+				post: { ...state.post, comments: [...state.post.comments, payload] }
 			};
 
 		default:

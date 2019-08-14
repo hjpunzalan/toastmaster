@@ -48,7 +48,7 @@ export const getPost = id => dispatch => {
 	});
 };
 
-export const addComment = (contentState, postId) => dispatch => {
+export const addComment = contentState => dispatch => {
 	if (!contentState) {
 		dispatch(setAlert('No comment added', 'fail'));
 		return;
@@ -56,6 +56,6 @@ export const addComment = (contentState, postId) => dispatch => {
 
 	dispatch({
 		type: ADD_COMMENT,
-		payload: { contentState, id: uuid(), postId }
+		payload: { contentState, id: uuid() }
 	});
 };

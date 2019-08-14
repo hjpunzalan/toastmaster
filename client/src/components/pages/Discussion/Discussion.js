@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 const Discussion = ({ post: { posts } }) => {
-	const count = 4;
-
 	return (
 		<div className="Discussion">
 			<DiscussionHead />
@@ -17,7 +15,7 @@ const Discussion = ({ post: { posts } }) => {
 					title={post.title}
 					id={post.id}
 					img={img}
-					count={count}
+					count={post.comments.length}
 				/>
 			))}
 		</div>

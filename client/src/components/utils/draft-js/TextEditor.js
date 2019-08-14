@@ -50,12 +50,12 @@ const plugins = [
 class TextEditor extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { editorState: EditorState.createEmpty() };
+		this.state = { editorState: EditorState.createEmpty() }; //Always makes a new content whenever rendered
 		this.focus = () => this.editor.focus();
 		this.onChange = editorState => {
 			this.setState({ editorState });
 			this.props.onChange(
-				convertToRaw(linkifyEditorState(editorState).getCurrentContent())
+				convertToRaw(linkifyEditorState(editorState).getCurrentContent()) // Sends the content to redux state
 			);
 		};
 		this.handleKeyCommand = this._handleKeyCommand.bind(this);
@@ -99,6 +99,11 @@ class TextEditor extends Component {
 		);
 
 		return HANDLED;
+	};
+
+	handleSubmit = () => {
+		this.setState({ editorState: EditorState.createEmpty() }); // Whenever submit is pressed, the current state of editor will reset
+		this.props.handleSubmit();
 	};
 
 	render() {
@@ -151,7 +156,7 @@ class TextEditor extends Component {
 						<EmojiSuggestions />
 					</div>
 				</div>
-				<button className="btn btn__submit" onClick={this.props.handleSubmit}>
+				<button className="btn btn__submit" onClick={this.handleSubmit}>
 					Submit
 				</button>
 			</>
