@@ -2,7 +2,8 @@ import {
 	POST_CREATE,
 	ON_CHANGE,
 	GET_POST,
-	TOGGLE_CREATE_POST
+	TOGGLE_CREATE_POST,
+	ADD_COMMENT
 } from '../actions/types';
 import uuid from 'uuid/v4';
 import { setAlert, resetAlert } from './alerts';
@@ -44,5 +45,17 @@ export const getPost = id => dispatch => {
 	dispatch({
 		type: GET_POST,
 		payload: id
+	});
+};
+
+export const addComment = (contentState, postId) => dispatch => {
+	if (!contentState) {
+		dispatch(setAlert('No comment added', 'fail'));
+		return;
+	}
+
+	dispatch({
+		type: ADD_COMMENT,
+		payload: { contentState, id: uuid(), postId }
 	});
 };

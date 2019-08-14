@@ -1,7 +1,8 @@
 import React from 'react';
 import { IoIosTrash } from 'react-icons/io';
+import ReadOnly from '../../utils/draft-js/ReadOnly';
 
-const PostComment = ({ img, text }) => {
+const PostComment = ({ img, contentState }) => {
 	return (
 		<div className="Post__comments">
 			<div className="Post__commentsUser">
@@ -9,7 +10,7 @@ const PostComment = ({ img, text }) => {
 				<span className="Post__commentsUser-name">Random User</span>
 			</div>
 			<div className="Post__commentsBody">
-				<p className="Post__commentsBody-text">{text}</p>
+				<ReadOnly contentState={contentState} />
 				<div className="Post__commentsSmall">
 					<span className="Post__commentsBody-date">8/08/2019</span>
 					<IoIosTrash className="Post__comments-trash" />

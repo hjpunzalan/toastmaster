@@ -6,7 +6,6 @@ import createImagePlugin from 'draft-js-image-plugin';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
 import MultiDecorator from 'draft-js-plugins-editor/lib/Editor/MultiDecorator';
 import { CompositeDecorator } from 'draft-js';
-import { connect } from 'react-redux';
 
 const ReadOnly = ({ contentState }) => {
 	const linkifyPlugin = createLinkifyPlugin({ target: '_blank' });
@@ -61,8 +60,4 @@ const ReadOnly = ({ contentState }) => {
 	);
 };
 
-const mapStateToProps = state => ({
-	contentState: state.post.post.contentState
-});
-
-export default connect(mapStateToProps)(ReadOnly);
+export default ReadOnly;
