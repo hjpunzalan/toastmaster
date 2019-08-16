@@ -1,13 +1,24 @@
 // Things that dont relate to express
 const app = require('./app');
-const morgan = require('morgan');
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 
-// Development logging
-if (process.env.NODE_ENV === 'development') {
-	app.use(morgan('dev'));
-}
+dotenv.config({ path: './config.env' });
 
-const port = 3000;
+// Conencting to mongoDB using mongoose
+const DB = process.env.DATABASE.replace(
+	'<PASSWORD>',
+	process.env.DATABASE_PASSWORD
+);
+mongoose
+	.connect(DB, {
+		useNewUrlParser: true,
+		useCreateIndex: true,
+		useFindAndModify: false
+	})
+	.then(() => console.log('DB connection is successful'));
+
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
 	console.log(`App running on port ${port}`);
 });
