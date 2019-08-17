@@ -6,7 +6,6 @@ exports.register = async (req, res, next) => {
 		// first name,
 		// last name,
 		// email
-		// password
 
 		res.status(201).json(newUser);
 	} catch (error) {

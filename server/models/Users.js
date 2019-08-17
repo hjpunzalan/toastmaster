@@ -20,7 +20,6 @@ const userSchema = new mongoose.Schema({
 	photo: String,
 	password: {
 		type: String,
-		required: [true, 'User must have a password'],
 		minlength: 6,
 		select: false //Keeps password hidden from anywhere
 	},
