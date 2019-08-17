@@ -7,7 +7,7 @@ const postSchema = new mongoose.Schema({
 	},
 	date: {
 		type: Date,
-		default: Date.now
+		default: Date.now()
 	},
 	contentState: {
 		type: Object,
@@ -21,7 +21,7 @@ const postSchema = new mongoose.Schema({
 			},
 			date: {
 				type: Date,
-				default: Date.now
+				default: Date.now()
 			},
 			contentState: {
 				type: Object,

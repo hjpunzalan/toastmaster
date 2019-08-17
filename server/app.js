@@ -2,6 +2,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const userRouter = require('./routes/userRoutes');
+const authRouter = require('./routes/authRoutes');
 const postsRouter = require('./routes/postsRoutes');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -18,6 +19,7 @@ app.use(express.json({ limit: '10kb' })); // package will parse 10kb into meanin
 
 // Middleware that applies to '/api/' request
 app.use('/api/users', userRouter);
+app.use('/api/auth', authRouter);
 app.use('/api/posts', postsRouter);
 
 // Handle all unhandled routes

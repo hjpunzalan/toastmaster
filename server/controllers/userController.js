@@ -7,6 +7,13 @@ exports.register = catchAsync(async (req, res, next) => {
 	// first name,
 	// last name,
 	// email
+	// password
 
-	res.status(201).json(newUser);
+	// remove password from json output;
+	newUser.password = undefined;
+	const { firstName, lastName, email } = newUser;
+
+	// need to send an email with default password of user
+	// password must only be seen by the user and not the admin that registered user
+	res.status(201).json({ firstName, lastName, email });
 });
