@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev'));
 }
 // Converts incoming json data to js object ---- Body parser that reads data from body into req.body
-app.use(express.json({ limit: '10kb' })); // package will parse 10kb into meaningful data
+app.use(express.json()); // package will parse 10kb into meaningful data
 
 // Middleware that applies to '/api/' request
 app.use('/api/users', userRouter);
