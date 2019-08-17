@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
 // Middleware
 userSchema.pre(/^find/, function(next) {
 	// 'this' points to the current query before executing the event /^find/
-	this.find({ active: { $ne: false } });
+	this.find({ active: { $ne: false } }).select('-__v');
 	next();
 });
 

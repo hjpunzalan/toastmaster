@@ -9,12 +9,15 @@ exports.login = catchAsync(async (req, res, next) => {
 
 	// Check if email or password exist
 	if (!email || !password)
-		next(new AppError('Please enter an valid email address and password', 401));
+		return next(
+			new AppError('Please enter an valid email address and password', 401)
+		);
 
 	const user = await Users.findOne({ email }).select('+password');
+	console.log(user);
 
-	if (!user || !user.checkPassword(password, user.password))
-		next(new AppError('Invalid user credentials', 401));
+	if (!user || !(await user.checkPassword(password, user.password)))
+		return next(new AppError('Invalid user credentials', 401));
 
 	user.password = undefined;
 
