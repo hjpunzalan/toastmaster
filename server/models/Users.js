@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema({
 	},
 	lastName: {
 		type: String,
-		select: false,
 		required: [true, 'User must have a last name']
 	},
 	email: {
@@ -35,7 +34,8 @@ const userSchema = new mongoose.Schema({
 		type: Boolean,
 		select: false,
 		default: true
-	}
+	},
+	passwordChangedAt: Date
 });
 
 // Middleware
@@ -54,6 +54,17 @@ userSchema.pre('save', async function(next) {
 
 userSchema.methods.checkPassword = async function(password, userPassword) {
 	return await bcrypt.compare(password, userPassword);
+};
+
+userSchema.methods.changedPasswordAfter = function(timestamp) {
+	//Assuming timestamp is given in seconds
+	if (this.passwordChangedAt) {
+		//getTime() is a Date function
+		const changedTimeStamp =
+			parseInt(this.passwordChangedAt.getTime(), 10) / 1000;
+		return changedTimeStamp > timestamp;
+	}
+	return false;
 };
 
 const Users = mongoose.model('Users', userSchema);

@@ -6,6 +6,7 @@ const authRouter = require('./routes/authRoutes');
 const postsRouter = require('./routes/postsRoutes');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
+const authController = require('./controllers/authController');
 
 const app = express();
 
@@ -18,9 +19,9 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json()); // package will parse 10kb into meaningful data
 
 // Middleware that applies to '/api/' request
-app.use('/api/users', userRouter);
+app.use('/api/users', authController.protect, userRouter); // all users are protected
 app.use('/api/auth', authRouter);
-app.use('/api/posts', postsRouter);
+app.use('/api/posts', authController.protect, postsRouter); // all posts are protected
 
 // Handle all unhandled routes
 app.all('*', (req, res, next) => {
