@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const crypto = require('crypto');
 const validator = require('validator');
 const generator = require('generate-password');
 const bcrypt = require('bcryptjs');
@@ -41,7 +42,9 @@ const userSchema = new mongoose.Schema({
 		default: 'user'
 	},
 
-	passwordChangedAt: Date
+	passwordChangedAt: Date,
+	passwordResetToken: String,
+	passwordResetExpires: Date
 });
 
 // Middleware
@@ -52,14 +55,18 @@ userSchema.pre(/^find/, function(next) {
 });
 
 userSchema.pre('save', async function(next) {
+	// Only run this function if password was actually modified
+	// Changing password or password creation
+	if (!this.isModified('password')) return next();
+
 	const saltRounds = 12;
 	this.password = await bcrypt.hash(this.password, saltRounds);
 
 	next();
 });
 
-userSchema.methods.checkPassword = async function(password, userPassword) {
-	return await bcrypt.compare(password, userPassword);
+userSchema.methods.checkPassword = async function(password, hashedPassword) {
+	return await bcrypt.compare(password, hashedPassword);
 };
 
 userSchema.methods.changedPasswordAfter = function(timestamp) {
@@ -71,6 +78,21 @@ userSchema.methods.changedPasswordAfter = function(timestamp) {
 		return changedTimeStamp > timestamp;
 	}
 	return false;
+};
+
+userSchema.methods.createPasswordResetToken = function() {
+	const resetToken = crypto.randomBytes(32).toString('hex');
+	// crypto module that doesn't require much processor
+	// Only use bcrypt for passwords
+
+	this.passwordResetToken = crypto
+		.createHash('sha256')
+		.update(resetToken)
+		.digest('hex');
+
+	this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
+	console.log(resetToken, this.passwordResetToken);
+	return resetToken;
 };
 
 const Users = mongoose.model('Users', userSchema);

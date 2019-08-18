@@ -29,7 +29,6 @@ exports.login = catchAsync(async (req, res, next) => {
 	user.password = undefined;
 
 	const token = tokenHandler.createToken(user._id);
-
 	res.status(200).json({
 		user,
 		token
@@ -91,3 +90,16 @@ exports.restrictTo = (...roles) => {
 		next();
 	};
 };
+
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+	//  Get user based on POSTed email
+	const user = await Users.findOne({ email: req.body.email });
+	if (!user) {
+		return next(new AppError('There is no user with this email address', 404));
+	}
+	// Generate the random rest token
+	const resetToken = user.createPasswordResetToken();
+	await user.save({ validateBeforeSave: false }); // modified the user document ... disabled validators before save
+
+	// Send it to user's email
+});
