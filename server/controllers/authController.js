@@ -1,5 +1,6 @@
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const tokenHandler = require('../utils/tokenHandler');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
@@ -105,7 +106,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 	// Send it to user's email
 	const resetURL = `${req.protocol}://${req.get(
 		'host'
-	)}/api/v1/resetPassword/${resetToken}`;
+	)}/api/auth/resetPassword/${resetToken}`;
 
 	const message = `Forgot your password? Submit a PATCH request with your new password to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
 
@@ -132,4 +133,40 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 	});
 });
 
-exports.resetPassword = (req, res, next) => {};
+exports.resetPassword = catchAsync(async (req, res, next) => {
+	// 1) Get user based on the token
+	// sha256 is the name of the algorithm
+	const hashedToken = crypto
+		.createHash('sha256')
+		.update(req.params.token)
+		.digest('hex');
+
+	//// If expiry is greater than now(or undefined), than its not expired
+	// Finds user
+	const user = await Users.findOne({
+		passwordResetToken: hashedToken,
+		passwordResetExpires: { $gt: Date.now() } // mongoDB can convert different format into the same to compare eg. miliseconds
+	});
+
+	// 2) If token has not expired, and there is user, set the new password
+	// Check if user is found
+	if (!user) {
+		return next(new AppError('Token is invalid or has expired', 400));
+	}
+
+	// modify data
+	user.password = req.body.password;
+	user.passwordResetToken = undefined;
+	user.passwordResetExpires = undefined;
+	await user.save(); // use save to run validators again because find and update wont
+
+	// 3) Update changePasswordAt proprety for the user
+	// DONE
+
+	// 4) Log the user in, send JWT
+	const token = tokenHandler.createToken(user._id);
+	res.status(200).json({
+		status: 'success',
+		jwt: token
+	});
+});

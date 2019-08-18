@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const validator = require('validator');
 const generator = require('generate-password');
 const bcrypt = require('bcryptjs');
+// use save to run validators again because find and update wont
 
 const userSchema = new mongoose.Schema({
 	firstName: {
@@ -53,10 +54,18 @@ userSchema.pre(/^find/, function(next) {
 	this.find({ active: { $ne: false } }).select('-__v');
 	next();
 });
+// updating changedPasswordAt when resetting password
+// Skips if password is NOT modified or NEW.
+userSchema.pre('save', function(next) {
+	if (!this.isModified('password') || this.isNew) return next();
+
+	this.passwordChangedAt = Date.now() - 1000; // subtracting 1 second takes into account delay in saving into database so that its before the token is generated
+	next();
+});
 
 userSchema.pre('save', async function(next) {
 	// Only run this function if password was actually modified
-	// Changing password or password creation
+	// Changing password or password creation eg. new password
 	if (!this.isModified('password')) return next();
 
 	const saltRounds = 12;
@@ -91,7 +100,8 @@ userSchema.methods.createPasswordResetToken = function() {
 		.digest('hex');
 
 	this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
-	return resetToken;
+	console.log(resetToken, this.passwordResetToken);
+	return resetToken; // returns unhashed token
 };
 
 const Users = mongoose.model('Users', userSchema);
