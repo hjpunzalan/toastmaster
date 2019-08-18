@@ -4,6 +4,7 @@ const tokenHandler = require('../utils/tokenHandler');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const Users = require('../models/Users');
+const sendEmail = require('../utils/email');
 
 exports.login = catchAsync(async (req, res, next) => {
 	// email
@@ -102,4 +103,33 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 	await user.save({ validateBeforeSave: false }); // modified the user document ... disabled validators before save
 
 	// Send it to user's email
+	const resetURL = `${req.protocol}://${req.get(
+		'host'
+	)}/api/v1/resetPassword/${resetToken}`;
+
+	const message = `Forgot your password? Submit a PATCH request with your new password to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
+
+	// Not enough to catch error in global error handling.
+	// Need to send back the reset password token and expiration
+	try {
+		await sendEmail({
+			email: user.email,
+			subject: 'Your password reset token (valid for 10min)',
+			message
+		});
+	} catch (error) {
+		user.passwordResetToken = undefined;
+		user.passwordResetExpires = undefined;
+		await user.save({ validateBeforeSave: false });
+		return next(
+			new AppError('There was an error sending the email. Try again later', 500)
+		);
+	}
+
+	res.status(200).json({
+		status: 'success',
+		message: 'Token sent to email!'
+	});
 });
+
+exports.resetPassword = (req, res, next) => {};
