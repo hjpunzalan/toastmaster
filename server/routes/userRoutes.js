@@ -4,7 +4,12 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-router.route('/register').post(authController.protect, userController.register);
+router
+	.route('/register')
+	.post(
+		authController.restrictTo('admin', 'committee'),
+		userController.register
+	);
 
 router.route('/').get(userController.getAllUsers);
 

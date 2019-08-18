@@ -21,6 +21,10 @@ exports.login = catchAsync(async (req, res, next) => {
 	if (!user || !(await user.checkPassword(password, user.password)))
 		return next(new AppError('Invalid user credentials', 401));
 
+	// Make inactive users active
+	if (!user.active) {
+	}
+
 	// remove users password from response
 	user.password = undefined;
 
@@ -73,3 +77,17 @@ exports.protect = catchAsync(async (req, res, next) => {
 	req.user = user;
 	next();
 });
+
+// Wrapper function to add arguments in middlewares from router
+// ...roles is an array ['admin', 'lead-guide] of arguments
+// middleware function has access to roles because of closure
+exports.restrictTo = (...roles) => {
+	return (req, res, next) => {
+		if (!roles.includes(req.user.role)) {
+			return next(
+				new AppError('You do not have permission to perform this action', 403)
+			); // 403 means forbidden
+		}
+		next();
+	};
+};
