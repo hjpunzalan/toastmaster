@@ -170,3 +170,30 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 		jwt: token
 	});
 });
+
+exports.updatePassword = catchAsync(async (req, res, next) => {
+	const { passwordCurrent, newPassword, newPasswordConfirm } = req.body;
+
+	// 1) Get user from collection
+	// forces select to be true and find if user exist
+	// req.user was from protect middleware to make sure user is logged in
+	const user = await User.findById(req.user.id).select('+password');
+
+	// 2) Check if POSTed current password is correct
+	if (!(await user.correctPassword(passwordCurrent, user.password))) {
+		return next(
+			new AppError('Please enter the correct current password.', 401)
+		);
+	}
+
+	// 3) If so, update password
+	user.password = newPassword;
+	user.passwordConfirm = newPasswordConfirm;
+	// validators in Schema happen after saving into Document
+	await user.save();
+	// User.findByIdAndUpdate will not work as intended!
+
+	// 4) Log user in, send JWT
+	createSendToken(user, 200, res);
+});
+
