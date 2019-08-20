@@ -1,11 +1,22 @@
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const tokenHandler = require('../utils/tokenHandler');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const Users = require('../models/Users');
 const sendEmail = require('../utils/email');
+
+const createToken = (user, res) => {
+	// jwt.sign(payload, secretOrPrivateKey, [options, callback])
+	const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+		expiresIn: process.env.JWT_EXPIRATION
+	});
+
+	res.status(200).json({
+		user,
+		token
+	});
+};
 
 exports.login = catchAsync(async (req, res, next) => {
 	// email
@@ -30,11 +41,7 @@ exports.login = catchAsync(async (req, res, next) => {
 	// remove users password from response
 	user.password = undefined;
 
-	const token = tokenHandler.createToken(user._id);
-	res.status(200).json({
-		user,
-		token
-	});
+	createToken(user, res);
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -164,23 +171,19 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 	// DONE
 
 	// 4) Log the user in, send JWT
-	const token = tokenHandler.createToken(user._id);
-	res.status(200).json({
-		status: 'success',
-		jwt: token
-	});
+	createToken(user, res);
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
-	const { passwordCurrent, newPassword, newPasswordConfirm } = req.body;
+	const { password, newPassword } = req.body;
 
 	// 1) Get user from collection
 	// forces select to be true and find if user exist
 	// req.user was from protect middleware to make sure user is logged in
-	const user = await User.findById(req.user.id).select('+password');
+	const user = await Users.findById(req.user.id).select('+password');
 
 	// 2) Check if POSTed current password is correct
-	if (!(await user.correctPassword(passwordCurrent, user.password))) {
+	if (!(await user.checkPassword(password, user.password))) {
 		return next(
 			new AppError('Please enter the correct current password.', 401)
 		);
@@ -188,12 +191,10 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
 	// 3) If so, update password
 	user.password = newPassword;
-	user.passwordConfirm = newPasswordConfirm;
 	// validators in Schema happen after saving into Document
 	await user.save();
 	// User.findByIdAndUpdate will not work as intended!
 
 	// 4) Log user in, send JWT
-	createSendToken(user, 200, res);
+	createToken(user, res);
 });
-

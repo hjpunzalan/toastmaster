@@ -21,3 +21,36 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 	const users = await Users.find();
 	res.status(200).json(users);
 });
+
+exports.updateMe = catchAsync(async (req, res, next) => {
+	// Create error if user POSTs password datas
+	if (req.body.password) {
+		return next(new AppError('This route is not for password updates.', 400));
+	}
+	// Update user document
+	const filteredBody = Object.keys(req.body);
+	if (filteredBody.includes('firstName') || filteredBody.includes('lastName')) {
+		const user = await Users.findByIdAndUpdate(req.user.id, req.body, {
+			new: true,
+			runValidators: true
+		});
+		res.status(200).json(user);
+	} else {
+		return next(new AppError('Invalid user data. Cannot be updated', 400));
+	}
+});
+
+exports.deleteMe = catchAsync(async (req, res, next) => {
+	await User.findByIdAndUpdate(req.user.id, { active: false });
+
+	res.status(204);
+});
+
+exports.deleteUser = catchAsync(async (req, res, next) => {
+	const user = Users.findById(req.params.id);
+
+	user.active = false;
+	await user.save();
+
+	res.status(204);
+});

@@ -4,13 +4,20 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-router
-	.route('/register')
-	.post(
-		authController.restrictTo('admin', 'committee'),
-		userController.register
-	);
+router.post(
+	'/register',
+	authController.restrictTo('admin', 'committee'),
+	userController.register
+);
 
 router.route('/').get(userController.getAllUsers);
+router.post('/updatePassword', authController.updatePassword);
+router.patch('/updateMe', userController.updateMe);
+router.patch('/deleteMe', userController.deleteMe);
+router.patch(
+	'/deleteUser/:id',
+	authController.restrictTo('admin', 'committee'),
+	userController.deleteUser
+);
 
 module.exports = router;
