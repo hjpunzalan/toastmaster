@@ -3,11 +3,13 @@ const catchAsync = require('../utils/catchAsync');
 const QueryHandling = require('../utils/queryHandling');
 
 exports.createPost = catchAsync(async (req, res, next) => {
-	const newPost = {
+	const newPost = new Posts({
 		user: req.user.id,
 		title: req.body.title,
 		contentState: req.body.contentState
-	};
+	});
+
+	await newPost.save();
 	res.status(201).json(newPost);
 });
 

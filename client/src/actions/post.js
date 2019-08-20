@@ -7,6 +7,7 @@ import {
 	ADD_COMMENT
 } from '../actions/types';
 import uuid from 'uuid/v4';
+import axios from 'axios';
 import { setAlert, resetAlert } from './alerts';
 export const onChange = editorState => dispatch => {
 	dispatch({
@@ -22,17 +23,28 @@ export const toggleCreatePost = edit => dispatch => {
 	});
 };
 
-export const createPost = ({ title, contentState }) => dispatch => {
+export const createPost = ({ title, contentState }) => async dispatch => {
 	dispatch(resetAlert()); //Need to be in every action with alert
 	// { title , user, date, contentState}
 	// need to include auth
-	if (title.length === 0) {
-		dispatch(setAlert('Post needs a title', 'fail'));
-	} else {
+	try {
+		const res = await axios.post(
+			'/api/posts',
+			{ title, contentState },
+			{
+				headers: {
+					'Content-type': 'application/json'
+				}
+			}
+		);
+
 		dispatch({
 			type: POST_CREATE,
-			payload: { title, contentState, id: uuid() }
+			payload: res.data
 		});
+	} catch (err) {
+		const errors = err.response.data;
+		if (errors) dispatch(setAlert(errors.message, 'fail'));
 	}
 };
 
