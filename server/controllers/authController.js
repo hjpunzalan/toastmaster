@@ -25,8 +25,7 @@ const createToken = (user, res) => {
 	res.cookie('jwt', token, cookieOptions);
 
 	res.status(200).json({
-		user,
-		token
+		user
 	});
 };
 
