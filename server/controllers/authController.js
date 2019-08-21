@@ -12,6 +12,18 @@ const createToken = (user, res) => {
 		expiresIn: process.env.JWT_EXPIRATION
 	});
 
+	const cookieOptions = {
+		expires: new Date(
+			Date.now() + process.env.JWT_COOKIE_EXPIRATION * 24 * 60 * 60 * 1000
+		),
+		// secure: true, // send in https
+		httpOnly: true // cannot be modified by browser
+	};
+
+	// Attaching cookie to headers
+	if (process.env.NODDE_ENV === 'production') cookieOptions.secure = true;
+	res.cookie('jwt', token, cookieOptions);
+
 	res.status(200).json({
 		user,
 		token
@@ -194,6 +206,8 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 	// validators in Schema happen after saving into Document
 	await user.save();
 	// User.findByIdAndUpdate will not work as intended!
+
+	user.password = undefined;
 
 	// 4) Log user in, send JWT
 	createToken(user, res);

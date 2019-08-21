@@ -3,10 +3,6 @@ import { Link } from 'react-router-dom';
 import logo from '../../img/logo.png';
 
 const Navbar = () => {
-	useEffect(() => {
-		window.addEventListener('scrollD');
-	}, []);
-
 	return (
 		<Fragment>
 			<ul className="Navbar">
