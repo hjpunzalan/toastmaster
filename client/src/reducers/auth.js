@@ -3,7 +3,7 @@ import { LOGIN_SUCCESS, LOGIN_FAIL } from '../actions/types';
 const initialState = {
 	user: null,
 	isAuthenticated: false,
-	loading: true,
+	loading: false,
 	error: {}
 };
 
@@ -17,7 +17,7 @@ export default (state = initialState, action) => {
 				...state,
 				user: payload,
 				isAuthenticated: true,
-				loading: false
+				loading: true
 			};
 		case LOGIN_FAIL:
 			return {

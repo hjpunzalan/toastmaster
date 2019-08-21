@@ -1,24 +1,23 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL } from '../actions/types';
+import axios from 'axios';
 import { setAlert, resetAlert } from './alerts';
 
-export const loginUser = (formData, history) => dispatch => {
+export const loginUser = (formData, history) => async dispatch => {
 	dispatch(resetAlert()); //Need to be in every action with alert
-	const user = {
-		email: 'hj.punzalan@hotmail.com',
-		password: 'test123'
-	};
-	if (formData.email === user.email && formData.password === user.password) {
+
+	try {
+		const res = await axios.post('/api/auth/login', formData);
 		dispatch({
 			type: LOGIN_SUCCESS,
-			payload: formData
+			payload: res.data
 		});
 		history.push('/dashboard');
-	} else {
-		const msg = 'Invalid email or password';
+	} catch (err) {
+		const errors = err.response.data;
 		dispatch({
 			type: LOGIN_FAIL,
-			payload: { msg }
+			payload: errors.message
 		});
-		dispatch(setAlert(msg, 'fail'));
+		dispatch(setAlert(errors.message, 'fail'));
 	}
 };
