@@ -6,6 +6,7 @@ const rateLimit = require('express-rate-limit');
 const monogoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const cookieParser = require('cookie-parser');
 const userRouter = require('./routes/userRoutes');
 const authRouter = require('./routes/authRoutes');
 const postsRouter = require('./routes/postsRoutes');
@@ -33,6 +34,7 @@ app.use('/api', limiter);
 
 // Converts incoming json data to js object ---- Body parser that reads data from body into req.body
 app.use(express.json({ limit: '10kb' })); // package will parse 10kb into meaningful data
+app.use(cookieParser());
 
 // Data sanitization against NoSQL query injection
 //Look at the req and filter out all '$' and '.'
