@@ -1,8 +1,10 @@
 import {
 	POST_CREATE,
-	ON_CHANGE,
 	GET_POST,
+	GET_ALL_POST,
 	UPDATE_POST,
+	POST_ERROR,
+	ON_CHANGE,
 	TOGGLE_CREATE_POST,
 	ADD_COMMENT
 } from '../actions/types';
@@ -45,15 +47,44 @@ export const createPost = ({ title, contentState }) => async dispatch => {
 	} catch (err) {
 		const errors = err.response.data;
 		if (errors) dispatch(setAlert(errors.message, 'fail'));
+		dispatch({
+			type: POST_ERROR,
+			payload: {
+				msg: err.response.statusText,
+				status: err.response.status
+			}
+		});
 	}
 };
 
-export const getPost = id => dispatch => {
-	// need to re-edit this and obtain post from database
-	dispatch({
-		type: GET_POST,
-		payload: id
-	});
+export const getAllPost = () => async dispatch => {
+	try {
+		const res = await axios.get(`/api/posts`);
+		console.log(res.data.posts);
+		dispatch({
+			type: GET_ALL_POST,
+			payload: res.data.posts
+		});
+	} catch (err) {
+		console.error(err);
+		dispatch({
+			type: POST_ERROR,
+			payload: {
+				msg: err.response.statusText,
+				status: err.response.status
+			}
+		});
+	}
+};
+
+export const getPost = id => async dispatch => {
+	try {
+		const res = await axios.get(`/api/posts/${id}`);
+		dispatch({
+			type: GET_POST,
+			payload: res.data
+		});
+	} catch (error) {}
 };
 
 export const addComment = contentState => dispatch => {

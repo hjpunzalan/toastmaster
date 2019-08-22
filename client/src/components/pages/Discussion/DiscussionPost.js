@@ -1,15 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { IoIosChatboxes } from 'react-icons/io';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { getPost } from '../../../actions/post';
+import Moment from 'react-moment';
 
-const DiscussionPost = ({ img, count, id, title, getPost }) => {
-	useEffect(() => {
-		getPost(id);
-	}, [getPost, id]);
-
+const DiscussionPost = ({ img, count, id, title, date }) => {
 	return (
 		<Link to={`/discussion/post/${id}`} className="Discussion__post">
 			<div className="Discussion__postUser">
@@ -24,17 +18,12 @@ const DiscussionPost = ({ img, count, id, title, getPost }) => {
 						<IoIosChatboxes />
 					</span>
 				</div>
-				<span className="Discussion__postBody-date"> 8/08/2019</span>
+				<span className="Discussion__postBody-date">
+					<Moment format="DD/MM/YY">{date}</Moment>
+				</span>
 			</div>
 		</Link>
 	);
 };
 
-DiscussionPost.propTypes = {
-	getPost: PropTypes.func.isRequired
-};
-
-export default connect(
-	null,
-	{ getPost }
-)(DiscussionPost);
+export default DiscussionPost;

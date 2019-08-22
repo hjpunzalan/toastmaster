@@ -1,7 +1,9 @@
 import {
 	POST_CREATE,
 	GET_POST,
+	GET_ALL_POST,
 	UPDATE_POST,
+	POST_ERROR,
 	TOGGLE_CREATE_POST,
 	ADD_COMMENT
 } from '../actions/types';
@@ -27,14 +29,22 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				edit: false,
-				posts: [{ ...payload, comments: [] }, ...state.posts]
+				posts: [...state.posts, payload]
 			};
 		case GET_POST:
 			return {
 				...state,
 				edit: false,
 				loading: false,
-				post: state.posts.find(p => p.id === payload)
+				post: payload
+			};
+		case GET_ALL_POST:
+			return {
+				...state,
+				edit: false,
+				loading: false,
+				post: null,
+				posts: payload
 			};
 		case UPDATE_POST:
 			const index = state.posts.indexOf(
@@ -55,6 +65,12 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				post: { ...state.post, comments: [...state.post.comments, payload] }
+			};
+
+		case POST_ERROR:
+			return {
+				...state,
+				error: { ...payload }
 			};
 
 		default:

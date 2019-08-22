@@ -12,6 +12,7 @@ import img from '../../../../img/anonymous.png';
 import ReadOnly from '../../../utils/draft-js/ReadOnly';
 import TextEditor from '../../../utils/draft-js/TextEditor';
 import PostEditor from './PostEditor';
+import Spinner from '../../../utils/Spinner';
 
 const Post = ({
 	match: {
@@ -21,12 +22,12 @@ const Post = ({
 	toggleCreatePost,
 	edit,
 	addComment,
-	post: { contentState, comments, title },
+	post,
 	textEditor
 }) => {
 	useEffect(() => {
-		getPost(postId);
-	}, [getPost, postId]);
+		getPost(postId); // eslint-disable-next-line
+	}, []);
 
 	const handleSubmit = () => {
 		addComment(textEditor.contentState);
@@ -36,18 +37,19 @@ const Post = ({
 		resetAlert();
 		toggleCreatePost(edit);
 	};
-
-	return edit ? (
+	return post === null ? (
+		<Spinner />
+	) : edit ? (
 		<PostEditor
-			contentState={contentState}
-			title={title}
+			contentState={post.contentState}
+			title={post.title}
 			postId={postId}
 			handleToggle={handleToggle}
 			textEditor={textEditor}
 		/>
 	) : (
 		<>
-			<h1 className="Post__title">{title}</h1>
+			<h1 className="Post__title">{post.title}</h1>
 			<div className="Post__post">
 				<div className="Post__postUser">
 					<img src={img} alt="user-logo" className="Post__postUser-img" />
@@ -55,7 +57,7 @@ const Post = ({
 				</div>
 				<div className="Post__postBody">
 					<div className="Post__postBody-text">
-						<ReadOnly contentState={contentState} />
+						<ReadOnly contentState={post.contentState} />
 					</div>
 					<div className="Post__bottom">
 						<span className="Post__postBody-date">Date posted: 8/08/2019</span>
@@ -69,8 +71,8 @@ const Post = ({
 				</div>
 			</div>
 			<div className="Post__comments">
-				{comments.length > 0 &&
-					comments.map(c => (
+				{post.comments.length > 0 &&
+					post.comments.map(c => (
 						<PostComment key={c.id} img={img} contentState={c.contentState} />
 					))}
 			</div>
@@ -84,7 +86,6 @@ const Post = ({
 
 Post.propTypes = {
 	getPost: PropTypes.func.isRequired,
-	post: PropTypes.object.isRequired,
 	addComment: PropTypes.func.isRequired
 };
 
