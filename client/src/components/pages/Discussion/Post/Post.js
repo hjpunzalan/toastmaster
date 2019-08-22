@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import PostComment from './PostComment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Moment from 'react-moment';
+import 'moment-timezone';
 import {
 	getPost,
 	addComment,
@@ -60,7 +62,11 @@ const Post = ({
 						<ReadOnly contentState={post.contentState} />
 					</div>
 					<div className="Post__bottom">
-						<span className="Post__postBody-date">Date posted: 8/08/2019</span>
+						<span className="Post__postBody-date">
+							<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm:ss">
+								{post.date}
+							</Moment>
+						</span>
 						<div className="Post__postButtons">
 							<button className="Post__postButtons-edit" onClick={handleToggle}>
 								Edit
