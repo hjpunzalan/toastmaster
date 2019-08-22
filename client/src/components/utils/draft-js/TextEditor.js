@@ -55,7 +55,7 @@ class TextEditor extends Component {
 		this.state = {
 			editorState: this.props.contentState
 				? EditorState.createWithContent(
-						convertFromRaw(this.props.contentState),
+						convertFromRaw(JSON.parse(this.props.contentState)),
 						decorator
 				  )
 				: EditorState.createEmpty()

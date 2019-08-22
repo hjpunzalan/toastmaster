@@ -2,6 +2,7 @@ import React from 'react';
 import { IoIosChatboxes } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
+import 'moment-timezone';
 
 const DiscussionPost = ({ img, count, id, title, date }) => {
 	return (

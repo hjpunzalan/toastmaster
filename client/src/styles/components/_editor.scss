@@ -119,3 +119,10 @@ div.DraftEditor-root {
     font-size: $size-text;
     font-family: Arial, Helvetica, sans-serif;
 }
+
+.RichEditor-ReadOnly {
+    img:hover {
+        box-shadow: none;
+        border-radius: none;
+    }
+}
