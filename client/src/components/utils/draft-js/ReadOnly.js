@@ -15,11 +15,10 @@ const ReadOnly = ({ contentState }) => {
 	let convertedState;
 	if (contentState !== null) {
 		convertedState = EditorState.createWithContent(
-			convertFromRaw(contentState),
+			convertFromRaw(JSON.parse(contentState)),
 			decorator
 			// THIS CAN PARSE JSON OBJECT and display
 		);
-		console.log(contentState);
 	} else {
 		convertedState = EditorState.createEmpty();
 	}

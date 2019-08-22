@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { onChange } from '../../../actions/post';
 import { IoMdQuote } from 'react-icons/io';
 import { GoListOrdered, GoListUnordered } from 'react-icons/go';
 import { FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
@@ -12,30 +14,32 @@ import createResizeablePlugin from 'draft-js-resizeable-plugin';
 import {
 	Modifier,
 	convertToRaw,
+	convertFromRaw,
 	EditorState,
 	RichUtils,
 	getDefaultKeyBinding,
 	KeyBindingUtil
 } from 'draft-js';
 import ImageAdd from './ImageAdd/ImageAdd';
+import pluginDecorator from './pluginDecorator';
 import linkifyEditorState from './linkifyEditorState';
+import theme from './emojiPlugin';
 
 const { hasCommandModifier } = KeyBindingUtil;
 const HANDLED = 'handled';
-const emojiPlugin = createEmojiPlugin();
+const emojiPlugin = createEmojiPlugin({ theme });
 const { EmojiSuggestions, EmojiSelect } = emojiPlugin;
 const linkifyPlugin = createLinkifyPlugin();
 const focusPlugin = createFocusPlugin();
 const blockDndPlugin = createBlockDndPlugin();
 const resizeablePlugin = createResizeablePlugin();
-
-const decorator = composeDecorators(
+const imageDecorator = composeDecorators(
 	focusPlugin.decorator,
 	blockDndPlugin.decorator,
 	resizeablePlugin.decorator
 );
-const imagePlugin = createImagePlugin({ decorator });
-const plugins = [
+const imagePlugin = createImagePlugin({ decorator: imageDecorator });
+const listOfPlugins = [
 	linkifyPlugin,
 	emojiPlugin,
 	blockDndPlugin,
@@ -43,26 +47,33 @@ const plugins = [
 	focusPlugin,
 	imagePlugin
 ];
+const decorator = pluginDecorator(listOfPlugins);
 
-export default class TextEditor extends Component {
+class TextEditor extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { editorState: EditorState.createEmpty() };
-		this.focus = () => this.editor.focus();
-		this.onChange = editorState => {
-			this.setState({ editorState });
-			this.saveContent(linkifyEditorState(editorState).getCurrentContent());
-		};
+		this.state = {
+			editorState: this.props.contentState
+				? EditorState.createWithContent(
+						convertFromRaw(this.props.contentState),
+						decorator
+				  )
+				: EditorState.createEmpty()
+		}; //Always makes a new content whenever rendered
 		this.handleKeyCommand = this._handleKeyCommand.bind(this);
 		this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
 		this.toggleBlockType = this._toggleBlockType.bind(this);
 		this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
+		this.onChange = this.onChange.bind(this);
+		this.focus = this.focus.bind(this);
 	}
-	saveContent = content => {
-		window.localStorage.setItem(
-			'content',
-			JSON.stringify(convertToRaw(content))
-			//// THIS JSON FILE CAN BE STORED IN STATE and thus DBs
+
+	focus = () => this.editor.focus();
+
+	onChange = editorState => {
+		this.setState({ editorState });
+		this.props.onChange(
+			convertToRaw(linkifyEditorState(editorState).getCurrentContent()) // Sends the content to redux state
 		);
 	};
 
@@ -103,6 +114,11 @@ export default class TextEditor extends Component {
 		return HANDLED;
 	};
 
+	handleSubmit = () => {
+		this.props.handleSubmit();
+		this.setState({ editorState: EditorState.createEmpty() }); // Whenever submit is pressed, the current state of editor will reset
+	};
+
 	render() {
 		const { editorState } = this.state;
 		// If the user changes block type before entering any text, we can
@@ -121,50 +137,52 @@ export default class TextEditor extends Component {
 		}
 
 		return (
-			<div className="RichEditor-root">
-				<div className="RichEditor-root__controls">
-					<InlineStyleControls
-						editorState={editorState}
-						onToggle={this.toggleInlineStyle}
-					/>
-					<BlockStyleControls
-						editorState={editorState}
-						onToggle={this.toggleBlockType}
-						onChange={this.onChange}
-						emojiPlugin={emojiPlugin}
-					/>
+			<>
+				<div className="RichEditor-root">
+					<div className="RichEditor-root__controls">
+						<InlineStyleControls
+							editorState={editorState}
+							onToggle={this.toggleInlineStyle}
+						/>
+						<BlockStyleControls
+							editorState={editorState}
+							onToggle={this.toggleBlockType}
+							onChange={this.onChange}
+							emojiPlugin={emojiPlugin}
+						/>
+					</div>
+					<div className={className} onClick={this.focus}>
+						<Editor
+							handleBeforeInput={this.handleBeforeInput}
+							blockStyleFn={getBlockStyle}
+							editorState={editorState}
+							handleKeyCommand={this.handleKeyCommand}
+							keyBindingFn={this.mapKeyToEditorCommand}
+							onChange={this.onChange}
+							placeholder="Write something..."
+							ref={element => {
+								this.editor = element;
+							}}
+							spellCheck={true}
+							plugins={listOfPlugins}
+						/>
+						<EmojiSuggestions />
+					</div>
 				</div>
-				<div className={className} onClick={this.focus}>
-					<Editor
-						handleBeforeInput={this.handleBeforeInput}
-						blockStyleFn={getBlockStyle}
-						customStyleMap={styleMap}
-						editorState={editorState}
-						handleKeyCommand={this.handleKeyCommand}
-						keyBindingFn={this.mapKeyToEditorCommand}
-						onChange={this.onChange}
-						placeholder="Write something..."
-						ref={element => {
-							this.editor = element;
-						}}
-						spellCheck={true}
-						plugins={plugins}
-					/>
-					<EmojiSuggestions />
-				</div>
-			</div>
+				<button className="btn btn__submit" onClick={this.handleSubmit}>
+					Submit
+				</button>
+			</>
 		);
 	}
 }
+
+export default connect(
+	null,
+	{ onChange }
+)(TextEditor);
 // Custom overrides for "code" style.
-const styleMap = {
-	CODE: {
-		backgroundColor: 'rgba(0, 0, 0, 0.05)',
-		fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
-		fontSize: 16,
-		padding: 2
-	}
-};
+
 function getBlockStyle(block) {
 	switch (block.getType()) {
 		case 'blockquote':
@@ -228,9 +246,6 @@ const BlockStyleControls = props => {
 				onChange={onChange}
 				modifier={createImagePlugin().addImage}
 			/>
-			<div className="RichEditor__addEmoji">
-				<EmojiSelect styl />
-			</div>
 		</div>
 	);
 };
@@ -253,6 +268,7 @@ const InlineStyleControls = props => {
 					style={type.style}
 				/>
 			))}
+			<EmojiSelect />
 		</div>
 	);
 };

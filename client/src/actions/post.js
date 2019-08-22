@@ -29,10 +29,11 @@ export const createPost = ({ title, contentState }) => async dispatch => {
 	dispatch(resetAlert()); //Need to be in every action with alert
 	// { title , user, date, contentState}
 	// need to include auth
+	const jsonContentState = JSON.stringify(contentState);
 	try {
 		const res = await axios.post(
 			'/api/posts',
-			{ title, contentState },
+			{ title, contentState: jsonContentState },
 			{
 				headers: {
 					'Content-type': 'application/json'
