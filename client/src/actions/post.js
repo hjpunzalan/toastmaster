@@ -60,7 +60,6 @@ export const createPost = ({ title, contentState }) => async dispatch => {
 export const getAllPost = () => async dispatch => {
 	try {
 		const res = await axios.get(`/api/posts`);
-		console.log(res.data.posts);
 		dispatch({
 			type: GET_ALL_POST,
 			payload: res.data.posts

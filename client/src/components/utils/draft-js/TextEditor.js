@@ -60,18 +60,22 @@ class TextEditor extends Component {
 				  )
 				: EditorState.createEmpty()
 		}; //Always makes a new content whenever rendered
-		this.focus = () => this.editor.focus();
-		this.onChange = editorState => {
-			this.setState({ editorState });
-			this.props.onChange(
-				convertToRaw(linkifyEditorState(editorState).getCurrentContent()) // Sends the content to redux state
-			);
-		};
 		this.handleKeyCommand = this._handleKeyCommand.bind(this);
 		this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
 		this.toggleBlockType = this._toggleBlockType.bind(this);
 		this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
+		this.onChange = this.onChange.bind(this);
+		this.focus = this.focus.bind(this);
 	}
+
+	focus = () => this.editor.focus();
+
+	onChange = editorState => {
+		this.setState({ editorState });
+		this.props.onChange(
+			convertToRaw(linkifyEditorState(editorState).getCurrentContent()) // Sends the content to redux state
+		);
+	};
 
 	_handleKeyCommand(command, editorState) {
 		const newState = RichUtils.handleKeyCommand(editorState, command);

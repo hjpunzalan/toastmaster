@@ -12,15 +12,14 @@ const ReadOnly = ({ contentState }) => {
 	const emojiPlugin = createEmojiPlugin();
 	const listOfPlugins = [linkifyPlugin, imagePlugin, emojiPlugin];
 	const decorator = pluginDecorator(listOfPlugins);
-
-	const content = contentState;
 	let convertedState;
-	if (content !== null) {
+	if (contentState !== null) {
 		convertedState = EditorState.createWithContent(
-			convertFromRaw(content),
+			convertFromRaw(contentState),
 			decorator
 			// THIS CAN PARSE JSON OBJECT and display
 		);
+		console.log(contentState);
 	} else {
 		convertedState = EditorState.createEmpty();
 	}
