@@ -8,6 +8,9 @@ router
 	.post(postController.createPost)
 	.get(postController.getAllPosts);
 
-router.route('/:id').get(postController.getPost);
+router
+	.route('/:id')
+	.get(postController.getPost)
+	.patch(postController.editPost);
 
 module.exports = router;

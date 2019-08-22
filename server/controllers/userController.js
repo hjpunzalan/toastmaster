@@ -1,6 +1,7 @@
 const Users = require('../models/Users');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const checkBody = require('../utils/checkBody');
 
 exports.register = catchAsync(async (req, res, next) => {
 	const newUser = await Users.create(req.body);
@@ -23,21 +24,13 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 });
 
 exports.updateMe = catchAsync(async (req, res, next) => {
-	// Create error if user POSTs password datas
-	if (req.body.password) {
-		return next(new AppError('This route is not for password updates.', 400));
-	}
 	// Update user document
-	const filteredBody = Object.keys(req.body);
-	if (filteredBody.includes('firstName') || filteredBody.includes('lastName')) {
-		const user = await Users.findByIdAndUpdate(req.user.id, req.body, {
-			new: true,
-			runValidators: true
-		});
-		res.status(200).json(user);
-	} else {
-		return next(new AppError('Invalid user data. Cannot be updated', 400));
-	}
+	const filterBody = checkBody(req.body, next, 'firstName', 'lastName');
+	const user = await Users.findByIdAndUpdate(req.user.id, filterBody, {
+		new: true,
+		runValidators: true
+	});
+	res.status(200).json(user);
 });
 
 exports.deleteMe = catchAsync(async (req, res, next) => {

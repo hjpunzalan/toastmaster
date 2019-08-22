@@ -1,6 +1,8 @@
 const Posts = require('../models/Posts');
 const catchAsync = require('../utils/catchAsync');
 const QueryHandling = require('../utils/queryHandling');
+const AppError = require('../utils/appError');
+const checkBody = require('../utils/checkBody');
 
 exports.createPost = catchAsync(async (req, res, next) => {
 	const newPost = new Posts({
@@ -25,6 +27,16 @@ exports.getAllPosts = catchAsync(async (req, res, next) => {
 });
 
 exports.getPost = catchAsync(async (req, res, next) => {
-	const post = await Posts.findOne({ _id: req.params.id });
+	const post = await Posts.findById(req.params.id);
+	res.status(200).json(post);
+});
+
+exports.editPost = catchAsync(async (req, res, next) => {
+	const filterBody = checkBody(req.body, next, 'title', 'contentState');
+	const post = await Posts.findByIdAndUpdate(req.params.id, filterBody, {
+		new: true,
+		runValidators: true
+	});
+
 	res.status(200).json(post);
 });
