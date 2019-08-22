@@ -29,7 +29,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				edit: false,
-				posts: [...state.posts, payload]
+				posts: [payload, ...state.posts]
 			};
 		case GET_POST:
 			return {

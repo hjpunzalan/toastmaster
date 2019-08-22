@@ -60,7 +60,7 @@ export const createPost = ({ title, contentState }) => async dispatch => {
 
 export const getAllPost = () => async dispatch => {
 	try {
-		const res = await axios.get(`/api/posts?sort=date`);
+		const res = await axios.get(`/api/posts?sort=-date`);
 		dispatch({
 			type: GET_ALL_POST,
 			payload: res.data.posts

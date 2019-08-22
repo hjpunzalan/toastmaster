@@ -20,7 +20,9 @@ const DiscussionPost = ({ img, count, id, title, date }) => {
 					</span>
 				</div>
 				<span className="Discussion__postBody-date">
-					<Moment format="DD/MM/YY">{date}</Moment>
+					<Moment tz="Australia/Perth" format="DD MMM YYYY">
+						{date}
+					</Moment>
 				</span>
 			</div>
 		</Link>
