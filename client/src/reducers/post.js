@@ -42,6 +42,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				edit: false,
+				postEdit: false,
 				loading: false,
 				post: payload
 			};

@@ -187,6 +187,12 @@ function getBlockStyle(block) {
 	switch (block.getType()) {
 		case 'blockquote':
 			return 'RichEditor-blockquote';
+		case 'left':
+			return 'RichEditor__align-left';
+		case 'center':
+			return 'RichEditor__align-center';
+		case 'right':
+			return 'RichEditor__align-right';
 		default:
 			return null;
 	}
@@ -216,6 +222,9 @@ const BLOCK_TYPES = [
 	{ label: 'H1', style: 'header-one' },
 	{ label: 'H2', style: 'header-two' },
 	{ label: 'H3', style: 'header-three' },
+	{ label: 'left', style: 'left' },
+	{ label: 'center', style: 'center' },
+	{ label: 'right', style: 'right' },
 	{ label: <IoMdQuote />, style: 'blockquote' },
 	{ label: <GoListUnordered />, style: 'unordered-list-item' },
 	{

@@ -126,3 +126,15 @@ div.DraftEditor-root {
         border-radius: none;
     }
 }
+
+.RichEditor__align-right .public-DraftStyleDefault-ltr {
+    text-align: right;
+}
+
+.RichEditor__align-center .public-DraftStyleDefault-ltr {
+    text-align: center;
+}
+
+.RichEditor__align-left .public-DraftStyleDefault-ltr {
+    text-align: left;
+}
