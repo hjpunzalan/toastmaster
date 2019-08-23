@@ -33,14 +33,10 @@ exports.getPost = catchAsync(async (req, res, next) => {
 
 exports.editPost = catchAsync(async (req, res, next) => {
 	const filterBody = checkBody(req.body, next, 'title', 'contentState');
-	const post = await Posts.findById(req.params.id);
-
-	Object.keys(filterBody).forEach(el => {
-		post[el] = filterBody[el];
+	const post = await Posts.findByIdAndUpdate(req.params.id, filterBody, {
+		new: true,
+		runValidators: true
 	});
-
-	post.save();
-
 	res.status(200).json(post);
 });
 

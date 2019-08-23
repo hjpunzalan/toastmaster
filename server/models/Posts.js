@@ -34,16 +34,9 @@ const postSchema = new mongoose.Schema({
 			}
 		}
 	],
-	edited: Date
+	lastEdited: Date
 });
-
-postSchema.pre('save', function(next) {
-	if (this.isNew) return next();
-	if (this.isModified('contentState') || this.isModified('title')) {
-		this.edited = Date.now() - 1000; // subtracting 1 second takes into account delay in saving into database so that its before the token is generated
-		next();
-	} else return next();
-});
+//Model.update,findByIdAndUpdate,findOneAndUpdate,findOneAndRemove,findByIdAndRemove are all commands executed directly in the database
 postSchema.pre(/^find/, function(next) {
 	this.find().select('-__v');
 	next();

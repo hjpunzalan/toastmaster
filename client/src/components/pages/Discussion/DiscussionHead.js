@@ -20,8 +20,8 @@ const DiscussionHead = ({
 		toggleCreatePost(edit);
 	};
 
-	const handleSubmit = () => {
-		createPost({ title, contentState });
+	const handleSubmit = async () => {
+		await createPost({ title, contentState });
 		setTitle('');
 	};
 	return (

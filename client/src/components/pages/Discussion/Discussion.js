@@ -7,12 +7,12 @@ import { connect } from 'react-redux';
 import { getAllPost } from '../../../actions/post';
 import Spinner from '../../../components/utils/Spinner';
 
-const Discussion = ({ post: { posts }, getAllPost, loading }) => {
+const Discussion = ({ post: { posts, edit }, getAllPost, loading }) => {
 	useEffect(() => {
 		getAllPost();
 	}, [getAllPost]);
 
-	return loading ? (
+	return loading || edit ? (
 		<Spinner />
 	) : (
 		<div className="Discussion">

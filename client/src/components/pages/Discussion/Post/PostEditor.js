@@ -14,9 +14,9 @@ const PostEditor = ({
 }) => {
 	const [newTitle, setTitle] = useState(title);
 
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		const newContentState = textEditor.contentState;
-		updatePost({ postId, newTitle, newContentState });
+		await updatePost({ postId, newTitle, newContentState });
 	};
 	return (
 		<div className="Discussion__create">
@@ -43,7 +43,7 @@ const PostEditor = ({
 
 PostEditor.propTypes = {
 	updatePost: PropTypes.func.isRequired,
-	contentState: PropTypes.object.isRequired,
+	contentState: PropTypes.string.isRequired,
 	textEditor: PropTypes.object.isRequired
 };
 

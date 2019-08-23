@@ -76,11 +76,11 @@ const Post = ({
 								{post.date}
 							</Moment>
 						</span>
-						{post.edited && (
+						{post.lastEdited && (
 							<span className="Post__postBody-edited">
 								Last edited:{' '}
 								<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm">
-									{post.edited}
+									{post.lastEdited}
 								</Moment>
 							</span>
 						)}
