@@ -3,6 +3,7 @@ import {
 	GET_POST,
 	GET_ALL_POST,
 	UPDATE_POST,
+	DELETE_POST,
 	POST_ERROR,
 	ON_CHANGE,
 	TOGGLE_CREATE_POST,
@@ -66,7 +67,6 @@ export const getAllPost = () => async dispatch => {
 			payload: res.data.posts
 		});
 	} catch (err) {
-		console.error(err);
 		dispatch({
 			type: POST_ERROR,
 			payload: {
@@ -103,16 +103,60 @@ export const updatePost = ({
 	postId,
 	newTitle,
 	newContentState
-}) => dispatch => {
+}) => async dispatch => {
 	dispatch(resetAlert());
-	if (newTitle.length === 0) {
-		dispatch(setAlert('Post needs a title', 'fail'));
-	} else {
+	const jsonContentState = JSON.stringify(newContentState);
+	try {
+		const config = {
+			headers: {
+				'Content-type': 'application/json'
+			}
+		};
+		const res = await axios.patch(
+			`/api/posts/${postId}`,
+			{
+				title: newTitle,
+				contentState: jsonContentState
+			},
+			config
+		);
+
 		dispatch({
 			type: UPDATE_POST,
-			payload: { title: newTitle, contentState: newContentState, id: postId }
+			payload: res.data
 		});
 
 		dispatch(getPost(postId));
+	} catch (err) {
+		const errors = err.response.data;
+		if (errors) dispatch(setAlert(errors.message, 'fail'));
+		dispatch({
+			type: POST_ERROR,
+			payload: {
+				msg: err.response.statusText,
+				status: err.response.status
+			}
+		});
+	}
+};
+
+export const deletePost = (postId, history) => async dispatch => {
+	try {
+		await axios.delete(`/api/posts/${postId}`);
+		dispatch({
+			type: DELETE_POST
+		});
+		history.push('/discussion');
+		dispatch(setAlert('Post Deleted', 'success'));
+	} catch (err) {
+		const errors = err.response.data;
+		if (errors) dispatch(setAlert(errors.message, 'fail'));
+		dispatch({
+			type: POST_ERROR,
+			payload: {
+				msg: err.response.statusText,
+				status: err.response.status
+			}
+		});
 	}
 };

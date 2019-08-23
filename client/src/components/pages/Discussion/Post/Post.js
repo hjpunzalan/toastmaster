@@ -7,7 +7,8 @@ import 'moment-timezone';
 import {
 	getPost,
 	addComment,
-	toggleCreatePost
+	toggleCreatePost,
+	deletePost
 } from '../../../../actions/post';
 import { resetAlert } from '../../../../actions/alerts';
 import img from '../../../../img/anonymous.png';
@@ -22,10 +23,12 @@ const Post = ({
 	},
 	getPost,
 	toggleCreatePost,
+	deletePost,
 	edit,
 	addComment,
 	post,
-	textEditor
+	textEditor,
+	history
 }) => {
 	useEffect(() => {
 		getPost(postId); // eslint-disable-next-line
@@ -39,6 +42,11 @@ const Post = ({
 		resetAlert();
 		toggleCreatePost(edit);
 	};
+
+	const handleDelete = () => {
+		deletePost(postId, history);
+	};
+
 	return post === null ? (
 		<Spinner />
 	) : edit ? (
@@ -61,17 +69,30 @@ const Post = ({
 					<div className="Post__postBody-text">
 						<ReadOnly contentState={post.contentState} />
 					</div>
-					<div className="Post__bottom">
+					<div className="Post__postBottom">
 						<span className="Post__postBody-date">
-							<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm:ss">
+							Posted:{' '}
+							<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm">
 								{post.date}
 							</Moment>
 						</span>
+						{post.edited && (
+							<span className="Post__postBody-edited">
+								Last edited:{' '}
+								<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm">
+									{post.edited}
+								</Moment>
+							</span>
+						)}
 						<div className="Post__postButtons">
 							<button className="Post__postButtons-edit" onClick={handleToggle}>
 								Edit
 							</button>
-							<button className="Post__postButtons-delete">Delete</button>
+							<button
+								className="Post__postButtons-delete"
+								onClick={handleDelete}>
+								Delete
+							</button>
 						</div>
 					</div>
 				</div>
@@ -103,5 +124,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getPost, addComment, toggleCreatePost }
+	{ getPost, addComment, toggleCreatePost, deletePost }
 )(Post);

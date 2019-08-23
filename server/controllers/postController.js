@@ -33,10 +33,25 @@ exports.getPost = catchAsync(async (req, res, next) => {
 
 exports.editPost = catchAsync(async (req, res, next) => {
 	const filterBody = checkBody(req.body, next, 'title', 'contentState');
-	const post = await Posts.findByIdAndUpdate(req.params.id, filterBody, {
-		new: true,
-		runValidators: true
+	const post = await Posts.findById(req.params.id);
+
+	Object.keys(filterBody).forEach(el => {
+		post[el] = filterBody[el];
 	});
 
+	post.save();
+
 	res.status(200).json(post);
+});
+
+exports.deletePost = catchAsync(async (req, res, next) => {
+	const post = await Posts.findByIdAndRemove(req.params.id);
+
+	if (!post) {
+		return next(new AppError('No post was found with this Id.', 404));
+	}
+
+	res.status(204).json({
+		status: 'success'
+	});
 });

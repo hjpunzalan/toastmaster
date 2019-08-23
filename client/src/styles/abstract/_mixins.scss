@@ -38,19 +38,19 @@
             margin-bottom: 5rem;
         }
 
-        &-date {
+        &-date,
+        &-edited {
+            display: block;
             font-size: $size-discussion-date;
+        }
 
+
+        &-edited {
+            margin: 1rem 0;
         }
     }
 
-    &__bottom {
-        display: flex;
-        align-items: center;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
+
 
 
 }

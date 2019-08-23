@@ -10,5 +10,6 @@ export const ON_CHANGE = 'ON_CHANGE';
 export const GET_POST = 'GET_POST';
 export const GET_ALL_POST = 'GET_ALL_POST';
 export const UPDATE_POST = 'UPDATE_POST';
+export const DELETE_POST = 'DELETE_POST';
 export const POST_ERROR = 'POST_ERROR';
 export const TOGGLE_CREATE_POST = 'TOGGLE_CREATE_POST';
