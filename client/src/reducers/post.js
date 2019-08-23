@@ -6,6 +6,7 @@ import {
 	POST_ERROR,
 	DELETE_POST,
 	TOGGLE_CREATE_POST,
+	TOGGLE_EDIT_POST,
 	ADD_COMMENT
 } from '../actions/types';
 
@@ -14,6 +15,7 @@ const initialState = {
 	posts: [],
 	post: null,
 	edit: false,
+	postEdit: false,
 	error: {}
 };
 
@@ -23,8 +25,12 @@ export default (state = initialState, action) => {
 		case TOGGLE_CREATE_POST:
 			return {
 				...state,
-				contentState: {},
 				edit: payload
+			};
+		case TOGGLE_EDIT_POST:
+			return {
+				...state,
+				postEdit: payload
 			};
 		case POST_CREATE:
 			return {
@@ -43,6 +49,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				edit: false,
+				postEdit: false,
 				loading: false,
 				post: null,
 				posts: payload
@@ -50,7 +57,7 @@ export default (state = initialState, action) => {
 		case UPDATE_POST:
 			return {
 				...state,
-				edit: false,
+				postEdit: false,
 				post: payload
 			};
 

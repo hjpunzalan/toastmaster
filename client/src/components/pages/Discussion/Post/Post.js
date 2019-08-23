@@ -7,7 +7,7 @@ import 'moment-timezone';
 import {
 	getPost,
 	addComment,
-	toggleCreatePost,
+	toggleEditPost,
 	deletePost
 } from '../../../../actions/post';
 import { resetAlert } from '../../../../actions/alerts';
@@ -22,9 +22,9 @@ const Post = ({
 		params: { postId }
 	},
 	getPost,
-	toggleCreatePost,
+	toggleEditPost,
 	deletePost,
-	edit,
+	postEdit,
 	addComment,
 	post,
 	textEditor,
@@ -40,7 +40,7 @@ const Post = ({
 
 	const handleToggle = () => {
 		resetAlert();
-		toggleCreatePost(edit);
+		toggleEditPost(postEdit);
 	};
 
 	const handleDelete = () => {
@@ -49,7 +49,7 @@ const Post = ({
 
 	return post === null ? (
 		<Spinner />
-	) : edit ? (
+	) : postEdit ? (
 		<PostEditor
 			contentState={post.contentState}
 			title={post.title}
@@ -117,12 +117,12 @@ Post.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	edit: state.post.edit,
+	postEdit: state.post.postEdit,
 	post: state.post.post,
 	textEditor: state.textEditor
 });
 
 export default connect(
 	mapStateToProps,
-	{ getPost, addComment, toggleCreatePost, deletePost }
+	{ getPost, addComment, toggleEditPost, deletePost }
 )(Post);

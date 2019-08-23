@@ -7,6 +7,7 @@ import {
 	POST_ERROR,
 	ON_CHANGE,
 	TOGGLE_CREATE_POST,
+	TOGGLE_EDIT_POST,
 	ADD_COMMENT
 } from '../actions/types';
 import uuid from 'uuid/v4';
@@ -23,6 +24,12 @@ export const toggleCreatePost = edit => dispatch => {
 	dispatch({
 		type: TOGGLE_CREATE_POST,
 		payload: !edit
+	});
+};
+export const toggleEditPost = postEdit => dispatch => {
+	dispatch({
+		type: TOGGLE_EDIT_POST,
+		payload: !postEdit
 	});
 };
 
