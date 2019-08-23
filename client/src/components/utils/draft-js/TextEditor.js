@@ -3,7 +3,14 @@ import { connect } from 'react-redux';
 import { onChange } from '../../../actions/post';
 import { IoMdQuote } from 'react-icons/io';
 import { GoListOrdered, GoListUnordered } from 'react-icons/go';
-import { FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
+import {
+	FaBold,
+	FaItalic,
+	FaUnderline,
+	FaAlignLeft,
+	FaAlignCenter,
+	FaAlignRight
+} from 'react-icons/fa';
 import Editor, { composeDecorators } from 'draft-js-plugins-editor';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createImagePlugin from 'draft-js-image-plugin';
@@ -222,9 +229,9 @@ const BLOCK_TYPES = [
 	{ label: 'H1', style: 'header-one' },
 	{ label: 'H2', style: 'header-two' },
 	{ label: 'H3', style: 'header-three' },
-	{ label: 'left', style: 'left' },
-	{ label: 'center', style: 'center' },
-	{ label: 'right', style: 'right' },
+	{ label: <FaAlignLeft />, style: 'left' },
+	{ label: <FaAlignCenter />, style: 'center' },
+	{ label: <FaAlignRight />, style: 'right' },
 	{ label: <IoMdQuote />, style: 'blockquote' },
 	{ label: <GoListUnordered />, style: 'unordered-list-item' },
 	{
