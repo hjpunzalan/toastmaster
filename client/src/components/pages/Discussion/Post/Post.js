@@ -35,7 +35,7 @@ const Post = ({
 	}, []);
 
 	const handleSubmit = () => {
-		addComment(textEditor.contentState);
+		addComment(textEditor.contentState, postId);
 	};
 
 	const handleToggle = () => {
@@ -100,7 +100,14 @@ const Post = ({
 			<div className="Post__comments">
 				{post.comments.length > 0 &&
 					post.comments.map(c => (
-						<PostComment key={c.id} img={img} contentState={c.contentState} />
+						<PostComment
+							key={c._id}
+							img={img}
+							contentState={c.contentState}
+							id={c._id}
+							date={c.date}
+							user={c.user}
+						/>
 					))}
 			</div>
 			<div className="Post__addComment">

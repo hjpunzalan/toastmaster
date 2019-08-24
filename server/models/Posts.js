@@ -47,6 +47,15 @@ postSchema.pre(/^find/, function(next) {
 	next();
 });
 
+postSchema.post('save', async function(doc, next) {
+	await doc
+		.populate({
+			path: 'comments.user'
+		})
+		.populate('user')
+		.execPopulate();
+	next();
+});
 // /schema methods are only available when there's a single result.!
 
 const Posts = mongoose.model('Posts', postSchema);

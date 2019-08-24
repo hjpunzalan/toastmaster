@@ -10,9 +10,9 @@ import {
 	TOGGLE_EDIT_POST,
 	ADD_COMMENT
 } from '../actions/types';
-import uuid from 'uuid/v4';
 import axios from 'axios';
 import { setAlert, resetAlert } from './alerts';
+
 export const onChange = editorState => dispatch => {
 	dispatch({
 		type: ON_CHANGE,
@@ -94,16 +94,35 @@ export const getPost = id => async dispatch => {
 	} catch (error) {}
 };
 
-export const addComment = contentState => dispatch => {
-	if (!contentState) {
-		dispatch(setAlert('No comment added', 'fail'));
-		return;
-	}
+export const addComment = (contentState, postId) => async dispatch => {
+	try {
+		const jsonContentState = JSON.stringify(contentState);
+		const config = {
+			headers: {
+				'Content-type': 'application/json'
+			}
+		};
+		const res = await axios.post(
+			`/api/posts/${postId}`,
+			{ contentState: jsonContentState },
+			config
+		);
 
-	dispatch({
-		type: ADD_COMMENT,
-		payload: { contentState, id: uuid() }
-	});
+		dispatch({
+			type: ADD_COMMENT,
+			payload: res.data
+		}); // loads whilst posting comment
+	} catch (err) {
+		const errors = err.response.data;
+		if (errors) dispatch(setAlert(errors.message, 'fail'));
+		dispatch({
+			type: POST_ERROR,
+			payload: {
+				msg: err.response.statusText,
+				status: err.response.status
+			}
+		});
+	}
 };
 
 export const updatePost = ({
