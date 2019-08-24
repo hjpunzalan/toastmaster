@@ -43,7 +43,6 @@ export default (state = initialState, action) => {
 				...state,
 				edit: false,
 				postEdit: false,
-				loading: false,
 				post: payload
 			};
 		case GET_ALL_POST:
