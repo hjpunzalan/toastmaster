@@ -18,7 +18,7 @@ const postSchema = new mongoose.Schema({
 	},
 	contentState: {
 		type: Object,
-		required: [true, 'A post must have a contentState']
+		required: [true, 'A post must have content.']
 	},
 	comments: [
 		{
@@ -33,7 +33,7 @@ const postSchema = new mongoose.Schema({
 			},
 			contentState: {
 				type: Object,
-				required: [true, 'A comment must have a contentState']
+				required: [true, 'A comment must have content.']
 			}
 		}
 	],
