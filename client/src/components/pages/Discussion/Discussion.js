@@ -4,10 +4,21 @@ import DiscussionHead from './DiscussionHead';
 import DiscussionPost from './DiscussionPost';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getAllPost } from '../../../actions/post';
+import {
+	getAllPost,
+	createPost,
+	toggleCreatePost
+} from '../../../actions/post';
 import Spinner from '../../../components/utils/Spinner';
 
-const Discussion = ({ post: { posts, postEdit }, getAllPost, loading }) => {
+const Discussion = ({
+	post: { posts, edit, postEdit },
+	getAllPost,
+	loading,
+	contentState,
+	createPost,
+	toggleCreatePost
+}) => {
 	useEffect(() => {
 		getAllPost();
 	}, [getAllPost]);
@@ -16,7 +27,12 @@ const Discussion = ({ post: { posts, postEdit }, getAllPost, loading }) => {
 		<Spinner />
 	) : (
 		<div className="Discussion">
-			<DiscussionHead />
+			<DiscussionHead
+				edit={edit}
+				contentState={contentState}
+				createPost={createPost}
+				toggleCreatePost={toggleCreatePost}
+			/>
 			{posts.map(post => (
 				<DiscussionPost
 					key={post._id}
@@ -32,15 +48,19 @@ const Discussion = ({ post: { posts, postEdit }, getAllPost, loading }) => {
 };
 
 Discussion.propTypes = {
-	post: PropTypes.object.isRequired
+	post: PropTypes.object.isRequired,
+	getAllPost: PropTypes.func.isRequired,
+	createPost: PropTypes.func.isRequired,
+	toggleCreatePost: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
 	post: state.post,
-	loading: state.post.loading
+	loading: state.post.loading,
+	contentState: state.textEditor.contentState
 });
 
 export default connect(
 	mapStateToProps,
-	{ getAllPost }
+	{ getAllPost, createPost, toggleCreatePost }
 )(Discussion);

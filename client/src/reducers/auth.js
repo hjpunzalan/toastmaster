@@ -17,7 +17,7 @@ export default (state = initialState, action) => {
 				...state,
 				user: payload,
 				isAuthenticated: true,
-				loading: true
+				loading: false
 			};
 		case LOGIN_FAIL:
 			return {

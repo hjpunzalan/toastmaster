@@ -1,22 +1,16 @@
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import TextEditor from '../../utils/draft-js/TextEditor';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createPost, toggleCreatePost } from '../../../actions/post';
-import { resetAlert } from '../../../actions/alerts';
 
 const DiscussionHead = ({
 	createPost,
 	contentState,
-	resetAlert,
 	edit,
 	toggleCreatePost
 }) => {
 	const [title, setTitle] = useState('');
 
 	const handleToggle = () => {
-		resetAlert();
 		toggleCreatePost(edit);
 	};
 
@@ -62,18 +56,4 @@ const DiscussionHead = ({
 	);
 };
 
-DiscussionHead.propTypes = {
-	createPost: PropTypes.func.isRequired,
-	contentState: PropTypes.object.isRequired,
-	edit: PropTypes.bool.isRequired
-};
-
-const mapStateToProps = state => ({
-	contentState: state.textEditor.contentState,
-	edit: state.post.edit
-});
-
-export default connect(
-	mapStateToProps,
-	{ createPost, resetAlert, toggleCreatePost }
-)(DiscussionHead);
+export default DiscussionHead;

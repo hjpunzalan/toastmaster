@@ -3,9 +3,8 @@ import axios from 'axios';
 import { setAlert, resetAlert } from './alerts';
 
 export const loginUser = (formData, history) => async dispatch => {
-	dispatch(resetAlert()); //Need to be in every action with alert
-
 	try {
+		dispatch(resetAlert()); //Need to be in every action with alert
 		const res = await axios.post('/api/auth/login', formData);
 		dispatch({
 			type: LOGIN_SUCCESS,

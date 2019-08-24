@@ -24,9 +24,7 @@ const createToken = (user, res) => {
 	if (process.env.NODDE_ENV === 'production') cookieOptions.secure = true;
 	res.cookie('jwt', token, cookieOptions);
 
-	res.status(200).json({
-		user
-	});
+	res.status(200).json(user);
 };
 
 exports.login = catchAsync(async (req, res, next) => {

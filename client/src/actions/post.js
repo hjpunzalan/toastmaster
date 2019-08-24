@@ -22,12 +22,14 @@ export const onChange = editorState => dispatch => {
 };
 
 export const toggleCreatePost = edit => dispatch => {
+	dispatch(resetAlert());
 	dispatch({
 		type: TOGGLE_CREATE_POST,
 		payload: !edit
 	});
 };
 export const toggleEditPost = postEdit => dispatch => {
+	dispatch(resetAlert());
 	dispatch({
 		type: TOGGLE_EDIT_POST,
 		payload: !postEdit

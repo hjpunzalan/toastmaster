@@ -11,7 +11,6 @@ import {
 	toggleEditPost,
 	deletePost
 } from '../../../../actions/post';
-import { resetAlert } from '../../../../actions/alerts';
 import img from '../../../../img/anonymous.png';
 import ReadOnly from '../../../utils/draft-js/ReadOnly';
 import TextEditor from '../../../utils/draft-js/TextEditor';
@@ -41,7 +40,6 @@ const Post = ({
 	};
 
 	const handleToggle = () => {
-		resetAlert();
 		toggleEditPost(postEdit);
 	};
 
