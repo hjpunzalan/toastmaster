@@ -72,9 +72,15 @@ class TextEditor extends Component {
 
 	onChange = editorState => {
 		this.setState({ editorState });
-		this.props.onChange(
-			convertToRaw(linkifyEditorState(editorState).getCurrentContent()) // Sends the content to redux state
-		);
+		if (
+			this.state.editorState.getCurrentContent().getPlainText().length === 0
+		) {
+			this.props.onChange();
+		} else {
+			this.props.onChange(
+				convertToRaw(linkifyEditorState(editorState).getCurrentContent()) // Sends the content to redux state
+			);
+		}
 	};
 
 	_handleKeyCommand(command, editorState) {
@@ -115,8 +121,14 @@ class TextEditor extends Component {
 	};
 
 	handleSubmit = () => {
+		if (
+			this.state.editorState.getCurrentContent().getPlainText().length === 0
+		) {
+			this.props.onChange(null);
+		}
+		// if (emptyState === this.state.editorState) this.props.onChange(null);
 		this.props.handleSubmit();
-		// this.setState({ editorState: EditorState.createEmpty() }); // Whenever submit is pressed, the current state of editor will reset
+		this.setState({ editorState: EditorState.createEmpty() }); // Whenever submit is pressed, the current state of editor will reset
 	};
 
 	render() {

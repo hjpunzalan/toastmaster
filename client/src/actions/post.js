@@ -94,37 +94,6 @@ export const getPost = id => async dispatch => {
 	} catch (error) {}
 };
 
-export const addComment = (contentState, postId) => async dispatch => {
-	try {
-		const jsonContentState = JSON.stringify(contentState);
-		const config = {
-			headers: {
-				'Content-type': 'application/json'
-			}
-		};
-		const res = await axios.post(
-			`/api/posts/${postId}`,
-			{ contentState: jsonContentState },
-			config
-		);
-
-		dispatch({
-			type: ADD_COMMENT,
-			payload: res.data
-		}); // loads whilst posting comment
-	} catch (err) {
-		const errors = err.response.data;
-		if (errors) dispatch(setAlert(errors.message, 'fail'));
-		dispatch({
-			type: POST_ERROR,
-			payload: {
-				msg: err.response.statusText,
-				status: err.response.status
-			}
-		});
-	}
-};
-
 export const updatePost = ({
 	postId,
 	newTitle,
@@ -174,6 +143,53 @@ export const deletePost = (postId, history) => async dispatch => {
 		});
 		history.push('/discussion');
 		dispatch(setAlert('Post Deleted', 'success'));
+	} catch (err) {
+		const errors = err.response.data;
+		if (errors) dispatch(setAlert(errors.message, 'fail'));
+		dispatch({
+			type: POST_ERROR,
+			payload: {
+				msg: err.response.statusText,
+				status: err.response.status
+			}
+		});
+	}
+};
+
+export const addComment = (contentState, postId) => async dispatch => {
+	try {
+		dispatch(resetAlert()); //Need to be in every action with alert
+		const jsonContentState = JSON.stringify(contentState);
+		const config = {
+			headers: {
+				'Content-type': 'application/json'
+			}
+		};
+		const res = await axios.post(
+			`/api/posts/${postId}`,
+			{ contentState: jsonContentState },
+			config
+		);
+
+		dispatch({
+			type: ADD_COMMENT,
+			payload: res.data
+		}); // loads whilst posting comment
+	} catch (err) {
+		const errors = err.response.data;
+		if (errors) dispatch(setAlert(errors.message, 'fail'));
+		dispatch({
+			type: POST_ERROR,
+			payload: {
+				msg: err.response.statusText,
+				status: err.response.status
+			}
+		});
+	}
+};
+
+export const deleteComment = (postId, commentId) => async dispatch => {
+	try {
 	} catch (err) {
 		const errors = err.response.data;
 		if (errors) dispatch(setAlert(errors.message, 'fail'));

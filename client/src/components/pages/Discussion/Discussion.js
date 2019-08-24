@@ -12,7 +12,7 @@ const Discussion = ({ post: { posts, postEdit }, getAllPost, loading }) => {
 		getAllPost();
 	}, [getAllPost]);
 
-	return loading || postEdit ? (
+	return loading || postEdit || posts.length === 0 ? (
 		<Spinner />
 	) : (
 		<div className="Discussion">

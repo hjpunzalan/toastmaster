@@ -6,12 +6,14 @@ const Alert = ({ msg, alertType }) => {
 	return (
 		alertType !== null && (
 			<div className={`Alert Alert__${alertType}`}>
-				{msg.map(alert => (
-					<p key={msg} className={`Alert__msg`}>
-						<strong>{alertType === 'fail' ? 'Warning: ' : 'Success: '}</strong>
-						<br /> {alert}
-					</p>
-				))}
+				<p key={msg} className={`Alert__msg`}>
+					<strong>{alertType === 'fail' ? 'Warning: ' : 'Success: '}</strong>
+					{msg.map(alert => (
+						<span key={msg}>
+							<br /> {alert}
+						</span>
+					))}
+				</p>
 			</div>
 		)
 	);
