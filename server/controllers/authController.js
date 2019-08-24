@@ -80,7 +80,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 	// Check if user exist
 	const payload = decoded.id;
-	const user = await Users.findById(payload);
+	const user = await Users.findById(payload).select('+passwordChangedAt');
 	if (!user)
 		return next(
 			new AppError('The user belonging to the token no longer exist', 401)

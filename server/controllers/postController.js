@@ -37,6 +37,9 @@ exports.editPost = catchAsync(async (req, res, next) => {
 		new: true,
 		runValidators: true
 	});
+	if (!post) {
+		return next(new AppError('No post was found with this Id.', 404));
+	}
 	res.status(200).json(post);
 });
 
@@ -50,4 +53,20 @@ exports.deletePost = catchAsync(async (req, res, next) => {
 	res.status(204).json({
 		status: 'success'
 	});
+});
+
+exports.addComment = catchAsync(async (req, res, next) => {
+	const post = await Posts.findById(req.params.id);
+
+	if (!post) {
+		return next(new AppError('No post was found with this Id.', 404));
+	}
+	post.comments.push({
+		user: req.user.id,
+		contentState: req.body.contentState
+	});
+
+	post.save();
+
+	res.status(200).json(post);
 });

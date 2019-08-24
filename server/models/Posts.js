@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
+const autoPopulate = require('mongoose-autopopulate');
 
 const postSchema = new mongoose.Schema({
 	user: {
 		type: mongoose.SchemaTypes.ObjectId,
-		ref: 'Users'
+		ref: 'Users',
+		autopopulate: true
 	},
 	title: {
 		type: String,
@@ -22,7 +24,8 @@ const postSchema = new mongoose.Schema({
 		{
 			user: {
 				type: mongoose.SchemaTypes.ObjectId,
-				ref: 'Users'
+				ref: 'Users',
+				autopopulate: true
 			},
 			date: {
 				type: Date,
@@ -36,6 +39,8 @@ const postSchema = new mongoose.Schema({
 	],
 	lastEdited: Date
 });
+postSchema.plugin(autoPopulate);
+
 //Model.update,findByIdAndUpdate,findOneAndUpdate,findOneAndRemove,findByIdAndRemove are all commands executed directly in the database
 postSchema.pre(/^find/, function(next) {
 	this.find().select('-__v');
