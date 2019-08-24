@@ -48,6 +48,10 @@
         }
 
         &-trash {
+            border: none;
+            background: none;
+            display: inline-block;
+            cursor: pointer;
             font-size: 2rem;
             margin-left: 2rem;
             color: $color-danger;

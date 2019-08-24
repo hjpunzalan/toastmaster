@@ -7,6 +7,7 @@ import 'moment-timezone';
 import {
 	getPost,
 	addComment,
+	deleteComment,
 	toggleEditPost,
 	deletePost
 } from '../../../../actions/post';
@@ -26,6 +27,7 @@ const Post = ({
 	deletePost,
 	postEdit,
 	addComment,
+	deleteComment,
 	post,
 	textEditor,
 	history
@@ -105,8 +107,10 @@ const Post = ({
 							img={img}
 							contentState={c.contentState}
 							id={c._id}
+							postId={postId}
 							date={c.date}
 							user={c.user}
+							deleteComment={deleteComment}
 						/>
 					))}
 			</div>
@@ -131,5 +135,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getPost, addComment, toggleEditPost, deletePost }
+	{ getPost, addComment, toggleEditPost, deletePost, deleteComment }
 )(Post);

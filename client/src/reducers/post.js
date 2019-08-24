@@ -7,7 +7,8 @@ import {
 	DELETE_POST,
 	TOGGLE_CREATE_POST,
 	TOGGLE_EDIT_POST,
-	ADD_COMMENT
+	ADD_COMMENT,
+	DELETE_COMMENT
 } from '../actions/types';
 
 const initialState = {
@@ -71,6 +72,11 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				post: { ...state.post, comments: payload }
+			};
+		case DELETE_COMMENT:
+			return {
+				...state,
+				post: payload
 			};
 
 		case POST_ERROR:

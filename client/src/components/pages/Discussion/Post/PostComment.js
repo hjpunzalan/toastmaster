@@ -4,7 +4,15 @@ import ReadOnly from '../../../utils/draft-js/ReadOnly';
 import Moment from 'react-moment';
 import 'moment-timezone';
 
-const PostComment = ({ img, contentState, user, id, date }) => {
+const PostComment = ({
+	img,
+	contentState,
+	user,
+	postId,
+	id,
+	date,
+	deleteComment
+}) => {
 	return (
 		<div className="Post__comment">
 			<div className="Post__commentUser">
@@ -17,12 +25,15 @@ const PostComment = ({ img, contentState, user, id, date }) => {
 				</div>
 				<div className="Post__bottom">
 					<span className="Post__commentBody-date">
-						{' '}
 						<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm">
 							{date}
 						</Moment>
 					</span>
-					<IoIosTrash className="Post__comment-trash" />
+					<button
+						className="Post__comment-trash"
+						onClick={() => deleteComment(postId, id)}>
+						<IoIosTrash />
+					</button>
 				</div>
 			</div>
 		</div>

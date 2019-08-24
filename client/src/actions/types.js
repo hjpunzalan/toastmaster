@@ -6,6 +6,7 @@ export const RESET_ALERT = 'RESET_ALERT';
 
 export const POST_CREATE = 'POST_CREATE';
 export const ADD_COMMENT = 'ADD_COMMENT';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const ON_CHANGE = 'ON_CHANGE';
 export const GET_POST = 'GET_POST';
 export const GET_ALL_POST = 'GET_ALL_POST';

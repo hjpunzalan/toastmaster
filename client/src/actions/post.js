@@ -8,7 +8,8 @@ import {
 	ON_CHANGE,
 	TOGGLE_CREATE_POST,
 	TOGGLE_EDIT_POST,
-	ADD_COMMENT
+	ADD_COMMENT,
+	DELETE_COMMENT
 } from '../actions/types';
 import axios from 'axios';
 import { setAlert, resetAlert } from './alerts';
@@ -190,6 +191,14 @@ export const addComment = (contentState, postId) => async dispatch => {
 
 export const deleteComment = (postId, commentId) => async dispatch => {
 	try {
+		dispatch(resetAlert()); //Need to be in every action with alert
+		const res = await axios.put(`/api/posts/${postId}/comments/${commentId}`);
+		dispatch({
+			type: DELETE_COMMENT,
+			payload: res.data
+		});
+
+		dispatch(setAlert('Comment removed', 'success'));
 	} catch (err) {
 		const errors = err.response.data;
 		if (errors) dispatch(setAlert(errors.message, 'fail'));
