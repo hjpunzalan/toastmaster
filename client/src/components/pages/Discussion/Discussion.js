@@ -33,22 +33,25 @@ const Discussion = ({
 				createPost={createPost}
 				toggleCreatePost={toggleCreatePost}
 			/>
-			{posts.map(post => (
-				<DiscussionPost
-					key={post._id}
-					title={post.title}
-					id={post._id}
-					img={img}
-					date={post.date}
-					count={post.comments.length}
-				/>
-			))}
+			{!edit &&
+				posts.map(post => (
+					<DiscussionPost
+						key={post._id}
+						title={post.title}
+						id={post._id}
+						img={img}
+						date={post.date}
+						count={post.comments.length}
+					/>
+				))}
 		</div>
 	);
 };
 
 Discussion.propTypes = {
 	post: PropTypes.object.isRequired,
+	loading: PropTypes.bool,
+	contentState: PropTypes.object,
 	getAllPost: PropTypes.func.isRequired,
 	createPost: PropTypes.func.isRequired,
 	toggleCreatePost: PropTypes.func.isRequired

@@ -3,7 +3,6 @@ import {
 	GET_POST,
 	GET_ALL_POST,
 	UPDATE_POST,
-	POST_ERROR,
 	DELETE_POST,
 	TOGGLE_CREATE_POST,
 	TOGGLE_EDIT_POST,
@@ -16,8 +15,7 @@ const initialState = {
 	posts: [],
 	post: null,
 	edit: false,
-	postEdit: false,
-	error: {}
+	postEdit: false
 };
 
 export default (state = initialState, action) => {
@@ -77,12 +75,6 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				post: payload
-			};
-
-		case POST_ERROR:
-			return {
-				...state,
-				error: { ...payload }
 			};
 
 		default:

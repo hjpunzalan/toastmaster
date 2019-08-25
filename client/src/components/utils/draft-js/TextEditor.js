@@ -16,16 +16,13 @@ import {
 	convertToRaw,
 	convertFromRaw,
 	EditorState,
-	RichUtils,
-	getDefaultKeyBinding,
-	KeyBindingUtil
+	RichUtils
 } from 'draft-js';
 import ImageAdd from './ImageAdd/ImageAdd';
 import pluginDecorator from './pluginDecorator';
 import linkifyEditorState from './linkifyEditorState';
 import theme from './emojiPlugin';
 
-const { hasCommandModifier } = KeyBindingUtil;
 const HANDLED = 'handled';
 const emojiPlugin = createEmojiPlugin({ theme });
 const { EmojiSuggestions, EmojiSelect } = emojiPlugin;
@@ -61,7 +58,6 @@ class TextEditor extends Component {
 				: EditorState.createEmpty()
 		}; //Always makes a new content whenever rendered
 		this.handleKeyCommand = this._handleKeyCommand.bind(this);
-		this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
 		this.toggleBlockType = this._toggleBlockType.bind(this);
 		this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
 		this.onChange = this.onChange.bind(this);
@@ -91,12 +87,7 @@ class TextEditor extends Component {
 		}
 		return false;
 	}
-	_mapKeyToEditorCommand(e) {
-		if (e.keyCode === 83 /* `S` key */ && hasCommandModifier(e)) {
-			return 'myeditor-save';
-		}
-		return getDefaultKeyBinding(e);
-	}
+
 	_toggleBlockType(blockType) {
 		this.onChange(RichUtils.toggleBlockType(this.state.editorState, blockType));
 	}
@@ -121,11 +112,6 @@ class TextEditor extends Component {
 	};
 
 	handleSubmit = () => {
-		if (
-			this.state.editorState.getCurrentContent().getPlainText().length === 0
-		) {
-			this.props.onChange(null);
-		}
 		// if (emptyState === this.state.editorState) this.props.onChange(null);
 		this.props.handleSubmit();
 		this.setState({ editorState: EditorState.createEmpty() }); // Whenever submit is pressed, the current state of editor will reset

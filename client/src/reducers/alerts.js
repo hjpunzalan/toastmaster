@@ -1,8 +1,9 @@
-import { SET_ALERT, RESET_ALERT } from '../actions/types';
+import { SET_ALERT, RESET_ALERT, ERROR } from '../actions/types';
 
 const initialState = {
 	msg: [],
-	alertType: null
+	alertType: null,
+	error: {}
 };
 
 export default (state = initialState, action) => {
@@ -17,6 +18,11 @@ export default (state = initialState, action) => {
 		case RESET_ALERT:
 			return {
 				...initialState
+			};
+		case ERROR:
+			return {
+				...state,
+				error: payload
 			};
 
 		default:

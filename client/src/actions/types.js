@@ -13,6 +13,6 @@ export const GET_ALL_POST = 'GET_ALL_POST';
 export const UPDATE_POST = 'UPDATE_POST';
 export const DELETE_POST = 'DELETE_POST';
 export const POST_LOADING = 'POST_LOADING';
-export const POST_ERROR = 'POST_ERROR';
+export const ERROR = 'ERROR';
 export const TOGGLE_CREATE_POST = 'TOGGLE_CREATE_POST';
 export const TOGGLE_EDIT_POST = 'TOGGLE_EDIT_POST';

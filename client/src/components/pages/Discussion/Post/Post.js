@@ -9,7 +9,8 @@ import {
 	addComment,
 	deleteComment,
 	toggleEditPost,
-	deletePost
+	deletePost,
+	updatePost
 } from '../../../../actions/post';
 import img from '../../../../img/anonymous.png';
 import ReadOnly from '../../../utils/draft-js/ReadOnly';
@@ -25,6 +26,7 @@ const Post = ({
 	toggleEditPost,
 	deletePost,
 	postEdit,
+	updatePost,
 	addComment,
 	deleteComment,
 	post,
@@ -51,6 +53,7 @@ const Post = ({
 		<Spinner />
 	) : postEdit ? (
 		<PostEditor
+			updatePost={updatePost}
 			contentState={post.contentState}
 			title={post.title}
 			postId={postId}
@@ -98,7 +101,7 @@ const Post = ({
 				</div>
 			</div>
 			<div className="Post__comments">
-				{post.comments.length > 0 &&
+				{post.comments.length > 0 && // Prevents error
 					post.comments.map(c => (
 						<PostComment
 							key={c._id}
@@ -122,7 +125,15 @@ const Post = ({
 
 Post.propTypes = {
 	getPost: PropTypes.func.isRequired,
-	addComment: PropTypes.func.isRequired
+	addComment: PropTypes.func.isRequired,
+	toggleEditPost: PropTypes.func.isRequired,
+	deletePost: PropTypes.func.isRequired,
+	deleteComment: PropTypes.func.isRequired,
+	updatePost: PropTypes.func.isRequired,
+	contentState: PropTypes.string, //Converted to JSON string before sending to database and reconverted by texteditor
+	textEditor: PropTypes.object.isRequired,
+	postEdit: PropTypes.bool.isRequired,
+	post: PropTypes.object
 };
 
 const mapStateToProps = state => ({
@@ -133,5 +144,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getPost, addComment, toggleEditPost, deletePost, deleteComment }
+	{ getPost, addComment, toggleEditPost, deletePost, deleteComment, updatePost }
 )(Post);

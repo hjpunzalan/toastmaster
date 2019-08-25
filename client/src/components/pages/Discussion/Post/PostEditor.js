@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import TextEditor from '../../../utils/draft-js/TextEditor';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { updatePost } from '../../../../actions/post';
 
 const PostEditor = ({
 	updatePost,
@@ -41,13 +38,4 @@ const PostEditor = ({
 	);
 };
 
-PostEditor.propTypes = {
-	updatePost: PropTypes.func.isRequired,
-	contentState: PropTypes.string.isRequired,
-	textEditor: PropTypes.object.isRequired
-};
-
-export default connect(
-	null,
-	{ updatePost }
-)(PostEditor);
+export default PostEditor;

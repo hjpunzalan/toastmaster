@@ -4,7 +4,6 @@ import {
 	GET_ALL_POST,
 	UPDATE_POST,
 	DELETE_POST,
-	POST_ERROR,
 	ON_CHANGE,
 	TOGGLE_CREATE_POST,
 	TOGGLE_EDIT_POST,
@@ -13,6 +12,7 @@ import {
 } from '../actions/types';
 import axios from 'axios';
 import { setAlert, resetAlert } from './alerts';
+import catchAsync from '../hooks/catchAsync';
 
 export const onChange = editorState => dispatch => {
 	dispatch({
@@ -36,11 +36,11 @@ export const toggleEditPost = postEdit => dispatch => {
 	});
 };
 
-export const createPost = ({ title, contentState }) => async dispatch => {
-	dispatch(resetAlert()); //Need to be in every action with alert
-	// { title , user, date, contentState}
-	// need to include auth
-	try {
+export const createPost = ({ title, contentState }) =>
+	catchAsync(async dispatch => {
+		dispatch(resetAlert()); //Need to be in every action with alert
+		// { title , user, date, contentState}
+		// need to include auth
 		const jsonContentState = JSON.stringify(contentState);
 		const res = await axios.post(
 			'/api/posts',
@@ -56,55 +56,30 @@ export const createPost = ({ title, contentState }) => async dispatch => {
 			type: POST_CREATE,
 			payload: res.data
 		});
-	} catch (err) {
-		const errors = err.response.data;
-		if (errors) dispatch(setAlert(errors.message, 'fail'));
-		dispatch({
-			type: POST_ERROR,
-			payload: {
-				msg: err.response.statusText,
-				status: err.response.status
-			}
-		});
-	}
-};
+	});
 
-export const getAllPost = () => async dispatch => {
-	try {
+export const getAllPost = () =>
+	catchAsync(async dispatch => {
 		const res = await axios.get(`/api/posts?sort=-date`);
 		dispatch({
 			type: GET_ALL_POST,
 			payload: res.data.posts
 		});
-	} catch (err) {
-		dispatch({
-			type: POST_ERROR,
-			payload: {
-				msg: err.response.statusText,
-				status: err.response.status
-			}
-		});
-	}
-};
+	});
 
-export const getPost = id => async dispatch => {
-	try {
+export const getPost = id =>
+	catchAsync(async dispatch => {
 		const res = await axios.get(`/api/posts/${id}`);
 		dispatch({
 			type: GET_POST,
 			payload: res.data
 		});
-	} catch (error) {}
-};
+	});
 
-export const updatePost = ({
-	postId,
-	newTitle,
-	newContentState
-}) => async dispatch => {
-	dispatch(resetAlert());
-	const jsonContentState = JSON.stringify(newContentState);
-	try {
+export const updatePost = ({ postId, newTitle, newContentState }) =>
+	catchAsync(async dispatch => {
+		dispatch(resetAlert());
+		const jsonContentState = JSON.stringify(newContentState);
 		const config = {
 			headers: {
 				'Content-type': 'application/json'
@@ -123,44 +98,21 @@ export const updatePost = ({
 			type: UPDATE_POST,
 			payload: res.data
 		});
-
 		dispatch(getPost(postId));
-	} catch (err) {
-		const errors = err.response.data;
-		if (errors) dispatch(setAlert(errors.message, 'fail'));
-		dispatch({
-			type: POST_ERROR,
-			payload: {
-				msg: err.response.statusText,
-				status: err.response.status
-			}
-		});
-	}
-};
+	});
 
-export const deletePost = (postId, history) => async dispatch => {
-	try {
+export const deletePost = (postId, history) =>
+	catchAsync(async dispatch => {
 		await axios.delete(`/api/posts/${postId}`);
 		dispatch({
 			type: DELETE_POST
 		});
 		history.push('/discussion');
 		dispatch(setAlert('Post Deleted', 'success'));
-	} catch (err) {
-		const errors = err.response.data;
-		if (errors) dispatch(setAlert(errors.message, 'fail'));
-		dispatch({
-			type: POST_ERROR,
-			payload: {
-				msg: err.response.statusText,
-				status: err.response.status
-			}
-		});
-	}
-};
+	});
 
-export const addComment = (contentState, postId) => async dispatch => {
-	try {
+export const addComment = (contentState, postId) =>
+	catchAsync(async dispatch => {
 		dispatch(resetAlert()); //Need to be in every action with alert
 		const jsonContentState = JSON.stringify(contentState);
 		const config = {
@@ -178,21 +130,10 @@ export const addComment = (contentState, postId) => async dispatch => {
 			type: ADD_COMMENT,
 			payload: res.data
 		}); // loads whilst posting comment
-	} catch (err) {
-		const errors = err.response.data;
-		if (errors) dispatch(setAlert(errors.message, 'fail'));
-		dispatch({
-			type: POST_ERROR,
-			payload: {
-				msg: err.response.statusText,
-				status: err.response.status
-			}
-		});
-	}
-};
+	});
 
-export const deleteComment = (postId, commentId) => async dispatch => {
-	try {
+export const deleteComment = (postId, commentId) =>
+	catchAsync(async dispatch => {
 		dispatch(resetAlert()); //Need to be in every action with alert
 		const res = await axios.put(`/api/posts/${postId}/comments/${commentId}`);
 		dispatch({
@@ -201,15 +142,4 @@ export const deleteComment = (postId, commentId) => async dispatch => {
 		});
 
 		dispatch(setAlert('Comment removed', 'success'));
-	} catch (err) {
-		const errors = err.response.data;
-		if (errors) dispatch(setAlert(errors.message, 'fail'));
-		dispatch({
-			type: POST_ERROR,
-			payload: {
-				msg: err.response.statusText,
-				status: err.response.status
-			}
-		});
-	}
-};
+	});
