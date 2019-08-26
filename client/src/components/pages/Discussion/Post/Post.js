@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PostComment from './PostComment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import 'moment-timezone';
+import { setAlert, resetAlert } from '../../../../actions/alerts';
 import {
 	getPost,
 	addComment,
@@ -31,11 +33,22 @@ const Post = ({
 	deleteComment,
 	post,
 	textEditor,
-	history
+	history,
+	location,
+	setAlert,
+	resetAlert
 }) => {
 	useEffect(() => {
 		getPost(postId); // eslint-disable-next-line
 	}, []);
+
+	// Sets default pageQuery if theres not set
+	let totalPages;
+	const [page, setPage] = useState(
+		location.search.includes('?page=')
+			? parseInt(location.search.split('?page=')[1]) // page from query
+			: 1
+	);
 
 	const handleSubmit = () => {
 		addComment(textEditor.contentState, postId);
@@ -47,6 +60,67 @@ const Post = ({
 
 	const handleDelete = () => {
 		deletePost(postId, history);
+	};
+
+	// Client side pagination
+	const renderComments = () => {
+		const limit = 1; // comments per page
+		// Prevents initial state error where post = null
+		if (post && post.comments) {
+			totalPages = Math.ceil(post.comments.length / limit);
+			//Prevent error when first loading page
+			// check for invalid queries
+			if ((page > totalPages && page !== 1) || isNaN(page)) {
+				resetAlert();
+				setAlert('Page query is invalid', 'fail');
+			} else {
+				const start = (page - 1) * limit;
+				const end = page * limit;
+				const paginateComments = post.comments.slice(start, end); // comments that are filtered by page number
+
+				// Render comments
+				return paginateComments.map(c => (
+					<PostComment
+						key={c._id}
+						img={img}
+						contentState={c.contentState}
+						id={c._id}
+						postId={postId}
+						date={c.date}
+						user={c.user}
+						deleteComment={deleteComment}
+					/>
+				));
+			}
+		}
+	};
+
+	const renderPageButtons = () => {
+		let next, previous;
+		if (totalPages > 1 && page !== totalPages)
+			next = (
+				<Link
+					to={`/discussion/post/${postId}?page=${page + 1}`}
+					className="Post__page-buttons"
+					onClick={() => setPage(page + 1)}>
+					Next
+				</Link>
+			);
+		if (page > 1)
+			previous = (
+				<Link
+					to={`/discussion/post/${postId}?page=${page - 1}`}
+					className="Post__page-buttons"
+					onClick={() => setPage(page - 1)}>
+					Previous
+				</Link>
+			);
+		return (
+			<div className="Post__page">
+				{previous}
+				{next}
+			</div>
+		);
 	};
 
 	return post === null ? (
@@ -72,7 +146,7 @@ const Post = ({
 					<div className="Post__postBody-text">
 						<ReadOnly contentState={post.contentState} />
 					</div>
-					<div className="Post__postBottom">
+					<>
 						<span className="Post__postBody-date">
 							Posted:{' '}
 							<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm">
@@ -97,24 +171,11 @@ const Post = ({
 								Delete
 							</button>
 						</div>
-					</div>
+					</>
 				</div>
 			</div>
-			<div className="Post__comments">
-				{post.comments.length > 0 && // Prevents error
-					post.comments.map(c => (
-						<PostComment
-							key={c._id}
-							img={img}
-							contentState={c.contentState}
-							id={c._id}
-							postId={postId}
-							date={c.date}
-							user={c.user}
-							deleteComment={deleteComment}
-						/>
-					))}
-			</div>
+			<div className="Post__comments">{renderComments()}</div>
+			{renderPageButtons()}
 			<div className="Post__addComment">
 				<h2 className="Post__addComment-title">Add Comment</h2>
 				<TextEditor handleSubmit={handleSubmit} />
@@ -144,5 +205,14 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getPost, addComment, toggleEditPost, deletePost, deleteComment, updatePost }
+	{
+		getPost,
+		addComment,
+		toggleEditPost,
+		deletePost,
+		deleteComment,
+		updatePost,
+		setAlert,
+		resetAlert
+	}
 )(Post);

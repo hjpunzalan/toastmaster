@@ -23,7 +23,7 @@ const PostComment = ({
 				<div className="Post__commentBody-text">
 					<ReadOnly contentState={contentState} />
 				</div>
-				<div className="Post__bottom">
+				<div className="Post__commentBottom">
 					<span className="Post__commentBody-date">
 						<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm">
 							{date}

@@ -70,6 +70,7 @@ export const getAllPost = () =>
 export const getPost = id =>
 	catchAsync(async dispatch => {
 		const res = await axios.get(`/api/posts/${id}`);
+
 		dispatch({
 			type: GET_POST,
 			payload: res.data

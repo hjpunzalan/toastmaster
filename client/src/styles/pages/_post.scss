@@ -52,16 +52,19 @@
             background: none;
             display: inline-block;
             cursor: pointer;
-            font-size: 2rem;
+            font-size: 3rem;
             margin-left: 2rem;
             color: $color-danger;
+
+            &:hover {
+                animation: tada 1s infinite;
+            }
         }
     }
 
     &__addComment {
         margin-top: 5rem;
         padding-top: 5rem;
-        border-top: 1px solid $color-grey;
 
         &-title {
             font-size: 2rem;

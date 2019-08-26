@@ -36,7 +36,10 @@ exports.getAllPosts = catchAsync(async (req, res, next) => {
 });
 
 exports.getPost = catchAsync(async (req, res, next) => {
-	const post = await findPost(req.params.id, next);
+	const query = Posts.findById(req.params.id);
+	if (!query) return next(new AppError('No post was found with this Id.', 404));
+	const features = new QueryHandling(query, req.query);
+	const post = await features.query;
 	res.status(200).json(post);
 });
 
