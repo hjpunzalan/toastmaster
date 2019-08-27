@@ -41,15 +41,14 @@ const Post = ({
 }) => {
 	useEffect(() => {
 		// runs once and on updatePost
-		getPost(postId);
-		history.push(`/discussion/post/${postId}`);
-		console.log('use effect');
-	}, [getPost, postId, history]);
+		getPost(postId, pageQuery, history, page, setPage);
+		// eslint-disable-next-line
+	}, []);
 
 	// Sets default pageQuery if theres not set
 	const pageQuery = parseInt(location.search.split('?page=')[1]) || 1;
 	const [page, setPage] = useState(
-		location.search.includes('?page=') && post
+		location.search.includes('?page=')
 			? pageQuery // page from query
 			: 1
 	);
@@ -127,7 +126,7 @@ const Post = ({
 		renderPageButtons = (
 			<div className="Post__page">
 				{previousPage}
-				Page {page}
+				{page > 1 || post.totalPages > 1 ? <>Page {page}</> : ''}
 				{nextPage}
 			</div>
 		);

@@ -14,6 +14,10 @@
         overflow: hidden;
         @include boxshadow;
 
+        &Body-date {
+            margin-top: 3rem;
+        }
+
 
 
         &Buttons {
@@ -29,6 +33,7 @@
                 width: fit-content;
                 padding: 1rem;
                 border: none;
+                border-radius: 5px;
                 @include boxshadow;
                 background-color: $color-grey-light;
 
@@ -58,6 +63,16 @@
 
             &:hover {
                 animation: tada 1s infinite;
+            }
+
+            &::after {
+                content: 'Delete';
+                font-size: 1.2rem;
+                display: none;
+            }
+
+            &:hover::after {
+                display: inline-block;
             }
         }
     }

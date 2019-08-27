@@ -1,9 +1,7 @@
 @mixin post {
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
     width: 100%;
-    padding: 2rem;
+    padding: 4rem 2rem 2rem 2rem;
     text-decoration: none;
     color: inherit;
 
@@ -11,10 +9,11 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 20%;
+        justify-content: flex-start;
+        width: 12%;
 
         &-img {
-            width: 10rem;
+            width: 5rem;
         }
 
         &-name {
@@ -27,15 +26,14 @@
     &Body {
         display: flex;
         flex-direction: column;
-        width: 80%;
+        width: 88%;
         position: relative;
         // just same as text editor width
 
         &-text {
             display: inline-block;
             overflow: hidden;
-            padding-top: 5rem;
-            margin-bottom: 5rem;
+            margin-bottom: 2rem;
         }
 
         &-date,

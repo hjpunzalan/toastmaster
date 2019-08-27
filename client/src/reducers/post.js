@@ -42,10 +42,7 @@ export default (state = initialState, action) => {
 				...state,
 				edit: false,
 				postEdit: false,
-				post: {
-					...payload,
-					totalPages: Math.ceil(payload.comments.length / 6) || 1 // pagelimit = 10
-				}
+				post: payload
 			};
 		case GET_ALL_POST:
 			return {

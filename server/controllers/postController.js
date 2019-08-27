@@ -27,7 +27,7 @@ exports.createPost = catchAsync(async (req, res, next) => {
 exports.getAllPosts = catchAsync(async (req, res, next) => {
 	const query = Posts.find();
 	const features = new QueryHandling(query, req.query).sort().paginate();
-	const allPosts = await features.query.select('-comments'); // prevent polluting with comments
+	const allPosts = await features.query;
 
 	res.status(200).json({
 		results: allPosts.length,

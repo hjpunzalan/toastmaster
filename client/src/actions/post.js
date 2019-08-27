@@ -67,14 +67,24 @@ export const getAllPost = () =>
 		});
 	});
 
-export const getPost = id =>
+export const getPost = (id, pageQuery, history, page, callback) =>
 	catchAsync(async dispatch => {
 		const res = await axios.get(`/api/posts/${id}`);
 
+		const comments = res.data.comments;
+		const totalPages = Math.ceil(comments.length / 6) || 1; // pagelimit = 10 }
 		dispatch({
 			type: GET_POST,
-			payload: res.data
+			payload: {
+				...res.data,
+				totalPages
+			}
 		});
+		if ((pageQuery, history, page, callback))
+			if (isNaN(pageQuery) || pageQuery > totalPages || page > totalPages) {
+				history.push(`/discussion/post/${id}`);
+				callback(1);
+			}
 	});
 
 export const updatePost = ({ postId, newTitle, newContentState }) =>
@@ -127,7 +137,7 @@ export const addComment = (contentState, postId, history, callback) =>
 			config
 		);
 		const comments = res.data;
-		const totalPages = Math.ceil(res.data.length / 6) || 1; // pagelimit = 10 }
+		const totalPages = Math.ceil(comments.length / 6) || 1; // pagelimit = 10 }
 
 		dispatch({
 			type: ADD_COMMENT,

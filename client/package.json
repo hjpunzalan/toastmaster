@@ -29,8 +29,7 @@
     "redux": "^4.0.4",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "tlds": "^1.203.1",
-    "uuid": "^3.3.2"
+    "tlds": "^1.203.1"
   },
   "scripts": {
     "start": "react-scripts start",
