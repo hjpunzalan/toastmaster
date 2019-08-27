@@ -9,7 +9,7 @@ This is a mern stack app with a following extra technologies:
 <li>SASS - CSS preprocessor which is very handy that includes mixins and variables</li>
 </ul>
 
-<i><h2>Disclaimer</h2></i>
+<i><h2>Journal</h2></i>
 I've studied web development through online courses and other resources which led me this far on creating a project on my own. I've considered many things back-end such as security, scalability( although only an app for 20 members) and performance.
 As for front-end, I've considered performance, design but mostly functionality. I tried focusing more on user experience. What is more functional and what a user would want to see in the best of my ability.
 This is still under construction and I am nearing in the end of the completion of the discussion/post page.
