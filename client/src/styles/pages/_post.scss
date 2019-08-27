@@ -75,30 +75,32 @@
         display: flex;
         padding: 0 3rem;
         margin-top: 5rem;
-        justify-content: space-between;
+        justify-content: flex-end;
+        font-size: 1.2rem;
+        align-items: center;
 
         &-buttons {
             text-decoration: none;
             color: $color-white;
             background: $color-secondary;
-            font-size: 1.5rem;
-            width: 15rem;
-            padding: 1rem;
+            border-radius: 3px;
+            width: 8rem;
+            padding: .5rem;
             display: flex;
             justify-content: center;
             transition: .2s all;
 
             &:hover {
-                font-size: 1.4rem;
+                font-size: 1.1rem;
             }
         }
 
         &-next {
-            margin-left: auto;
+            margin-left: 2rem
         }
 
         &-prev {
-            margin-right: auto;
+            margin-right: 2rem
         }
     }
 

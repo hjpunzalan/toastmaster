@@ -27,7 +27,7 @@ exports.createPost = catchAsync(async (req, res, next) => {
 exports.getAllPosts = catchAsync(async (req, res, next) => {
 	const query = Posts.find();
 	const features = new QueryHandling(query, req.query).sort().paginate();
-	const allPosts = await features.query;
+	const allPosts = await features.query.select('-comments'); // prevent polluting with comments
 
 	res.status(200).json({
 		results: allPosts.length,
@@ -88,5 +88,5 @@ exports.deleteComment = catchAsync(async (req, res, next) => {
 	post.comments = newComments;
 	await post.save();
 
-	res.status(200).json(post);
+	res.status(200).json(post.comments);
 });

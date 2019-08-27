@@ -42,7 +42,10 @@ export default (state = initialState, action) => {
 				...state,
 				edit: false,
 				postEdit: false,
-				post: payload
+				post: {
+					...payload,
+					totalPages: Math.ceil(payload.comments.length / 6) || 1 // pagelimit = 10
+				}
 			};
 		case GET_ALL_POST:
 			return {
@@ -69,12 +72,18 @@ export default (state = initialState, action) => {
 		case ADD_COMMENT:
 			return {
 				...state,
-				post: { ...state.post, comments: payload }
+				post: {
+					...state.post,
+					...payload
+				}
 			};
 		case DELETE_COMMENT:
 			return {
 				...state,
-				post: payload
+				post: {
+					...state.post,
+					...payload
+				}
 			};
 
 		default:

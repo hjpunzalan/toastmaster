@@ -112,7 +112,7 @@ export const deletePost = (postId, history) =>
 		dispatch(setAlert('Post Deleted', 'success'));
 	});
 
-export const addComment = (contentState, postId) =>
+export const addComment = (contentState, postId, history, callback) =>
 	catchAsync(async dispatch => {
 		dispatch(resetAlert()); //Need to be in every action with alert
 		const jsonContentState = JSON.stringify(contentState);
@@ -126,21 +126,39 @@ export const addComment = (contentState, postId) =>
 			{ contentState: jsonContentState },
 			config
 		);
+		const comments = res.data;
+		const totalPages = Math.ceil(res.data.length / 6) || 1; // pagelimit = 10 }
 
 		dispatch({
 			type: ADD_COMMENT,
-			payload: res.data
+			payload: {
+				comments,
+				totalPages
+			}
 		}); // loads whilst posting comment
+
+		// Redirect to last page when sending comment
+		history.push(`/discussion/post/${postId}?page=${totalPages}`);
+		callback(totalPages);
 	});
 
-export const deleteComment = (postId, commentId) =>
+export const deleteComment = (postId, commentId, history, page, callback) =>
 	catchAsync(async dispatch => {
 		dispatch(resetAlert()); //Need to be in every action with alert
 		const res = await axios.put(`/api/posts/${postId}/comments/${commentId}`);
+
+		const comments = res.data;
+		const totalPages = Math.ceil(comments.length / 6) || 1; // pagelimit = 10
 		dispatch({
 			type: DELETE_COMMENT,
-			payload: res.data
+			payload: {
+				comments,
+				totalPages
+			}
 		});
-
+		if (page > totalPages) {
+			history.push(`/discussion/post/${postId}?page=${totalPages}`);
+			callback(totalPages);
+		}
 		dispatch(setAlert('Comment removed', 'success'));
 	});
