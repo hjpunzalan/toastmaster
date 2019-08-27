@@ -20,4 +20,8 @@ The pagination was hard at first as I was deciding between client-side vs server
 Thinking about the user pagination, I had to consider redirecting when adding or deleting comments. Routing invalid page routes by query through location.search from react router was troublesome.
 There may have been a simpler way such as using params but this was a challenge which I was happy to take. Any invalid page query are now to be redirected.
 
+The page buttons also only shows when there are three or more comments. I've chosen this design because of simplicity as that I am not expecting many comments per post (20 members).
+
+I am hoping to implement sticky post, search functionality, pagination in discussion and protected routes in the near future.
+
 
