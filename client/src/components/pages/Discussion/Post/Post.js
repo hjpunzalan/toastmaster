@@ -64,7 +64,7 @@ const Post = ({
 
 	// Client side pagination
 	const renderComments = () => {
-		const limit = 1; // comments per page
+		const limit = 10; // comments per page
 		// Prevents initial state error where post = null
 		if (post && post.comments) {
 			totalPages = Math.ceil(post.comments.length / limit);
@@ -101,18 +101,18 @@ const Post = ({
 			next = (
 				<Link
 					to={`/discussion/post/${postId}?page=${page + 1}`}
-					className="Post__page-buttons"
+					className="Post__page-buttons Post__page-next"
 					onClick={() => setPage(page + 1)}>
-					Next
+					Next page
 				</Link>
 			);
 		if (page > 1)
 			previous = (
 				<Link
 					to={`/discussion/post/${postId}?page=${page - 1}`}
-					className="Post__page-buttons"
+					className="Post__page-buttons Post__page-prev"
 					onClick={() => setPage(page - 1)}>
-					Previous
+					Previous page
 				</Link>
 			);
 		return (
