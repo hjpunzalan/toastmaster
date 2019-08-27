@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import PostComment from './PostComment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -19,6 +19,7 @@ import ReadOnly from '../../../utils/draft-js/ReadOnly';
 import TextEditor from '../../../utils/draft-js/TextEditor';
 import PostEditor from './PostEditor';
 import Spinner from '../../../utils/Spinner';
+import scrollToTop from '../../../../hooks/scrollToTop';
 
 const Post = ({
 	match: {
@@ -52,6 +53,10 @@ const Post = ({
 
 	const handleSubmit = () => {
 		addComment(textEditor.contentState, postId);
+		// Redirect to last page when sending comment
+		history.push(`/discussion/post/${postId}?page=${totalPages}`);
+		// scrollToTop();
+		setPage(totalPages);
 	};
 
 	const handleToggle = () => {
@@ -63,65 +68,72 @@ const Post = ({
 	};
 
 	// Client side pagination
-	const renderComments = () => {
-		const limit = 10; // comments per page
-		// Prevents initial state error where post = null
-		if (post && post.comments) {
-			totalPages = Math.ceil(post.comments.length / limit);
-			//Prevent error when first loading page
-			// check for invalid queries
-			if ((page > totalPages && page !== 1) || isNaN(page)) {
-				resetAlert();
-				setAlert('Page query is invalid', 'fail');
-			} else {
-				const start = (page - 1) * limit;
-				const end = page * limit;
-				const paginateComments = post.comments.slice(start, end); // comments that are filtered by page number
+	let renderComments;
+	const limit = 6; // comments per page
+	// Prevents initial state error where post = null
+	if (post) {
+		totalPages = Math.ceil(post.comments.length / limit);
+		//Prevent error when first loading page
+		// check for invalid queries
+		if ((page > totalPages && page !== 1) || isNaN(page)) {
+			history.push(`/discussion/post/${postId}`);
+			setPage(1);
+		} else {
+			const start = (page - 1) * limit;
+			const end = page * limit;
+			const paginateComments = post.comments.slice(start, end); // comments that are filtered by page number
 
-				// Render comments
-				return paginateComments.map(c => (
-					<PostComment
-						key={c._id}
-						img={img}
-						contentState={c.contentState}
-						id={c._id}
-						postId={postId}
-						date={c.date}
-						user={c.user}
-						deleteComment={deleteComment}
-					/>
-				));
-			}
+			renderComments = (
+				<div className="Post__comments">
+					{paginateComments.map(c => (
+						<PostComment
+							key={c._id}
+							img={img}
+							contentState={c.contentState}
+							id={c._id}
+							postId={postId}
+							date={c.date}
+							user={c.user}
+							deleteComment={deleteComment}
+						/>
+					))}
+				</div>
+			);
 		}
-	};
+	}
 
-	const renderPageButtons = () => {
-		let next, previous;
-		if (totalPages > 1 && page !== totalPages)
-			next = (
-				<Link
-					to={`/discussion/post/${postId}?page=${page + 1}`}
-					className="Post__page-buttons Post__page-next"
-					onClick={() => setPage(page + 1)}>
-					Next page
-				</Link>
-			);
-		if (page > 1)
-			previous = (
-				<Link
-					to={`/discussion/post/${postId}?page=${page - 1}`}
-					className="Post__page-buttons Post__page-prev"
-					onClick={() => setPage(page - 1)}>
-					Previous page
-				</Link>
-			);
-		return (
-			<div className="Post__page">
-				{previous}
-				{next}
-			</div>
+	// Rendering page buttons
+	let nextPage, previousPage;
+	if (totalPages > 1 && page !== totalPages)
+		nextPage = (
+			<Link
+				to={`/discussion/post/${postId}?page=${page + 1}`}
+				className="Post__page-buttons Post__page-next"
+				onClick={() => {
+					setPage(page + 1);
+					scrollToTop();
+				}}>
+				Next page
+			</Link>
 		);
-	};
+	if (page > 1)
+		previousPage = (
+			<Link
+				to={`/discussion/post/${postId}?page=${page - 1}`}
+				className="Post__page-buttons Post__page-prev"
+				onClick={() => {
+					setPage(page - 1);
+					scrollToTop();
+				}}>
+				Previous page
+			</Link>
+		);
+	const renderPageButtons = (
+		<div className="Post__page">
+			{previousPage}
+			{nextPage}
+		</div>
+	);
 
 	return post === null ? (
 		<Spinner />
@@ -174,8 +186,9 @@ const Post = ({
 					</>
 				</div>
 			</div>
-			<div className="Post__comments">{renderComments()}</div>
-			{renderPageButtons()}
+			{renderPageButtons}
+			{renderComments}
+			{renderPageButtons}
 			<div className="Post__addComment">
 				<h2 className="Post__addComment-title">Add Comment</h2>
 				<TextEditor handleSubmit={handleSubmit} />
