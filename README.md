@@ -1,6 +1,7 @@
 
 <h1>This is an App for my Public Speaking club of around 20 members.</h1>
 It will include a landing page, dashboard, discussion board, speech posts, member list, meeting roles (listing of when members last filled each role)
+<br>
 
 This is a mern stack app with a following extra technologies:
 
