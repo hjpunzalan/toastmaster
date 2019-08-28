@@ -12,18 +12,19 @@ import createFocusPlugin from 'draft-js-focus-plugin';
 import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 import createResizeablePlugin from 'draft-js-resizeable-plugin';
 import {
-	Modifier,
 	convertToRaw,
 	convertFromRaw,
 	EditorState,
-	RichUtils
+	RichUtils,
+	getDefaultKeyBinding,
+	KeyBindingUtil
 } from 'draft-js';
 import ImageAdd from './ImageAdd/ImageAdd';
 import pluginDecorator from './pluginDecorator';
 import linkifyEditorState from './linkifyEditorState';
 import theme from './emojiPlugin';
 
-const HANDLED = 'handled';
+const { hasCommandModifier } = KeyBindingUtil;
 const emojiPlugin = createEmojiPlugin({ theme });
 const { EmojiSuggestions, EmojiSelect } = emojiPlugin;
 const linkifyPlugin = createLinkifyPlugin();
@@ -58,6 +59,7 @@ class TextEditor extends Component {
 				: EditorState.createEmpty()
 		}; //Always makes a new content whenever rendered
 		this.handleKeyCommand = this._handleKeyCommand.bind(this);
+		this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
 		this.toggleBlockType = this._toggleBlockType.bind(this);
 		this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
 		this.onChange = this.onChange.bind(this);
@@ -68,15 +70,9 @@ class TextEditor extends Component {
 
 	onChange = editorState => {
 		this.setState({ editorState });
-		if (
-			this.state.editorState.getCurrentContent().getPlainText().length === 0
-		) {
-			this.props.onChange();
-		} else {
-			this.props.onChange(
-				convertToRaw(linkifyEditorState(editorState).getCurrentContent()) // Sends the content to redux state
-			);
-		}
+		this.props.onChange(
+			convertToRaw(linkifyEditorState(editorState).getCurrentContent()) // Sends the content to redux state
+		);
 	};
 
 	_handleKeyCommand(command, editorState) {
@@ -87,7 +83,12 @@ class TextEditor extends Component {
 		}
 		return false;
 	}
-
+	_mapKeyToEditorCommand(e) {
+		if (e.keyCode === 83 /* `S` key */ && hasCommandModifier(e)) {
+			return 'myeditor-save';
+		}
+		return getDefaultKeyBinding(e);
+	}
 	_toggleBlockType(blockType) {
 		this.onChange(RichUtils.toggleBlockType(this.state.editorState, blockType));
 	}
@@ -97,24 +98,9 @@ class TextEditor extends Component {
 		);
 	}
 
-	handleBeforeInput = (chars, editorState) => {
-		const currentContentState = editorState.getCurrentContent();
-		const selectionState = editorState.getSelection();
-
-		this.onChange(
-			EditorState.push(
-				editorState,
-				Modifier.replaceText(currentContentState, selectionState, chars)
-			)
-		);
-
-		return HANDLED;
-	};
-
 	handleSubmit = () => {
-		// if (emptyState === this.state.editorState) this.props.onChange(null);
 		this.props.handleSubmit();
-		this.setState({ editorState: EditorState.createEmpty() }); // Whenever submit is pressed, the current state of editor will reset
+		// this.setState({ editorState: EditorState.createEmpty() }); // Whenever submit is pressed, the current state of editor will reset
 	};
 
 	render() {
