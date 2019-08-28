@@ -27,7 +27,6 @@
                 margin: 1rem;
                 margin-top: 2rem;
                 font-size: $size-alert;
-                color: $color-secondary;
                 text-decoration: none;
                 display: inline-block;
                 width: fit-content;
@@ -35,11 +34,20 @@
                 border: none;
                 border-radius: 5px;
                 @include boxshadow;
-                background-color: $color-grey-light;
 
                 &:hover {
                     cursor: pointer;
                 }
+            }
+
+            &-edit {
+                background-color: $color-grey;
+                color: $color-black;
+            }
+
+            &-delete {
+                background: $color-danger;
+                color: $color-white;
             }
         }
 
