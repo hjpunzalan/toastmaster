@@ -4,6 +4,7 @@ import { ERROR } from '../actions/types';
 const catchAsync = fn => {
 	return dispatch => {
 		fn(dispatch).catch(err => {
+			console.error(err);
 			const errors = err.response.data;
 			if (errors) dispatch(setAlert(errors.message, 'fail'));
 			dispatch({

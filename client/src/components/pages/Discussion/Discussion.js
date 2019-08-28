@@ -17,7 +17,8 @@ const Discussion = ({
 	loading,
 	contentState,
 	createPost,
-	toggleCreatePost
+	toggleCreatePost,
+	history
 }) => {
 	useEffect(() => {
 		getAllPost();
@@ -32,6 +33,7 @@ const Discussion = ({
 				contentState={contentState}
 				createPost={createPost}
 				toggleCreatePost={toggleCreatePost}
+				history={history}
 			/>
 			{!edit &&
 				posts.map(post => (

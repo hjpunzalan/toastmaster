@@ -36,7 +36,7 @@ export const toggleEditPost = postEdit => dispatch => {
 	});
 };
 
-export const createPost = ({ title, contentState }) =>
+export const createPost = (title, contentState, history) =>
 	catchAsync(async dispatch => {
 		dispatch(resetAlert()); //Need to be in every action with alert
 		// { title , user, date, contentState}
@@ -51,11 +51,13 @@ export const createPost = ({ title, contentState }) =>
 				}
 			}
 		);
+		const postId = res.data._id;
 
 		dispatch({
 			type: POST_CREATE,
 			payload: res.data
 		});
+		history.push(`/discussion/post/${postId}`);
 	});
 
 export const getAllPost = () =>
@@ -114,12 +116,16 @@ export const updatePost = ({ postId, newTitle, newContentState }) =>
 
 export const deletePost = (postId, history) =>
 	catchAsync(async dispatch => {
-		await axios.delete(`/api/posts/${postId}`);
-		dispatch({
-			type: DELETE_POST
-		});
-		history.push('/discussion');
-		dispatch(setAlert('Post Deleted', 'success'));
+		if (window.confirm('Are you sure you want to delete post?')) {
+			await axios.delete(`/api/posts/${postId}`);
+			dispatch({
+				type: DELETE_POST
+			});
+			history.push('/discussion');
+			dispatch(setAlert('Post Deleted', 'success'));
+		} else {
+			return;
+		}
 	});
 
 export const addComment = (contentState, postId, history, callback) =>
