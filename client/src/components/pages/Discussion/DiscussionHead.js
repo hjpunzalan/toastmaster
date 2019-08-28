@@ -6,7 +6,8 @@ const DiscussionHead = ({
 	createPost,
 	contentState,
 	edit,
-	toggleCreatePost
+	toggleCreatePost,
+	history
 }) => {
 	const [title, setTitle] = useState('');
 
@@ -14,9 +15,8 @@ const DiscussionHead = ({
 		toggleCreatePost(edit);
 	};
 
-	const handleSubmit = async () => {
-		await createPost({ title, contentState });
-		setTitle('');
+	const handleSubmit = () => {
+		createPost(title, contentState, history);
 	};
 	return (
 		<div className="Discussion__head">
