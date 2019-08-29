@@ -4,22 +4,15 @@ import {
 	GET_ALL_POST,
 	UPDATE_POST,
 	DELETE_POST,
-	ON_CHANGE,
 	TOGGLE_CREATE_POST,
 	TOGGLE_EDIT_POST,
 	ADD_COMMENT,
-	DELETE_COMMENT
-} from '../actions/types';
+	DELETE_COMMENT,
+	POST_RESET
+} from './types';
 import axios from 'axios';
 import { setAlert, resetAlert } from './alerts';
 import catchAsync from '../hooks/catchAsync';
-
-export const onChange = editorState => dispatch => {
-	dispatch({
-		type: ON_CHANGE,
-		payload: editorState
-	});
-};
 
 export const toggleCreatePost = edit => dispatch => {
 	dispatch(resetAlert());
@@ -36,12 +29,12 @@ export const toggleEditPost = postEdit => dispatch => {
 	});
 };
 
-export const createPost = (title, contentState, history) =>
+export const createPost = (title, contentState, history, plainText) =>
 	catchAsync(async dispatch => {
-		dispatch(resetAlert()); //Need to be in every action with alert
-		// { title , user, date, contentState}
-		// need to include auth
+		dispatch(resetAlert()); //Need to be in every post/put/patch action with alert
 		const jsonContentState = JSON.stringify(contentState);
+		console.log(plainText);
+		// Need to be in edit also
 		const res = await axios.post(
 			'/api/posts',
 			{ title, contentState: jsonContentState },
@@ -60,12 +53,22 @@ export const createPost = (title, contentState, history) =>
 		history.push(`/discussion/post/${postId}`);
 	});
 
-export const getAllPost = () =>
+export const getAllPost = (page = 1) =>
 	catchAsync(async dispatch => {
-		const res = await axios.get(`/api/posts?sort=-date`);
+		dispatch({
+			type: POST_RESET
+		});
+		console.log(page);
+		const limit = 2;
+		const res = await axios.get(
+			`/api/posts?page=${page}&limit=${limit}&sort=-date`
+		);
 		dispatch({
 			type: GET_ALL_POST,
-			payload: res.data.posts
+			payload: {
+				...res.data,
+				limit
+			}
 		});
 	});
 
@@ -89,7 +92,7 @@ export const getPost = (id, pageQuery, history, page, callback) =>
 			}
 	});
 
-export const updatePost = ({ postId, newTitle, newContentState }) =>
+export const updatePost = (postId, newTitle, newContentState, plainText) =>
 	catchAsync(async dispatch => {
 		dispatch(resetAlert());
 		const jsonContentState = JSON.stringify(newContentState);
@@ -98,6 +101,8 @@ export const updatePost = ({ postId, newTitle, newContentState }) =>
 				'Content-type': 'application/json'
 			}
 		};
+
+		console.log(plainText);
 		const res = await axios.patch(
 			`/api/posts/${postId}`,
 			{

@@ -11,9 +11,9 @@ const PostEditor = ({
 }) => {
 	const [newTitle, setTitle] = useState(title);
 
-	const handleSubmit = async () => {
+	const handleSubmit = plainText => {
 		const newContentState = textEditor.contentState;
-		await updatePost({ postId, newTitle, newContentState });
+		updatePost(postId, newTitle, newContentState, plainText);
 	};
 	return (
 		<div className="Discussion__create">
