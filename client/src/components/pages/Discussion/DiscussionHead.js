@@ -28,6 +28,12 @@ const DiscussionHead = ({
 		searchPost(search);
 		setPage(1);
 	};
+
+	const handleReset = e => {
+		setSearch('');
+		searchPost('');
+		setPage(1);
+	};
 	return (
 		<div className="Discussion__head">
 			{!edit ? (
@@ -35,17 +41,24 @@ const DiscussionHead = ({
 					<button className="btn btn__submit" onClick={handleToggle}>
 						Create a new post
 					</button>
-					<form onSubmit={handleSearch} className="Discussion__search">
-						<input
-							type="text"
-							placeholder="Search all posts"
-							value={search}
-							onChange={e => setSearch(e.target.value)}
-						/>
-						<button className="Discussion__search-searchIcon">
-							<FaSearch />
+					<div className="Discussion__search">
+						<form onSubmit={handleSearch}>
+							<input
+								type="text"
+								placeholder="Search all posts"
+								value={search}
+								onChange={e => setSearch(e.target.value)}
+							/>
+							<button className="Discussion__search-searchIcon">
+								<FaSearch />
+							</button>
+						</form>
+						<button
+							className="Discussion__search-reset btn"
+							onClick={handleReset}>
+							Reset
 						</button>
-					</form>
+					</div>
 				</>
 			) : (
 				<div className="Discussion__create">
