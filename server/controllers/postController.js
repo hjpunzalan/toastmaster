@@ -28,7 +28,7 @@ exports.getAllPosts = catchAsync(async (req, res, next) => {
 	const query = Posts.find();
 	const features = new QueryHandling(query, req.query).sort().paginate();
 	const allPosts = await features.query;
-	const numPosts = await Posts.count();
+	const numPosts = await Posts.countDocuments();
 
 	res.status(200).json({
 		numPosts,
