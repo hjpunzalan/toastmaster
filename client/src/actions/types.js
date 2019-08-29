@@ -5,6 +5,7 @@ export const SET_ALERT = 'SET_ALERT';
 export const RESET_ALERT = 'RESET_ALERT';
 
 export const POST_CREATE = 'POST_CREATE';
+export const POST_RESET = 'POST_RESET';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const ON_CHANGE = 'ON_CHANGE';

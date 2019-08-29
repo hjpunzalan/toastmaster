@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { onChange } from '../../../actions/post';
+import { onChange } from '../../../actions/textEditor';
 import { IoMdQuote } from 'react-icons/io';
 import { GoListOrdered, GoListUnordered } from 'react-icons/go';
 import { FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
@@ -56,7 +56,8 @@ class TextEditor extends Component {
 						convertFromRaw(JSON.parse(this.props.contentState)),
 						decorator
 				  )
-				: EditorState.createEmpty()
+				: EditorState.createEmpty(),
+			plainText: ''
 		}; //Always makes a new content whenever rendered
 		this.handleKeyCommand = this._handleKeyCommand.bind(this);
 		this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
@@ -69,7 +70,10 @@ class TextEditor extends Component {
 	focus = () => this.editor.focus();
 
 	onChange = editorState => {
-		this.setState({ editorState });
+		this.setState({
+			editorState,
+			plainText: this.state.editorState.getCurrentContent().getPlainText()
+		});
 		this.props.onChange(
 			convertToRaw(linkifyEditorState(editorState).getCurrentContent()) // Sends the content to redux state
 		);
@@ -99,7 +103,7 @@ class TextEditor extends Component {
 	}
 
 	handleSubmit = () => {
-		this.props.handleSubmit();
+		this.props.handleSubmit(this.state.plainText);
 		this.setState({ editorState: EditorState.createEmpty() }); // Whenever submit is pressed, the current state of editor will reset
 	};
 

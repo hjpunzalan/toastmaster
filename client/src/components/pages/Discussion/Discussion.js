@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import img from '../../../img/anonymous.png';
 import DiscussionHead from './DiscussionHead';
 import DiscussionPost from './DiscussionPost';
@@ -10,9 +10,10 @@ import {
 	toggleCreatePost
 } from '../../../actions/post';
 import Spinner from '../../../components/utils/Spinner';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const Discussion = ({
-	post: { posts, edit, postEdit },
+	post: { posts, edit, postEdit, totalPages },
 	getAllPost,
 	loading,
 	contentState,
@@ -24,9 +25,37 @@ const Discussion = ({
 		getAllPost();
 	}, [getAllPost]);
 
-	return loading || postEdit ? (
-		<Spinner />
-	) : (
+	const [page, setPage] = useState(1);
+
+	const handlePage = pageNumber => {
+		setPage(pageNumber);
+		getAllPost(pageNumber);
+	};
+	const nextPage = (
+		<button
+			className="Discussion__page-next"
+			onClick={() => handlePage(page + 1)}>
+			<FaArrowRight />
+		</button>
+	);
+	const prevPage = (
+		<button
+			className="Discussion__page-prev"
+			onClick={() => handlePage(page - 1)}>
+			<FaArrowLeft />
+		</button>
+	);
+	const renderPosts = posts.map(post => (
+		<DiscussionPost
+			key={post._id}
+			title={post.title}
+			id={post._id}
+			img={img}
+			date={post.date}
+			count={post.comments.length}
+		/>
+	));
+	return (
 		<div className="Discussion">
 			<DiscussionHead
 				edit={edit}
@@ -35,17 +64,20 @@ const Discussion = ({
 				toggleCreatePost={toggleCreatePost}
 				history={history}
 			/>
-			{!edit &&
-				posts.map(post => (
-					<DiscussionPost
-						key={post._id}
-						title={post.title}
-						id={post._id}
-						img={img}
-						date={post.date}
-						count={post.comments.length}
-					/>
-				))}
+			{loading || postEdit ? (
+				<Spinner />
+			) : (
+				!edit && (
+					<>
+						{renderPosts}
+						<div className="Discussion__page">
+							{page > 1 && prevPage}
+							Page {page} of {totalPages}
+							{totalPages > 1 && page !== totalPages && nextPage}
+						</div>
+					</>
+				)
+			)}
 		</div>
 	);
 };

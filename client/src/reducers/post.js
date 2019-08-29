@@ -7,7 +7,8 @@ import {
 	TOGGLE_CREATE_POST,
 	TOGGLE_EDIT_POST,
 	ADD_COMMENT,
-	DELETE_COMMENT
+	DELETE_COMMENT,
+	POST_RESET
 } from '../actions/types';
 
 const initialState = {
@@ -15,12 +16,21 @@ const initialState = {
 	posts: [],
 	post: null,
 	edit: false,
-	postEdit: false
+	postEdit: false,
+	totalPages: null
 };
 
 export default (state = initialState, action) => {
 	const { type, payload } = action;
 	switch (type) {
+		case POST_RESET:
+			return {
+				...state,
+				loading: true,
+				posts: [],
+				edit: false,
+				postEdit: false
+			};
 		case TOGGLE_CREATE_POST:
 			return {
 				...state,
@@ -51,7 +61,8 @@ export default (state = initialState, action) => {
 				postEdit: false,
 				loading: false,
 				post: null,
-				posts: payload
+				posts: payload.posts,
+				totalPages: Math.ceil(payload.numPosts / payload.limit)
 			};
 		case UPDATE_POST:
 			return {

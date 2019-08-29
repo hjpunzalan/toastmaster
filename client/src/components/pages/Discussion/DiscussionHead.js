@@ -13,10 +13,11 @@ const DiscussionHead = ({
 
 	const handleToggle = () => {
 		toggleCreatePost(edit);
+		setTitle(''); //when create post is canceled
 	};
 
-	const handleSubmit = () => {
-		createPost(title, contentState, history);
+	const handleSubmit = plainText => {
+		createPost(title, contentState, history, plainText);
 	};
 	return (
 		<div className="Discussion__head">
