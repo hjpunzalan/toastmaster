@@ -28,6 +28,7 @@ export default (state = initialState, action) => {
 				...state,
 				loading: true,
 				posts: [],
+				post: null,
 				edit: false,
 				postEdit: false
 			};

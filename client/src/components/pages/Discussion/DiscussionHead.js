@@ -26,10 +26,14 @@ const DiscussionHead = ({
 					<button className="btn btn__submit" onClick={handleToggle}>
 						Create a new post
 					</button>
-					<form className="Discussion__search">
-						<input type="text" name="search" placeholder="Search all posts" />
-						<FaSearch className="Discussion__search-searchIcon" />
-					</form>{' '}
+					<form
+						onSubmit={e => e.preventDefault()}
+						className="Discussion__search">
+						<input type="text" placeholder="Search all posts" />
+						<button className="Discussion__search-searchIcon">
+							<FaSearch />
+						</button>
+					</form>
 				</>
 			) : (
 				<div className="Discussion__create">

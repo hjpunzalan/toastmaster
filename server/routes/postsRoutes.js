@@ -8,6 +8,7 @@ router
 	.post(postController.createPost)
 	.get(postController.getAllPosts);
 
+router.post('/search/text', postController.searchPost);
 router
 	.route('/:id')
 	.get(postController.getPost)

@@ -33,17 +33,13 @@ export const createPost = (title, contentState, history, plainText) =>
 	catchAsync(async dispatch => {
 		dispatch(resetAlert()); //Need to be in every post/put/patch action with alert
 		const jsonContentState = JSON.stringify(contentState);
-		console.log(plainText);
 		// Need to be in edit also
-		const res = await axios.post(
-			'/api/posts',
-			{ title, contentState: jsonContentState },
-			{
-				headers: {
-					'Content-type': 'application/json'
-				}
+		const body = { title, contentState: jsonContentState, plainText };
+		const res = await axios.post('/api/posts', body, {
+			headers: {
+				'Content-type': 'application/json'
 			}
-		);
+		});
 		const postId = res.data._id;
 
 		dispatch({
@@ -57,8 +53,7 @@ export const getAllPost = (page = 1) =>
 	catchAsync(async dispatch => {
 		dispatch({
 			type: POST_RESET
-		});
-		console.log(page);
+		}); // for pagination only
 		const limit = 10;
 		const res = await axios.get(
 			`/api/posts?page=${page}&limit=${limit}&sort=-date`
@@ -101,16 +96,8 @@ export const updatePost = (postId, newTitle, newContentState, plainText) =>
 				'Content-type': 'application/json'
 			}
 		};
-
-		console.log(plainText);
-		const res = await axios.patch(
-			`/api/posts/${postId}`,
-			{
-				title: newTitle,
-				contentState: jsonContentState
-			},
-			config
-		);
+		const body = { title: newTitle, contentState: jsonContentState, plainText };
+		const res = await axios.patch(`/api/posts/${postId}`, body, config);
 
 		dispatch({
 			type: UPDATE_POST,

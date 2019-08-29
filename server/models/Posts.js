@@ -20,6 +20,10 @@ const postSchema = new mongoose.Schema({
 		type: Object,
 		required: [true, 'A post must have content.']
 	},
+	plainText: {
+		type: String,
+		required: true
+	},
 	comments: [
 		{
 			user: {

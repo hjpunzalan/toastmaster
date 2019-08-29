@@ -82,6 +82,14 @@
             border-left-width: 0px;
             transition: all .2s;
 
+
+            &:focus {
+                outline: none
+            }
+
+            &:hover {
+                cursor: pointer
+            }
         }
 
         &>input[type=text]:focus {
@@ -163,16 +171,15 @@
                 color: $color-primary;
             }
 
-            // &-text {
-            //     display: inline-block;
-            //     color: red;
-            //     overflow: hidden;
-            //     white-space: nowrap;
-            //     width: 100%;
-            //     font-size: $size-discussion-text;
-            //     text-overflow: ellipsis;
-            //     margin-bottom: 1rem;
-            // }
+            &-text {
+                display: inline-block;
+                overflow: hidden;
+                white-space: nowrap;
+                width: 100%;
+                font-size: $size-discussion-text;
+                text-overflow: ellipsis;
+                margin-bottom: 1rem;
+            }
 
             &-date {
                 font-size: $size-discussion-date;
