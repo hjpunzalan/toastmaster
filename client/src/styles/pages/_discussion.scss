@@ -184,4 +184,37 @@
 
     }
 
+    &__page {
+        display: flex;
+        padding: 0 3rem;
+        margin-top: 5rem;
+        justify-content: flex-end;
+        font-size: 1.2rem;
+        align-items: center;
+
+        &-next,
+        &-prev {
+            cursor: pointer;
+            text-decoration: none;
+            color: $color-white;
+            background: $color-secondary;
+            border-radius: 3px;
+            border: none;
+            outline: none;
+            width: 3rem;
+            padding: .5rem;
+            display: flex;
+            justify-content: center;
+            transition: .2s all;
+        }
+
+        &-next {
+            margin-left: 2rem
+        }
+
+        &-prev {
+            margin-right: 2rem
+        }
+    }
+
 }

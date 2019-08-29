@@ -59,7 +59,7 @@ export const getAllPost = (page = 1) =>
 			type: POST_RESET
 		});
 		console.log(page);
-		const limit = 2;
+		const limit = 10;
 		const res = await axios.get(
 			`/api/posts?page=${page}&limit=${limit}&sort=-date`
 		);
