@@ -8,7 +8,8 @@ import {
 	TOGGLE_EDIT_POST,
 	ADD_COMMENT,
 	DELETE_COMMENT,
-	POST_RESET
+	POST_RESET,
+	SEARCH_POSTS
 } from './types';
 import axios from 'axios';
 import { setAlert, resetAlert } from './alerts';
@@ -54,7 +55,7 @@ export const getAllPost = (page = 1) =>
 		dispatch({
 			type: POST_RESET
 		}); // for pagination only
-		const limit = 10;
+		const limit = 1;
 		const res = await axios.get(
 			`/api/posts?page=${page}&limit=${limit}&sort=-date`
 		);
@@ -169,4 +170,28 @@ export const deleteComment = (postId, commentId, history, page, callback) =>
 			callback(totalPages);
 		}
 		dispatch(setAlert('Comment removed', 'success'));
+	});
+
+export const searchPost = (text, page = 1) =>
+	catchAsync(async dispatch => {
+		dispatch(resetAlert()); //Need to be in every action with alert
+		dispatch({ type: POST_RESET });
+		const limit = 1;
+		const config = {
+			headers: {
+				'Content-type': 'application/json'
+			}
+		};
+		const res = await axios.post(
+			`/api/posts/search/text?sort=-date&page=${page}&limit=${limit}`,
+			{ text },
+			config
+		);
+		dispatch({
+			type: SEARCH_POSTS,
+			payload: {
+				...res.data,
+				limit
+			}
+		});
 	});

@@ -7,9 +7,12 @@ const DiscussionHead = ({
 	contentState,
 	edit,
 	toggleCreatePost,
-	history
+	history,
+	searchPost,
+	setPage
 }) => {
 	const [title, setTitle] = useState('');
+	const [search, setSearch] = useState('');
 
 	const handleToggle = () => {
 		toggleCreatePost(edit);
@@ -19,6 +22,12 @@ const DiscussionHead = ({
 	const handleSubmit = plainText => {
 		createPost(title, contentState, history, plainText);
 	};
+
+	const handleSearch = e => {
+		e.preventDefault();
+		searchPost(search);
+		setPage(1);
+	};
 	return (
 		<div className="Discussion__head">
 			{!edit ? (
@@ -26,10 +35,13 @@ const DiscussionHead = ({
 					<button className="btn btn__submit" onClick={handleToggle}>
 						Create a new post
 					</button>
-					<form
-						onSubmit={e => e.preventDefault()}
-						className="Discussion__search">
-						<input type="text" placeholder="Search all posts" />
+					<form onSubmit={handleSearch} className="Discussion__search">
+						<input
+							type="text"
+							placeholder="Search all posts"
+							value={search}
+							onChange={e => setSearch(e.target.value)}
+						/>
 						<button className="Discussion__search-searchIcon">
 							<FaSearch />
 						</button>

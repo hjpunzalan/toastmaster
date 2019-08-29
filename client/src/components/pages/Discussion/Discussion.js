@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 import {
 	getAllPost,
 	createPost,
-	toggleCreatePost
+	toggleCreatePost,
+	searchPost
 } from '../../../actions/post';
 import Spinner from '../../../components/utils/Spinner';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
@@ -19,7 +20,8 @@ const Discussion = ({
 	contentState,
 	createPost,
 	toggleCreatePost,
-	history
+	history,
+	searchPost
 }) => {
 	useEffect(() => {
 		getAllPost();
@@ -60,7 +62,7 @@ const Discussion = ({
 	const renderPagination = (
 		<div className="Discussion__page">
 			{page > 1 && prevPage}
-			{totalPages > 0 && `Page ${page} of ${totalPages}`}
+			{totalPages > 0 && posts.length > 0 && `Page ${page} of ${totalPages}`}
 			{totalPages > 1 && page !== totalPages && nextPage}
 		</div>
 	);
@@ -72,6 +74,8 @@ const Discussion = ({
 				createPost={createPost}
 				toggleCreatePost={toggleCreatePost}
 				history={history}
+				searchPost={searchPost}
+				setPage={setPage}
 			/>
 			{loading || postEdit ? (
 				<Spinner />
@@ -94,7 +98,8 @@ Discussion.propTypes = {
 	contentState: PropTypes.object,
 	getAllPost: PropTypes.func.isRequired,
 	createPost: PropTypes.func.isRequired,
-	toggleCreatePost: PropTypes.func.isRequired
+	toggleCreatePost: PropTypes.func.isRequired,
+	searchPost: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -105,5 +110,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getAllPost, createPost, toggleCreatePost }
+	{ getAllPost, createPost, toggleCreatePost, searchPost }
 )(Discussion);
