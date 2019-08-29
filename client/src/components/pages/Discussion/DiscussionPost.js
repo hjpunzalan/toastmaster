@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import 'moment-timezone';
 
-const DiscussionPost = ({ img, count, id, title, date }) => {
+const DiscussionPost = ({ img, count, id, title, date, text }) => {
 	return (
 		<Link to={`/discussion/post/${id}`} className="Discussion__post">
 			<div className="Discussion__postUser">
@@ -19,6 +19,7 @@ const DiscussionPost = ({ img, count, id, title, date }) => {
 						<IoIosChatboxes />
 					</span>
 				</div>
+				<p className="Discussion__postBody-text">{text}</p>
 				<span className="Discussion__postBody-date">
 					<Moment tz="Australia/Perth" format="DD MMM YYYY">
 						{date}

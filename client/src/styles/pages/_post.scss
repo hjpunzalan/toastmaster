@@ -94,6 +94,46 @@
         }
     }
 
+    &__back {
+        display: inline-block;
+        text-decoration: none;
+        font-size: 1.3rem;
+        background: $color-grey;
+        color: $color-black;
+        cursor: pointer;
+        margin-bottom: 3rem;
+        overflow: hidden;
+        position: relative;
+        transition: all .5s;
+
+        &>* {
+            display: inline-block;
+            height: 100%;
+            width: 100%;
+            transition: all .5s;
+        }
+
+        &-visible {
+            padding: .7rem 3rem;
+        }
+
+        &-invisible {
+            padding: .7rem 1.5rem; //left padding must be half of visible's padding
+            position: absolute;
+            right: -100%;
+            top: 0;
+        }
+
+        &:hover &-visible {
+            transform: translateX(-100%);
+        }
+
+        &:hover &-invisible {
+            right: 0;
+        }
+
+    }
+
     &__page {
         display: flex;
         padding: 0 3rem;

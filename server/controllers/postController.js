@@ -17,7 +17,8 @@ exports.createPost = catchAsync(async (req, res, next) => {
 	const newPost = new Posts({
 		user: req.user.id,
 		title: req.body.title,
-		contentState: req.body.contentState
+		contentState: req.body.contentState,
+		plainText: req.body.plainText
 	});
 
 	await newPost.save();
@@ -46,7 +47,13 @@ exports.getPost = catchAsync(async (req, res, next) => {
 });
 
 exports.editPost = catchAsync(async (req, res, next) => {
-	const filterBody = checkBody(req.body, next, 'title', 'contentState');
+	const filterBody = checkBody(
+		req.body,
+		next,
+		'title',
+		'contentState',
+		'plainText'
+	);
 	const post = await Posts.findByIdAndUpdate(req.params.id, filterBody, {
 		new: true,
 		runValidators: true
@@ -91,4 +98,9 @@ exports.deleteComment = catchAsync(async (req, res, next) => {
 	await post.save();
 
 	res.status(200).json(post.comments);
+});
+
+exports.searchPost = catchAsync(async (req, res, next) => {
+	const posts = await Posts.find({ $text: { $search: req.body.text } });
+	res.status(200).json(posts);
 });

@@ -53,13 +53,14 @@ const Discussion = ({
 			img={img}
 			date={post.date}
 			count={post.comments.length}
+			text={post.plainText}
 		/>
 	));
 
 	const renderPagination = (
 		<div className="Discussion__page">
 			{page > 1 && prevPage}
-			Page {page} of {totalPages}
+			{totalPages > 0 && `Page ${page} of ${totalPages}`}
 			{totalPages > 1 && page !== totalPages && nextPage}
 		</div>
 	);

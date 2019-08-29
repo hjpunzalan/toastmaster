@@ -131,6 +131,7 @@ const Post = ({
 			</div>
 		);
 	}
+
 	return post === null ? (
 		<Spinner />
 	) : postEdit ? (
@@ -144,6 +145,10 @@ const Post = ({
 		/>
 	) : (
 		<>
+			<Link to="/discussion" className="Post__back">
+				<span className="Post__back-visible">Go Back</span>
+				<span className="Post__back-invisible">To discussion</span>
+			</Link>
 			<h1 className="Post__title">{post.title}</h1>
 			<div className="Post__post">
 				<div className="Post__postUser">
