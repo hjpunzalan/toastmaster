@@ -55,7 +55,7 @@ export const getAllPost = (page = 1) =>
 		dispatch({
 			type: POST_RESET
 		}); // for pagination only
-		const limit = 1;
+		const limit = 10;
 		const res = await axios.get(
 			`/api/posts?page=${page}&limit=${limit}&sort=-date`
 		);
@@ -176,7 +176,7 @@ export const searchPost = (text, page = 1) =>
 	catchAsync(async dispatch => {
 		dispatch(resetAlert()); //Need to be in every action with alert
 		dispatch({ type: POST_RESET });
-		const limit = 1;
+		const limit = 10;
 		const config = {
 			headers: {
 				'Content-type': 'application/json'

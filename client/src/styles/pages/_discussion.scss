@@ -56,11 +56,16 @@
         align-items: center;
         width: 100%;
 
+        &>form {
+            display: flex;
+            width: 70%;
+        }
 
-        &>input[type=text] {
+
+        & input[type=text] {
             margin-left: 1rem;
             padding: 1rem;
-            width: 50%;
+            width: 120%;
             border: 1px solid $color-grey;
             height: $button-height;
             border-right-width: 0px;
@@ -76,7 +81,7 @@
             color: $color-grey-dark;
             width: auto;
             height: $button-height;
-            background: $color-white;
+            background: #ffffff;
             padding: 1.5rem;
             border: 1px solid $color-grey;
             border-left-width: 0px;
@@ -92,14 +97,20 @@
             }
         }
 
-        &>input[type=text]:focus {
-            width: 60%;
-        }
-
-        &>input[type=text]:focus,
-        &>input[type=text]:focus+&-searchIcon {
+        & input[type=text]:focus,
+        & input[type=text]:focus+&-searchIcon {
             border-color: $color-grey-dark;
 
+        }
+
+        &-reset {
+            padding: .7rem 1rem;
+            font-size: 1rem;
+            width: auto;
+            height: $button-height;
+            border: none;
+            box-shadow: none;
+            margin-left: 1rem;
         }
     }
 
