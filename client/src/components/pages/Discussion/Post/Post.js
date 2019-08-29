@@ -153,7 +153,10 @@ const Post = ({
 			<div className="Post__post">
 				<div className="Post__postUser">
 					<img src={img} alt="user-logo" className="Post__postUser-img" />
-					<span className="Post__postUser-name">Random User</span>
+					<span className="Post__postUser-name">
+						{post.user.firstName}
+						<br /> {post.user.lastName}
+					</span>
 				</div>
 				<div className="Post__postBody">
 					<div className="Post__postBody-text">
