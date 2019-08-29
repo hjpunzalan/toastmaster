@@ -101,6 +101,20 @@ exports.deleteComment = catchAsync(async (req, res, next) => {
 });
 
 exports.searchPost = catchAsync(async (req, res, next) => {
-	const posts = await Posts.find({ $text: { $search: req.body.text } });
-	res.status(200).json(posts);
+	// Using index limits the need of searching the whole collection
+	const query = Posts.find({
+		plainText: { $regex: req.body.text }
+	});
+	const features = new QueryHandling(query, req.query).sort().paginate();
+	const posts = await features.query;
+	const numPosts = await Posts.find({
+		plainText: { $regex: req.body.text }
+	}).countDocuments();
+	if (posts.length === 0) {
+		return next(new AppError('No results found', 400));
+	}
+	res.status(200).json({
+		posts,
+		numPosts
+	});
 });

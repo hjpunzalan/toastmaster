@@ -8,7 +8,9 @@ import {
 	TOGGLE_EDIT_POST,
 	ADD_COMMENT,
 	DELETE_COMMENT,
-	POST_RESET
+	POST_RESET,
+	SEARCH_POSTS,
+	POST_ERROR
 } from '../actions/types';
 
 const initialState = {
@@ -56,6 +58,7 @@ export default (state = initialState, action) => {
 				post: payload
 			};
 		case GET_ALL_POST:
+		case SEARCH_POSTS:
 			return {
 				...state,
 				edit: false,
@@ -79,13 +82,6 @@ export default (state = initialState, action) => {
 				loading: true
 			};
 		case ADD_COMMENT:
-			return {
-				...state,
-				post: {
-					...state.post,
-					...payload
-				}
-			};
 		case DELETE_COMMENT:
 			return {
 				...state,
@@ -93,6 +89,15 @@ export default (state = initialState, action) => {
 					...state.post,
 					...payload
 				}
+			};
+
+		case POST_ERROR:
+			return {
+				...state,
+				loading: false,
+				edit: false,
+				postEdit: false,
+				totalPages: null
 			};
 
 		default:
