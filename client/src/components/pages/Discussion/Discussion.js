@@ -56,6 +56,8 @@ const Discussion = ({
 			date={post.date}
 			count={post.comments.length}
 			text={post.plainText}
+			firstName={post.user.firstName}
+			lastName={post.user.lastName}
 		/>
 	));
 

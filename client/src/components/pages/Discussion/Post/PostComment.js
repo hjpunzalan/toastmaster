@@ -20,7 +20,11 @@ const PostComment = ({
 		<div className="Post__comment">
 			<div className="Post__commentUser">
 				<img src={img} alt="user-logo" className="Post__commentUser-img" />
-				<span className="Post__commentUser-name">{user.firstName}</span>
+				<span className="Post__commentUser-name">
+					{user.firstName}
+					<br />
+					{user.lastName}
+				</span>
 			</div>
 			<div className="Post__commentBody">
 				<div className="Post__commentBody-text">

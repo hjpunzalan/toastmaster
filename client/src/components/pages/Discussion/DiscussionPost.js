@@ -4,12 +4,23 @@ import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import 'moment-timezone';
 
-const DiscussionPost = ({ img, count, id, title, date, text }) => {
+const DiscussionPost = ({
+	img,
+	count,
+	id,
+	title,
+	date,
+	text,
+	firstName,
+	lastName
+}) => {
 	return (
 		<Link to={`/discussion/post/${id}`} className="Discussion__post">
 			<div className="Discussion__postUser">
 				<img src={img} alt="user-logo" className="Discussion__postUser-img" />
-				<span className="Discussion__postUser-name">Random Users</span>
+				<span className="Discussion__postUser-name">
+					{firstName} {lastName}
+				</span>
 			</div>
 			<div className="Discussion__postBody">
 				<div className="Discussion__postBody-header">
