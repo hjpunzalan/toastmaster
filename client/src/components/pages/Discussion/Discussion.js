@@ -55,6 +55,14 @@ const Discussion = ({
 			count={post.comments.length}
 		/>
 	));
+
+	const renderPagination = (
+		<div className="Discussion__page">
+			{page > 1 && prevPage}
+			Page {page} of {totalPages}
+			{totalPages > 1 && page !== totalPages && nextPage}
+		</div>
+	);
 	return (
 		<div className="Discussion">
 			<DiscussionHead
@@ -69,12 +77,9 @@ const Discussion = ({
 			) : (
 				!edit && (
 					<>
+						{renderPagination}
 						{renderPosts}
-						<div className="Discussion__page">
-							{page > 1 && prevPage}
-							Page {page} of {totalPages}
-							{totalPages > 1 && page !== totalPages && nextPage}
-						</div>
+						{posts.length > 5 && renderPagination}
 					</>
 				)
 			)}
