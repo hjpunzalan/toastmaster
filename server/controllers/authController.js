@@ -6,6 +6,31 @@ const catchAsync = require('../utils/catchAsync');
 const Users = require('../models/Users');
 const sendEmail = require('../utils/email');
 
+const verifyToken = async (next, token) => {
+	// Verify token
+	// jwt.verify(token, secretOrPublicKey, [options, callback])
+	//acts synchronously without callback therefore we want to use promisfy to keep a consistent async code where sync code is executed first
+	const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+	// Check if user exist
+	const currentUser = await Users.findById(decoded.id).select(
+		'+passwordChangedAt'
+	);
+	if (!currentUser)
+		return next(
+			new AppError('The user belonging to the token no longer exist', 401)
+		);
+
+	//Check if user changed password after the token was issued
+	if (currentUser.changedPasswordAfter(decoded.iat)) {
+		return next(
+			new AppError('User recently changed password. Please log in again', 401)
+		);
+	}
+
+	return currentUser;
+};
+
 const createToken = (user, res) => {
 	// jwt.sign(payload, secretOrPrivateKey, [options, callback])
 	const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -71,29 +96,11 @@ exports.protect = catchAsync(async (req, res, next) => {
 			new AppError('You are not logged in! Please login to get access', 401)
 		);
 
-	// Verify token
-	// jwt.verify(token, secretOrPublicKey, [options, callback])
-	//acts synchronously without callback therefore we want to use promisfy to keep a consistent async code where sync code is executed first
-	const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-
-	// Check if user exist
-	const payload = decoded.id;
-	const user = await Users.findById(payload).select('+passwordChangedAt');
-	if (!user)
-		return next(
-			new AppError('The user belonging to the token no longer exist', 401)
-		);
-
-	//Check if user changed password after the token was issued
-	if (user.changedPasswordAfter(decoded.iat)) {
-		return next(
-			new AppError('User recently changed password. Please log in again', 401)
-		);
-	}
+	const currentUser = await verifyToken(next, token);
 
 	// Grant access to the user who holds the token (through payload)
 	// Stores user information for next middleware
-	req.user = user;
+	req.user = currentUser;
 	next();
 });
 
@@ -110,6 +117,16 @@ exports.restrictTo = (...roles) => {
 		next();
 	};
 };
+//Only for rendered pages, no errors as this is a middleware for checking if user is logged in
+// bearer token headers are only sent for api building purposes
+exports.isLoggedIn = catchAsync(async (req, res, next) => {
+	if (req.cookies.jwt) {
+		// Same errors as protect route that validates user from token and sends error message to client
+		// Validation only occurs in members page and not in landing page.
+		const currentUser = await verifyToken(next, req.cookies.jwt);
+		res.status(200).json(currentUser);
+	}
+});
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
 	//  Get user based on POSTed email

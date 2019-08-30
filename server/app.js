@@ -25,12 +25,12 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Rate limiter that prevents excessive request attacks
-const limiter = rateLimit({
-	max: 200,
-	windowMs: 60 * 60 * 1000,
-	message: 'Too many requests from this IP. please try again in an hour!'
-});
-app.use('/api', limiter);
+// const limiter = rateLimit({
+// 	max: 200,
+// 	windowMs: 60 * 60 * 1000,
+// 	message: 'Too many requests from this IP. please try again in an hour!'
+// });
+// app.use('/api', limiter);
 
 // Converts incoming json data to js object ---- Body parser that reads data from body into req.body
 app.use(express.json({ limit: '10kb' })); // package will parse 10kb into meaningful data
