@@ -1,10 +1,9 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL } from '../actions/types';
+import { LOGIN_SUCCESS, LOGIN_FAIL, AUTH_ERROR } from '../actions/types';
 
 const initialState = {
 	user: null,
 	isAuthenticated: false,
-	loading: false,
-	error: {}
+	loading: false
 };
 
 export default (state = initialState, action) => {
@@ -20,9 +19,10 @@ export default (state = initialState, action) => {
 				loading: false
 			};
 		case LOGIN_FAIL:
+		case AUTH_ERROR:
 			return {
 				...state,
-				error: payload,
+				isAuthenticated: false,
 				loading: false
 			};
 

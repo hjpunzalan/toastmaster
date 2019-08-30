@@ -42,6 +42,7 @@ const Login = ({ loginUser, history }) => {
 					value={password}
 					onChange={handleChange}
 					required
+					autoComplete="on"
 				/>
 				<div className="Form__btns">
 					<input type="submit" className="btn btn__submit" value="Login" />

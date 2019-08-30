@@ -31,7 +31,7 @@ export const toggleEditPost = postEdit => dispatch => {
 };
 
 export const createPost = (title, contentState, history, plainText) =>
-	catchAsync(async dispatch => {
+	catchAsync('post', async dispatch => {
 		dispatch(resetAlert()); //Need to be in every post/put/patch action with alert
 		const jsonContentState = JSON.stringify(contentState);
 		// Need to be in edit also
@@ -51,7 +51,7 @@ export const createPost = (title, contentState, history, plainText) =>
 	});
 
 export const getAllPost = (page = 1) =>
-	catchAsync(async dispatch => {
+	catchAsync('post', async dispatch => {
 		dispatch({
 			type: POST_RESET
 		}); // for pagination only
@@ -69,7 +69,7 @@ export const getAllPost = (page = 1) =>
 	});
 
 export const getPost = (id, pageQuery, history, page, callback) =>
-	catchAsync(async dispatch => {
+	catchAsync('post', async dispatch => {
 		const res = await axios.get(`/api/posts/${id}`);
 
 		const comments = res.data.comments;
@@ -89,7 +89,7 @@ export const getPost = (id, pageQuery, history, page, callback) =>
 	});
 
 export const updatePost = (postId, newTitle, newContentState, plainText) =>
-	catchAsync(async dispatch => {
+	catchAsync('post', async dispatch => {
 		dispatch(resetAlert());
 		const jsonContentState = JSON.stringify(newContentState);
 		const config = {
@@ -97,7 +97,11 @@ export const updatePost = (postId, newTitle, newContentState, plainText) =>
 				'Content-type': 'application/json'
 			}
 		};
-		const body = { title: newTitle, contentState: jsonContentState, plainText };
+		const body = {
+			title: newTitle,
+			contentState: jsonContentState,
+			plainText
+		};
 		const res = await axios.patch(`/api/posts/${postId}`, body, config);
 
 		dispatch({
@@ -108,7 +112,7 @@ export const updatePost = (postId, newTitle, newContentState, plainText) =>
 	});
 
 export const deletePost = (postId, history) =>
-	catchAsync(async dispatch => {
+	catchAsync('post', async dispatch => {
 		if (window.confirm('Are you sure you want to delete post?')) {
 			await axios.delete(`/api/posts/${postId}`);
 			dispatch({
@@ -122,7 +126,7 @@ export const deletePost = (postId, history) =>
 	});
 
 export const addComment = (contentState, postId, history, callback) =>
-	catchAsync(async dispatch => {
+	catchAsync('post', async dispatch => {
 		dispatch(resetAlert()); //Need to be in every action with alert
 		const jsonContentState = JSON.stringify(contentState);
 		const config = {
@@ -152,7 +156,7 @@ export const addComment = (contentState, postId, history, callback) =>
 	});
 
 export const deleteComment = (postId, commentId, history, page, callback) =>
-	catchAsync(async dispatch => {
+	catchAsync('post', async dispatch => {
 		dispatch(resetAlert()); //Need to be in every action with alert
 		const res = await axios.put(`/api/posts/${postId}/comments/${commentId}`);
 
@@ -173,7 +177,7 @@ export const deleteComment = (postId, commentId, history, page, callback) =>
 	});
 
 export const searchPost = (text, page = 1) =>
-	catchAsync(async dispatch => {
+	catchAsync('post', async dispatch => {
 		dispatch(resetAlert()); //Need to be in every action with alert
 		dispatch({ type: POST_RESET });
 		const limit = 10;
