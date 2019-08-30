@@ -179,16 +179,20 @@ const Post = ({
 								</Moment>
 							</span>
 						)}
-						<div className="Post__postButtons">
-							<button className="Post__postButtons-edit" onClick={handleToggle}>
-								Edit
-							</button>
-							<button
-								className="Post__postButtons-delete"
-								onClick={handleDelete}>
-								Delete
-							</button>
-						</div>
+						{currentUser._id === post.user._id && (
+							<div className="Post__postButtons">
+								<button
+									className="Post__postButtons-edit"
+									onClick={handleToggle}>
+									Edit
+								</button>
+								<button
+									className="Post__postButtons-delete"
+									onClick={handleDelete}>
+									Delete
+								</button>
+							</div>
+						)}
 					</>
 				</div>
 			</div>

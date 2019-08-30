@@ -14,7 +14,8 @@ const PostComment = ({
 	deleteComment,
 	history,
 	page,
-	setPage
+	setPage,
+	currentUser
 }) => {
 	return (
 		<div className="Post__comment">
@@ -36,11 +37,13 @@ const PostComment = ({
 							{date}
 						</Moment>
 					</span>
-					<button
-						className="Post__comment-trash"
-						onClick={() => deleteComment(postId, id, history, page, setPage)}>
-						<IoIosTrash />
-					</button>
+					{currentUser._id === user._id && (
+						<button
+							className="Post__comment-trash"
+							onClick={() => deleteComment(postId, id, history, page, setPage)}>
+							<IoIosTrash />
+						</button>
+					)}
 				</div>
 			</div>
 		</div>
