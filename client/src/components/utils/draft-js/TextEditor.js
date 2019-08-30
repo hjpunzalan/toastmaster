@@ -103,7 +103,9 @@ class TextEditor extends Component {
 	}
 
 	handleSubmit = () => {
-		this.props.handleSubmit(this.state.plainText);
+		const text = this.state.plainText;
+		if (text.length === 0) return;
+		this.props.handleSubmit(text);
 		this.setState({ editorState: EditorState.createEmpty() }); // Whenever submit is pressed, the current state of editor will reset
 	};
 
