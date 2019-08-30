@@ -1,7 +1,7 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL, AUTH_ERROR } from '../actions/types';
 
 const initialState = {
-	user: null,
+	currentUser: null,
 	isAuthenticated: false,
 	loading: false
 };
@@ -14,7 +14,7 @@ export default (state = initialState, action) => {
 			return {
 				//State needs to be first
 				...state,
-				user: payload,
+				currentUser: payload,
 				isAuthenticated: true,
 				loading: false
 			};

@@ -37,7 +37,8 @@ const Post = ({
 	history,
 	location,
 	setAlert,
-	resetAlert
+	resetAlert,
+	currentUser
 }) => {
 	useEffect(() => {
 		// runs once and on updatePost
@@ -92,6 +93,7 @@ const Post = ({
 						page={page}
 						history={history}
 						setPage={setPage}
+						currentUser={currentUser}
 					/>
 				))}
 			</div>
@@ -211,13 +213,15 @@ Post.propTypes = {
 	contentState: PropTypes.string, //Converted to JSON string before sending to database and reconverted by texteditor
 	textEditor: PropTypes.object.isRequired,
 	postEdit: PropTypes.bool.isRequired,
-	post: PropTypes.object
+	post: PropTypes.object,
+	currentUser: PropTypes.object
 };
 
 const mapStateToProps = state => ({
 	postEdit: state.post.postEdit,
 	post: state.post.post,
-	textEditor: state.textEditor
+	textEditor: state.textEditor,
+	currentUser: state.auth.currentUser
 });
 
 export default connect(
