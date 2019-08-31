@@ -2,8 +2,6 @@
     background: #fff;
     width: 88%;
     border: 1px solid #ddd;
-    font-family: "Georgia", serif;
-    font-size: 1.5rem;
     padding: 1.5rem;
     margin: 5rem 0;
 
@@ -127,14 +125,7 @@ div.DraftEditor-root {
     }
 }
 
-.RichEditor__align-right .public-DraftStyleDefault-ltr {
-    text-align: right;
-}
-
-.RichEditor__align-center .public-DraftStyleDefault-ltr {
-    text-align: center;
-}
-
-.RichEditor__align-left .public-DraftStyleDefault-ltr {
-    text-align: left;
+.public-DraftStyleDefault-ltr {
+    font-size: 1.5rem;
+    line-height: 150%;
 }
