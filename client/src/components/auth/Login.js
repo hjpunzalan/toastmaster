@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import useForms from '../../hooks/useForms';
 import { loginUser } from '../../actions/auth';
+import Spinner from '../utils/Spinner';
 
-const Login = ({ loginUser, history }) => {
+const Login = ({ loginUser, history, auth: { loading } }) => {
 	const blankForm = { email: '', password: '' };
 	const { formData, handleChange, handleSubmit } = useForms(
 		blankForm,
@@ -13,7 +14,9 @@ const Login = ({ loginUser, history }) => {
 		history
 	);
 	const { email, password } = formData;
-	return (
+	return loading ? (
+		<Spinner />
+	) : (
 		<div className="Form">
 			<h1>Login</h1>
 			<p className="Form__text">
@@ -56,10 +59,15 @@ const Login = ({ loginUser, history }) => {
 };
 
 Login.propTypes = {
-	loginUser: PropTypes.func.isRequired
+	loginUser: PropTypes.func.isRequired,
+	auth: PropTypes.object.isRequired
 };
 
+const mapStateToProps = state => ({
+	auth: state.auth
+});
+
 export default connect(
-	null,
+	mapStateToProps,
 	{ loginUser }
 )(Login);

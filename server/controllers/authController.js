@@ -78,6 +78,12 @@ exports.login = catchAsync(async (req, res, next) => {
 	createToken(user, res);
 });
 
+exports.logout = (req, res) => {
+	res.clearCookie('jwt');
+
+	res.status(200).json({ status: 'success' });
+};
+
 exports.protect = catchAsync(async (req, res, next) => {
 	// Get token and check if it exist
 	// req.headers.authorization shows: Bearer *token
