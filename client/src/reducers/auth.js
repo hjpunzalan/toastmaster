@@ -1,4 +1,10 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, AUTH_ERROR } from '../actions/types';
+import {
+	LOGIN_SUCCESS,
+	LOGIN_FAIL,
+	LOGOUT,
+	CLEAR_LOGIN,
+	AUTH_ERROR
+} from '../actions/types';
 
 const initialState = {
 	currentUser: null,
@@ -10,6 +16,13 @@ export default (state = initialState, action) => {
 	const { type, payload } = action;
 
 	switch (type) {
+		case CLEAR_LOGIN:
+			return {
+				...state,
+				currentUser: null,
+				isAuthenticated: false,
+				loading: true
+			};
 		case LOGIN_SUCCESS:
 			return {
 				//State needs to be first
@@ -18,6 +31,7 @@ export default (state = initialState, action) => {
 				isAuthenticated: true,
 				loading: false
 			};
+		case LOGOUT:
 		case LOGIN_FAIL:
 		case AUTH_ERROR:
 			return {

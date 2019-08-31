@@ -95,8 +95,6 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				loading: false,
-				edit: false,
-				postEdit: false,
 				totalPages: null
 			};
 
