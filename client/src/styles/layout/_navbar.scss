@@ -5,11 +5,10 @@
     height: $navbar-height;
     background-color: $color-primary;
     align-items: center;
-    padding: 1rem 3.5rem;
+    padding: .5rem 5rem;
     box-shadow: 0px 3px 5px -1px $color-grey;
 
     &__left {
-        margin-right: auto;
         display: flex;
         align-items: center;
         text-decoration: none;
@@ -21,29 +20,28 @@
 
     &__item {
         display: inline-block;
-        font-size: 2rem;
-        margin: 0 1.5rem;
+        font-size: $size-link;
+        margin: 0 1rem;
         color: $color-white;
     }
 
     &__logo {
-        margin-right: 2rem;
         display: block;
         height: logoHeight($navbar-height);
     }
 
     &__header {
-        font-size: 3rem;
-        font-weight: 600;
-        padding-bottom: 0.7rem;
+        display: flex;
+        flex-direction: column;
 
-        &-container {
-            display: flex;
-            flex-direction: column;
+        &-text {
+            font-size: 2.3rem;
+            font-weight: 600;
+            padding-bottom: 0.7rem;
         }
 
         &-caption {
-            font-size: 1.7rem;
+            font-size: 1.3rem;
             padding-left: 2rem;
         }
     }

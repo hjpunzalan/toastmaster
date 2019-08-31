@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import 'moment-timezone';
-import { setAlert, resetAlert } from '../../../../actions/alerts';
 import {
 	getPost,
 	addComment,
@@ -14,12 +13,13 @@ import {
 	deletePost,
 	updatePost
 } from '../../../../actions/post';
+import { setAlert, resetAlert } from '../../../../actions/alerts';
 import img from '../../../../img/anonymous.png';
 import ReadOnly from '../../../utils/draft-js/ReadOnly';
 import TextEditor from '../../../utils/draft-js/TextEditor';
 import PostEditor from './PostEditor';
 import Spinner from '../../../utils/Spinner';
-import scrollToTop from '../../../../hooks/scrollToTop';
+import scrollToTop from '../../../../utils/scrollToTop';
 
 const Post = ({
 	match: {
@@ -38,7 +38,8 @@ const Post = ({
 	location,
 	setAlert,
 	resetAlert,
-	currentUser
+	currentUser,
+	postLoading
 }) => {
 	useEffect(() => {
 		// runs once and on updatePost
@@ -134,7 +135,7 @@ const Post = ({
 		);
 	}
 
-	return post === null ? (
+	return post === null || postLoading ? (
 		<Spinner />
 	) : postEdit ? (
 		<PostEditor
@@ -218,14 +219,16 @@ Post.propTypes = {
 	textEditor: PropTypes.object.isRequired,
 	postEdit: PropTypes.bool.isRequired,
 	post: PropTypes.object,
-	currentUser: PropTypes.object
+	currentUser: PropTypes.object,
+	postLoading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
 	postEdit: state.post.postEdit,
 	post: state.post.post,
 	textEditor: state.textEditor,
-	currentUser: state.auth.currentUser
+	currentUser: state.auth.currentUser,
+	postLoading: state.post.postLoading
 });
 
 export default connect(

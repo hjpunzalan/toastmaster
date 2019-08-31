@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import img from '../../../img/anonymous.png';
-import DiscussionHead from './DiscussionHead';
-import DiscussionPost from './DiscussionPost';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import {
 	getAllPost,
 	createPost,
 	toggleCreatePost,
 	searchPost
 } from '../../../actions/post';
+import img from '../../../img/anonymous.png';
+import DiscussionHead from './DiscussionHead';
+import DiscussionPost from './DiscussionPost';
 import Spinner from '../../../components/utils/Spinner';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const Discussion = ({
 	post: { posts, edit, postEdit, totalPages },
@@ -78,6 +78,7 @@ const Discussion = ({
 				history={history}
 				searchPost={searchPost}
 				setPage={setPage}
+				loading={loading}
 			/>
 			{loading || postEdit ? (
 				<Spinner />

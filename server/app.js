@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'development') {
 // app.use('/api', limiter);
 
 // Converts incoming json data to js object ---- Body parser that reads data from body into req.body
-app.use(express.json({ limit: '10kb' })); // package will parse 10kb into meaningful data
+app.use(express.json({ limit: '30kb' })); // package will parse 10kb into meaningful data
 app.use(cookieParser());
 
 // Data sanitization against NoSQL query injection

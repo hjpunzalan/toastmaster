@@ -3,19 +3,24 @@
 
     &__title {
         overflow-wrap: break-word;
+        text-align: center;
         color: $color-secondary;
         font-size: $size-post-title;
-        margin-bottom: 6rem;
+        margin-bottom: 2rem;
     }
 
     &__post {
         @include post;
+        border-radius: 5px;
         margin-bottom: 7rem;
-        overflow: hidden;
-        @include boxshadow;
 
+        &Body-text {
+            margin-bottom: 5rem;
+        }
 
-
+        &User-name {
+            font-weight: bold;
+        }
 
         &Buttons {
 
@@ -98,7 +103,7 @@
         background: $color-grey;
         color: $color-black;
         cursor: pointer;
-        margin-bottom: 3rem;
+        margin-bottom: 5rem;
         overflow: hidden;
         position: relative;
         transition: all .5s;

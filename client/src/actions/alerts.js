@@ -1,5 +1,5 @@
 import { SET_ALERT, RESET_ALERT } from './types';
-import scrollToTop from '../hooks/scrollToTop';
+import scrollToTop from '../utils/scrollToTop';
 
 export const setAlert = (msg, alertType) => dispatch => {
 	dispatch({
