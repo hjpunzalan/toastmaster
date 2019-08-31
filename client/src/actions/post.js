@@ -13,7 +13,7 @@ import {
 } from './types';
 import axios from 'axios';
 import { setAlert, resetAlert } from './alerts';
-import catchAsync from '../hooks/catchAsync';
+import catchAsync from '../utils/catchAsync';
 
 export const toggleCreatePost = edit => dispatch => {
 	dispatch(resetAlert());
@@ -33,6 +33,10 @@ export const toggleEditPost = postEdit => dispatch => {
 export const createPost = (title, contentState, history, plainText) =>
 	catchAsync('post', async dispatch => {
 		dispatch(resetAlert()); //Need to be in every post/put/patch action with alert
+		dispatch({
+			type: POST_RESET,
+			payload: 'load-only'
+		});
 		const jsonContentState = JSON.stringify(contentState);
 		// Need to be in edit also
 		const body = { title, contentState: jsonContentState, plainText };
@@ -91,6 +95,10 @@ export const getPost = (id, pageQuery, history, page, callback) =>
 export const updatePost = (postId, newTitle, newContentState, plainText) =>
 	catchAsync('post', async dispatch => {
 		dispatch(resetAlert());
+		dispatch({
+			type: POST_RESET,
+			payload: 'load-only'
+		});
 		const jsonContentState = JSON.stringify(newContentState);
 		const config = {
 			headers: {
@@ -114,6 +122,10 @@ export const updatePost = (postId, newTitle, newContentState, plainText) =>
 export const deletePost = (postId, history) =>
 	catchAsync('post', async dispatch => {
 		if (window.confirm('Are you sure you want to delete post?')) {
+			dispatch({
+				type: POST_RESET,
+				payload: 'load-only'
+			});
 			await axios.delete(`/api/posts/${postId}`);
 			dispatch({
 				type: DELETE_POST

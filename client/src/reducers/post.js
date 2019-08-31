@@ -15,6 +15,7 @@ import {
 
 const initialState = {
 	loading: true,
+	postLoading: true,
 	posts: [],
 	post: null,
 	edit: false,
@@ -26,13 +27,13 @@ export default (state = initialState, action) => {
 	const { type, payload } = action;
 	switch (type) {
 		case POST_RESET:
+			if (payload === 'load-only')
+				return { ...state, loading: true, postLoading: true };
 			return {
 				...state,
 				loading: true,
 				posts: [],
-				post: null,
-				edit: false,
-				postEdit: false
+				post: null
 			};
 		case TOGGLE_CREATE_POST:
 			return {
@@ -48,12 +49,14 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				edit: false,
+				postLoading: false,
 				posts: [payload, ...state.posts]
 			};
 		case GET_POST:
 			return {
 				...state,
 				edit: false,
+				postLoading: false,
 				postEdit: false,
 				post: payload
 			};
@@ -71,6 +74,7 @@ export default (state = initialState, action) => {
 		case UPDATE_POST:
 			return {
 				...state,
+				postLoading: false,
 				postEdit: false,
 				post: payload
 			};
@@ -79,12 +83,14 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				post: null,
+				postLoading: true,
 				loading: true
 			};
 		case ADD_COMMENT:
 		case DELETE_COMMENT:
 			return {
 				...state,
+				postLoading: false,
 				post: {
 					...state.post,
 					...payload
@@ -95,6 +101,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				loading: false,
+				postLoading: false,
 				totalPages: null
 			};
 

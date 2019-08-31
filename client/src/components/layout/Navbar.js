@@ -13,8 +13,8 @@ const Navbar = ({ auth: { isAuthenticated }, logoutUser }) => {
 					<li className="Navbar__item">
 						<img className="Navbar__logo" src={logo} alt="logo" />
 					</li>
-					<div className="Navbar__header-container">
-						<li className="Navbar__item Navbar__header">
+					<div className="Navbar__header">
+						<li className="Navbar__item Navbar__header-text">
 							Southern River Toastmasters
 						</li>
 						<li className="Navbar__item Navbar__header-caption">

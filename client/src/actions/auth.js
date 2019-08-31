@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { LOGIN_SUCCESS, CLEAR_LOGIN, LOGOUT } from '../actions/types';
-import catchAsync from '../hooks/catchAsync';
-import { resetAlert } from './alerts';
+import catchAsync from '../utils/catchAsync';
+import { resetAlert, setAlert } from './alerts';
 
 export const loginUser = (formData, history) =>
 	catchAsync('login', async dispatch => {
@@ -30,4 +30,5 @@ export const logoutUser = () =>
 		dispatch({ type: CLEAR_LOGIN });
 		await axios.get('/api/auth/logout');
 		dispatch({ type: LOGOUT });
+		dispatch(setAlert('User successfully logged out', 'success'));
 	});

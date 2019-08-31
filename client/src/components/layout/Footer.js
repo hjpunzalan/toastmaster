@@ -1,6 +1,6 @@
 import React from 'react';
-import tagline from '../../img/tagline.png';
 import { FaFacebook, FaInstagram } from 'react-icons/fa';
+import tagline from '../../img/tagline.png';
 
 const Footer = () => {
 	return (

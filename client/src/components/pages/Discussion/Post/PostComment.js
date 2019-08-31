@@ -1,8 +1,8 @@
 import React from 'react';
-import { IoIosTrash } from 'react-icons/io';
-import ReadOnly from '../../../utils/draft-js/ReadOnly';
 import Moment from 'react-moment';
 import 'moment-timezone';
+import { IoIosTrash } from 'react-icons/io';
+import ReadOnly from '../../../utils/draft-js/ReadOnly';
 
 const PostComment = ({
 	img,
