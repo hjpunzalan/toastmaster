@@ -3,13 +3,14 @@ import {
 	LOGIN_FAIL,
 	LOGOUT,
 	CLEAR_LOGIN,
-	AUTH_ERROR
+	AUTH_ERROR,
+	UPDATE_ME
 } from '../actions/types';
 
 const initialState = {
 	currentUser: null,
 	isAuthenticated: false,
-	loading: false
+	loading: true
 };
 
 export default (state = initialState, action) => {
@@ -38,6 +39,12 @@ export default (state = initialState, action) => {
 				...state,
 				isAuthenticated: false,
 				loading: false
+			};
+
+		case UPDATE_ME:
+			return {
+				...state,
+				currentUser: payload
 			};
 
 		default:

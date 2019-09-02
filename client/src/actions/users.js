@@ -1,4 +1,5 @@
-import { REGISTER_SUCCESS } from '../actions/types';
+import axios from 'axios';
+import { REGISTER_SUCCESS, UPDATE_ME } from '../actions/types';
 import { setAlert, resetAlert } from './alerts';
 import catchAsync from '../utils/catchAsync';
 
@@ -30,5 +31,33 @@ export const registerUser = formData => dispatch => {
 		dispatch(setAlert(`Email: ${email} has already been registered`, 'fail'));
 };
 
-export const updateMe = (formData, history, file) =>
-	catchAsync(async dispatch => {});
+export const updateMe = (formData, file, history) =>
+	catchAsync('auth', async dispatch => {
+		dispatch(resetAlert());
+
+		const uploadConfig = await axios.get('/api/upload');
+
+		const image = await axios.put(uploadConfig.data.url, file, {
+			headers: {
+				'Content-Type': 'file.type'
+			}
+		});
+
+		console.log(image);
+
+		const res = await axios.patch(
+			'/api/users/updateMe',
+			{ ...formData },
+			{
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}
+		);
+
+		dispatch({
+			type: UPDATE_ME,
+			payload: res.data
+		});
+		history.push('/discussion');
+	});
