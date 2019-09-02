@@ -25,7 +25,13 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 
 exports.updateMe = catchAsync(async (req, res, next) => {
 	// Update user document
-	const filterBody = checkBody(req.body, next, 'firstName', 'lastName');
+	const filterBody = checkBody(
+		req.body,
+		next,
+		'firstName',
+		'lastName',
+		'photo'
+	);
 	const user = await Users.findByIdAndUpdate(req.user.id, filterBody, {
 		new: true,
 		runValidators: true

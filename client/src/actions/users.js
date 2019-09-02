@@ -1,5 +1,6 @@
 import { REGISTER_SUCCESS } from '../actions/types';
 import { setAlert, resetAlert } from './alerts';
+import catchAsync from '../utils/catchAsync';
 
 export const registerUser = formData => dispatch => {
 	const { firstName, lastName, email } = formData;
@@ -28,3 +29,6 @@ export const registerUser = formData => dispatch => {
 	} else
 		dispatch(setAlert(`Email: ${email} has already been registered`, 'fail'));
 };
+
+export const updateMe = (formData, history, file) =>
+	catchAsync(async dispatch => {});
