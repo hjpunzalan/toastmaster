@@ -30,8 +30,11 @@ const Dashboard = ({ auth: { currentUser }, updateMe, history }) => {
 				<hr />
 			</div>
 			<div className="Dashboard__right">
-				{currentUser.img ? (
-					<img src={currentUser.img} alt="user avatar" />
+				{currentUser.photo ? (
+					<img
+						src={`https://toastmaster-user-photo.s3-ap-southeast-2.amazonaws.com/${currentUser.photo}`}
+						alt="user avatar"
+					/>
 				) : (
 					<img src={img} alt="user avatar" />
 				)}
