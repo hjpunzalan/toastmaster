@@ -30,6 +30,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 		next,
 		'firstName',
 		'lastName',
+		'email',
 		'photo'
 	);
 	const user = await Users.findByIdAndUpdate(req.user.id, filterBody, {

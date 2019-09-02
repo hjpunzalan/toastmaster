@@ -15,10 +15,10 @@ exports.uploadToS3 = catchAsync(async (req, res, next) => {
 	const key = `${req.user.id}/${uuid()}.jpeg`;
 	const params = {
 		Bucket: 'toastmaster-user-photo',
-		ContentType: 'jpeg',
+		ContentType: 'image/jpeg',
 		Key: key
 	};
 	await s3.getSignedUrl('putObject', params, (err, url) => {
-		res.send({ key, url });
+		res.status(200).json({ key, url });
 	});
 });

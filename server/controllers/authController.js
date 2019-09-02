@@ -131,6 +131,8 @@ exports.isLoggedIn = catchAsync(async (req, res, next) => {
 		// Validation only occurs in members page and not in landing page.
 		const currentUser = await verifyToken(next, req.cookies.jwt);
 		res.status(200).json(currentUser);
+	} else {
+		return next(new AppError('Only registered users may log in.', 404));
 	}
 });
 
