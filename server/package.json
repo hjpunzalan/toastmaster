@@ -13,6 +13,7 @@
   "author": "Jonathan Punzalan",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.521.0",
     "bcryptjs": "^2.4.3",
     "concurrently": "^4.1.2",
     "cookie-parser": "^1.4.4",
@@ -28,6 +29,7 @@
     "mongoose-autopopulate": "^0.9.1",
     "morgan": "^1.9.1",
     "nodemailer": "^6.3.0",
+    "uuid": "^3.3.3",
     "validator": "^11.1.0",
     "xss-clean": "^0.1.1"
   }

@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const userRouter = require('./routes/userRoutes');
 const authRouter = require('./routes/authRoutes');
 const postsRouter = require('./routes/postsRoutes');
+const uploadRouter = require('./routes/uploadRoutes');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const authController = require('./controllers/authController');
@@ -55,6 +56,7 @@ app.use(
 app.use('/api/users', authController.protect, userRouter); // all users are protected
 app.use('/api/auth', authRouter);
 app.use('/api/posts', authController.protect, postsRouter); // all posts are protected
+app.use('/api/upload', authController.protect, uploadRouter); // all posts are protected
 
 // Handle all unhandled routes
 app.all('*', (req, res, next) => {
@@ -66,5 +68,4 @@ app.all('*', (req, res, next) => {
 });
 
 app.use(globalErrorHandler);
-
 module.exports = app;
