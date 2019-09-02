@@ -37,17 +37,15 @@ export const updateMe = (formData, file, history) =>
 
 		const uploadConfig = await axios.get('/api/upload');
 
-		const image = await axios.put(uploadConfig.data.url, file, {
+		const upload = await axios.put(uploadConfig.data.url, file, {
 			headers: {
-				'Content-Type': 'file.type'
+				'Content-Type': file.type
 			}
 		});
 
-		console.log(image);
-
 		const res = await axios.patch(
 			'/api/users/updateMe',
-			{ ...formData },
+			{ ...formData, photo: uploadConfig.data.key },
 			{
 				headers: {
 					'Content-Type': 'application/json'
