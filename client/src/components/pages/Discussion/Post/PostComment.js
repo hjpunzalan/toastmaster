@@ -20,7 +20,11 @@ const PostComment = ({
 	return (
 		<div className="Post__comment">
 			<div className="Post__commentUser">
-				<img src={img} alt="user-logo" className="Post__commentUser-img" />
+				<img
+					src={user.photo || img}
+					alt="user-logo"
+					className="Post__commentUser-img"
+				/>
 				<span className="Post__commentUser-name">
 					{user.firstName}
 					<br />

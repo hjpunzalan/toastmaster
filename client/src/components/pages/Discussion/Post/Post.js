@@ -155,7 +155,11 @@ const Post = ({
 			<h1 className="Post__title">{post.title}</h1>
 			<div className="Post__post">
 				<div className="Post__postUser">
-					<img src={img} alt="user-logo" className="Post__postUser-img" />
+					<img
+						src={post.user.photo || img}
+						alt="user-logo"
+						className="Post__postUser-img"
+					/>
 					<span className="Post__postUser-name">
 						{post.user.firstName}
 						<br /> {post.user.lastName}
