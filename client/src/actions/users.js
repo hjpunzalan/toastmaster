@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { REGISTER_SUCCESS, UPDATE_ME } from '../actions/types';
+import { REGISTER_SUCCESS, UPDATE_ME, LOADING_USER } from '../actions/types';
 import { setAlert, resetAlert } from './alerts';
 import catchAsync from '../utils/catchAsync';
 
@@ -34,28 +34,28 @@ export const registerUser = formData => dispatch => {
 export const updateMe = (formData, file, history) =>
 	catchAsync('auth', async dispatch => {
 		dispatch(resetAlert());
+		dispatch({ type: LOADING_USER, payload: 'load-only' });
 
-		const uploadConfig = await axios.get('/api/upload');
+		if (file) {
+			const uploadConfig = await axios.get('/api/upload');
 
-		const upload = await axios.put(uploadConfig.data.url, file, {
+			await axios.put(uploadConfig.data.url, file, {
+				headers: {
+					'Content-Type': file.type
+				}
+			});
+			formData.photo = `https://toastmaster-user-photo.s3-ap-southeast-2.amazonaws.com/${uploadConfig.data.key}`;
+		}
+		const res = await axios.patch('/api/users/updateMe', formData, {
 			headers: {
-				'Content-Type': file.type
+				'Content-Type': 'application/json'
 			}
 		});
 
-		const res = await axios.patch(
-			'/api/users/updateMe',
-			{ ...formData, photo: uploadConfig.data.key },
-			{
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			}
-		);
-
+		history.push('/dashboard');
 		dispatch({
 			type: UPDATE_ME,
 			payload: res.data
 		});
-		history.push('/discussion');
+		dispatch(setAlert('User updated', 'success'));
 	});

@@ -5,7 +5,11 @@ import img from '../../../img/anonymous.png';
 import useForms from '../../../hooks/useForms';
 import { updateMe } from '../../../actions/users';
 
-const Dashboard = ({ auth: { currentUser }, updateMe, history }) => {
+const Dashboard = ({
+	auth: { currentUser, isModified },
+	updateMe,
+	history
+}) => {
 	const { firstName, lastName, email } = currentUser;
 	const [file, setFile] = useState('');
 	const blankForm = { firstName, lastName, email };
@@ -15,6 +19,8 @@ const Dashboard = ({ auth: { currentUser }, updateMe, history }) => {
 		file,
 		history
 	);
+
+	const newImageSrc = `${currentUser.photo}?` + new Date().getTime();
 
 	const handleFileChange = e => {
 		setFile(e.target.files[0]);
@@ -32,13 +38,13 @@ const Dashboard = ({ auth: { currentUser }, updateMe, history }) => {
 			<div className="Dashboard__right">
 				{currentUser.photo ? (
 					<img
-						src={`https://toastmaster-user-photo.s3-ap-southeast-2.amazonaws.com/${currentUser.photo}`}
+						className="Dashboard__user-photo"
+						src={isModified ? newImageSrc : currentUser.photo}
 						alt="user avatar"
 					/>
 				) : (
-					<img src={img} alt="user avatar" />
+					<img className="Dashboard__user-photo" src={img} alt="user avatar" />
 				)}
-				(
 				<div className="Dashboard__upload">
 					<form onSubmit={handleSubmit}>
 						<label htmlFor="image">Upload image photo</label>
@@ -72,7 +78,6 @@ const Dashboard = ({ auth: { currentUser }, updateMe, history }) => {
 						<button>Update Profile</button>
 					</form>
 				</div>
-				)
 			</div>
 		</div>
 	);

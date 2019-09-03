@@ -4,19 +4,23 @@ import {
 	LOGOUT,
 	CLEAR_LOGIN,
 	AUTH_ERROR,
-	UPDATE_ME
+	UPDATE_ME,
+	LOADING_USER
 } from '../actions/types';
 
 const initialState = {
 	currentUser: null,
 	isAuthenticated: false,
-	loading: true
+	loading: true,
+	isModified: false
 };
 
 export default (state = initialState, action) => {
 	const { type, payload } = action;
 
 	switch (type) {
+		case LOADING_USER:
+			if (payload === 'load-only') return { ...state, loading: true };
 		case CLEAR_LOGIN:
 			return {
 				...state,
@@ -44,7 +48,9 @@ export default (state = initialState, action) => {
 		case UPDATE_ME:
 			return {
 				...state,
-				currentUser: payload
+				loading: false,
+				currentUser: payload,
+				isModified: true
 			};
 
 		default:
