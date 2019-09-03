@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import img from '../../../img/anonymous.png';
 import useForms from '../../../hooks/useForms';
-import { updateMe } from '../../../actions/users';
+import { updateMe, toggleUpdateMe } from '../../../actions/users';
+import Update from './Update';
 
 const Dashboard = ({
-	auth: { currentUser, isModified },
+	auth: { currentUser, isModified, edit },
 	updateMe,
-	history
+	history,
+	toggleUpdateMe
 }) => {
+	useEffect(() => {
+		if (edit) toggleUpdateMe(edit); //eslint-disable-next-line
+	}, []);
+
 	const { firstName, lastName, email } = currentUser;
 	const [file, setFile] = useState('');
 	const blankForm = { firstName, lastName, email };
@@ -28,63 +34,61 @@ const Dashboard = ({
 	return (
 		<div className="Dashboard">
 			<div className="Dashboard__left">
-				<h1 className="Dashboard__title">Member's Dashboard</h1>
-				<p className="Dashboard__label">
-					Here you will find club guidelines and resources available to its
-					members.
-				</p>
-				<hr />
-			</div>
-			<div className="Dashboard__right">
-				{currentUser.photo ? (
-					<img
-						className="Dashboard__user-photo"
-						src={isModified ? newImageSrc : currentUser.photo}
-						alt="user avatar"
-					/>
+				{!edit ? (
+					<>
+						<h1 className="Dashboard__title">Member's Dashboard</h1>
+						<p className="Dashboard__label">
+							Here you will find club guidelines and resources available to its
+							members.
+						</p>
+						<hr />
+					</>
 				) : (
-					<img className="Dashboard__user-photo" src={img} alt="user avatar" />
+					<>
+						<button
+							className="btn Dashboard__cancel"
+							onClick={() => toggleUpdateMe(edit)}>
+							Go Back
+						</button>
+						<Update
+							handleSubmit={handleSubmit}
+							handleFileChange={handleFileChange}
+							formData={formData}
+							handleChange={handleChange}
+						/>
+					</>
 				)}
-				<div className="Dashboard__upload">
-					<form onSubmit={handleSubmit}>
-						<label htmlFor="image">Upload image photo</label>
-						<input
-							type="file"
-							accept="image/*"
-							name="image"
-							onChange={handleFileChange}
-						/>
-						<label htmlFor="firstName">First Name</label>
-						<input
-							type="text"
-							name="firstName"
-							value={formData.firstName}
-							onChange={handleChange}
-						/>
-						<label htmlFor="lastName">Last Name</label>
-						<input
-							type="text"
-							name="lastName"
-							value={formData.lastName}
-							onChange={handleChange}
-						/>
-						<label htmlFor="email">Email</label>
-						<input
-							type="email"
-							name="email"
-							value={formData.email}
-							onChange={handleChange}
-						/>
-						<button>Update Profile</button>
-					</form>
-				</div>
 			</div>
+			{!edit && (
+				<div className="Dashboard__right">
+					{currentUser.photo ? (
+						<img
+							className="Dashboard__user-photo"
+							src={isModified ? newImageSrc : currentUser.photo}
+							alt="user avatar"
+						/>
+					) : (
+						<img
+							className="Dashboard__user-photo"
+							src={img}
+							alt="user avatar"
+						/>
+					)}
+
+					<button
+						className="btn btn__submit"
+						onClick={() => toggleUpdateMe(edit)}>
+						Update Profile
+					</button>
+				</div>
+			)}
 		</div>
 	);
 };
 Dashboard.propTypes = {
 	auth: PropTypes.object.isRequired,
-	updateMe: PropTypes.func.isRequired
+	updateMe: PropTypes.func.isRequired,
+	toggleUpdateMe: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -92,5 +96,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
 	mapStateToProps,
-	{ updateMe }
+	{ updateMe, toggleUpdateMe }
 )(Dashboard);

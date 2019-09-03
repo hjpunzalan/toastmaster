@@ -1,7 +1,20 @@
 import axios from 'axios';
-import { REGISTER_SUCCESS, UPDATE_ME, LOADING_USER } from '../actions/types';
+import {
+	REGISTER_SUCCESS,
+	UPDATE_ME,
+	LOADING_USER,
+	TOGGLE_UPDATE_ME
+} from '../actions/types';
 import { setAlert, resetAlert } from './alerts';
 import catchAsync from '../utils/catchAsync';
+
+export const toggleUpdateMe = edit => dispatch => {
+	dispatch(resetAlert());
+	dispatch({
+		type: TOGGLE_UPDATE_ME,
+		payload: !edit
+	});
+};
 
 export const registerUser = formData => dispatch => {
 	const { firstName, lastName, email } = formData;

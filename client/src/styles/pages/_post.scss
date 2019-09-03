@@ -20,6 +20,7 @@
 
         &User-name {
             font-weight: bold;
+            font-size: 1.7rem;
         }
 
         &Buttons {
@@ -52,7 +53,6 @@
                 color: $color-white;
             }
         }
-
     }
 
     &__comment {
@@ -76,7 +76,7 @@
             }
 
             &::after {
-                content: 'Delete';
+                content: "Delete";
                 font-size: 1.2rem;
                 display: none;
             }
@@ -99,28 +99,28 @@
     &__back {
         display: inline-block;
         text-decoration: none;
-        font-size: 1.3rem;
+        font-size: $size-cancel;
         background: $color-grey;
         color: $color-black;
         cursor: pointer;
         margin-bottom: 5rem;
         overflow: hidden;
         position: relative;
-        transition: all .5s;
+        transition: all 0.2s;
 
         &>* {
             display: inline-block;
             height: 100%;
             width: 100%;
-            transition: all .5s;
+            transition: all 0.5s;
         }
 
         &-visible {
-            padding: .7rem 3rem;
+            padding: 0.7rem 3rem;
         }
 
         &-invisible {
-            padding: .7rem 1.5rem; //left padding must be half of visible's padding
+            padding: 0.7rem 1.5rem; //left padding must be half of visible's padding
             position: absolute;
             right: -100%;
             top: 0;
@@ -133,7 +133,6 @@
         &:hover &-invisible {
             right: 0;
         }
-
     }
 
     &__page {
@@ -150,20 +149,18 @@
             background: $color-secondary;
             border-radius: 3px;
             width: 8rem;
-            padding: .5rem;
+            padding: 0.5rem;
             display: flex;
             justify-content: center;
-            transition: .2s all;
-
+            transition: 0.2s all;
         }
 
         &-next {
-            margin-left: 2rem
+            margin-left: 2rem;
         }
 
         &-prev {
-            margin-right: 2rem
+            margin-right: 2rem;
         }
     }
-
 }

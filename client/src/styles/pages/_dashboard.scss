@@ -20,4 +20,11 @@
         border: 1px solid $color-black;
         margin-bottom: 2rem;
     }
+
+    &__cancel {
+        margin-bottom: 5rem;
+        width: 8rem;
+        height: 2rem;
+        font-size: $size-cancel;
+    }
 }
