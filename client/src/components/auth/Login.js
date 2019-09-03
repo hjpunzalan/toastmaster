@@ -1,19 +1,28 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import useForms from '../../hooks/useForms';
 import { loginUser } from '../../actions/auth';
 import Spinner from '../utils/Spinner';
 
-const Login = ({ loginUser, history, auth: { loading } }) => {
-	const blankForm = { email: '', password: '' };
+const Login = ({ loginUser, history, auth: { isAuthenticated, loading } }) => {
+	const blankForm = {
+		email: '',
+		password: ''
+	};
 	const { formData, handleChange, handleSubmit } = useForms(
 		blankForm,
 		loginUser,
 		history
 	);
 	const { email, password } = formData;
+
+	// Redirect if logged in
+	if (isAuthenticated) {
+		return <Redirect to="/dashboard" />;
+	}
+
 	return loading ? (
 		<Spinner />
 	) : (
