@@ -20,8 +20,11 @@
         width: 100%;
 
         >input[type=text],
-        >input[type=password] {
-            width: 50%;
+        >input[type=password],
+        >input[type=email],
+        >input[type=file] {
+            width: 100%;
+            max-width: 60rem;
             padding: 1rem;
             margin-bottom: 2rem;
             height: 4rem;
@@ -32,6 +35,13 @@
                 outline: none;
             }
         }
+
+        >input[type=file] {
+            padding: 0;
+            height: auto;
+        }
+
+
 
 
         >label {
