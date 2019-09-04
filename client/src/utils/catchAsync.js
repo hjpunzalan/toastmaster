@@ -1,7 +1,8 @@
 import { setAlert } from '../actions/alerts';
 import { ERROR, POST_ERROR, LOGIN_FAIL, AUTH_ERROR } from '../actions/types';
 
-const catchAsync = (type, fn) => {
+// So when only one argument is provided, it will be fn
+const catchAsync = (type, fn = type) => {
 	return dispatch => {
 		fn(dispatch).catch(err => {
 			console.error(err);
