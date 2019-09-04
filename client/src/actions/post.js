@@ -60,6 +60,7 @@ export const getAllPost = (page = 1) =>
 			type: POST_RESET
 		}); // for pagination only
 		const limit = 10;
+		// Gets post by page by limit and sorts by last comment then date.
 		const res = await axios.get(
 			`/api/posts?page=${page}&limit=${limit}&sort=-lastComment,-date`
 		);
