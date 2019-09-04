@@ -101,7 +101,7 @@ exports.deleteComment = catchAsync(async (req, res, next) => {
 	// after filtered
 	if (post.comments.length > 0)
 		post.lastComment = post.comments[post.comments.length - 1].date;
-	else post.lastComment = undefined;
+	else post.lastComment = post.Date;
 	await post.save();
 
 	res.status(200).json(post.comments);

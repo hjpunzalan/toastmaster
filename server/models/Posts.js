@@ -41,7 +41,10 @@ const postSchema = new mongoose.Schema({
 			}
 		}
 	],
-	lastComment: Date,
+	lastComment: {
+		type: Date,
+		default: Date.now()
+	},
 	lastEdited: Date
 });
 postSchema.plugin(autoPopulate);
