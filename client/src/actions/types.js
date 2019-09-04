@@ -27,3 +27,4 @@ export const TOGGLE_EDIT_POST = 'TOGGLE_EDIT_POST';
 export const UPDATE_ME = 'UPDATE_ME';
 export const TOGGLE_UPDATE_ME = 'TOGGLE_UPDATE_ME';
 export const LOADING_USER = 'LOADING_USER';
+export const GET_ALL_USERS = 'GET_ALL_USERS';
