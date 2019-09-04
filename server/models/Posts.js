@@ -41,7 +41,7 @@ const postSchema = new mongoose.Schema({
 			}
 		}
 	],
-	commentsLength: Number,
+	lastComment: Date,
 	lastEdited: Date
 });
 postSchema.plugin(autoPopulate);

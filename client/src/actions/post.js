@@ -61,7 +61,7 @@ export const getAllPost = (page = 1) =>
 		}); // for pagination only
 		const limit = 10;
 		const res = await axios.get(
-			`/api/posts?page=${page}&limit=${limit}&sort=-commentsLength,-date`
+			`/api/posts?page=${page}&limit=${limit}&sort=-lastComment,-date`
 		);
 		dispatch({
 			type: GET_ALL_POST,
