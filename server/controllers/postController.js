@@ -84,8 +84,9 @@ exports.addComment = catchAsync(async (req, res, next) => {
 	};
 
 	post.comments.push(newComment);
-	post.commentsLength = post.comments.length;
-	console.log(post.commentsLength);
+	//To query based from newest comments of post and date
+	post.lastComment = post.comments[post.comments.length - 1].date;
+	console.log(post.lastComment);
 	await post.save();
 	res.status(200).json(post.comments);
 });
@@ -97,6 +98,10 @@ exports.deleteComment = catchAsync(async (req, res, next) => {
 		return next(new AppError('Comment not found.', 404));
 	}
 	post.comments = newComments;
+	// after filtered
+	if (post.comments.length > 0)
+		post.lastComment = post.comments[post.comments.length - 1].date;
+	else post.lastComment = undefined;
 	await post.save();
 
 	res.status(200).json(post.comments);
