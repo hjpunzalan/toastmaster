@@ -3,7 +3,8 @@ import {
 	REGISTER_SUCCESS,
 	UPDATE_ME,
 	LOADING_USER,
-	TOGGLE_UPDATE_ME
+	TOGGLE_UPDATE_ME,
+	GET_ALL_USERS
 } from '../actions/types';
 import { setAlert, resetAlert } from './alerts';
 import catchAsync from '../utils/catchAsync';
@@ -71,4 +72,14 @@ export const updateMe = (formData, file, history) =>
 			payload: res.data
 		});
 		dispatch(setAlert('User updated', 'success'));
+	});
+
+export const getAllUsers = () =>
+	catchAsync(async dispatch => {
+		const res = await axios.get('/api/users');
+
+		dispatch({
+			type: GET_ALL_USERS,
+			payload: res.data
+		});
 	});
