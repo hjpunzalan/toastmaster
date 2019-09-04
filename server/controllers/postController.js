@@ -84,6 +84,8 @@ exports.addComment = catchAsync(async (req, res, next) => {
 	};
 
 	post.comments.push(newComment);
+	post.commentsLength = post.comments.length;
+	console.log(post.commentsLength);
 	await post.save();
 	res.status(200).json(post.comments);
 });

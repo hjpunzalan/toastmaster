@@ -26,7 +26,7 @@ const Dashboard = ({
 		history
 	);
 
-	const newImageSrc = `${currentUser.photo}?` + new Date().getTime();
+	const newImageSrc = `${currentUser.photo}?` + Date.now();
 
 	const handleFileChange = e => {
 		setFile(e.target.files[0]);
