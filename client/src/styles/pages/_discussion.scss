@@ -1,239 +1,230 @@
 .Discussion {
-    &__title {
-        font-size: $size-title;
-        margin-bottom: 4rem;
+  &__title {
+    font-size: $size-title;
+    margin-bottom: 4rem;
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  &__create {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    button.btn.btn__cancel {
+      width: 10rem;
+      height: 3rem;
     }
 
-    &__head {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 2rem;
+    &-title {
+      margin-top: 4rem;
+      font-size: $size-title;
+      color: $color-primary;
+
+      &:focus {
+        outline: none;
+        border: none;
+      }
     }
 
-    &__create {
-        display: flex;
-        flex-direction: column;
+    &-form {
+      margin-top: 5rem;
+      width: 100%;
+
+      input[type="text"] {
+        padding: 0.5rem;
+        max-width: 600px;
+        width: 60%;
+      }
+
+      &Label {
+        font-size: $size-label;
+        margin-right: 2rem;
+        font-weight: 600;
+      }
+    }
+  }
+
+  &__search {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    & > form {
+      display: flex;
+      width: 70%;
+    }
+
+    & input[type="text"] {
+      margin-left: 1rem;
+      padding: 1rem;
+      width: 120%;
+      border: 1px solid $color-grey;
+      height: $button-height;
+      border-right-width: 0px;
+      transition: all 0.2s;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    &-searchIcon {
+      display: inline-block;
+      color: $color-grey-dark;
+      width: auto;
+      height: $button-height;
+      background: #fff;
+      padding: 1.5rem;
+      border: 1px solid $color-grey;
+      border-left-width: 0px;
+      transition: all 0.2s;
+
+      &:focus {
+        outline: none;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    & input[type="text"]:focus,
+    & input[type="text"]:focus + &-searchIcon {
+      border-color: $color-grey-dark;
+    }
+
+    &-reset {
+      padding: 0.7rem 1rem;
+      font-size: 1.2rem;
+      width: auto;
+      height: $button-height;
+      border: none;
+      box-shadow: none;
+      margin-left: 1rem;
+    }
+  }
+
+  &__post {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 2rem 0;
+    width: 80%;
+    padding: 1rem;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      background: $color-grey-light;
+    }
+
+    &:not(:last-of-type) {
+      border-bottom: 1px solid $color-grey;
+    }
+
+    &User {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 1rem;
+      width: 20%;
+
+      &-img {
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50%;
+        display: block;
+        object-fit: cover;
+      }
+
+      &-name {
+        display: inline-block;
+        font-weight: 600;
+        text-align: center;
         width: 100%;
-
-        button.btn.btn__cancel {
-            width: 10rem;
-            height: 3rem;
-        }
-
-        &-title {
-            margin-top: 4rem;
-            font-size: $size-title;
-            color: $color-primary;
-
-
-            &:focus {
-                outline: none;
-                border: none;
-            }
-        }
-
-        &-form {
-            margin-top: 5rem;
-            width: 100%;
-
-            input[type=text] {
-                padding: .5rem;
-                max-width: 600px;
-                width: 60%;
-            }
-
-            &Label {
-                font-size: $size-label;
-                margin-right: 2rem;
-                font-weight: 600;
-            }
-        }
+        margin-top: 1.5rem;
+        font-size: $size-discussion-text;
+      }
     }
 
-    &__search {
+    &Body {
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+
+      &-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+      }
+
+      &-title {
+        color: $color-secondary;
+        font-size: $size-discussion-title;
+        padding-right: 1rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &-chat {
         display: flex;
         align-items: center;
+        font-size: $size-link;
+        color: $color-primary;
+      }
+
+      &-text {
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
         width: 100%;
+        font-size: $size-discussion-text;
+        text-overflow: ellipsis;
+        margin-bottom: 1rem;
+      }
 
-        &>form {
-            display: flex;
-            width: 70%;
-        }
+      &-date {
+        font-size: $size-discussion-date;
+      }
+    }
+  }
 
+  &__page {
+    display: flex;
+    padding: 0 3rem;
+    justify-content: flex-end;
+    font-size: 1.2rem;
+    align-items: center;
 
-        & input[type=text] {
-            margin-left: 1rem;
-            padding: 1rem;
-            width: 120%;
-            border: 1px solid $color-grey;
-            height: $button-height;
-            border-right-width: 0px;
-            transition: all .2s;
-
-            &:focus {
-                outline: none;
-            }
-        }
-
-        &-searchIcon {
-            display: inline-block;
-            color: $color-grey-dark;
-            width: auto;
-            height: $button-height;
-            background: #fff;
-            padding: 1.5rem;
-            border: 1px solid $color-grey;
-            border-left-width: 0px;
-            transition: all .2s;
-
-
-            &:focus {
-                outline: none
-            }
-
-            &:hover {
-                cursor: pointer
-            }
-        }
-
-        & input[type=text]:focus,
-        & input[type=text]:focus+&-searchIcon {
-            border-color: $color-grey-dark;
-
-        }
-
-        &-reset {
-            padding: .7rem 1rem;
-            font-size: 1.2rem;
-            width: auto;
-            height: $button-height;
-            border: none;
-            box-shadow: none;
-            margin-left: 1rem;
-        }
+    &-next,
+    &-prev {
+      cursor: pointer;
+      text-decoration: none;
+      color: $color-white;
+      background: $color-secondary;
+      border-radius: 3px;
+      border: none;
+      outline: none;
+      width: 3rem;
+      padding: 0.5rem;
+      display: flex;
+      justify-content: center;
+      transition: 0.2s all;
     }
 
-
-    &__post {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        margin: 2rem 0;
-        width: 80%;
-        padding: 1rem;
-        text-decoration: none;
-        color: inherit;
-
-        &:hover {
-            background: $color-grey-light;
-        }
-
-        &:not(:last-of-type) {
-            border-bottom: 1px solid $color-grey;
-        }
-
-        &User {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-right: 1rem;
-            width: 20%;
-
-            &-img {
-                width: 6rem;
-                height: 6rem;
-                border-radius: 50%;
-                display: block;
-            }
-
-            &-name {
-                display: inline-block;
-                font-weight: 600;
-                text-align: center;
-                width: 100%;
-                margin-top: 1.5rem;
-                font-size: $size-discussion-text;
-            }
-        }
-
-        &Body {
-            display: flex;
-            flex-direction: column;
-            width: 80%;
-
-            &-header {
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 1rem;
-            }
-
-            &-title {
-                color: $color-secondary;
-                font-size: $size-discussion-title;
-                padding-right: 1rem;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            &-chat {
-                display: flex;
-                align-items: center;
-                font-size: $size-link;
-                color: $color-primary;
-            }
-
-            &-text {
-                display: inline-block;
-                overflow: hidden;
-                white-space: nowrap;
-                width: 100%;
-                font-size: $size-discussion-text;
-                text-overflow: ellipsis;
-                margin-bottom: 1rem;
-            }
-
-            &-date {
-                font-size: $size-discussion-date;
-
-            }
-        }
-
-
-
+    &-next {
+      margin-left: 2rem;
     }
 
-    &__page {
-        display: flex;
-        padding: 0 3rem;
-        justify-content: flex-end;
-        font-size: 1.2rem;
-        align-items: center;
-
-        &-next,
-        &-prev {
-            cursor: pointer;
-            text-decoration: none;
-            color: $color-white;
-            background: $color-secondary;
-            border-radius: 3px;
-            border: none;
-            outline: none;
-            width: 3rem;
-            padding: .5rem;
-            display: flex;
-            justify-content: center;
-            transition: .2s all;
-        }
-
-        &-next {
-            margin-left: 2rem
-        }
-
-        &-prev {
-            margin-right: 2rem
-        }
+    &-prev {
+      margin-right: 2rem;
     }
-
+  }
 }
