@@ -1,0 +1,31 @@
+.MemberList {
+    max-width: 80rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+
+    &__title {
+        font-size: $size-title;
+    }
+
+    &__member {
+        display: flex;
+        height: 12rem;
+        justify-content: space-around;
+        align-items: center;
+        font-size: $size-label;
+        border-bottom: 2px solid $color-grey;
+
+        &-email {
+            color: $color-secondary;
+            margin-right: .5rem;
+        }
+
+
+        &-photo {
+            width: 7rem;
+            height: 7rem;
+            object-fit: cover;
+        }
+    }
+}

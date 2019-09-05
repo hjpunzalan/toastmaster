@@ -2,6 +2,7 @@ const Users = require('../models/Users');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const checkBody = require('../utils/checkBody');
+const QueryHandling = require('../utils/queryHandling');
 
 exports.register = catchAsync(async (req, res, next) => {
 	const newUser = await Users.create(req.body);
@@ -19,7 +20,9 @@ exports.register = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
-	const users = await Users.find();
+	const query = Users.find();
+	const features = new QueryHandling(query, req.query).sort();
+	const users = await features.query;
 	res.status(200).json(users);
 });
 
