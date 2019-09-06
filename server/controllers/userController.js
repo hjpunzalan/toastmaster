@@ -3,13 +3,12 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const checkBody = require('../utils/checkBody');
 const QueryHandling = require('../utils/queryHandling');
+const Email = require('../utils/email');
 
 exports.register = catchAsync(async (req, res, next) => {
 	const newUser = await Users.create(req.body);
-	// first name,
-	// last name,
-	// email
-	// password
+	const url = '#'; // need to include set new password url
+	await new Email(newUser, url).sendWelcome();
 
 	// remove password from json output;
 	newUser.password = undefined;

@@ -74,6 +74,7 @@ const Dashboard = ({
 							alt="user avatar"
 						/>
 					)}
+					<p className="Dashboard__user">Hi {currentUser.firstName}!</p>
 
 					<button
 						className="btn btn__submit"

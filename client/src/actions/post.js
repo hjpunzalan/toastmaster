@@ -200,7 +200,7 @@ export const searchPost = (text, page = 1) =>
 			}
 		};
 		const res = await axios.post(
-			`/api/posts/search/text?sort=-date&page=${page}&limit=${limit}`,
+			`/api/posts/search/text?page=${page}&limit=${limit}&sort=-lastComment,-date`,
 			{ text },
 			config
 		);

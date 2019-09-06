@@ -106,13 +106,12 @@ exports.deleteComment = catchAsync(async (req, res, next) => {
 
 	res.status(200).json(post.comments);
 });
-
 exports.searchPost = catchAsync(async (req, res, next) => {
 	// Using index limits the need of searching the whole collection
 	const search = {
 		$or: [
-			{ plainText: { $regex: req.body.text } },
-			{ title: { $regex: req.body.text } }
+			{ plainText: { $regex: req.body.text, $options: 'i' } }, //included insensitive casing options
+			{ title: { $regex: req.body.text, $options: 'i' } }
 		]
 	};
 	const query = Posts.find(search);
