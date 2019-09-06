@@ -15,8 +15,15 @@
         align-items: center;
     }
 
+    &__user {
+        font-size: $size-text;
+        margin: 3rem 0;
+    }
+
     &__user-photo {
         width: 20rem;
+        height: 20rem;
+        object-fit: cover;
         border: 1px solid $color-black;
         margin-bottom: 2rem;
     }

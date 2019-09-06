@@ -24,6 +24,7 @@ export default (state = initialState, action) => {
 		case GET_ALL_USERS:
 			return {
 				...state,
+				loading: false,
 				users: payload
 			};
 

@@ -1,0 +1,17 @@
+extends baseEmail
+block content
+    p Hi #{firstName},
+    p Welcome to Southern River Toastmasters, we're glad to have you 🎉🎉
+    p Your temporary password is: #{password}
+    p Click the button below to set up a new password and photo so that everyone can recognise you!
+    table.btn.btn-primary(role='presentation' border='0' cellpadding='0' cellspacing='0')
+        tbody
+            tr
+                td(align='left')
+                    table(role='presentation' border='0' cellpadding='0' cellspacing='0')
+                        tbody
+                            tr
+                                td
+                                    a(href=`${url}` target='_blank') Set up account
+    p See you on the other side!
+    p - Jonathan Punzalan

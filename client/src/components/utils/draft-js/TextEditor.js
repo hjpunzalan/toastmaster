@@ -26,7 +26,7 @@ import theme from './emojiPlugin';
 
 const { hasCommandModifier } = KeyBindingUtil;
 const emojiPlugin = createEmojiPlugin({ theme });
-const { EmojiSuggestions, EmojiSelect } = emojiPlugin;
+const { EmojiSelect } = emojiPlugin;
 const linkifyPlugin = createLinkifyPlugin();
 const focusPlugin = createFocusPlugin();
 const blockDndPlugin = createBlockDndPlugin();
@@ -143,7 +143,6 @@ class TextEditor extends Component {
 					</div>
 					<div className={className} onClick={this.focus}>
 						<Editor
-							handleBeforeInput={this.handleBeforeInput}
 							blockStyleFn={getBlockStyle}
 							editorState={editorState}
 							handleKeyCommand={this.handleKeyCommand}
@@ -156,7 +155,6 @@ class TextEditor extends Component {
 							spellCheck={true}
 							plugins={listOfPlugins}
 						/>
-						<EmojiSuggestions />
 					</div>
 				</div>
 				<button className="btn btn__submit" onClick={this.handleSubmit}>
