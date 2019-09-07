@@ -5,8 +5,9 @@ import {
 	CLEAR_LOGIN,
 	AUTH_ERROR,
 	UPDATE_ME,
-	LOADING_USER,
-	TOGGLE_UPDATE_ME
+	LOADING_AUTH,
+	TOGGLE_UPDATE_ME,
+	FORGOT_PASSWORD
 } from '../actions/types';
 
 const initialState = {
@@ -26,9 +27,8 @@ export default (state = initialState, action) => {
 				...state,
 				edit: payload
 			};
-		case LOADING_USER:
-			if (payload === 'load-only') return { ...state, loading: true };
-			break;
+		case LOADING_AUTH:
+			return { ...state, loading: true };
 		case CLEAR_LOGIN:
 			return {
 				...state,
@@ -44,6 +44,7 @@ export default (state = initialState, action) => {
 				isAuthenticated: true,
 				loading: false
 			};
+		case FORGOT_PASSWORD:
 		case LOGOUT:
 		case LOGIN_FAIL:
 		case AUTH_ERROR:

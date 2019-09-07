@@ -58,4 +58,11 @@ module.exports = class Email {
 			props
 		);
 	}
+
+	async sendPasswordReset() {
+		await this.send(
+			'passwordReset',
+			'Forgotten password reset link (valid for only 10 minutes)'
+		);
+	}
 };

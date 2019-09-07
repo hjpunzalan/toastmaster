@@ -142,49 +142,42 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 	if (!user) {
 		return next(new AppError('There is no user with this email address', 404));
 	}
-	// Generate the random rest token
+	// Generate the random reset token
 	const resetToken = user.createPasswordResetToken();
 	await user.save({ validateBeforeSave: false }); // modified the user document ... disabled validators before save
 
-	// Send it to user's email
-	const resetURL = `${req.protocol}://${req.get(
-		'host'
-	)}/api/auth/resetPassword/${resetToken}`;
-
-	const message = `Forgot your password? Submit a PATCH request with your new password to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
-
 	// Not enough to catch error in global error handling.
 	// Need to send back the reset password token and expiration
-	// try {
-	// 	await sendEmail({
-	// 		email: user.email,
-	// 		subject: 'Your password reset token (valid for 10min)',
-	// 		message
-	// 	});
-	// } catch (error) {
-	// 	user.passwordResetToken = undefined;
-	// 	user.passwordResetExpires = undefined;
-	// 	await user.save({ validateBeforeSave: false });
-	// 	return next(
-	// 		new AppError('There was an error sending the email. Try again later', 500)
-	// 	);
-	// }
+	try {
+		const resetURL = req.body.url + '/' + resetToken;
 
-	res.status(200).json({
-		status: 'success',
-		message: 'Token sent to email!'
-	});
+		await new Email(user, resetURL).sendPasswordReset();
+
+		res.status(200).json({
+			status: 'success',
+			message: 'Token sent to email!'
+		});
+	} catch (error) {
+		user.passwordResetToken = undefined;
+		user.passwordResetExpires = undefined;
+		await user.save({ validateBeforeSave: false });
+		console.error(error);
+		return next(
+			new AppError('There was an error sending the email. Try again later', 500)
+		);
+	}
 });
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
 	// 1) Get user based on the token
 	// sha256 is the name of the algorithm
+	// Hash the token from email
 	const hashedToken = crypto
 		.createHash('sha256')
 		.update(req.params.token)
 		.digest('hex');
 
-	//// If expiry is greater than now(or undefined), than its not expired
+	//// If expiry is greater than now(or undefined), then its not expired
 	// Finds user
 	const user = await Users.findOne({
 		passwordResetToken: hashedToken,

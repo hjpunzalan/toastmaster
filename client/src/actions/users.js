@@ -2,7 +2,7 @@ import axios from 'axios';
 import {
 	REGISTER_SUCCESS,
 	UPDATE_ME,
-	LOADING_USER,
+	LOADING_AUTH,
 	TOGGLE_UPDATE_ME,
 	GET_ALL_USERS
 } from '../actions/types';
@@ -48,7 +48,7 @@ export const registerUser = formData => dispatch => {
 export const updateMe = (formData, file, history) =>
 	catchAsync('auth', async dispatch => {
 		dispatch(resetAlert());
-		dispatch({ type: LOADING_USER, payload: 'load-only' });
+		dispatch({ type: LOADING_AUTH });
 
 		if (file) {
 			const uploadConfig = await axios.get('/api/upload');
