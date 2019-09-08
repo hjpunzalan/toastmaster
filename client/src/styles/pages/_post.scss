@@ -3,15 +3,18 @@
 
     &__title {
         overflow-wrap: break-word;
-        text-align: center;
+        margin-left: $userWidth;
         color: $color-secondary;
-        font-size: $size-post-title;
-        margin-bottom: 2rem;
+        font-size: $size-title;
+
+        &-container {
+            width: 100%;
+            padding: 0 $padding-post-title;
+        }
     }
 
     &__post {
         @include post;
-        border-radius: 5px;
         margin-bottom: 7rem;
 
         &Body-text {
@@ -54,6 +57,7 @@
             }
         }
     }
+
 
     &__comment {
         @include post;

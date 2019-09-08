@@ -3,10 +3,14 @@
     @return 2 * $var;
 }
 
-@function containerMinHeight($navbar, $footer) {
-    @return 100vh - ($navbar + $footer);
+@function containerMinHeight($navbar) {
+    @return 100vh - $navbar;
 }
 
 @function logoHeight($navbarheight) {
     @return ($navbarheight)-1vh;
+}
+
+@function postBodyWidth($userWidth) {
+    @return 100% - $userWidth;
 }

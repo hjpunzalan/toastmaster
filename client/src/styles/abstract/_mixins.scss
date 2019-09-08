@@ -1,18 +1,17 @@
 @mixin post {
     display: flex;
     width: 100%;
-    padding: 4rem 2rem 2rem 2rem;
+    padding: 4rem $padding-post-title $padding-post-title 2rem;
     text-decoration: none;
     color: inherit;
 
     &User {
         display: flex;
         flex-direction: column;
-        padding: 0 1rem;
         align-items: center;
         justify-content: flex-start;
         text-align: center;
-        width: 12%;
+        width: $userWidth;
 
         &-img {
             width: 6rem;
@@ -31,7 +30,7 @@
     &Body {
         display: flex;
         flex-direction: column;
-        width: 88%;
+        width: postBodyWidth($userWidth);
         position: relative;
         // just same as text editor width
 
