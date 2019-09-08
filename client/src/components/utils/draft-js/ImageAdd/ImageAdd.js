@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { GoFileMedia } from 'react-icons/go';
+import img from '../../../../img/notfound.png';
 
 export default class ImageAdd extends Component {
 	// Start the popover closed
@@ -43,8 +44,12 @@ export default class ImageAdd extends Component {
 	};
 
 	addImage = () => {
+		let image = img;
+		if (this.state.url.match(/\.(jpeg|jpg|gif|png)$/) != null) {
+			image = this.state.url;
+		}
 		const { editorState, onChange } = this.props;
-		onChange(this.props.modifier(editorState, this.state.url));
+		onChange(this.props.modifier(editorState, image));
 	};
 
 	changeUrl = evt => {
