@@ -3,38 +3,59 @@
   justify-content: space-between;
 
   &__left {
-    width: 60%;
+    width: 70%;
     padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid $color-grey;
+
   }
 
   &__right {
-    width: 40%;
+    width: 30%;
     padding: 4rem;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: column
+  }
+
+  &__facebook {
+    border: none;
+    overflow: hidden;
+    margin: 5rem 0;
   }
 
   &__user {
-    font-size: $size-text;
-    margin: 3rem 0;
-  }
 
-  &__user-photo {
-    width: 20rem;
-    height: 20rem;
-    object-fit: cover;
-    border: 1px solid $color-black;
-    margin-bottom: 2rem;
+    &-name {
+      font-size: $size-text;
+      margin: 2rem auto;
+      display: inline-block;
+    }
+
+    &-photo {
+      width: 20rem;
+      height: 20rem;
+      object-fit: cover;
+      border: 1px solid $color-black;
+      margin: 2rem auto;
+    }
   }
 
   &__links {
-  }
+    display: flex;
+    padding: 1rem 0;
+    flex-direction: column;
+    align-items: center;
+    border-top: 1px solid $color-grey;
 
-  &__cancel {
-    margin-bottom: 5rem;
-    width: 8rem;
-    height: 2rem;
-    font-size: $size-cancel;
+
+    &-link {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      margin: .7rem 0;
+      font-size: $size-user;
+      color: $color-primary;
+    }
   }
 }

@@ -8,6 +8,10 @@
         font-size: $size-title;
     }
 
+    &__title {
+        margin-top: 7rem;
+    }
+
     &__text {
         font-size: $size-label;
         margin: 1.5rem 0;

@@ -8,7 +8,6 @@ import Footer from './components/layout/Footer';
 import Routes from './components/routing/Routes';
 import './styles/main.scss';
 import { checkUser } from './actions/auth';
-import Dashboard from './components/pages/Dashboard/Dashboard';
 
 const App = () => {
 	useEffect(() => {

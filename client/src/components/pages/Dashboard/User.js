@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaUserAlt, FaKey } from 'react-icons/fa';
 import img from '../../../img/anonymous.png';
 
 const User = ({ currentUser, isModified }) => {
@@ -15,12 +16,17 @@ const User = ({ currentUser, isModified }) => {
 			) : (
 				<img className="Dashboard__user-photo" src={img} alt="user avatar" />
 			)}
-			<p className="Dashboard__user">Hi {currentUser.firstName}!</p>
+			<p className="Dashboard__user-name">
+				Hi <strong>{currentUser.firstName}</strong>
+			</p>
 			<div className="Dashboard__links">
-				<Link to="/user/update" className="Dashboard__link">
-					Update Profile
+				<Link to="/user/update" className="Dashboard__links-link">
+					<FaUserAlt />{' '}
+					<span style={{ marginLeft: '1rem' }}>Update Profile</span>
 				</Link>
-				<Link className="Dashboard__link">Change Password</Link>
+				<Link to="/user/changepassword" className="Dashboard__links-link">
+					<FaKey /> <span style={{ marginLeft: '1rem' }}>Change Password</span>
+				</Link>
 			</div>
 		</div>
 	);

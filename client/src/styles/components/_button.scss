@@ -21,6 +21,12 @@
     &__cancel {
         background: $color-grey;
         color: $color-black;
+
+        &-sm {
+            width: 8rem;
+            height: 2rem;
+            font-size: $size-cancel;
+        }
     }
 
     &__delete {
