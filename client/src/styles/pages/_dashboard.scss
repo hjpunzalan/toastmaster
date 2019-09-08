@@ -1,37 +1,40 @@
 .Dashboard {
+  display: flex;
+  justify-content: space-between;
+
+  &__left {
+    width: 60%;
+    padding: 2rem;
+  }
+
+  &__right {
+    width: 40%;
+    padding: 4rem;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    &__left {
-        width: 60%;
-        padding: 2rem;
-    }
+  &__user {
+    font-size: $size-text;
+    margin: 3rem 0;
+  }
 
-    &__right {
-        width: 40%;
-        padding: 4rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+  &__user-photo {
+    width: 20rem;
+    height: 20rem;
+    object-fit: cover;
+    border: 1px solid $color-black;
+    margin-bottom: 2rem;
+  }
 
-    &__user {
-        font-size: $size-text;
-        margin: 3rem 0;
-    }
+  &__links {
+  }
 
-    &__user-photo {
-        width: 20rem;
-        height: 20rem;
-        object-fit: cover;
-        border: 1px solid $color-black;
-        margin-bottom: 2rem;
-    }
-
-    &__cancel {
-        margin-bottom: 5rem;
-        width: 8rem;
-        height: 2rem;
-        font-size: $size-cancel;
-    }
+  &__cancel {
+    margin-bottom: 5rem;
+    width: 8rem;
+    height: 2rem;
+    font-size: $size-cancel;
+  }
 }
