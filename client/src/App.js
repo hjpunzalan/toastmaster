@@ -8,6 +8,7 @@ import Footer from './components/layout/Footer';
 import Routes from './components/routing/Routes';
 import './styles/main.scss';
 import { checkUser } from './actions/auth';
+import Dashboard from './components/pages/Dashboard/Dashboard';
 
 const App = () => {
 	useEffect(() => {
@@ -16,7 +17,7 @@ const App = () => {
 	return (
 		<Provider store={store}>
 			<Navbar />
-			<Redirect to="/login" />
+			<Route exact path="/" render={() => <Redirect to="/dashboard" />} />
 			<Routes />
 			<Footer />
 		</Provider>

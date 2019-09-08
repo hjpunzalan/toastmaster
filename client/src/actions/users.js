@@ -3,19 +3,10 @@ import {
 	REGISTER_SUCCESS,
 	UPDATE_ME,
 	LOADING_AUTH,
-	TOGGLE_UPDATE_ME,
 	GET_ALL_USERS
 } from '../actions/types';
 import { setAlert, resetAlert } from './alerts';
 import catchAsync from '../utils/catchAsync';
-
-export const toggleUpdateMe = edit => dispatch => {
-	dispatch(resetAlert());
-	dispatch({
-		type: TOGGLE_UPDATE_ME,
-		payload: !edit
-	});
-};
 
 export const registerUser = formData => dispatch => {
 	const { firstName, lastName, email } = formData;
