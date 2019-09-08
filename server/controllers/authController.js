@@ -66,7 +66,9 @@ exports.login = catchAsync(async (req, res, next) => {
 	const user = await Users.findOne({ email }).select('+password');
 
 	if (!user || !(await user.checkPassword(password, user.password)))
-		return next(new AppError('Invalid user credentials', 401));
+		return next(
+			new AppError('Invalid email or password. Please try again.', 401)
+		);
 
 	// Make inactive users active
 	if (!user.active) {
@@ -149,7 +151,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 	// Not enough to catch error in global error handling.
 	// Need to send back the reset password token and expiration
 	try {
-		const resetURL = req.body.url + '/' + resetToken;
+		const resetURL = req.body.url + '/reset/' + resetToken;
 
 		await new Email(user, resetURL).sendPasswordReset();
 

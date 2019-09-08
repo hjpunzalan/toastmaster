@@ -9,6 +9,7 @@ import Dashboard from '../pages/Dashboard/Dashboard';
 import Discussion from '../pages/Discussion/Discussion';
 import Post from '../pages/Discussion/Post/Post';
 import ForgotPassword from '../auth/ForgotPassword';
+import ResetPassword from '../auth/ResetPassword';
 
 const Routes = () => {
 	return (
@@ -16,6 +17,11 @@ const Routes = () => {
 			<PrivateRoute exact path="/register" component={Register} />
 			<NewRoute exact path="/login" component={Login} />
 			<NewRoute exact path="/forgotpassword" component={ForgotPassword} />
+			<NewRoute
+				exact
+				path="/forgotpassword/reset/:resetToken"
+				component={ResetPassword}
+			/>
 			<PrivateRoute exact path="/members" component={MemberList} />
 			<PrivateRoute exact path="/discussion" component={Discussion} />
 			<PrivateRoute exact path="/dashboard" component={Dashboard} />

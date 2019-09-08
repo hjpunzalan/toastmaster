@@ -5,7 +5,8 @@ import {
 	LOGOUT,
 	AUTH_ERROR,
 	FORGOT_PASSWORD,
-	LOADING_AUTH
+	LOADING_AUTH,
+	RESET_PASSWORD
 } from '../actions/types';
 import catchAsync from '../utils/catchAsync';
 import { resetAlert, setAlert } from './alerts';
@@ -61,6 +62,32 @@ export const forgotPassword = (email, url) =>
 		dispatch(
 			setAlert(
 				'Success! Please check your email to reset your password.',
+				'success'
+			)
+		);
+	});
+
+export const resetPassword = ({ password: newPassword }, token, history) =>
+	catchAsync('auth', async dispatch => {
+		console.log(newPassword, token, history);
+		dispatch(resetAlert());
+		dispatch({ type: LOADING_AUTH }); // need to load when we sumbmit a post or patch request
+
+		// Send info to server that will send email.
+		await axios.patch(
+			`/api/auth/resetPassword/${token}`,
+			{ password: newPassword },
+			{
+				headers: {
+					'Content-type': 'application/json'
+				}
+			}
+		);
+		dispatch({ type: RESET_PASSWORD });
+		history.push('/login');
+		dispatch(
+			setAlert(
+				'Success! New passsword has been set. Try logging in!',
 				'success'
 			)
 		);
