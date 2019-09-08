@@ -34,7 +34,6 @@ const userSchema = new mongoose.Schema({
 	},
 	active: {
 		type: Boolean,
-		select: false,
 		default: true
 	},
 	role: {
@@ -52,11 +51,11 @@ const userSchema = new mongoose.Schema({
 });
 
 // Middleware
-userSchema.pre(/^find/, function(next) {
-	// 'this' points to the current query before executing the event /^find/
-	this.find({ active: { $ne: false } }).select('-__v');
-	next();
-});
+// userSchema.pre(/^find/, function(next) {
+// 	// 'this' points to the current query before executing the event /^find/
+// 	this.find({ active: { $ne: false } }).select('-__v');
+// 	next();
+// });
 // updating changedPasswordAt when resetting password
 // Skips if password is NOT modified or NEW.
 userSchema.pre('save', function(next) {

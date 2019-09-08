@@ -11,6 +11,7 @@ router.post(
 );
 
 router.route('/').get(userController.getAllUsers);
+router.route('/unactive').get(userController.getUnActiveUsers);
 router.post('/updatePassword', authController.updatePassword);
 router.patch('/updateMe', userController.updateMe);
 router.patch('/deleteMe', userController.deleteMe);
