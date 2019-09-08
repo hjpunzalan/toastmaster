@@ -5,6 +5,7 @@ export const LOGOUT = 'LOGOUT';
 export const CLEAR_LOGIN = 'CLEAR_LOGIN';
 export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
 export const RESET_PASSWORD = 'RESET_PASSWORD';
+export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 export const AUTH_ERROR = 'AUTH_ERROR';
 
 export const SET_ALERT = 'SET_ALERT';
@@ -27,5 +28,6 @@ export const TOGGLE_CREATE_POST = 'TOGGLE_CREATE_POST';
 export const TOGGLE_EDIT_POST = 'TOGGLE_EDIT_POST';
 
 export const UPDATE_ME = 'UPDATE_ME';
+export const UPDATE_FAILED = 'UPDATE_FAILED';
 export const LOADING_AUTH = 'LOADING_USER';
 export const GET_ALL_USERS = 'GET_ALL_USERS';

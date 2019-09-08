@@ -11,6 +11,7 @@ import Post from '../pages/Discussion/Post/Post';
 import ForgotPassword from '../auth/ForgotPassword';
 import ResetPassword from '../auth/ResetPassword';
 import Update from '../pages/Dashboard/Update';
+import ChangePassword from '../auth/ChangePassword';
 
 const Routes = () => {
 	return (
@@ -27,6 +28,11 @@ const Routes = () => {
 			<PrivateRoute exact path="/discussion" component={Discussion} />
 			<PrivateRoute exact path="/dashboard" component={Dashboard} />
 			<PrivateRoute exact path="/user/update" component={Update} />
+			<PrivateRoute
+				exact
+				path="/user/changepassword"
+				component={ChangePassword}
+			/>
 			<PrivateRoute exact path="/discussion/post/:postId" component={Post} />
 		</Switch>
 	);

@@ -9,14 +9,11 @@ const Announcements = () => {
 	return (
 		<div className="Dashboard__left">
 			<h1 className="Dashboard__title">Announcements</h1>
-			<p className="Dashboard__label">
-				Here you will find club guidelines and resources available to its
-				members.
-			</p>
+
 			<iframe
 				title="Southern River Toastmaster Post"
 				src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FSRTOASTMASTERSCLUB%2Fposts%2F1714806421985710&width=500&show_text=true&appId=2411264755855685&height=441"
-				width={window.screen.width < 550 ? 350 : 500}
+				width={width}
 				height="441"
 				className="Dashboard__facebook"
 				scrolling="no"

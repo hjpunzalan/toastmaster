@@ -5,9 +5,11 @@ import {
 	CLEAR_LOGIN,
 	AUTH_ERROR,
 	UPDATE_ME,
+	UPDATE_FAILED,
 	LOADING_AUTH,
 	FORGOT_PASSWORD,
-	RESET_PASSWORD
+	RESET_PASSWORD,
+	CHANGE_PASSWORD
 } from '../actions/types';
 
 const initialState = {
@@ -31,6 +33,8 @@ export default (state = initialState, action) => {
 				loading: true
 			};
 		case LOGIN_SUCCESS:
+		case RESET_PASSWORD:
+		case CHANGE_PASSWORD:
 			return {
 				//State needs to be first
 				...state,
@@ -39,7 +43,6 @@ export default (state = initialState, action) => {
 				loading: false
 			};
 		case FORGOT_PASSWORD:
-		case RESET_PASSWORD:
 		case LOGOUT:
 		case LOGIN_FAIL:
 		case AUTH_ERROR:
@@ -55,6 +58,11 @@ export default (state = initialState, action) => {
 				loading: false,
 				currentUser: payload,
 				isModified: true
+			};
+		case UPDATE_FAILED:
+			return {
+				...state,
+				loading: false
 			};
 
 		default:
