@@ -1,78 +1,86 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { resetPassword } from '../../actions/auth';
 import useForms from '../../hooks/useForms';
-import { loginUser } from '../../actions/auth';
 import Spinner from '../utils/Spinner';
+import { setAlert, resetAlert } from '../../actions/alerts';
 
 const ResetPassword = ({
-	loginUser,
+	setAlert,
+	resetAlert,
+	resetPassword,
+	match: {
+		params: { resetToken }
+	},
 	history,
-	auth: { isAuthenticated, loading }
+	auth: { loading }
 }) => {
 	const blankForm = {
-		email: '',
-		password: ''
+		password: '',
+		confirmPassword: ''
 	};
 	const { formData, handleChange, handleSubmit } = useForms(
 		blankForm,
-		loginUser,
+		resetPassword,
+		resetToken,
 		history
 	);
-	const { email, password } = formData;
+	const { password, confirmPassword } = formData;
 
-	// Redirect if logged in
-	if (isAuthenticated) {
-		return <Redirect to="/dashboard" />;
-	}
+	const passwordNotMatch = e => {
+		resetAlert();
+		e.preventDefault();
+		setAlert('Passwords does not match', 'fail');
+	};
 
 	return loading ? (
 		<Spinner />
 	) : (
 		<div className="Form">
-			<h1>Login</h1>
-			<p className="Form__text">
-				Please login with your email address and password
-			</p>
+			<h1>Reset your password</h1>
+			<p className="Form__text">Please enter a new password below.</p>
 			<hr />
-			<form className="Form__form" onSubmit={handleSubmit}>
-				<label htmlFor="email">
-					<b>Email</b>
-				</label>
-				<input
-					type="text"
-					placeholder="Enter Email"
-					name="email"
-					value={email}
-					onChange={handleChange}
-					required
-				/>
+			<form
+				className="Form__form"
+				onSubmit={
+					password !== confirmPassword ? passwordNotMatch : handleSubmit
+				}>
 				<label htmlFor="password">
 					<b>Password</b>
 				</label>
 				<input
 					type="password"
-					placeholder="Enter Password"
+					placeholder="Enter a new Password"
 					name="password"
 					value={password}
 					onChange={handleChange}
 					required
 					autoComplete="on"
 				/>
+				<label htmlFor="confirmPassword">
+					<b>Confirm Password</b>
+				</label>
+				<input
+					type="password"
+					placeholder="Confirm password"
+					name="confirmPassword"
+					value={confirmPassword}
+					onChange={handleChange}
+					required
+				/>
 				<div className="Form__btns">
 					<input type="submit" className="btn btn__submit" value="Login" />
 				</div>
-				<Link className="Form__link" to="/forgotpassword">
-					Forgot your password?
-				</Link>
 			</form>
 		</div>
 	);
 };
 
 ResetPassword.propTypes = {
-	loginUser: PropTypes.func.isRequired,
+	resetPassword: PropTypes.func.isRequired,
+	setAlert: PropTypes.func.isRequired,
+	resetAlert: PropTypes.func.isRequired,
 	auth: PropTypes.object.isRequired
 };
 
@@ -82,5 +90,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ loginUser }
+	{ resetPassword, setAlert, resetAlert }
 )(ResetPassword);

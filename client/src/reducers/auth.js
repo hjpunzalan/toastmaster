@@ -7,7 +7,8 @@ import {
 	UPDATE_ME,
 	LOADING_AUTH,
 	TOGGLE_UPDATE_ME,
-	FORGOT_PASSWORD
+	FORGOT_PASSWORD,
+	RESET_PASSWORD
 } from '../actions/types';
 
 const initialState = {
@@ -45,6 +46,7 @@ export default (state = initialState, action) => {
 				loading: false
 			};
 		case FORGOT_PASSWORD:
+		case RESET_PASSWORD:
 		case LOGOUT:
 		case LOGIN_FAIL:
 		case AUTH_ERROR:
