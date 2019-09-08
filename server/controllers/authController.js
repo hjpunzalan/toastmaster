@@ -70,8 +70,13 @@ exports.login = catchAsync(async (req, res, next) => {
 			new AppError('Invalid email or password. Please try again.', 401)
 		);
 
-	// Make inactive users active
 	if (!user.active) {
+		return next(
+			new AppError(
+				"You're account has been deactivated. Please contact the committee",
+				401
+			)
+		);
 	}
 
 	// remove users password from response

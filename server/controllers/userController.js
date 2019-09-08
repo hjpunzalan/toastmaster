@@ -25,6 +25,11 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 	res.status(200).json(users);
 });
 
+exports.getUnActiveUsers = catchAsync(async (req, res, next) => {
+	const users = await Users.findMany({ active: { $neq: true } });
+	res.status(200).json(users);
+});
+
 exports.updateMe = catchAsync(async (req, res, next) => {
 	// Update user document
 	const filterBody = checkBody(
