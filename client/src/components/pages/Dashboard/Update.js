@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import useForms from '../../../hooks/useForms';
 import { updateMe } from '../../../actions/users';
 
@@ -21,7 +22,10 @@ const Update = ({ auth: { currentUser }, updateMe, history }) => {
 
 	return (
 		<div className="Form">
-			<h1>Update your profile</h1>
+			<Link to="/dashboard">
+				<button className="btn btn__cancel-sm">Cancel</button>
+			</Link>
+			<h1 className="Form__title">Update your profile</h1>
 			<form className="Form__form" onSubmit={handleSubmit}>
 				<label className="Form__text" htmlFor="image">
 					Profile photo

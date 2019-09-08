@@ -13,9 +13,7 @@ const Dashboard = ({ auth: { currentUser, isModified } }) => {
 	);
 };
 Dashboard.propTypes = {
-	auth: PropTypes.object.isRequired,
-	updateMe: PropTypes.func.isRequired,
-	toggleUpdateMe: PropTypes.func.isRequired
+	auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
