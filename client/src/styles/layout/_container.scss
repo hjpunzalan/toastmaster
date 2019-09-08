@@ -1,6 +1,6 @@
 .Container {
     max-width: 120rem;
-    min-height: containerMinHeight($navbar-height, $footer-height);
+    min-height: containerMinHeight($navbar-height);
     padding-top: 5rem;
     padding-bottom: 7rem;
     margin: 0 auto;

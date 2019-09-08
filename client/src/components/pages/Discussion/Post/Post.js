@@ -80,7 +80,9 @@ const Post = ({
 				<span className="Post__back-visible">Go Back</span>
 				<span className="Post__back-invisible">To discussion</span>
 			</Link>
-			<h1 className="Post__title">{post.title}</h1>
+			<div className="Post__title-container">
+				<h1 className="Post__title">{post.title}</h1>
+			</div>
 			<PostHead
 				post={post}
 				currentUser={currentUser}

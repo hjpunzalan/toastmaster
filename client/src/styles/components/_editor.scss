@@ -114,18 +114,15 @@
 
 div.DraftEditor-root {
     width: 100%;
-    font-size: $size-text;
+    line-height: 150%;
+    font-size: $size-editor-text;
     font-family: Arial, Helvetica, sans-serif;
 }
+
 
 .RichEditor-ReadOnly {
     img:hover {
         box-shadow: none;
         border-radius: none;
     }
-}
-
-.public-DraftStyleDefault-ltr {
-    font-size: 1.5rem;
-    line-height: 150%;
 }
