@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { resetPassword } from '../../actions/auth';
+import { Link } from 'react-router-dom';
+import { changePassword } from '../../actions/auth';
 import useForms from '../../hooks/useForms';
 import Spinner from '../utils/Spinner';
 import { setAlert, resetAlert } from '../../actions/alerts';
 
-const ResetPassword = ({
+const ChangePassword = ({
 	setAlert,
 	resetAlert,
-	resetPassword,
+	changePassword,
 	match: {
 		params: { resetToken }
 	},
@@ -17,16 +18,16 @@ const ResetPassword = ({
 	auth: { loading }
 }) => {
 	const blankForm = {
-		password: '',
+		currentPassword: '',
+		newPassword: '',
 		confirmPassword: ''
 	};
 	const { formData, handleChange, handleSubmit } = useForms(
 		blankForm,
-		resetPassword,
-		resetToken,
+		changePassword,
 		history
 	);
-	const { password, confirmPassword } = formData;
+	const { currentPassword, newPassword, confirmPassword } = formData;
 
 	const passwordNotMatch = e => {
 		resetAlert();
@@ -38,25 +39,44 @@ const ResetPassword = ({
 		<Spinner />
 	) : (
 		<div className="Form">
-			<h1>Reset your password</h1>
-			<p className="Form__text">Please enter a new password below.</p>
+			<Link to="/dashboard">
+				<button className="btn btn__cancel-sm">Cancel</button>
+			</Link>
+			<h1 className="Form__title">Change Your Password</h1>
+			<p className="Form__text">
+				Changing your password will log you out from other devices.
+			</p>
 			<hr />
 			<form
 				className="Form__form"
 				onSubmit={
-					password !== confirmPassword ? passwordNotMatch : handleSubmit
+					newPassword !== confirmPassword ? passwordNotMatch : handleSubmit
 				}>
-				<label htmlFor="password">
-					<b>Password</b>
+				<label htmlFor="currentPassword">
+					<b>Current Password</b>
 				</label>
 				<input
 					type="password"
-					placeholder="Enter a new Password"
-					name="password"
-					value={password}
+					placeholder="Enter your current Password"
+					name="currentPassword"
+					value={currentPassword}
 					onChange={handleChange}
-					minLength="6"
+					required
 					autoComplete="on"
+				/>
+				<br />
+				<br />
+				<label htmlFor="newPassword">
+					<b>New Password</b>
+				</label>
+				<input
+					type="password"
+					placeholder="Enter your new Password"
+					name="newPassword"
+					value={newPassword}
+					onChange={handleChange}
+					autoComplete="on"
+					minLength="6"
 					required
 				/>
 				<label htmlFor="confirmPassword">
@@ -79,8 +99,8 @@ const ResetPassword = ({
 	);
 };
 
-ResetPassword.propTypes = {
-	resetPassword: PropTypes.func.isRequired,
+ChangePassword.propTypes = {
+	changePassword: PropTypes.func.isRequired,
 	setAlert: PropTypes.func.isRequired,
 	resetAlert: PropTypes.func.isRequired,
 	auth: PropTypes.object.isRequired
@@ -92,5 +112,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ resetPassword, setAlert, resetAlert }
-)(ResetPassword);
+	{ changePassword, setAlert, resetAlert }
+)(ChangePassword);

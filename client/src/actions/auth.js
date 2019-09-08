@@ -6,7 +6,8 @@ import {
 	AUTH_ERROR,
 	FORGOT_PASSWORD,
 	LOADING_AUTH,
-	RESET_PASSWORD
+	RESET_PASSWORD,
+	CHANGE_PASSWORD
 } from '../actions/types';
 import catchAsync from '../utils/catchAsync';
 import { resetAlert, setAlert } from './alerts';
@@ -69,12 +70,11 @@ export const forgotPassword = (email, url) =>
 
 export const resetPassword = ({ password: newPassword }, token, history) =>
 	catchAsync('auth', async dispatch => {
-		console.log(newPassword, token, history);
 		dispatch(resetAlert());
 		dispatch({ type: LOADING_AUTH }); // need to load when we sumbmit a post or patch request
 
 		// Send info to server that will send email.
-		await axios.patch(
+		const res = await axios.patch(
 			`/api/auth/resetPassword/${token}`,
 			{ password: newPassword },
 			{
@@ -83,12 +83,30 @@ export const resetPassword = ({ password: newPassword }, token, history) =>
 				}
 			}
 		);
-		dispatch({ type: RESET_PASSWORD });
-		history.push('/login');
-		dispatch(
-			setAlert(
-				'Success! New passsword has been set. Try logging in!',
-				'success'
-			)
+		dispatch({ type: RESET_PASSWORD, payload: res.data });
+		history.push('/dashboard');
+		dispatch(setAlert('Success! New passsword has been set.', 'success'));
+	});
+
+export const changePassword = (
+	{ currentPassword: password, newPassword },
+	history
+) =>
+	catchAsync('update', async dispatch => {
+		dispatch(resetAlert());
+		dispatch({ type: LOADING_AUTH }); // need to load when we sumbmit a post or patch request
+
+		// Send info to server that will send email.
+		const res = await axios.post(
+			`/api/users/updatePassword`,
+			{ password, newPassword },
+			{
+				headers: {
+					'Content-type': 'application/json'
+				}
+			}
 		);
+		dispatch({ type: CHANGE_PASSWORD, payload: res.data });
+		history.push('/dashboard');
+		dispatch(setAlert('Success! Password changed.', 'success'));
 	});

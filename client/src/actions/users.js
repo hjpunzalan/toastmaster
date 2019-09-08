@@ -37,7 +37,7 @@ export const registerUser = formData => dispatch => {
 };
 
 export const updateMe = (formData, file, history) =>
-	catchAsync('auth', async dispatch => {
+	catchAsync('update', async dispatch => {
 		dispatch(resetAlert());
 		dispatch({ type: LOADING_AUTH });
 
