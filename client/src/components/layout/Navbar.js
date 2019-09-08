@@ -9,7 +9,7 @@ const Navbar = ({ auth: { isAuthenticated }, logoutUser }) => {
 	return (
 		<Fragment>
 			<ul className="Navbar">
-				<Link to="/" className="Navbar__left">
+				<Link to="/dashboard" className="Navbar__left">
 					<li className="Navbar__item">
 						<img className="Navbar__logo" src={logo} alt="logo" />
 					</li>

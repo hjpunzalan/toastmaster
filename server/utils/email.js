@@ -8,13 +8,19 @@ module.exports = class Email {
 		this.firstName = user.firstName;
 		this.url = url;
 		this.password = user.password;
-		this.from = `Southern River Toastmaster <${process.env.EMAIL_FROM}>`;
+		this.from = `Jonathan Punzalan <${process.env.EMAIL_FROM}>`;
 	}
 
 	newTransport() {
 		if (process.env.NODE_ENV === 'production') {
 			// Sendgrid
-			return;
+			return nodemailer.createTransport({
+				service: 'SendGrid', //predefined by nodemailer
+				auth: {
+					user: process.env.SENDGRID_USERNAME,
+					pass: process.env.SENDGRID_PASSWORD
+				}
+			});
 		}
 		return nodemailer.createTransport({
 			host: process.env.EMAIL_HOST,
