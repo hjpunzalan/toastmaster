@@ -1,6 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import useForms from '../../../hooks/useForms';
+import { updateMe } from '../../../actions/users';
 
-const Update = ({ handleSubmit, handleFileChange, formData, handleChange }) => {
+const Update = ({ auth: { currentUser }, updateMe, history }) => {
+	const [file, setFile] = useState('');
+	const { firstName, lastName, email } = currentUser;
+	const blankForm = { firstName, lastName, email };
+	const { formData, handleChange, handleSubmit } = useForms(
+		blankForm,
+		updateMe,
+		file,
+		history
+	);
+
+	const handleFileChange = e => {
+		setFile(e.target.files[0]);
+	};
+
 	return (
 		<div className="Form">
 			<h1>Update your profile</h1>
@@ -47,4 +65,16 @@ const Update = ({ handleSubmit, handleFileChange, formData, handleChange }) => {
 	);
 };
 
-export default Update;
+Update.propTypes = {
+	updateMe: PropTypes.func.isRequired,
+	auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+	auth: state.auth
+});
+
+export default connect(
+	mapStateToProps,
+	{ updateMe }
+)(Update);

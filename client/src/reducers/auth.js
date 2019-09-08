@@ -6,7 +6,6 @@ import {
 	AUTH_ERROR,
 	UPDATE_ME,
 	LOADING_AUTH,
-	TOGGLE_UPDATE_ME,
 	FORGOT_PASSWORD,
 	RESET_PASSWORD
 } from '../actions/types';
@@ -15,7 +14,6 @@ const initialState = {
 	currentUser: null,
 	isAuthenticated: false,
 	loading: true,
-	edit: false,
 	isModified: false
 };
 
@@ -23,11 +21,6 @@ export default (state = initialState, action) => {
 	const { type, payload } = action;
 
 	switch (type) {
-		case TOGGLE_UPDATE_ME:
-			return {
-				...state,
-				edit: payload
-			};
 		case LOADING_AUTH:
 			return { ...state, loading: true };
 		case CLEAR_LOGIN:

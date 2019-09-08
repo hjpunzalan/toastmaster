@@ -10,6 +10,7 @@ import Discussion from '../pages/Discussion/Discussion';
 import Post from '../pages/Discussion/Post/Post';
 import ForgotPassword from '../auth/ForgotPassword';
 import ResetPassword from '../auth/ResetPassword';
+import Update from '../pages/Dashboard/Update';
 
 const Routes = () => {
 	return (
@@ -25,6 +26,7 @@ const Routes = () => {
 			<PrivateRoute exact path="/members" component={MemberList} />
 			<PrivateRoute exact path="/discussion" component={Discussion} />
 			<PrivateRoute exact path="/dashboard" component={Dashboard} />
+			<PrivateRoute exact path="/user/update" component={Update} />
 			<PrivateRoute exact path="/discussion/post/:postId" component={Post} />
 		</Switch>
 	);
