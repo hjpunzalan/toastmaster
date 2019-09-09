@@ -17,17 +17,25 @@ import {
 	EditorState,
 	RichUtils,
 	getDefaultKeyBinding,
-	KeyBindingUtil
+	KeyBindingUtil,
+	Modifier
 } from 'draft-js';
 import ImageAdd from './ImageAdd/ImageAdd';
 import pluginDecorator from './pluginDecorator';
-import linkifyEditorState from './linkifyEditorState';
 import theme from './emojiPlugin';
 
+// This fixes cannot delete child from node error when backspace of links
+const HANDLED = 'handled';
 const { hasCommandModifier } = KeyBindingUtil;
 const emojiPlugin = createEmojiPlugin({ theme });
 const { EmojiSelect } = emojiPlugin;
-const linkifyPlugin = createLinkifyPlugin({ target: '_blank' });
+const linkifyPlugin = createLinkifyPlugin({
+	//This gets rid of blockkey error warnings
+	component: ({ blockKey, ...rest }) => (
+		// eslint-disable-next-line no-alert, jsx-a11y/anchor-has-content
+		<a {...rest} blockkey={blockKey} target="_blank" />
+	)
+});
 const focusPlugin = createFocusPlugin();
 const blockDndPlugin = createBlockDndPlugin();
 const resizeablePlugin = createResizeablePlugin();
@@ -59,12 +67,6 @@ class TextEditor extends Component {
 				: EditorState.createEmpty(),
 			plainText: ''
 		}; //Always makes a new content whenever rendered
-		this.handleKeyCommand = this._handleKeyCommand.bind(this);
-		this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
-		this.toggleBlockType = this._toggleBlockType.bind(this);
-		this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
-		this.onChange = this.onChange.bind(this);
-		this.focus = this.focus.bind(this);
 	}
 
 	focus = () => this.editor.focus();
@@ -75,32 +77,46 @@ class TextEditor extends Component {
 			plainText: this.state.editorState.getCurrentContent().getPlainText()
 		});
 		this.props.onChange(
-			convertToRaw(linkifyEditorState(editorState).getCurrentContent()) // Sends the content to redux state
+			convertToRaw(editorState.getCurrentContent()) // Sends the content to redux state
 		);
 	};
 
-	_handleKeyCommand(command, editorState) {
+	handleBeforeInput = (chars, editorState) => {
+		const currentContentState = editorState.getCurrentContent();
+		const selectionState = editorState.getSelection();
+
+		this.onChange(
+			EditorState.push(
+				editorState,
+				Modifier.replaceText(currentContentState, selectionState, chars)
+			)
+		);
+
+		return HANDLED;
+	};
+
+	handleKeyCommand = (command, editorState) => {
 		const newState = RichUtils.handleKeyCommand(editorState, command);
 		if (newState) {
 			this.onChange(newState);
 			return true;
 		}
 		return false;
-	}
-	_mapKeyToEditorCommand(e) {
+	};
+	mapKeyToEditorCommand = e => {
 		if (e.keyCode === 83 /* `S` key */ && hasCommandModifier(e)) {
 			return 'myeditor-save';
 		}
 		return getDefaultKeyBinding(e);
-	}
-	_toggleBlockType(blockType) {
+	};
+	toggleBlockType = blockType => {
 		this.onChange(RichUtils.toggleBlockType(this.state.editorState, blockType));
-	}
-	_toggleInlineStyle(inlineStyle) {
+	};
+	toggleInlineStyle = inlineStyle => {
 		this.onChange(
 			RichUtils.toggleInlineStyle(this.state.editorState, inlineStyle)
 		);
-	}
+	};
 
 	handleSubmit = () => {
 		const text = this.state.plainText;
@@ -144,6 +160,7 @@ class TextEditor extends Component {
 					<div className={className} onClick={this.focus}>
 						<Editor
 							blockStyleFn={getBlockStyle}
+							handleBeforeInput={this.handleBeforeInput}
 							editorState={editorState}
 							handleKeyCommand={this.handleKeyCommand}
 							keyBindingFn={this.mapKeyToEditorCommand}

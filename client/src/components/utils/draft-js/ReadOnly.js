@@ -12,7 +12,13 @@ import theme from './emojiPlugin';
 
 let editor;
 const emojiPlugin = createEmojiPlugin({ theme });
-const linkifyPlugin = createLinkifyPlugin({ target: '_blank' });
+const linkifyPlugin = createLinkifyPlugin({
+	//This gets rid of blockkey error warnings
+	component: ({ blockKey, ...rest }) => (
+		// eslint-disable-next-line no-alert, jsx-a11y/anchor-has-content
+		<a {...rest} blockkey={blockKey} target="_blank" />
+	)
+});
 const focusPlugin = createFocusPlugin();
 const blockDndPlugin = createBlockDndPlugin();
 const resizeablePlugin = createResizeablePlugin();
