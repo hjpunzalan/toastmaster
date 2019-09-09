@@ -12,7 +12,7 @@ import theme from './emojiPlugin';
 
 let editor;
 const emojiPlugin = createEmojiPlugin({ theme });
-const linkifyPlugin = createLinkifyPlugin();
+const linkifyPlugin = createLinkifyPlugin({ target: '_blank' });
 const focusPlugin = createFocusPlugin();
 const blockDndPlugin = createBlockDndPlugin();
 const resizeablePlugin = createResizeablePlugin();

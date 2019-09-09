@@ -1,6 +1,11 @@
 .Dashboard {
   display: flex;
   justify-content: space-between;
+  overflow: hidden;
+
+  &-text {
+    height: 500rem;
+  }
 
   &__title {
     font-size: $size-title;
@@ -8,9 +13,11 @@
 
   &__left {
     width: 70%;
+    height: (100vh-23vh);
     padding: 2rem;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
     overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -19,6 +26,7 @@
       width: 0;
       height: 0;
     }
+
 
   }
 
@@ -30,9 +38,9 @@
   }
 
   &__facebook {
+    flex-shrink: 0;
     border: none;
     overflow: hidden;
-    margin: 5rem 0;
   }
 
   &__user {
