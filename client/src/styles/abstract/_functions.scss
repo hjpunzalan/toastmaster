@@ -3,10 +3,6 @@
     @return 2 * $var;
 }
 
-@function containerMinHeight($navbar) {
-    @return 100vh - $navbar;
-}
-
 @function logoHeight($navbarheight) {
     @return ($navbarheight)-1vh;
 }
