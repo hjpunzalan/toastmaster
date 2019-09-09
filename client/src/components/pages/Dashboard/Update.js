@@ -27,8 +27,8 @@ const Update = ({ auth: { currentUser }, updateMe, history }) => {
 			</Link>
 			<h1 className="Form__title">Update your profile</h1>
 			<form className="Form__form" onSubmit={handleSubmit}>
-				<label className="Form__text" htmlFor="image">
-					Profile photo
+				<label htmlFor="image">
+					<strong>Profile photo</strong>
 				</label>
 				<input
 					type="file"
@@ -36,8 +36,8 @@ const Update = ({ auth: { currentUser }, updateMe, history }) => {
 					name="image"
 					onChange={handleFileChange}
 				/>
-				<label className="Form__text" htmlFor="firstName">
-					First Name
+				<label htmlFor="firstName">
+					<strong>First Name</strong>
 				</label>
 				<input
 					type="text"
@@ -45,8 +45,8 @@ const Update = ({ auth: { currentUser }, updateMe, history }) => {
 					value={formData.firstName}
 					onChange={handleChange}
 				/>
-				<label className="Form__text" htmlFor="lastName">
-					Last Name
+				<label htmlFor="lastName">
+					<strong>Last Name</strong>
 				</label>
 				<input
 					type="text"
@@ -54,8 +54,8 @@ const Update = ({ auth: { currentUser }, updateMe, history }) => {
 					value={formData.lastName}
 					onChange={handleChange}
 				/>
-				<label className="Form__text" htmlFor="email">
-					Email
+				<label htmlFor="email">
+					<strong>Email</strong>
 				</label>
 				<input
 					type="email"

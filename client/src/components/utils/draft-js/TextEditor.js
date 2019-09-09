@@ -27,7 +27,7 @@ import theme from './emojiPlugin';
 const { hasCommandModifier } = KeyBindingUtil;
 const emojiPlugin = createEmojiPlugin({ theme });
 const { EmojiSelect } = emojiPlugin;
-const linkifyPlugin = createLinkifyPlugin();
+const linkifyPlugin = createLinkifyPlugin({ target: '_blank' });
 const focusPlugin = createFocusPlugin();
 const blockDndPlugin = createBlockDndPlugin();
 const resizeablePlugin = createResizeablePlugin();

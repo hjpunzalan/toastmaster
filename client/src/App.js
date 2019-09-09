@@ -7,8 +7,9 @@ import Navbar from './components/layout/Navbar';
 import Routes from './components/routing/Routes';
 import './styles/main.scss';
 import { checkUser } from './actions/auth';
+import Moderator from './components/layout/Moderator';
 
-const App = ({ location: { pathname } }) => {
+const App = () => {
 	useEffect(() => {
 		store.dispatch(checkUser()); // runs only once
 	}, []);
@@ -16,6 +17,7 @@ const App = ({ location: { pathname } }) => {
 	return (
 		<Provider store={store}>
 			<Navbar />
+			<Moderator />
 			<Route exact path="/" render={() => <Redirect to="/dashboard" />} />
 			<Routes />
 		</Provider>

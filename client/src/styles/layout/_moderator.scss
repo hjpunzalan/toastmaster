@@ -1,0 +1,57 @@
+.Moderator {
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background: $color-white;
+    border: 1px solid $color-grey;
+    font-size: $size-label;
+
+    &__mode {
+        margin-right: 1rem;
+    }
+
+    &__checked {
+        color: $color-white;
+        background: $color-secondary-light;
+    }
+
+    // Hide default checkbox
+    &__checkbox {
+        opacity: 0;
+        width: 0;
+        height: 0;
+
+        &:checked+.Moderator__slider {
+            background-color: $color-secondary-light;
+        }
+
+        &:checked+.Moderator__slider::after {
+            transform: translateX(100%);
+        }
+    }
+
+    &__slider {
+        cursor: pointer;
+        width: $moderator-switch-width;
+        height: $moderator-switch-height;
+        background-color: #ccc;
+        display: flex;
+        align-items: center;
+        padding: .3rem;
+        border-radius: 100px;
+        transition: all .4s;
+        margin-right: 2rem;
+
+        &::after {
+            content: "";
+            height: sliderSize($moderator-switch-height);
+            width: sliderSize($moderator-switch-height);
+            border-radius: 50%;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+    }
+}
