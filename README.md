@@ -56,7 +56,7 @@ I've completed most of my goals. I've added pagination of both client and server
  
 
 </p>
-
+<hr/>
 <h3>10th September 2019 </h3>
 <p>
   I have been working 12-hr shifts but still managed to be productive. I did a lot of things which I probably should have documented as I went through them but its hard battling against time and you just want to be as productive as much as possible. Looking from my github commits, I did a lot of styling: from changing the colour of the navbar, removing the footer to making the dashboard responsive. Anyhow, lets start with my goals from last time:
