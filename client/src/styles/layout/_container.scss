@@ -1,7 +1,7 @@
 .Container {
     max-width: 120rem;
-    min-height: calc(100vh - $navbar-height - $moderator-height);
-    padding-top: 5rem;
+    min-height: $container-min-height;
+    padding-top: $padding-lg;
     padding-bottom: 7rem;
     margin: 0 auto;
 }

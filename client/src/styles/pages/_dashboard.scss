@@ -9,12 +9,23 @@
 
   &__title {
     font-size: $size-title;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: $padding-lg;
   }
 
   &__left {
     width: 70%;
-    height: (100vh-29vh);
-    padding: 2rem;
+    padding-right: 4rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__announcements {
+    height: calc(#{$container-min-height} - #{$button-height} - 2*#{$padding-lg} - 7rem);
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
@@ -26,24 +37,24 @@
       width: 0;
       height: 0;
     }
-
-
   }
 
   &__right {
     width: 30%;
-    padding: 4rem;
+    padding: 0 6rem;
     display: flex;
-    flex-direction: column
+    flex-direction: column;
+    flex-shrink: 0;
   }
 
   &__facebook {
-    flex-shrink: 0;
     border: none;
+    margin: 0 auto;
     overflow: hidden;
   }
 
   &__user {
+    border: 1px solid grey;
 
     &-name {
       font-size: $size-text;
@@ -56,7 +67,7 @@
       height: 20rem;
       object-fit: cover;
       border: 1px solid $color-black;
-      margin: 2rem auto;
+      margin: 6rem auto 2rem auto;
     }
   }
 
