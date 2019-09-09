@@ -11,51 +11,12 @@
     margin-bottom: 2rem;
   }
 
-  &__create {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-
-    button.btn.btn__cancel {
-      width: 10rem;
-      height: 3rem;
-    }
-
-    &-title {
-      margin-top: 4rem;
-      font-size: $size-title;
-      color: $color-primary;
-
-      &:focus {
-        outline: none;
-        border: none;
-      }
-    }
-
-    &-form {
-      margin-top: 5rem;
-      width: 100%;
-
-      input[type="text"] {
-        padding: 0.5rem;
-        max-width: 600px;
-        width: 60%;
-      }
-
-      &Label {
-        font-size: $size-label;
-        margin-right: 2rem;
-        font-weight: 600;
-      }
-    }
-  }
-
   &__search {
     display: flex;
     align-items: center;
     width: 100%;
 
-    & > form {
+    &>form {
       display: flex;
       width: 70%;
     }
@@ -95,14 +56,14 @@
     }
 
     & input[type="text"]:focus,
-    & input[type="text"]:focus + &-searchIcon {
+    & input[type="text"]:focus+&-searchIcon {
       border-color: $color-grey-dark;
     }
 
     &-reset {
       padding: 0.7rem 1rem;
       font-size: 1.2rem;
-      width: auto;
+      width: min-content;
       height: $button-height;
       border: none;
       box-shadow: none;
