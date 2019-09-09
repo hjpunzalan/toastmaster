@@ -15,36 +15,32 @@
     width: 100%;
     justify-content: space-between;
     margin-bottom: $padding-lg;
+
   }
 
   &__left {
     width: 70%;
+    height: 100%;
     padding-right: 4rem;
-    display: flex;
-    flex-direction: column;
   }
 
   &__announcements {
     height: calc(#{$container-min-height} - #{$button-height} - 2*#{$padding-lg} - 7rem);
     display: flex;
     flex-direction: column;
-    flex-shrink: 0;
     overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    flex-shrink: 0;
 
     &::-webkit-scrollbar {
       width: 0;
       height: 0;
     }
-  }
 
-  &__right {
-    width: 30%;
-    padding: 0 6rem;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
+    & * {
+      flex-shrink: 0;
+    }
   }
 
   &__facebook {
@@ -52,6 +48,14 @@
     margin: 0 auto;
     overflow: hidden;
   }
+
+  &__right {
+    width: 30%;
+    padding: 0 6rem;
+    display: flex;
+    flex-direction: column;
+  }
+
 
   &__user {
     border: 1px solid grey;

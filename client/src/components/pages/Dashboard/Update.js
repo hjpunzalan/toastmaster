@@ -23,7 +23,7 @@ const Update = ({ auth: { currentUser }, updateMe, history }) => {
 	return (
 		<div className="Form">
 			<Link to="/dashboard">
-				<button className="btn btn__cancel-sm">Cancel</button>
+				<button className="btn btn__cancel">Cancel</button>
 			</Link>
 			<h1 className="Form__title">Update your profile</h1>
 			<form className="Form__form" onSubmit={handleSubmit}>

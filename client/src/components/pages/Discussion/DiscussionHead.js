@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import TextEditor from '../../utils/draft-js/TextEditor';
+import CreatePost from '../../utils/CreatePost';
 
 const DiscussionHead = ({
 	createPost,
@@ -63,26 +63,13 @@ const DiscussionHead = ({
 				</>
 			) : (
 				!loading && (
-					<div className="Discussion__create">
-						<button className="btn btn__cancel" onClick={handleToggle}>
-							Cancel
-						</button>
-						<h1 className="Discussion__create-title">Submit a new post</h1>
-						<div className="Discussion__create-form">
-							<label htmlFor="title" className="Discussion__create-formLabel">
-								Title:
-							</label>
-							<input
-								type="text"
-								name="title"
-								placeholder="Insert Title"
-								value={title}
-								onChange={e => setTitle(e.target.value)}
-								maxLength={80} // so it doesnt pollute the post too much
-							/>
-							<TextEditor handleSubmit={handleSubmit} />
-						</div>
-					</div>
+					<CreatePost
+						handleSubmit={handleSubmit}
+						handleToggle={handleToggle}
+						title={title}
+						setTitle={setTitle}
+						type={'Post'}
+					/>
 				)
 			)}
 		</div>

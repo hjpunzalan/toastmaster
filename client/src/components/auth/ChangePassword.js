@@ -40,7 +40,7 @@ const ChangePassword = ({
 	) : (
 		<div className="Form">
 			<Link to="/dashboard">
-				<button className="btn btn__cancel-sm">Cancel</button>
+				<button className="btn btn__cancel">Cancel</button>
 			</Link>
 			<h1 className="Form__title">Change Your Password</h1>
 			<p className="Form__text">
