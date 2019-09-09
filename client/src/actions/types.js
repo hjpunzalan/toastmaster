@@ -1,3 +1,4 @@
+// Auth
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
@@ -8,9 +9,11 @@ export const RESET_PASSWORD = 'RESET_PASSWORD';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 export const AUTH_ERROR = 'AUTH_ERROR';
 
+// Alerts
 export const SET_ALERT = 'SET_ALERT';
 export const RESET_ALERT = 'RESET_ALERT';
 
+// Post and discussion
 export const POST_CREATE = 'POST_CREATE';
 export const POST_RESET = 'POST_RESET';
 export const ADD_COMMENT = 'ADD_COMMENT';
@@ -27,7 +30,9 @@ export const ERROR = 'ERROR';
 export const TOGGLE_CREATE_POST = 'TOGGLE_CREATE_POST';
 export const TOGGLE_EDIT_POST = 'TOGGLE_EDIT_POST';
 
+// User
 export const UPDATE_ME = 'UPDATE_ME';
 export const UPDATE_FAILED = 'UPDATE_FAILED';
 export const LOADING_AUTH = 'LOADING_USER';
 export const GET_ALL_USERS = 'GET_ALL_USERS';
+export const TOGGLE_MODERATOR = 'TOGGLE_MODERATOR';

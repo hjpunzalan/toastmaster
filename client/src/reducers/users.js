@@ -1,9 +1,14 @@
-import { REGISTER_SUCCESS, GET_ALL_USERS } from '../actions/types';
+import {
+	REGISTER_SUCCESS,
+	GET_ALL_USERS,
+	TOGGLE_MODERATOR
+} from '../actions/types';
 
 const initialState = {
 	users: [],
 	loading: true,
-	error: {}
+	error: {},
+	Moderator: false
 };
 
 export default (state = initialState, action) => {
@@ -26,6 +31,11 @@ export default (state = initialState, action) => {
 				...state,
 				loading: false,
 				users: payload
+			};
+		case TOGGLE_MODERATOR:
+			return {
+				...state,
+				Moderator: !state.Moderator
 			};
 
 		default:

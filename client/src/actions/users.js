@@ -3,7 +3,8 @@ import {
 	REGISTER_SUCCESS,
 	UPDATE_ME,
 	LOADING_AUTH,
-	GET_ALL_USERS
+	GET_ALL_USERS,
+	TOGGLE_MODERATOR
 } from '../actions/types';
 import { setAlert, resetAlert } from './alerts';
 import catchAsync from '../utils/catchAsync';
@@ -74,3 +75,6 @@ export const getAllUsers = () =>
 			payload: res.data
 		});
 	});
+
+export const toggleView = () => dispatch =>
+	dispatch({ type: TOGGLE_MODERATOR });
