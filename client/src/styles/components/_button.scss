@@ -25,6 +25,19 @@
         height: 3rem;
     }
 
+    &__edit {
+        &-xs {
+            font-size: $size-alert;
+            background-color: $color-grey;
+            color: $color-black;
+            height: auto;
+            width: 7rem;
+            padding: 1rem;
+            border-radius: 5px;
+            @include boxshadow;
+        }
+    }
+
     &__delete {
         background: $color-danger;
         color: $color-white;
@@ -35,6 +48,17 @@
             width: 10rem;
             height: 3rem;
             font-size: $size-alert;
+        }
+
+        &-xs {
+            font-size: $size-alert;
+            background: $color-danger;
+            color: $color-white;
+            height: auto;
+            width: 7rem;
+            padding: 1rem;
+            border-radius: 5px;
+            @include boxshadow;
         }
     }
 

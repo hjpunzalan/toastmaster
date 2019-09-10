@@ -1,28 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import {
-	toggleCreateAnnouncement,
-	createAnnouncement
+	toggleEdit,
+	createAnnouncement,
+	updateAnnouncement,
+	deleteAnnouncement
 } from '../../../actions/announcements';
 import CreatePost from '../../utils/CreatePost';
 import ReadOnly from '../../utils/draft-js/ReadOnly';
 
 const Announcements = ({
 	users: { Moderator },
-	toggleCreateAnnouncement,
+	toggleEdit,
 	createAnnouncement,
-	getAnnouncements,
+	updateAnnouncement,
+	deleteAnnouncement,
 	announcements: { edit, announcements },
 	textEditor: { contentState }
 }) => {
 	const [title, setTitle] = useState('');
+	const [id, setId] = useState(null);
+	const [type, setType] = useState('announcement');
+	const [contentEdit, setContentEdit] = useState(null);
+	useEffect(() => {
+		if (edit) toggleEdit();
+		// eslint-disable-next-line
+	}, []);
 
 	// Announcement handlers
 	const handleToggle = () => {
-		toggleCreateAnnouncement();
+		setType('announcement');
+		toggleEdit();
 		setTitle('');
 	};
 
@@ -30,6 +41,20 @@ const Announcements = ({
 		createAnnouncement(title, contentState);
 		setTitle('');
 	};
+
+	const handleEdit = (postId, currentTitle, contentState) => {
+		setType('edit');
+		setTitle(currentTitle);
+		setId(postId);
+		setContentEdit(contentState);
+		toggleEdit();
+	};
+
+	const handleUpdate = () => {
+		// title from state, contentState from textEditor
+		updateAnnouncement(id, title, contentState);
+	};
+	// updateAnnouncement(id, title, contentState);
 
 	// For facebook post
 	let width = 750;
@@ -52,33 +77,63 @@ const Announcements = ({
 				handleToggle={handleToggle}
 				title={title}
 				setTitle={setTitle}
-				handleSubmit={handleSubmit}
-				type={'announcement'}
+				handleSubmit={type === 'edit' ? handleUpdate : handleSubmit}
+				contentState={type === 'edit' && contentEdit}
+				type={type}
 			/>
 		</div>
 	) : (
 		<div className="Dashboard__left">
 			<div className="Dashboard__top">
-				<h1 className="Dashboard__title">Announcements</h1>
 				{Moderator && (
-					<button
-						className="btn btn__submit"
-						onClick={toggleCreateAnnouncement}>
+					<button className="btn btn__submit" onClick={toggleEdit}>
 						Post new announcement
 					</button>
 				)}
 			</div>
 			<div className="Dashboard__announcements">
-				<div className="Dashboard__announcement">
-					<h1 className="Dashboard__announcement-title"> Title</h1>
-					<ReadOnly contentState={announcements[0].contentState} />
-					<div className="Dashboard__announcement-bottom">
-						<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm">
-							{announcements[0].date}
-						</Moment>
-						<span>Posted by: {announcements[0].user.firstName}</span>
+				{announcements[0] && (
+					<div className="Dashboard__announcement">
+						<h1 className="Dashboard__announcement-title">
+							{announcements[0].title}
+						</h1>
+						<ReadOnly contentState={announcements[0].contentState} />
+						<div className="Dashboard__announcement-bottom">
+							{announcements[0].lastEdited > announcements[0].date ? (
+								<span>
+									Edited: &nbsp;
+									<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm">
+										{announcements[0].lastEdited}
+									</Moment>
+								</span>
+							) : (
+								<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm">
+									{announcements[0].date}
+								</Moment>
+							)}
+						</div>
+						{Moderator && (
+							<div className="Dashboard__announcement-buttons">
+								<button
+									className="btn btn__edit-xs"
+									onClick={() =>
+										handleEdit(
+											announcements[0]._id,
+											announcements[0].title,
+											announcements[0].contentState
+										)
+									}>
+									Edit
+								</button>
+								<button
+									className="btn btn__delete-xs"
+									onClick={() => deleteAnnouncement(announcements[0]._id)}>
+									Delete
+								</button>
+							</div>
+						)}
 					</div>
-				</div>
+				)}
 				<iframe
 					className="Dashboard__facebook"
 					title="Southern River Toastmaster Facebook"
@@ -91,14 +146,36 @@ const Announcements = ({
 					allow="encrypted-media"></iframe>
 				{announcements.slice(1).map(el => (
 					<div key={el._id} className="Dashboard__announcement">
-						<h1 className="Dashboard__announcement-title"> {el.title}</h1>
+						<h1 className="Dashboard__announcement-title">{el.title}</h1>
 						<ReadOnly contentState={el.contentState} />
 						<div className="Dashboard__announcement-bottom">
-							<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm">
-								{el.date}
-							</Moment>
-							<span>Posted by: {el.user.firstName}</span>
+							{el.lastEdited > el.date ? (
+								<span>
+									Edited: &nbsp;
+									<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm">
+										{el.lastEdited}
+									</Moment>
+								</span>
+							) : (
+								<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm">
+									{el.date}
+								</Moment>
+							)}
 						</div>
+						{Moderator && (
+							<div className="Dashboard__announcement-buttons">
+								<button
+									className="btn btn__edit-xs"
+									onClick={() => handleEdit(el._id, el.title, el.contentState)}>
+									Edit
+								</button>
+								<button
+									className="btn btn__delete-xs"
+									onClick={() => deleteAnnouncement(el._id)}>
+									Delete
+								</button>
+							</div>
+						)}
 					</div>
 				))}
 			</div>
@@ -108,8 +185,10 @@ const Announcements = ({
 
 Announcements.propTypes = {
 	users: PropTypes.object.isRequired,
-	toggleCreateAnnouncement: PropTypes.func.isRequired,
+	toggleEdit: PropTypes.func.isRequired,
 	createAnnouncement: PropTypes.func.isRequired,
+	updateAnnouncement: PropTypes.func.isRequired,
+	deleteAnnouncement: PropTypes.func.isRequired,
 	announcements: PropTypes.object.isRequired,
 	textEditor: PropTypes.object.isRequired
 };
@@ -122,5 +201,14 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ toggleCreateAnnouncement, createAnnouncement }
+	{
+		toggleEdit,
+		createAnnouncement,
+		updateAnnouncement,
+		deleteAnnouncement
+	}
 )(Announcements);
+
+/*
+Need to add restriction in server for editing announcements or maybe removed author
+*/

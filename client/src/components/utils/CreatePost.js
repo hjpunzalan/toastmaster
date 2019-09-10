@@ -1,13 +1,22 @@
 import React from 'react';
 import TextEditor from '../utils/draft-js/TextEditor';
 
-const CreatePost = ({ handleSubmit, handleToggle, title, setTitle, type }) => {
+const CreatePost = ({
+	handleSubmit,
+	handleToggle,
+	title,
+	setTitle,
+	type,
+	contentState
+}) => {
 	return (
 		<div className="CreatePost">
 			<button className="btn btn__cancel" onClick={handleToggle}>
 				Cancel
 			</button>
-			<h1 className="CreatePost__title">Submit a new {type}</h1>
+			{type !== 'edit' && (
+				<h1 className="CreatePost__title">Submit a new {type}</h1>
+			)}
 			<div className="CreatePost__form">
 				<label htmlFor="title" className="CreatePost__label">
 					Title:
@@ -21,7 +30,7 @@ const CreatePost = ({ handleSubmit, handleToggle, title, setTitle, type }) => {
 					onChange={e => setTitle(e.target.value)}
 					maxLength={80} // so it doesnt pollute the post too much
 				/>
-				<TextEditor handleSubmit={handleSubmit} />
+				<TextEditor contentState={contentState} handleSubmit={handleSubmit} />
 			</div>
 		</div>
 	);

@@ -10,7 +10,7 @@ import {
 import { setAlert, resetAlert } from './alerts';
 import catchAsync from '../utils/catchAsync';
 
-export const toggleCreateAnnouncement = () => dispatch => {
+export const toggleEdit = () => dispatch => {
 	dispatch(resetAlert());
 	dispatch({ type: TOGGLE_CREATE_ANNOUNCEMENT });
 };
@@ -40,4 +40,36 @@ export const getAnnouncements = () =>
 	catchAsync('announcement', async dispatch => {
 		const res = await axios.get('/api/announcements?sort=-lastEdited,-date');
 		dispatch({ type: GET_ALL_ANNOUNCEMENT, payload: res.data });
+	});
+
+export const updateAnnouncement = (id, newTitle, newContentState) =>
+	catchAsync('announcement', async dispatch => {
+		dispatch(resetAlert());
+		dispatch({ type: LOADING_ANNOUNCEMENT_SUBMIT });
+		const jsonContentState = JSON.stringify(newContentState);
+		const res = await axios.patch(
+			`/api/announcements/${id}`,
+			{
+				title: newTitle,
+				contentState: jsonContentState
+			},
+			{
+				headers: {
+					'Content-type': 'application/json'
+				}
+			}
+		);
+		dispatch({ type: UPDATE_ANNOUNCEMENT, payload: res.data });
+		dispatch(setAlert('Announcement updated', 'success'));
+	});
+
+export const deleteAnnouncement = id =>
+	catchAsync('announcement', async dispatch => {
+		if (window.confirm('Are you sure you want to delete the announcement?')) {
+			dispatch(resetAlert());
+			dispatch({ type: LOADING_ANNOUNCEMENT_SUBMIT });
+			await axios.delete(`/api/announcements/${id}`);
+			dispatch({ type: DELETE_ANNOUNCEMENT, payload: id });
+			dispatch(setAlert('Announcement removed', 'success'));
+		} else return;
 	});
