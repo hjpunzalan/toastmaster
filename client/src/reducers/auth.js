@@ -1,6 +1,5 @@
 import {
 	LOGIN_SUCCESS,
-	LOGIN_FAIL,
 	LOGOUT,
 	CLEAR_LOGIN,
 	AUTH_ERROR,
@@ -44,7 +43,6 @@ export default (state = initialState, action) => {
 			};
 		case FORGOT_PASSWORD:
 		case LOGOUT:
-		case LOGIN_FAIL:
 		case AUTH_ERROR:
 			return {
 				...state,

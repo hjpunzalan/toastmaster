@@ -2,7 +2,7 @@ import { setAlert } from '../actions/alerts';
 import {
 	ERROR,
 	POST_ERROR,
-	LOGIN_FAIL,
+	ANNOUNCEMENT_ERROR,
 	AUTH_ERROR,
 	UPDATE_FAILED
 } from '../actions/types';
@@ -13,10 +13,11 @@ const catchAsync = (type, fn = type) => {
 		fn(dispatch).catch(err => {
 			console.error(err);
 			const errors = err.response.data;
+			// The types handles when loading is still true
 			if (type === 'post') dispatch({ type: POST_ERROR });
-			if (type === 'login') dispatch({ type: LOGIN_FAIL });
 			if (type === 'auth') dispatch({ type: AUTH_ERROR });
 			if (type === 'update') dispatch({ type: UPDATE_FAILED });
+			if (type === 'announcement') dispatch({ type: ANNOUNCEMENT_ERROR });
 			if (errors) dispatch(setAlert(errors.message, 'fail'));
 			dispatch({
 				type: ERROR,

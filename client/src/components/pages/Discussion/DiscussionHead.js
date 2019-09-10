@@ -16,8 +16,8 @@ const DiscussionHead = ({
 	const [search, setSearch] = useState('');
 
 	const handleToggle = () => {
-		toggleCreatePost(edit);
 		setTitle(''); //when create post is canceled
+		toggleCreatePost(edit);
 	};
 
 	const handleSubmit = plainText => {

@@ -13,7 +13,7 @@ import catchAsync from '../utils/catchAsync';
 import { resetAlert, setAlert } from './alerts';
 
 export const loginUser = (formData, history) =>
-	catchAsync('login', async dispatch => {
+	catchAsync('auth', async dispatch => {
 		dispatch(resetAlert()); //Need to be in every action with alert
 		dispatch({ type: CLEAR_LOGIN });
 		const res = await axios.post('/api/auth/login', formData);

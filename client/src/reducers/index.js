@@ -4,5 +4,13 @@ import auth from './auth';
 import alerts from './alerts';
 import post from './post';
 import textEditor from './textEditor';
+import announcements from './announcements';
 
-export default combineReducers({ users, auth, alerts, post, textEditor });
+export default combineReducers({
+	users,
+	announcements,
+	post,
+	auth,
+	alerts,
+	textEditor
+});

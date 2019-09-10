@@ -9,6 +9,7 @@ import {
 	ADD_COMMENT,
 	DELETE_COMMENT,
 	POST_RESET,
+	LOADING_SUBMIT_POST,
 	SEARCH_POSTS
 } from './types';
 import axios from 'axios';
@@ -33,11 +34,9 @@ export const toggleEditPost = postEdit => dispatch => {
 export const createPost = (title, contentState, history, plainText) =>
 	catchAsync('post', async dispatch => {
 		dispatch(resetAlert()); //Need to be in every post/put/patch action with alert
-		dispatch({
-			type: POST_RESET,
-			payload: 'load-only'
-		});
 		const jsonContentState = JSON.stringify(contentState);
+		// This makes it more UX friendly calling a spinner instantly
+		dispatch({ type: LOADING_SUBMIT_POST });
 		// Need to be in edit also
 		const body = { title, contentState: jsonContentState, plainText };
 		const res = await axios.post('/api/posts', body, {
@@ -96,10 +95,8 @@ export const getPost = (id, pageQuery, history, page, callback) =>
 export const updatePost = (postId, newTitle, newContentState, plainText) =>
 	catchAsync('post', async dispatch => {
 		dispatch(resetAlert());
-		dispatch({
-			type: POST_RESET,
-			payload: 'load-only'
-		});
+		// This makes it more UX friendly calling a spinner instantly
+		dispatch({ type: LOADING_SUBMIT_POST });
 		const jsonContentState = JSON.stringify(newContentState);
 		const config = {
 			headers: {
@@ -123,10 +120,8 @@ export const updatePost = (postId, newTitle, newContentState, plainText) =>
 export const deletePost = (postId, history) =>
 	catchAsync('post', async dispatch => {
 		if (window.confirm('Are you sure you want to delete post?')) {
-			dispatch({
-				type: POST_RESET,
-				payload: 'load-only'
-			});
+			// This considers if somehow the request takes a long time
+			dispatch({ type: LOADING_SUBMIT_POST });
 			await axios.delete(`/api/posts/${postId}`);
 			dispatch({
 				type: DELETE_POST
