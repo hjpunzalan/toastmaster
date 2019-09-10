@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const autoPopulate = require('mongoose-autopopulate');
 
 const announcementSchema = new mongoose.Schema({
 	user: {
@@ -20,6 +21,12 @@ const announcementSchema = new mongoose.Schema({
 		required: [true, 'A post must have content.']
 	},
 	lastEdited: Date
+});
+announcementSchema.plugin(autoPopulate);
+
+announcementSchema.post('save', async function(doc, next) {
+	await doc.populate('user').execPopulate();
+	next();
 });
 
 const Announcements = mongoose.model('Announcements', announcementSchema);

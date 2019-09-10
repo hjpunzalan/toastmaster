@@ -8,7 +8,7 @@ import { getAnnouncements } from '../../../actions/announcements';
 
 const Dashboard = ({
 	auth: { currentUser, isModified },
-	announcements: { loading },
+	announcements: { loading, edit },
 	getAnnouncements
 }) => {
 	useEffect(() => {
@@ -21,7 +21,7 @@ const Dashboard = ({
 	) : (
 		<div className="Dashboard">
 			<Announcements />
-			<User currentUser={currentUser} isModified={isModified} />
+			{!edit && <User currentUser={currentUser} isModified={isModified} />}
 		</div>
 	);
 };

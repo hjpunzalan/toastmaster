@@ -46,15 +46,16 @@ const Announcements = ({
 		width = 350;
 		height = 366;
 	}
-
 	return edit ? (
-		<CreatePost
-			handleToggle={handleToggle}
-			title={title}
-			setTitle={setTitle}
-			handleSubmit={handleSubmit}
-			type={'announcement'}
-		/>
+		<div className="Dashboard__editor">
+			<CreatePost
+				handleToggle={handleToggle}
+				title={title}
+				setTitle={setTitle}
+				handleSubmit={handleSubmit}
+				type={'announcement'}
+			/>
+		</div>
 	) : (
 		<div className="Dashboard__left">
 			<div className="Dashboard__top">
@@ -88,6 +89,18 @@ const Announcements = ({
 					frameBorder="0"
 					allowtransparency="true"
 					allow="encrypted-media"></iframe>
+				{announcements.slice(1).map(el => (
+					<div key={el._id} className="Dashboard__announcement">
+						<h1 className="Dashboard__announcement-title"> {el.title}</h1>
+						<ReadOnly contentState={el.contentState} />
+						<div className="Dashboard__announcement-bottom">
+							<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm">
+								{el.date}
+							</Moment>
+							<span>Posted by: {el.user.firstName}</span>
+						</div>
+					</div>
+				))}
 			</div>
 		</div>
 	);
