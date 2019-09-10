@@ -1,6 +1,6 @@
 
 <h1>This is an App for my Public Speaking club of around 20 members.</h1>
-It will include a landing page, dashboard, discussion board, speech posts, member list, meeting roles (listing of when members last filled each role)
+It is a member club with a dashboard, discussion board, speech posts and member list.
 <br>
 
 This is a mern stack app with a following extra technologies:
@@ -9,6 +9,7 @@ This is a mern stack app with a following extra technologies:
 <li>Redux - for global state management (useful in keeping track of editor state)</li>
 <li>Draft.js - editor made by facebook especially made for react apps</li>
 <li>SASS - CSS preprocessor which is very handy that includes mixins and variables</li>
+ <li>AWS S3 - A scalable microservice used for uploading photos.</li>
 </ul>
 
 <i><h2>Journal</h2></i>
@@ -54,6 +55,34 @@ I've completed most of my goals. I've added pagination of both client and server
  
  
 
+</p>
+<hr/>
+<h3>10th September 2019 </h3>
+<p>
+  I have been working 12-hr shifts but still managed to be productive. I did a lot of things which I probably should have documented as I went through them but its hard battling against time and you just want to be as productive as much as possible. Looking from my github commits, I did a lot of styling: from changing the colour of the navbar, removing the footer to making the dashboard responsive. Anyhow, lets start with my goals from last time:
+  <li>Member-list was semi-completed because I decided I will add another component for unactive users for everyone to access. This is so it makes sense for everyone to see all the old posts of unactive members. The admin and committee will have access to reactivating these members</li>
+    <li>I added email functionality using nodemailer and sendGrid. I used nodemailer to allow me to test SMTP request with mailtrap during development. Sadly, I had learn .pug templating which added more time to my development learning. I rushed through the process and tested it with a real email. It works. Emails are sent for forgetting passwords and registering new users.</li>
+  <li>I fixed the functionality of searching in discussion page. The error I found was queries aren't being handled into resulting the expected posts. The reason for this that its case-sensitive. I added the option of ignoring case sensitivity and fixed the issue.</li>
+
+
+ Since its been a week, there's a lot more that I managed to complete. One error I found yesterday was errors in the text editor. There were warnings coming from the linkify plugin and I had to add a handler before the inputs to fix the errors in the links. I had to also fix the attribute error which draft.js-plugin didn't account for.
+
+
+ I've also improved the sorting of the posts, now based on posted date and last comment made. I think this makes more sense rather than a descending order of posted date. It makes more sense users see, whats being discussed recently and others thats not that important get behind newest posts. Deleting a comment will revert its position from the list. I've labeled this document state as lastComment which could probably use a better name.
+
+
+  I decided to remove the footer!! The application doesn't need a footer since I decided it won't have a landing page because this app will be a members only app. This improves styling and overall layout which some people might argue otherwise but take a look at facebook. It looks alright doesn't it?
+
+
+  I've added a moderator toggle bar. Admin or committee members may now toggle the view from user to moderator. This an app-level component underneath the navbar. However, I couldn't access a dynamic state at app level without getting too complicated. I decided to access state from the component to render if the user is not a normal user. I also had to add an effect to set the toggle state to initial as currentUser logs in or out because it would persist otherwise.
+
+
+  I almost finished the dashboard! I just need to add creating announcements and editing them. I added the embedded facebook post which can by dynamic using ajax request with facebook's graph api and setting the postId to the newest one from the response. The problem is I need to contact the president of my club to have access to the facebook account. Since this is in development mode, I will do so when its required. I've added infinite scroll without a scroll bar in announcements which makes it so much more visually appealing. The scrollbar in my opionion ruins the looks!
+
+
+  
+ Thats it I think! (I also did a lot of refactoring of styles and components) Now I am trying to finish off the dashboard announcements section and then finish the member's list then lastly, the moderator's access only functionalities. The end is near but still many things to do!!! I somehow keep finding more work to do as I go! My goal is to have this deployed by the end of the month -latest.
+ 
 </p>
 
 
