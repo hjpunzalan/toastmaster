@@ -7,7 +7,7 @@ import Login from '../auth/Login';
 import MemberList from '../pages/Members/MemberList';
 import Dashboard from '../pages/Dashboard/Dashboard';
 import Discussion from '../pages/Discussion/Discussion';
-import Post from '../pages/Discussion/Post/Post';
+import Post from '../pages/Post/Post';
 import ForgotPassword from '../auth/ForgotPassword';
 import ResetPassword from '../auth/ResetPassword';
 import Update from '../pages/Dashboard/Update';
