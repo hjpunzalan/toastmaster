@@ -16,16 +16,17 @@ const PostEditor = ({
 		updatePost(postId, newTitle, newContentState, plainText);
 	};
 	return (
-		<div className="Discussion__create">
+		<div className="CreatePost">
 			<button className="btn btn__cancel" onClick={handleToggle}>
 				Cancel
 			</button>
-			<div className="Discussion__create-form">
-				<label htmlFor="title" className="Discussion__create-formLabel">
+			<div className="CreatePost__form">
+				<label htmlFor="title" className="CreatePost__label">
 					Title:
 				</label>
 				<input
 					type="text"
+					id="title"
 					name="title"
 					placeholder="Insert Title"
 					value={newTitle}

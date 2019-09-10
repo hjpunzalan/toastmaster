@@ -10,7 +10,8 @@ import {
 	DELETE_COMMENT,
 	POST_RESET,
 	SEARCH_POSTS,
-	POST_ERROR
+	POST_ERROR,
+	LOADING_SUBMIT_POST
 } from '../actions/types';
 
 const initialState = {
@@ -26,9 +27,9 @@ const initialState = {
 export default (state = initialState, action) => {
 	const { type, payload } = action;
 	switch (type) {
+		case LOADING_SUBMIT_POST:
+			return { ...state, loading: true, postLoading: true };
 		case POST_RESET:
-			if (payload === 'load-only')
-				return { ...state, loading: true, postLoading: true };
 			return {
 				...state,
 				loading: true,
