@@ -1,7 +1,7 @@
 import React from 'react';
 import Moment from 'react-moment';
 import 'moment-timezone';
-import ReadOnly from '../../../utils/draft-js/ReadOnly';
+import ReadOnly from '../../utils/draft-js/ReadOnly';
 
 const PostHead = ({
 	post,

@@ -20,8 +20,8 @@ const Announcements = ({ users: { Moderator } }) => {
 
 	return (
 		<div className="Dashboard__left">
-			<div className="Dashboard__title">
-				Announcements
+			<div className="Dashboard__top">
+				<h1 className="Dashboard__title">Announcements</h1>
 				{Moderator && (
 					<button className="btn btn__submit">Post new announcement</button>
 				)}

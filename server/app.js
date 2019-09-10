@@ -11,6 +11,7 @@ const userRouter = require('./routes/userRoutes');
 const authRouter = require('./routes/authRoutes');
 const postsRouter = require('./routes/postsRoutes');
 const uploadRouter = require('./routes/uploadRoutes');
+const announcementRouter = require('./routes/announcementRoutes.js');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const authController = require('./controllers/authController');
@@ -55,6 +56,7 @@ app.use(
 // Middleware that applies to '/api/' request
 app.use('/api/users', authController.protect, userRouter); // all users are protected
 app.use('/api/auth', authRouter);
+app.use('/api/announcements', authController.protect, announcementRouter);
 app.use('/api/posts', authController.protect, postsRouter); // all posts are protected
 app.use('/api/upload', authController.protect, uploadRouter); // all posts are protected
 

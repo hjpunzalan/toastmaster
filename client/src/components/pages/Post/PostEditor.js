@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TextEditor from '../../../utils/draft-js/TextEditor';
+import TextEditor from '../../utils/draft-js/TextEditor';
 
 const PostEditor = ({
 	updatePost,

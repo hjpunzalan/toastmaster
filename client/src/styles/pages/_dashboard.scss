@@ -3,19 +3,19 @@
   justify-content: space-between;
   overflow: hidden;
 
-  &-text {
-    height: 500rem;
+  &__top {
+    height: $button-height;
+    font-size: $size-title;
+    font-weight: bold;
+    align-items: center;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $padding-lg;
   }
 
   &__title {
     font-size: $size-title;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
-    margin-bottom: $padding-lg;
-
   }
 
   &__left {

@@ -10,11 +10,11 @@ import {
 	toggleEditPost,
 	deletePost,
 	updatePost
-} from '../../../../actions/post';
-import img from '../../../../img/anonymous.png';
-import TextEditor from '../../../utils/draft-js/TextEditor';
+} from '../../../actions/post';
+import img from '../../../img/anonymous.png';
+import TextEditor from '../../utils/draft-js/TextEditor';
 import PostEditor from './PostEditor';
-import Spinner from '../../../utils/Spinner';
+import Spinner from '../../utils/Spinner';
 import PostHead from './PostHead';
 import PageButtons from './PageButtons';
 
