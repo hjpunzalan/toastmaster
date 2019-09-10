@@ -27,34 +27,10 @@
         }
 
         &Buttons {
-
-            &-edit,
-            &-delete {
-                margin: 1rem;
-                margin-top: 2rem;
-                font-size: $size-alert;
-                text-decoration: none;
-                display: inline-block;
-                width: fit-content;
-                padding: 1rem;
-                border: none;
-                border-radius: 5px;
-                @include boxshadow;
-
-                &:hover {
-                    cursor: pointer;
-                }
-            }
-
-            &-edit {
-                background-color: $color-grey;
-                color: $color-black;
-            }
-
-            &-delete {
-                background: $color-danger;
-                color: $color-white;
-            }
+            display: flex;
+            margin-top: 2rem;
+            width: 15rem;
+            justify-content: space-around;
         }
     }
 

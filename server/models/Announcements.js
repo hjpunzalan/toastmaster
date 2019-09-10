@@ -20,7 +20,10 @@ const announcementSchema = new mongoose.Schema({
 		type: Object,
 		required: [true, 'A post must have content.']
 	},
-	lastEdited: Date
+	lastEdited: {
+		type: Date,
+		default: Date.now
+	}
 });
 announcementSchema.plugin(autoPopulate);
 

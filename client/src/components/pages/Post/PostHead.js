@@ -45,13 +45,11 @@ const PostHead = ({
 					{currentUser._id === post.user._id && (
 						<div className="Post__postButtons">
 							<button
-								className="Post__postButtons-edit"
+								className="btn btn__edit-xs"
 								onClick={handleToggleEditPost}>
 								Edit
 							</button>
-							<button
-								className="Post__postButtons-delete"
-								onClick={handleDeletePost}>
+							<button className="btn btn__delete-xs" onClick={handleDeletePost}>
 								Delete
 							</button>
 						</div>

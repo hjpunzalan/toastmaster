@@ -3,18 +3,7 @@
   justify-content: space-between;
 
   &__top {
-    height: $button-height;
-    font-size: $size-title;
-    font-weight: bold;
-    align-items: center;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
     margin-bottom: $padding-lg;
-  }
-
-  &__title {
-    font-size: $size-title;
   }
 
 
@@ -110,11 +99,18 @@
 
     &-bottom {
       margin-top: $padding-lg;
-      display: flex;
       font-style: italic;
-      justify-content: space-between;
     }
 
+
+    &-buttons {
+      display: flex;
+      margin-top: 2rem;
+      width: 15rem;
+      justify-content: space-around;
+
+    }
   }
+
 
 }

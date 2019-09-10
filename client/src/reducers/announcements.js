@@ -30,6 +30,23 @@ export default (state = initialState, action) => {
 				edit: false,
 				announcements: [payload, ...state.announcements]
 			};
+		case UPDATE_ANNOUNCEMENT:
+			const filterAnnouncement = state.announcements.filter(
+				el => payload._id !== el._id
+			);
+			console.log(filterAnnouncement);
+			return {
+				...state,
+				loading: false,
+				edit: false,
+				announcements: [payload, ...filterAnnouncement] //top of array
+			};
+		case DELETE_ANNOUNCEMENT:
+			return {
+				...state,
+				loading: false,
+				announcements: state.announcements.filter(el => payload !== el._id)
+			};
 		case GET_ALL_ANNOUNCEMENT:
 			return {
 				...state,
