@@ -1,7 +1,6 @@
 .Dashboard {
   display: flex;
   justify-content: space-between;
-  overflow: hidden;
 
   &__top {
     height: $button-height;
@@ -18,36 +17,6 @@
     font-size: $size-title;
   }
 
-  &__left {
-    width: 70%;
-    height: 100%;
-    padding-right: 4rem;
-  }
-
-  &__announcements {
-    height: calc(#{$container-min-height} - #{$button-height} - 2*#{$padding-lg} - 7rem);
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    flex-shrink: 0;
-
-    &::-webkit-scrollbar {
-      width: 0;
-      height: 0;
-    }
-
-    & * {
-      flex-shrink: 0;
-    }
-  }
-
-  &__facebook {
-    border: none;
-    margin: 0 auto;
-    overflow: hidden;
-  }
 
   &__right {
     width: 30%;
@@ -92,4 +61,60 @@
       color: $color-primary;
     }
   }
+
+  // editor
+  &__editor {
+    // Perfect width to match announcement
+    width: 79%;
+  }
+
+  &__left {
+    width: 70%;
+    height: 100%;
+    padding-right: 4rem;
+  }
+
+  &__announcements {
+    height: calc(#{$container-min-height} - #{$button-height} - 2*#{$padding-lg} - 7rem);
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    flex-shrink: 0;
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+
+    & * {
+      flex-shrink: 0;
+    }
+  }
+
+  &__facebook {
+    border: none;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  &__announcement {
+    width: 100%;
+    margin-bottom: $padding-lg;
+
+    &-title {
+      font-size: $size-title;
+      margin-bottom: 2rem;
+    }
+
+    &-bottom {
+      margin-top: $padding-lg;
+      display: flex;
+      font-style: italic;
+      justify-content: space-between;
+    }
+
+  }
+
 }

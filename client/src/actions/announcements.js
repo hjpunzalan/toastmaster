@@ -16,7 +16,7 @@ export const toggleCreateAnnouncement = () => dispatch => {
 };
 
 export const createAnnouncement = (title, contentState) =>
-	catchAsync(async dispatch => {
+	catchAsync('announcement', async dispatch => {
 		dispatch(resetAlert()); //Need to be in every post/put/patch action with alert
 		const jsonContentState = JSON.stringify(contentState);
 		// This makes it more UX friendly calling a spinner instantly
@@ -37,7 +37,7 @@ export const createAnnouncement = (title, contentState) =>
 	});
 
 export const getAnnouncements = () =>
-	catchAsync(async dispatch => {
-		const res = await axios.get('/api/announcements?sort=lastEdited,date');
+	catchAsync('announcement', async dispatch => {
+		const res = await axios.get('/api/announcements?sort=-lastEdited,-date');
 		dispatch({ type: GET_ALL_ANNOUNCEMENT, payload: res.data });
 	});
