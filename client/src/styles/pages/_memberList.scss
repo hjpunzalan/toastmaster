@@ -4,14 +4,49 @@
     flex-direction: column;
     max-width: 80rem;
 
+    &__switch {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        label {
+            cursor: pointer;
+            width: fit-content;
+            display: inline-block;
+            font-size: 1.2rem;
+            padding: .5rem;
+            background: $color-grey-light;
+            border: 1px solid $color-grey;
+
+        }
+
+        input[id="active"],
+        input[id="unactive"] {
+            &:checked+label {
+                background: $color-primary-light;
+                color: $color-primary;
+            }
+        }
+    }
+
     table {
         width: 100%;
 
     }
 
+    &__list {
+        margin-top: 2rem;
+    }
+
     &__title {
         font-size: $size-title;
-        margin-bottom: 5rem;
+        margin-bottom: 2rem;
     }
 
     &__list {
