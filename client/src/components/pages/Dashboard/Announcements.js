@@ -32,12 +32,14 @@ const Announcements = ({
 
 	// Announcement handlers
 	const handleToggle = () => {
+		// When new post or canceled is pressed
 		setType('announcement');
 		toggleEdit();
 		setTitle('');
 	};
 
 	const handleSubmit = () => {
+		// dont need plainText
 		createAnnouncement(title, contentState);
 		setTitle('');
 	};
@@ -51,6 +53,7 @@ const Announcements = ({
 	};
 
 	const handleUpdate = () => {
+		// dont need plainText
 		// title from state, contentState from textEditor
 		updateAnnouncement(id, title, contentState);
 	};

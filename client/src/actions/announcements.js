@@ -38,7 +38,10 @@ export const createAnnouncement = (title, contentState) =>
 
 export const getAnnouncements = () =>
 	catchAsync('announcement', async dispatch => {
-		const res = await axios.get('/api/announcements?sort=-lastEdited,-date');
+		const limit = 10; //limit to 10 docs
+		const res = await axios.get(
+			`/api/announcements?sort=-lastEdited,-date&limit=${limit}`
+		);
 		dispatch({ type: GET_ALL_ANNOUNCEMENT, payload: res.data });
 	});
 

@@ -39,12 +39,12 @@ export default (state = initialState, action) => {
 		case TOGGLE_CREATE_POST:
 			return {
 				...state,
-				edit: payload
+				edit: !state.edit
 			};
 		case TOGGLE_EDIT_POST:
 			return {
 				...state,
-				postEdit: payload
+				postEdit: !state.postEdit
 			};
 		case POST_CREATE:
 			return {

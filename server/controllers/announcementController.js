@@ -19,7 +19,7 @@ exports.createAnnouncement = catchAsync(async (req, res, next) => {
 
 exports.getAllAnnouncements = catchAsync(async (req, res, next) => {
 	const query = Announcements.find();
-	const features = new QueryHandling(query, req.query).sort();
+	const features = new QueryHandling(query, req.query).sort().paginate();
 	const announcements = await features.query;
 	res.status(200).json(announcements);
 });

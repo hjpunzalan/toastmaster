@@ -17,7 +17,7 @@ const DiscussionHead = ({
 
 	const handleToggle = () => {
 		setTitle(''); //when create post is canceled
-		toggleCreatePost(edit);
+		toggleCreatePost();
 	};
 
 	const handleSubmit = plainText => {
@@ -68,6 +68,7 @@ const DiscussionHead = ({
 						handleToggle={handleToggle}
 						title={title}
 						setTitle={setTitle}
+						withPlainText={true}
 						type={'Post'}
 					/>
 				)
