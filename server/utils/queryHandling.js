@@ -25,7 +25,6 @@ class QueryHandling {
 		// { difficulty: 'easy', duration: { $gte: 5 } }
 		// { difficulty: 'easy', duration: { gte: '5' } }
 		// gte,gt,lte,lt
-		console.log(queryStr);
 		this.query = this.query.find(JSON.parse(queryStr));
 
 		return this;

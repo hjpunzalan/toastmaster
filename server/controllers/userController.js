@@ -20,13 +20,8 @@ exports.register = catchAsync(async (req, res, next) => {
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
 	const query = Users.find();
-	const features = new QueryHandling(query, req.query).sort();
+	const features = new QueryHandling(query, req.query).sort().filter();
 	const users = await features.query;
-	res.status(200).json(users);
-});
-
-exports.getUnActiveUsers = catchAsync(async (req, res, next) => {
-	const users = await Users.findMany({ active: { $neq: true } });
 	res.status(200).json(users);
 });
 

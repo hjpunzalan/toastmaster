@@ -68,7 +68,7 @@ export const updateMe = (formData, file, history) =>
 
 export const getAllUsers = () =>
 	catchAsync(async dispatch => {
-		const res = await axios.get('/api/users?sort=firstName');
+		const res = await axios.get(`/api/users?sort=firstName`);
 
 		dispatch({
 			type: GET_ALL_USERS,
