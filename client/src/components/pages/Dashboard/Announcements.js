@@ -85,8 +85,9 @@ const Announcements = ({
 	) : (
 		<div className="Dashboard__left">
 			<div className="Dashboard__top">
+				<h1 className="Dashboard__title">Announcements</h1>
 				{Moderator && (
-					<button className="btn btn__submit" onClick={toggleEdit}>
+					<button className="btn__announcement" onClick={toggleEdit}>
 						Post new announcement
 					</button>
 				)}

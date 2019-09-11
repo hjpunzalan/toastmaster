@@ -74,4 +74,12 @@
             font-size: $size-alert;
         }
     }
+
+    &__announcement {
+        width: fit-content;
+        max-height: $size-title;
+        padding: 0 3rem;
+        cursor: pointer;
+    }
+
 }

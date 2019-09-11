@@ -13,8 +13,7 @@
     }
 
     &__checked {
-        color: $color-white;
-        background: $color-secondary-light;
+        color: $color-primary;
     }
 
     // Hide default checkbox
@@ -24,7 +23,7 @@
         height: 0;
 
         &:checked+.Moderator__slider {
-            background-color: $color-secondary-light;
+            background-color: $color-primary;
         }
 
         &:checked+.Moderator__slider::after {
