@@ -16,19 +16,13 @@ import axios from 'axios';
 import { setAlert, resetAlert } from './alerts';
 import catchAsync from '../utils/catchAsync';
 
-export const toggleCreatePost = edit => dispatch => {
+export const toggleCreatePost = () => dispatch => {
 	dispatch(resetAlert());
-	dispatch({
-		type: TOGGLE_CREATE_POST,
-		payload: !edit
-	});
+	dispatch({ type: TOGGLE_CREATE_POST });
 };
-export const toggleEditPost = postEdit => dispatch => {
+export const toggleEditPost = () => dispatch => {
 	dispatch(resetAlert());
-	dispatch({
-		type: TOGGLE_EDIT_POST,
-		payload: !postEdit
-	});
+	dispatch({ type: TOGGLE_EDIT_POST });
 };
 
 export const createPost = (title, contentState, history, plainText) =>

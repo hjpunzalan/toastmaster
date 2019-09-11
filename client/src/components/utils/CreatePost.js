@@ -7,7 +7,8 @@ const CreatePost = ({
 	title,
 	setTitle,
 	type,
-	contentState
+	contentState,
+	withPlainText
 }) => {
 	return (
 		<div className="CreatePost">
@@ -30,7 +31,11 @@ const CreatePost = ({
 					onChange={e => setTitle(e.target.value)}
 					maxLength={80} // so it doesnt pollute the post too much
 				/>
-				<TextEditor contentState={contentState} handleSubmit={handleSubmit} />
+				<TextEditor
+					withPlainText={withPlainText}
+					contentState={contentState}
+					handleSubmit={handleSubmit}
+				/>
 			</div>
 		</div>
 	);

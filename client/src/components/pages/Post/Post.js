@@ -13,10 +13,10 @@ import {
 } from '../../../actions/post';
 import img from '../../../img/anonymous.png';
 import TextEditor from '../../utils/draft-js/TextEditor';
-import PostEditor from './PostEditor';
 import Spinner from '../../utils/Spinner';
 import PostHead from './PostHead';
 import PageButtons from './PageButtons';
+import CreatePost from '../../utils/CreatePost';
 
 const Post = ({
 	match: {
@@ -29,7 +29,7 @@ const Post = ({
 	updatePost,
 	addComment,
 	deleteComment,
-	post,
+	post: { post },
 	textEditor,
 	history,
 	location,
@@ -49,11 +49,20 @@ const Post = ({
 			? pageQuery // page from query
 			: 1
 	);
+	const [title, setTitle] = useState('');
 
+	// handlers
 	const handleSubmit = () =>
 		addComment(textEditor.contentState, postId, history, setPage);
-	const handleToggleEditPost = () => toggleEditPost(postEdit);
+	const handleToggleEditPost = () => {
+		setTitle(post.title);
+		toggleEditPost();
+	};
 	const handleDeletePost = () => deletePost(postId, history);
+	const handleUpdate = plainText => {
+		// plain text from textEditor
+		updatePost(postId, title, textEditor.contentState, plainText);
+	};
 
 	// Client side pagination
 	//Prevent error when first loading page
@@ -66,13 +75,14 @@ const Post = ({
 	return post === null || postLoading ? (
 		<Spinner />
 	) : postEdit ? (
-		<PostEditor
-			updatePost={updatePost}
-			contentState={post.contentState}
-			title={post.title}
-			postId={postId}
+		<CreatePost
 			handleToggle={handleToggleEditPost}
-			textEditor={textEditor}
+			title={title}
+			setTitle={setTitle}
+			handleSubmit={handleUpdate}
+			withPlainText={true}
+			contentState={post.contentState}
+			type={'edit'}
 		/>
 	) : (
 		<>
@@ -150,7 +160,7 @@ Post.propTypes = {
 
 const mapStateToProps = state => ({
 	postEdit: state.post.postEdit,
-	post: state.post.post,
+	post: state.post,
 	textEditor: state.textEditor,
 	currentUser: state.auth.currentUser,
 	postLoading: state.post.postLoading
