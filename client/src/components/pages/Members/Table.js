@@ -10,7 +10,8 @@ const Table = ({
 	currentUser,
 	setActive,
 	setAlert,
-	resetAlert
+	resetAlert,
+	changeRole
 }) => {
 	useEffect(() => {
 		if (users.length === 0) {
@@ -28,10 +29,10 @@ const Table = ({
 					<th>First Name</th>
 					<th>Last Name</th>
 					{(Moderator || active) && <th>Email</th>}
-					{Moderator && (active ? <th>Deactivate</th> : <th>Activate</th>)}
 					{Moderator && currentUser.role === 'admin' && active && (
-						<th>Moderator</th>
+						<th>Committee</th>
 					)}
+					{Moderator && (active ? <th>Deactivate</th> : <th>Activate</th>)}
 				</tr>
 			</thead>
 			<tbody>
@@ -43,6 +44,8 @@ const Table = ({
 						active={active}
 						deActivateUser={deActivateUser}
 						activateUser={activateUser}
+						currentUser={currentUser}
+						changeRole={changeRole}
 					/>
 				))}
 			</tbody>
