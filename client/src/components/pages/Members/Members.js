@@ -1,8 +1,9 @@
 import React from 'react';
 import { MdEmail } from 'react-icons/md';
+import { FaUserTimes, FaUserPlus } from 'react-icons/fa';
 import img from '../../../img/anonymous.png';
 
-const List = ({ user }) => {
+const List = ({ user, Moderator, active }) => {
 	return (
 		<tr key={user._id} className="MemberList__member">
 			<td>
@@ -34,6 +35,20 @@ const List = ({ user }) => {
 					{user.email}
 				</span>
 			</td>
+			{Moderator &&
+				(active ? (
+					<td>
+						<button className="btn btn__delete-xs">
+							<FaUserTimes className="MemberList__deactivate" />
+						</button>
+					</td>
+				) : (
+					<td>
+						<button className="btn btn__edit-xs">
+							<FaUserPlus className="MemberList__activate" />
+						</button>
+					</td>
+				))}
 		</tr>
 	);
 };

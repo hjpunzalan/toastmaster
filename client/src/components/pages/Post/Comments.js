@@ -15,7 +15,8 @@ const PostComment = ({
 	history,
 	page,
 	setPage,
-	currentUser
+	currentUser,
+	Moderator
 }) => {
 	return (
 		<div className="Post__comment">
@@ -41,7 +42,7 @@ const PostComment = ({
 							{date}
 						</Moment>
 					</span>
-					{currentUser._id === user._id && (
+					{(currentUser._id === user._id || Moderator) && (
 						<button
 							className="Post__comment-trash"
 							onClick={() => deleteComment(postId, id, history, page, setPage)}>

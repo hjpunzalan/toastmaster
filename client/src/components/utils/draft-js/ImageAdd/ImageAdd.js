@@ -45,7 +45,9 @@ export default class ImageAdd extends Component {
 
 	addImage = () => {
 		let image = img;
-		if (this.state.url.match(/\.(jpeg|jpg|gif|png)$/) != null) {
+		const imageFiles = ['jpeg', 'jpg', 'gif', 'png'];
+
+		if (imageFiles.some(el => this.state.url.includes(el))) {
 			image = this.state.url;
 		}
 		const { editorState, onChange } = this.props;

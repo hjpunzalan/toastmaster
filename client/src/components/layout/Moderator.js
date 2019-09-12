@@ -3,12 +3,19 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { toggleView } from '../../actions/users';
 
-const Moderator = ({ auth: { currentUser }, toggleView }) => {
+const Moderator = ({
+	auth: { currentUser },
+	toggleView,
+	users: { Moderator }
+}) => {
 	const [isModerator, toggleModerator] = useState(false);
 
 	// This sets is Moderator to false automatically after logging out
 	useEffect(() => {
 		toggleModerator(false);
+		if (Moderator) toggleView();
+		console.log('use effect');
+		// eslint-disable-next-line
 	}, [currentUser]);
 
 	const handleChange = () => {
@@ -42,11 +49,13 @@ const Moderator = ({ auth: { currentUser }, toggleView }) => {
 
 Moderator.propTypes = {
 	auth: PropTypes.object.isRequired,
-	toggleView: PropTypes.func.isRequired
+	toggleView: PropTypes.func.isRequired,
+	users: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-	auth: state.auth
+	auth: state.auth,
+	users: state.users
 });
 
 export default connect(

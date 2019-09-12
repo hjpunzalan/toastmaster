@@ -5,7 +5,7 @@ import { getAllUsers } from '../../../actions/users';
 import Table from './Table';
 import Spinner from '../../utils/Spinner';
 
-const MemberList = ({ getAllUsers, users: { users, loading } }) => {
+const MemberList = ({ getAllUsers, users: { users, loading, Moderator } }) => {
 	useEffect(() => {
 		getAllUsers(active);
 		//eslint-disable-next-line
@@ -38,7 +38,11 @@ const MemberList = ({ getAllUsers, users: { users, loading } }) => {
 				/>
 				<label htmlFor="unactive">Unactive</label>
 			</div>
-			<Table users={active ? activeUsers : unActiveUsers} />
+			<Table
+				Moderator={Moderator}
+				users={active ? activeUsers : unActiveUsers}
+				active={active}
+			/>
 		</div>
 	);
 };
