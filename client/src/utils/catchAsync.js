@@ -22,9 +22,9 @@ const catchAsync = (type, fn = type) => {
 			if (type === 'announcement') dispatch({ type: ANNOUNCEMENT_ERROR });
 			if (type === 'user') dispatch({ type: USER_ERROR });
 			if (errors) dispatch(setAlert(errors.message, 'fail'));
-			// Log user out if deactivated
-			console.log(err.response.status);
-			if (err.response.status === 401) {
+			// Log user out if deactivated --- 401 Unauthorized
+			// Log out user if roles changed --- 403  Forbidden
+			if (err.response.status === 401 || err.response.status === 403) {
 				dispatch(logoutUser());
 			}
 			dispatch({
