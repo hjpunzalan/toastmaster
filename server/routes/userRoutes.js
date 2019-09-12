@@ -15,9 +15,14 @@ router.post('/updatePassword', authController.updatePassword);
 router.patch('/updateMe', userController.updateMe);
 router.patch('/deleteMe', userController.deleteMe);
 router.patch(
-	'/deleteUser/:id',
+	'/deActivateUser/:id',
 	authController.restrictTo('admin', 'committee'),
 	userController.deleteUser
+);
+router.patch(
+	'/activateUser/:id',
+	authController.restrictTo('admin', 'committee'),
+	userController.reActivateUser
 );
 
 module.exports = router;

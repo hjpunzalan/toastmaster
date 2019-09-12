@@ -85,7 +85,7 @@
         font-size: $size-cancel;
         margin-bottom: 5rem;
 
-        &-visible {
+        >button {
             cursor: pointer;
             padding: 0.7rem 3rem;
         }

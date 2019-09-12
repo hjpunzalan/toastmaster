@@ -7,6 +7,7 @@ export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
 export const RESET_PASSWORD = 'RESET_PASSWORD';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 export const AUTH_ERROR = 'AUTH_ERROR';
+export const LOADING_AUTH = 'LOADING_AUTH';
 
 // Alerts
 export const SET_ALERT = 'SET_ALERT';
@@ -33,9 +34,12 @@ export const LOADING_SUBMIT_POST = 'LOADING_SUBMIT_POST';
 // User
 export const UPDATE_ME = 'UPDATE_ME';
 export const UPDATE_FAILED = 'UPDATE_FAILED';
-export const LOADING_AUTH = 'LOADING_USER';
 export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const TOGGLE_MODERATOR = 'TOGGLE_MODERATOR';
+export const USER_ERROR = 'USER_ERROR';
+export const DEACTIVATE_USER = 'DEACTIVATE_USER';
+export const ACTIVATE_USER = 'ACTIVATE_USER';
+export const LOADING_USER = 'LOADING_USER';
 
 // Announcements
 export const TOGGLE_CREATE_ANNOUNCEMENT = 'TOGGLE_CREATE_ANNOUNCEMENT';

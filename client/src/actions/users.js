@@ -4,7 +4,10 @@ import {
 	UPDATE_ME,
 	LOADING_AUTH,
 	GET_ALL_USERS,
-	TOGGLE_MODERATOR
+	TOGGLE_MODERATOR,
+	DEACTIVATE_USER,
+	ACTIVATE_USER,
+	LOADING_USER
 } from '../actions/types';
 import { setAlert, resetAlert } from './alerts';
 import catchAsync from '../utils/catchAsync';
@@ -78,3 +81,33 @@ export const getAllUsers = () =>
 
 export const toggleView = () => dispatch =>
 	dispatch({ type: TOGGLE_MODERATOR });
+
+export const deActivateUser = userId =>
+	catchAsync('user', async dispatch => {
+		dispatch(resetAlert());
+		dispatch({ type: LOADING_USER });
+		const res = await axios.patch(`/api/users/deActivateUser/${userId}`);
+
+		dispatch({ type: DEACTIVATE_USER, payload: res.data });
+		dispatch(
+			setAlert(
+				`${res.data.firstName} ${res.data.lastName} deactivated!`,
+				'success'
+			)
+		);
+	});
+
+export const activateUser = userId =>
+	catchAsync('user', async dispatch => {
+		dispatch(resetAlert());
+		dispatch({ type: LOADING_USER });
+		const res = await axios.patch(`/api/users/activateUser/${userId}`);
+
+		dispatch({ type: ACTIVATE_USER, payload: res.data });
+		dispatch(
+			setAlert(
+				`${res.data.firstName} ${res.data.lastName} reActivated!`,
+				'success'
+			)
+		);
+	});

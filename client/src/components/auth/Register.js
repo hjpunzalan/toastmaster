@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { registerUser } from '../../actions/users';
@@ -15,6 +16,9 @@ const Register = ({ registerUser }) => {
 
 	return (
 		<div className="Form">
+			<Link to="/members" className="Form__goBack">
+				<button>Go Back</button>
+			</Link>
 			<h1>Register a User</h1>
 			<p className="Form__text">Please fill the form as per member's details</p>
 			<hr />
@@ -53,8 +57,8 @@ const Register = ({ registerUser }) => {
 					required
 				/>
 				<div className="Form__btns">
-					<button className="btn btn__cancel" onClick={handleCancel}>
-						Cancel
+					<button className="btn" onClick={handleCancel}>
+						Clear
 					</button>
 					<input type="submit" className="btn btn__submit" value="Register" />
 				</div>

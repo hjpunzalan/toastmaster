@@ -22,10 +22,10 @@ const Update = ({ auth: { currentUser }, updateMe, history }) => {
 
 	return (
 		<div className="Form">
-			<Link to="/dashboard">
-				<button className="btn btn__cancel">Cancel</button>
+			<Link className="Form__goBack" to="/dashboard">
+				<button>Cancel</button>
 			</Link>
-			<h1 className="Form__title">Update your profile</h1>
+			<h1>Update your profile</h1>
 			<form className="Form__form" onSubmit={handleSubmit}>
 				<label htmlFor="image">
 					<strong>Profile photo</strong>
