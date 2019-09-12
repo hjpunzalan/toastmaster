@@ -4,10 +4,24 @@
     flex-direction: column;
     max-width: 80rem;
 
-    &__switch {
+    &__top {
         width: 100%;
         display: flex;
-        justify-content: center;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__register {
+        flex-shrink: 0;
+
+        >button {
+            padding: .7rem 1rem;
+            cursor: pointer;
+        }
+    }
+
+    &__switch {
+        display: flex;
 
         input {
             opacity: 0;

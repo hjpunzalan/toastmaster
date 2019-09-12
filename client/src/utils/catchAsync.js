@@ -4,7 +4,8 @@ import {
 	POST_ERROR,
 	ANNOUNCEMENT_ERROR,
 	AUTH_ERROR,
-	UPDATE_FAILED
+	UPDATE_FAILED,
+	USER_ERROR
 } from '../actions/types';
 
 // So when only one argument is provided, it will be fn
@@ -18,6 +19,7 @@ const catchAsync = (type, fn = type) => {
 			if (type === 'auth') dispatch({ type: AUTH_ERROR });
 			if (type === 'update') dispatch({ type: UPDATE_FAILED });
 			if (type === 'announcement') dispatch({ type: ANNOUNCEMENT_ERROR });
+			if (type === 'user') dispatch({ type: USER_ERROR });
 			if (errors) dispatch(setAlert(errors.message, 'fail'));
 			dispatch({
 				type: ERROR,

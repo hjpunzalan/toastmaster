@@ -8,10 +8,6 @@
         font-size: $size-title;
     }
 
-    &__title {
-        margin-top: 7rem;
-    }
-
     &__text {
         font-size: $size-label;
         margin: 1.5rem 0;
@@ -64,7 +60,7 @@
     &__btns {
         margin: 4rem 0;
 
-        .btn__cancel {
+        >button {
             margin-right: 3rem;
         }
     }
@@ -79,6 +75,18 @@
 
         &:hover {
             border-bottom: 3px solid $color-link;
+        }
+    }
+
+    &__goBack {
+        display: inline-block;
+        text-decoration: none;
+        font-size: $size-cancel;
+        margin-bottom: 5rem;
+
+        >button {
+            cursor: pointer;
+            padding: 0.7rem 3rem;
         }
     }
 }

@@ -39,10 +39,10 @@ const ChangePassword = ({
 		<Spinner />
 	) : (
 		<div className="Form">
-			<Link to="/dashboard">
-				<button className="btn btn__cancel">Cancel</button>
+			<Link className="Form__goBack" to="/dashboard">
+				<button>Cancel</button>
 			</Link>
-			<h1 className="Form__title">Change Your Password</h1>
+			<h1>Change Your Password</h1>
 			<p className="Form__text">
 				Changing your password will log you out from other devices.
 			</p>

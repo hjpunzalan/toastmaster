@@ -88,7 +88,7 @@ const Post = ({
 	) : (
 		<>
 			<Link to="/discussion" className="Post__goBack">
-				<button className="Post__goBack-visible">Go Back</button>
+				<button>Go Back</button>
 			</Link>
 			<div className="Post__title-container">
 				<h1 className="Post__title">{post.title}</h1>

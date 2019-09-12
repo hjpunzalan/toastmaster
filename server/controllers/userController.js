@@ -44,15 +44,19 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
 	await User.findByIdAndUpdate(req.user.id, { active: false });
-
 	res.status(204);
 });
 
 exports.deleteUser = catchAsync(async (req, res, next) => {
-	const user = Users.findById(req.params.id);
-
+	const user = await Users.findById(req.params.id);
 	user.active = false;
 	await user.save();
+	res.status(200).json(user);
+});
 
-	res.status(204);
+exports.reActivateUser = catchAsync(async (req, res, next) => {
+	const user = await Users.findById(req.params.id);
+	user.active = true;
+	await user.save();
+	res.status(200).json(user);
 });
