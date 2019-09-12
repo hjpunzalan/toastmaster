@@ -3,7 +3,15 @@ import { MdEmail } from 'react-icons/md';
 import { FaUserTimes, FaUserPlus } from 'react-icons/fa';
 import img from '../../../img/anonymous.png';
 
-const List = ({ user, Moderator, active, deActivateUser, activateUser }) => {
+const List = ({
+	user,
+	Moderator,
+	active,
+	deActivateUser,
+	activateUser,
+	currentUser,
+	changeRole
+}) => {
 	return (
 		<tr key={user._id} className="MemberList__member">
 			<td>
@@ -35,6 +43,16 @@ const List = ({ user, Moderator, active, deActivateUser, activateUser }) => {
 						</a>
 						{user.email}
 					</span>
+				</td>
+			)}
+			{Moderator && currentUser.role === 'admin' && active && (
+				<td>
+					<select
+						defaultValue={user.role === 'committee' || user.role === 'admin'}
+						onChange={e => changeRole(user._id, e.target.value)}>
+						<option value={true}>Yes</option>
+						<option value={false}>No</option>
+					</select>
 				</td>
 			)}
 			{Moderator &&

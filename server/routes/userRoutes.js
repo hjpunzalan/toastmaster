@@ -25,4 +25,15 @@ router.patch(
 	userController.reActivateUser
 );
 
+router.patch(
+	'/makeCommittee/:id',
+	authController.restrictTo('admin'),
+	userController.makeComittee
+);
+router.patch(
+	'/removeCommittee/:id',
+	authController.restrictTo('admin'),
+	userController.removeCommittee
+);
+
 module.exports = router;

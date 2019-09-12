@@ -7,7 +7,9 @@ import {
 	TOGGLE_MODERATOR,
 	DEACTIVATE_USER,
 	ACTIVATE_USER,
-	LOADING_USER
+	LOADING_USER,
+	MAKE_COMMITTEE,
+	REMOVE_COMMITTEE
 } from '../actions/types';
 import { setAlert, resetAlert } from './alerts';
 import catchAsync from '../utils/catchAsync';
@@ -110,4 +112,29 @@ export const activateUser = userId =>
 				'success'
 			)
 		);
+	});
+
+export const changeRole = (userId, isCommittee) =>
+	catchAsync('user', async dispatch => {
+		dispatch(resetAlert());
+		dispatch({ type: LOADING_USER });
+		if (isCommittee === 'true') {
+			const res = await axios.patch(`/api/users/makeCommittee/${userId}`);
+			dispatch({ type: MAKE_COMMITTEE, payload: res.data });
+			dispatch(
+				setAlert(
+					`${res.data.firstName} ${res.data.lastName} is now a committee member`,
+					'success'
+				)
+			);
+		} else {
+			const res = await axios.patch(`/api/users/removeCommittee/${userId}`);
+			dispatch({ type: REMOVE_COMMITTEE, payload: res.data });
+			dispatch(
+				setAlert(
+					`${res.data.firstName} ${res.data.lastName} is back to a normal member`,
+					'success'
+				)
+			);
+		}
 	});

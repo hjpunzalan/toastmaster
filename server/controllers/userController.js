@@ -61,7 +61,13 @@ exports.reActivateUser = catchAsync(async (req, res, next) => {
 
 exports.makeComittee = catchAsync(async (req, res, next) => {
 	const user = await Users.findById(req.params.id);
-	user.active = false;
+	user.role = 'committee';
+	await user.save();
+	res.status(200).json(user);
+});
+exports.removeCommittee = catchAsync(async (req, res, next) => {
+	const user = await Users.findById(req.params.id);
+	user.role = 'user';
 	await user.save();
 	res.status(200).json(user);
 });

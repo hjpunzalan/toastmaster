@@ -5,7 +5,9 @@ import {
 	USER_ERROR,
 	DEACTIVATE_USER,
 	ACTIVATE_USER,
-	LOADING_USER
+	LOADING_USER,
+	MAKE_COMMITTEE,
+	REMOVE_COMMITTEE
 } from '../actions/types';
 
 const initialState = {
@@ -54,6 +56,8 @@ export default (state = initialState, action) => {
 
 		case DEACTIVATE_USER:
 		case ACTIVATE_USER:
+		case MAKE_COMMITTEE:
+		case REMOVE_COMMITTEE:
 			return {
 				...state,
 				users: replaceUser(payload._id, state.users, payload),

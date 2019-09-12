@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import {
 	getAllUsers,
 	deActivateUser,
-	activateUser
+	activateUser,
+	changeRole
 } from '../../../actions/users';
 import Table from './Table';
 import Spinner from '../../utils/Spinner';
@@ -18,7 +19,8 @@ const MemberList = ({
 	deActivateUser,
 	activateUser,
 	setAlert,
-	resetAlert
+	resetAlert,
+	changeRole
 }) => {
 	useEffect(() => {
 		getAllUsers(active);
@@ -68,6 +70,7 @@ const MemberList = ({
 				setActive={setActive}
 				setAlert={setAlert}
 				resetAlert={resetAlert}
+				changeRole={changeRole}
 			/>
 		</div>
 	);
@@ -80,7 +83,8 @@ MemberList.propTypes = {
 	activateUser: PropTypes.func.isRequired,
 	auth: PropTypes.object.isRequired,
 	setAlert: PropTypes.func.isRequired,
-	resetAlert: PropTypes.func.isRequired
+	resetAlert: PropTypes.func.isRequired,
+	changeRole: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -90,5 +94,12 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getAllUsers, deActivateUser, activateUser, setAlert, resetAlert }
+	{
+		getAllUsers,
+		deActivateUser,
+		activateUser,
+		setAlert,
+		resetAlert,
+		changeRole
+	}
 )(MemberList);
