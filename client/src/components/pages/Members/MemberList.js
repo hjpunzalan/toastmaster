@@ -9,12 +9,16 @@ import {
 } from '../../../actions/users';
 import Table from './Table';
 import Spinner from '../../utils/Spinner';
+import { setAlert, resetAlert } from '../../../actions/alerts';
 
 const MemberList = ({
 	getAllUsers,
 	users: { users, loading, Moderator },
+	auth: { currentUser },
 	deActivateUser,
-	activateUser
+	activateUser,
+	setAlert,
+	resetAlert
 }) => {
 	useEffect(() => {
 		getAllUsers(active);
@@ -60,6 +64,10 @@ const MemberList = ({
 				active={active}
 				deActivateUser={deActivateUser}
 				activateUser={activateUser}
+				currentUser={currentUser}
+				setActive={setActive}
+				setAlert={setAlert}
+				resetAlert={resetAlert}
 			/>
 		</div>
 	);
@@ -69,14 +77,18 @@ MemberList.propTypes = {
 	getAllUsers: PropTypes.func.isRequired,
 	users: PropTypes.object.isRequired,
 	deActivateUser: PropTypes.func.isRequired,
-	activateUser: PropTypes.func.isRequired
+	activateUser: PropTypes.func.isRequired,
+	auth: PropTypes.object.isRequired,
+	setAlert: PropTypes.func.isRequired,
+	resetAlert: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-	users: state.users
+	users: state.users,
+	auth: state.auth
 });
 
 export default connect(
 	mapStateToProps,
-	{ getAllUsers, deActivateUser, activateUser }
+	{ getAllUsers, deActivateUser, activateUser, setAlert, resetAlert }
 )(MemberList);

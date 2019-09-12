@@ -14,7 +14,6 @@ const Moderator = ({
 	useEffect(() => {
 		toggleModerator(false);
 		if (Moderator) toggleView();
-		console.log('use effect');
 		// eslint-disable-next-line
 	}, [currentUser]);
 

@@ -46,7 +46,7 @@ const createToken = (user, res) => {
 	};
 
 	// Attaching cookie to headers
-	if (process.env.NODDE_ENV === 'production') cookieOptions.secure = true;
+	if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 	res.cookie('jwt', token, cookieOptions);
 
 	res.status(200).json(user);
@@ -87,7 +87,6 @@ exports.login = catchAsync(async (req, res, next) => {
 
 exports.logout = (req, res) => {
 	res.clearCookie('jwt');
-
 	res.status(200).json({ status: 'success' });
 };
 
