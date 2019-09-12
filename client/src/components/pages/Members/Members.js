@@ -48,7 +48,7 @@ const List = ({ user, Moderator, active, deActivateUser, activateUser }) => {
 					</td>
 				) : (
 					<td>
-						<button className="btn btn__edit-xs">
+						<button className="btn btn__activate-xs">
 							<FaUserPlus
 								className="MemberList__activate"
 								onClick={() => activateUser(user._id)}

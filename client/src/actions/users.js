@@ -91,7 +91,7 @@ export const deActivateUser = userId =>
 		dispatch({ type: DEACTIVATE_USER, payload: res.data });
 		dispatch(
 			setAlert(
-				`${res.data.firstName} ${res.data.lastName} deactivated!`,
+				`${res.data.firstName} ${res.data.lastName} has been deactivated!`,
 				'success'
 			)
 		);
@@ -106,7 +106,7 @@ export const activateUser = userId =>
 		dispatch({ type: ACTIVATE_USER, payload: res.data });
 		dispatch(
 			setAlert(
-				`${res.data.firstName} ${res.data.lastName} reActivated!`,
+				`${res.data.firstName} ${res.data.lastName} has been activated!`,
 				'success'
 			)
 		);

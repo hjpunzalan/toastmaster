@@ -31,7 +31,7 @@
             background-color: $color-grey;
             color: $color-black;
             height: auto;
-            width: fit-content;
+            width: auto;
             max-width: 7rem;
             padding: .5rem;
             border-radius: 5px;
@@ -56,7 +56,7 @@
             background: $color-danger;
             color: $color-white;
             height: auto;
-            width: fit-content;
+            width: auto;
             max-width: 7rem;
             padding: .5rem;
             border-radius: 5px;
@@ -64,7 +64,8 @@
         }
     }
 
-    &__submit {
+    &__submit,
+    &__activate {
         background: $color-secondary;
         color: $color-white;
 
@@ -74,6 +75,18 @@
             width: 10rem;
             height: 3rem;
             font-size: $size-alert;
+        }
+
+        &-xs {
+            font-size: $size-alert;
+            background: $color-secondary;
+            color: $color-white;
+            height: auto;
+            width: auto;
+            max-width: 7rem;
+            padding: .5rem;
+            border-radius: 5px;
+            @include boxshadow;
         }
     }
 
