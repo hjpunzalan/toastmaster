@@ -112,6 +112,10 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 	// Grant access to the user who holds the token (through payload)
 	// Stores user information for next middleware
+	if (!currentUser.active)
+		return next(
+			new AppError('You are not logged in! Please login to get access', 401)
+		);
 	req.user = currentUser;
 	next();
 });

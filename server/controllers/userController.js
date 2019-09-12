@@ -27,14 +27,12 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 
 exports.updateMe = catchAsync(async (req, res, next) => {
 	// Update user document
-	const filterBody = checkBody(
-		req.body,
-		next,
+	const filterBody = checkBody(req.body, next, [
 		'firstName',
 		'lastName',
 		'email',
 		'photo'
-	);
+	]);
 	const user = await Users.findByIdAndUpdate(req.user.id, filterBody, {
 		new: true,
 		runValidators: true
@@ -57,6 +55,13 @@ exports.deleteUser = catchAsync(async (req, res, next) => {
 exports.reActivateUser = catchAsync(async (req, res, next) => {
 	const user = await Users.findById(req.params.id);
 	user.active = true;
+	await user.save();
+	res.status(200).json(user);
+});
+
+exports.makeComittee = catchAsync(async (req, res, next) => {
+	const user = await Users.findById(req.params.id);
+	user.active = false;
 	await user.save();
 	res.status(200).json(user);
 });
