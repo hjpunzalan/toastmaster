@@ -84,36 +84,10 @@
         text-decoration: none;
         font-size: $size-cancel;
         margin-bottom: 5rem;
-        overflow: hidden;
-        position: relative;
-        transition: all 0.2s;
-
-        &>* {
-            display: inline-block;
-            height: 100%;
-            width: 100%;
-            transition: all 0.5s;
-        }
 
         &-visible {
             cursor: pointer;
             padding: 0.7rem 3rem;
-        }
-
-        &-invisible {
-            cursor: pointer;
-            padding: 0.7rem 1.5rem; //left padding must be half of visible's padding
-            position: absolute;
-            right: -100%;
-            top: 0;
-        }
-
-        &:hover &-visible {
-            transform: translateX(-100%);
-        }
-
-        &:hover &-invisible {
-            right: 0;
         }
     }
 
