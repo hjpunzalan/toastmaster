@@ -23,8 +23,10 @@
     &__switch {
         display: flex;
 
-        input {
+        input[id="active"],
+        input[id="unactive"] {
             opacity: 0;
+            visibility: hidden;
             width: 0;
             height: 0;
         }

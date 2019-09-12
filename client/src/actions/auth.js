@@ -42,7 +42,6 @@ export const logoutUser = () =>
 		dispatch({ type: CLEAR_LOGIN });
 		await axios.get('/api/auth/logout');
 		dispatch({ type: LOGOUT });
-		dispatch(setAlert('User successfully logged out', 'success'));
 	});
 
 export const forgotPassword = (email, url) =>
