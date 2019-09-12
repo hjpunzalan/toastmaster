@@ -8,7 +8,8 @@ const PostHead = ({
 	img,
 	currentUser,
 	handleToggleEditPost,
-	handleDeletePost
+	handleDeletePost,
+	Moderator
 }) => {
 	return (
 		<div className="Post__post">
@@ -42,18 +43,21 @@ const PostHead = ({
 							</Moment>
 						</span>
 					)}
-					{currentUser._id === post.user._id && (
-						<div className="Post__postButtons">
+					<div className="Post__postButtons">
+						{currentUser._id === post.user._id && (
 							<button
 								className="btn btn__edit-xs"
 								onClick={handleToggleEditPost}>
 								Edit
 							</button>
+						)}
+						{(currentUser._id === post.user._id ||
+							(Moderator && currentUser.role === 'admin')) && (
 							<button className="btn btn__delete-xs" onClick={handleDeletePost}>
 								Delete
 							</button>
-						</div>
-					)}
+						)}
+					</div>
 				</>
 			</div>
 		</div>

@@ -84,4 +84,9 @@
             object-fit: cover;
         }
     }
+
+    &__deactivate,
+    &__activate {
+        font-size: $size-label;
+    }
 }

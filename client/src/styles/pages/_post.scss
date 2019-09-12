@@ -29,8 +29,11 @@
         &Buttons {
             display: flex;
             margin-top: 2rem;
-            width: 15rem;
-            justify-content: space-around;
+
+            &>button.btn {
+                margin-right: 1rem;
+
+            }
         }
     }
 
@@ -76,13 +79,10 @@
         }
     }
 
-    &__back {
+    &__goBack {
         display: inline-block;
         text-decoration: none;
         font-size: $size-cancel;
-        background: $color-grey;
-        color: $color-black;
-        cursor: pointer;
         margin-bottom: 5rem;
         overflow: hidden;
         position: relative;
@@ -96,10 +96,12 @@
         }
 
         &-visible {
+            cursor: pointer;
             padding: 0.7rem 3rem;
         }
 
         &-invisible {
+            cursor: pointer;
             padding: 0.7rem 1.5rem; //left padding must be half of visible's padding
             position: absolute;
             right: -100%;

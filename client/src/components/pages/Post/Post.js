@@ -34,7 +34,8 @@ const Post = ({
 	history,
 	location,
 	currentUser,
-	postLoading
+	postLoading,
+	users: { Moderator }
 }) => {
 	useEffect(() => {
 		// runs once and on updatePost
@@ -86,14 +87,15 @@ const Post = ({
 		/>
 	) : (
 		<>
-			<Link to="/discussion" className="Post__back">
-				<span className="Post__back-visible">Go Back</span>
-				<span className="Post__back-invisible">To discussion</span>
+			<Link to="/discussion" className="Post__goBack">
+				<button className="Post__goBack-visible">Go Back</button>
+				<button className="Post__goBack-invisible">To discussion</button>
 			</Link>
 			<div className="Post__title-container">
 				<h1 className="Post__title">{post.title}</h1>
 			</div>
 			<PostHead
+				Moderator={Moderator}
 				post={post}
 				currentUser={currentUser}
 				handleToggleEditPost={handleToggleEditPost}
@@ -124,6 +126,7 @@ const Post = ({
 								history={history}
 								setPage={setPage}
 								currentUser={currentUser}
+								Moderator={Moderator}
 							/>
 						))}
 					</div>
@@ -155,7 +158,8 @@ Post.propTypes = {
 	postEdit: PropTypes.bool.isRequired,
 	post: PropTypes.object,
 	currentUser: PropTypes.object,
-	postLoading: PropTypes.bool.isRequired
+	postLoading: PropTypes.bool.isRequired,
+	users: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -163,6 +167,7 @@ const mapStateToProps = state => ({
 	post: state.post,
 	textEditor: state.textEditor,
 	currentUser: state.auth.currentUser,
+	users: state.users,
 	postLoading: state.post.postLoading
 });
 

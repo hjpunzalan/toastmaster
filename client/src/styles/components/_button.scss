@@ -31,8 +31,9 @@
             background-color: $color-grey;
             color: $color-black;
             height: auto;
-            width: 7rem;
-            padding: 1rem;
+            width: fit-content;
+            max-width: 7rem;
+            padding: .5rem;
             border-radius: 5px;
             @include boxshadow;
         }
@@ -55,8 +56,9 @@
             background: $color-danger;
             color: $color-white;
             height: auto;
-            width: 7rem;
-            padding: 1rem;
+            width: fit-content;
+            max-width: 7rem;
+            padding: .5rem;
             border-radius: 5px;
             @include boxshadow;
         }
