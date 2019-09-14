@@ -84,6 +84,22 @@ I've completed most of my goals. I've added pagination of both client and server
  Thats it I think! (I also did a lot of refactoring of styles and components) Now I am trying to finish off the dashboard announcements section and then finish the member's list then lastly, the moderator's access only functionalities. The end is near but still many things to do!!! I somehow keep finding more work to do as I go! My goal is to have this deployed by the end of the month -latest.
  
 </p>
+<hr/>
+<h3>13th September 2019 </h3>
+
+<p>
+Applications is nearly finished but still got a few things left to do. Lets take a look back on what I've done in the past few days. I've completed redesigning the dashboard to be responsive with the textEditor. All CRUD operations of the announcements were also completed, rendering when in moderator access mode. I've made the textEditor more dynamic able to be used throughout the app even when editting existing posts however, there were a couple of issues such as closure memory leak from the editor. I fixed it through refactoring and adding a conditional operator.
+ 
+ I've also completed the member list. The active and unactive members are in separate tables. I've decided to make the unactive members visible to everyone because when they are deleted/deactivated, I want users to still the posts and comments they have made for reference. Only the admin or moderator are able to see the unactive user's email. In moderator view mode, committee and admin are able to reactivate or deactivate the members. When then the members are deactivated, they can not log in. If already logged in, they are logged out when trying a different route upon receiving a 403 unauthorized http error when trying to make a request from server. If there are no unactive members, current users won't be able to navigate to the unactive member list since its empty. Only admin are able to change roles of the members. IF a logged in committee has been turned back to a normal user, they won't have access to moderator controls and will receive a 401 forbidden http error which will dispatch logout user. Relogging in the application will remove the moderator switch.
+ 
+I've added moderator access to delete posts and comments but not edit them. I've decided to give admin the only role to be able to do this. There shouldn't be any reason for admin to edit other people's post. If anything, deleting should be enough. Committee members does not need to delete post or comments. This is a admin-level responsibility and as committee members, it is not fair to give them the responsiblity.
+ 
+I have done all of this connecting to redux store only from parent component. Passing state down by props to child component. I did it this way so the parent component can be a reference to all the state and actions being passed through it.
+
+Lastly, I've added the registration form page that is only visible to the committee or admin. I still need to program its request and its handlers. I need to also add a redirect to a password change page (which I need to add) for new users only.
+
+After that, is making everything responsive!!! Then tada! Making it responsive will probably take a lot of work. Plus I feel like I will come across a few errors on the way but they key is that I am still moving forward.
+ </p>
 
 
 
