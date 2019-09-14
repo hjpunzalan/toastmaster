@@ -6,8 +6,8 @@ const QueryHandling = require('../utils/queryHandling');
 const Email = require('../utils/email');
 
 exports.register = catchAsync(async (req, res, next) => {
-	const newUser = await Users.create(req.body);
-	const url = '#'; // need to include set new password url
+	const { firstName, lastName, email, url } = req.body;
+	const newUser = await Users.create({ firstName, lastName, email });
 	await new Email(newUser, url).sendWelcome();
 
 	// remove password from json output;

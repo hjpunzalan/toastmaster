@@ -2,19 +2,36 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { registerUser } from '../../actions/users';
 import useForms from '../../hooks/useForms';
+import Spinner from '../utils/Spinner';
 
-const Register = ({ registerUser }) => {
+const Register = ({
+	registerUser,
+	users: { loading, Moderator },
+	auth: { currentUser }
+}) => {
 	// This makes react the single source of truth
+	const handleRegister = formData => {
+		// replace register with login
+		const url = document.location.href.replace('register', 'login');
+		console.log(url);
+		registerUser(formData, url);
+	};
+
 	const blankForm = { firstName: '', lastName: '', email: '' };
 	const { formData, handleChange, handleSubmit, handleCancel } = useForms(
 		blankForm,
-		registerUser
+		handleRegister
 	);
 	const { firstName, lastName, email } = formData;
 
-	return (
+	return currentUser.role === 'user' || !Moderator ? (
+		<Redirect to="/dashboard" />
+	) : loading ? (
+		<Spinner />
+	) : (
 		<div className="Form">
 			<Link to="/members" className="Form__goBack">
 				<button>Go Back</button>
@@ -71,7 +88,12 @@ Register.propTypes = {
 	registerUser: PropTypes.func.isRequired
 };
 
+const mapStateToProps = state => ({
+	users: state.users,
+	auth: state.auth
+});
+
 export default connect(
-	null,
+	mapStateToProps,
 	{ registerUser }
 )(Register);
