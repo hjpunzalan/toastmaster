@@ -32,14 +32,10 @@ export default (state = initialState, action) => {
 		case LOADING_USER:
 			return { ...state, loading: true };
 		case REGISTER_SUCCESS:
-			localStorage.setItem(
-				'users',
-				JSON.stringify([...state.users, ...payload])
-			);
 			return {
 				//State needs to be first
 				...state,
-				users: [...state.users, ...payload],
+				users: [...state.users, payload],
 				loading: false
 			};
 		case GET_ALL_USERS:

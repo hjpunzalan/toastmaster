@@ -42,7 +42,8 @@ const PostComment = ({
 							{date}
 						</Moment>
 					</span>
-					{(currentUser._id === user._id || Moderator) && (
+					{(currentUser._id === user._id ||
+						(Moderator && currentUser.role === 'admin')) && (
 						<button
 							className="Post__comment-trash"
 							onClick={() => deleteComment(postId, id, history, page, setPage)}>

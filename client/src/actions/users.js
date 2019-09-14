@@ -14,33 +14,27 @@ import {
 import { setAlert, resetAlert } from './alerts';
 import catchAsync from '../utils/catchAsync';
 
-export const registerUser = formData => dispatch => {
-	const { firstName, lastName, email } = formData;
-	dispatch(resetAlert());
-	let users = JSON.parse(localStorage.getItem('users')) || [
-		{
-			firstName: 'Jonathan',
-			lastName: 'Punzalan',
-			email: 'hj.punzalan@hotmail.com'
-		}
-	];
-
-	const checkUsers = users.filter(user => user.email === email);
-
-	if (checkUsers.length === 0) {
-		users.push(formData);
-
-		dispatch({
-			type: REGISTER_SUCCESS,
-			payload: users
-		});
-
-		dispatch(
-			setAlert(`${firstName} ${lastName} succesfully registered.`, 'success')
+export const registerUser = (formData, url) =>
+	catchAsync('user', async dispatch => {
+		dispatch(resetAlert());
+		dispatch({ type: LOADING_USER });
+		const res = await axios.post(
+			'/api/users/register',
+			{ ...formData, url },
+			{
+				headers: {
+					'Content-type': 'application/json'
+				}
+			}
 		);
-	} else
-		dispatch(setAlert(`Email: ${email} has already been registered`, 'fail'));
-};
+		dispatch({ type: REGISTER_SUCCESS, payload: res.data });
+		dispatch(
+			setAlert(
+				`${formData.firstName} ${formData.lastName} was successfully registered and temporary password sent to user's email`,
+				'success'
+			)
+		);
+	});
 
 export const updateMe = (formData, file, history) =>
 	catchAsync('update', async dispatch => {
