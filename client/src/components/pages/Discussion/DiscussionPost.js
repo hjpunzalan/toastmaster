@@ -26,8 +26,11 @@ const DiscussionPost = ({
 				<div className="Discussion__postBody-header">
 					<h3 className="Discussion__postBody-title"> {title}</h3>
 					<span className="Discussion__postBody-chat">
-						{count > 0 && count}
-						<IoIosChatboxes />
+						{count > 0 && (
+							<>
+								{count} <IoIosChatboxes />
+							</>
+						)}
 					</span>
 				</div>
 				<p className="Discussion__postBody-text">{text}</p>

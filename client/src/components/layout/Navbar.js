@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -6,10 +6,13 @@ import logo from '../../img/logo.png';
 import { logoutUser } from '../../actions/auth';
 
 const Navbar = ({ auth: { isAuthenticated }, logoutUser }) => {
+	const [nav, setNav] = useState(false);
+
+	console.log(nav);
 	return (
-		<Fragment>
+		<>
 			<ul className="Navbar">
-				<Link to="/dashboard" className="Navbar__left">
+				<div className="Navbar__left">
 					<li className="Navbar__item">
 						<img className="Navbar__logo" src={logo} alt="logo" />
 					</li>
@@ -21,10 +24,20 @@ const Navbar = ({ auth: { isAuthenticated }, logoutUser }) => {
 							A President Distinguished Club
 						</li>
 					</div>
-				</Link>
+					<input
+						type="checkbox"
+						name="checkbox"
+						id="hamburger"
+						value={nav}
+						onChange={() => setNav(!nav)}
+					/>
+					<label htmlFor="hamburger" className="Navbar__button">
+						<span></span>
+					</label>
+				</div>
 				<div className="Navbar__right">
 					{isAuthenticated ? (
-						<>
+						<ul id="nav" className={nav ? 'Navbar__open' : 'Navbar__closed'}>
 							<li className="Navbar__item">
 								<Link className="Navbar__link" to="/dashboard">
 									Dashboard
@@ -45,7 +58,7 @@ const Navbar = ({ auth: { isAuthenticated }, logoutUser }) => {
 									Logout
 								</Link>
 							</li>
-						</>
+						</ul>
 					) : (
 						<li className="Navbar__item">
 							<Link className="Navbar__link" to="/login">
@@ -55,7 +68,7 @@ const Navbar = ({ auth: { isAuthenticated }, logoutUser }) => {
 					)}
 				</div>
 			</ul>
-		</Fragment>
+		</>
 	);
 };
 

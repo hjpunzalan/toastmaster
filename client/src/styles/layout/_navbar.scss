@@ -9,14 +9,115 @@
     padding: .5rem 5rem;
     box-shadow: 0px 3px 5px -1px $color-grey;
 
+    @media only screen and (max-width: 62.5em) {
+        position: relative;
+        height: auto;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
     &__left {
         display: flex;
         align-items: center;
         text-decoration: none;
+
+        @media only screen and (max-width: 62.5em) {
+            width: 100%;
+        }
+
+
+        input[type='checkbox']#hamburger {
+            display: none;
+            width: 0;
+            height: 0;
+
+            &:checked+.Navbar__button span {
+                height: 0;
+            }
+
+            &:checked+.Navbar__button span::before {
+                transform: rotate(-45deg);
+                top: 0;
+            }
+
+            &:checked+.Navbar__button span::after {
+                transform: rotate(45deg);
+                top: 0;
+            }
+        }
+
+
+        .Navbar__button span,
+        .Navbar__button span::before,
+        .Navbar__button span::after {
+            width: 3rem;
+            height: .3rem;
+            background: white;
+        }
+
+        .Navbar__button {
+            display: none;
+
+            @media only screen and (max-width: 62.5em) {
+                margin-left: auto;
+                cursor: pointer;
+                display: inline-block;
+
+                & span {
+                    display: inline-block;
+                    position: relative;
+
+                    &::before,
+                    &::after {
+                        position: absolute;
+                        display: inline-block;
+                        transition: all 0.2s ease;
+                        content: '';
+                    }
+
+                    &::before {
+                        top: -.7rem;
+                    }
+
+                    &::after {
+                        top: .7rem;
+                    }
+                }
+            }
+        }
+
     }
 
     &__right {
         margin-left: auto;
+        position: relative;
+
+        @media only screen and (max-width: 62.5em) {
+            margin-left: 0;
+        }
+
+
+        #nav {
+            transition: all .2s ease;
+            max-height: 500rem;
+            overflow: hidden;
+
+            @media only screen and (max-width: 62.5em) {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        .Navbar__closed#nav {
+            @media only screen and (max-width: 62.5em) {
+                max-height: 0;
+            }
+        }
+
+        .Navbar__open#nav {
+            margin-top: 2rem;
+        }
     }
 
     &__item {
