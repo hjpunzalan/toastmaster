@@ -34,7 +34,6 @@ export default (state = initialState, action) => {
 			const filterAnnouncement = state.announcements.filter(
 				el => payload._id !== el._id
 			);
-			console.log(filterAnnouncement);
 			return {
 				...state,
 				loading: false,

@@ -58,7 +58,7 @@ export default class ReadOnly extends React.Component {
 					plugins={listOfPlugins}
 					editorState={convertedState}
 					ref={element => {
-						this.editor = element;
+						editor = element;
 					}}
 					readOnly={true}
 				/>

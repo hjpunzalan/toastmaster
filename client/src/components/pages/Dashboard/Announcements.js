@@ -19,14 +19,16 @@ const Announcements = ({
 	updateAnnouncement,
 	deleteAnnouncement,
 	announcements: { edit, announcements },
-	textEditor: { contentState }
+	textEditor: { contentState },
+	alerts
 }) => {
 	const [title, setTitle] = useState('');
 	const [id, setId] = useState(null);
 	const [type, setType] = useState('announcement');
 	const [contentEdit, setContentEdit] = useState(null);
+	const [plainTextEdit, setPlainTextEdit] = useState(null);
 	useEffect(() => {
-		if (edit) toggleEdit();
+		if (edit && alerts.msg.length === 0) toggleEdit();
 		// eslint-disable-next-line
 	}, []);
 
@@ -38,24 +40,31 @@ const Announcements = ({
 		setTitle('');
 	};
 
-	const handleSubmit = () => {
+	const handleSubmit = plainText => {
 		// dont need plainText
-		createAnnouncement(title, contentState);
+		// title from state, contentState from redux TextEditor
+		createAnnouncement(title, contentState, plainText);
 		setTitle('');
 	};
 
-	const handleEdit = (postId, currentTitle, contentState) => {
+	const handleEdit = (
+		postId,
+		currentTitle,
+		postContentState,
+		postPlainText
+	) => {
 		setType('edit');
 		setTitle(currentTitle);
 		setId(postId);
-		setContentEdit(contentState);
+		setContentEdit(postContentState);
+		setPlainTextEdit(postPlainText);
 		toggleEdit();
 	};
 
-	const handleUpdate = () => {
+	const handleUpdate = plainText => {
 		// dont need plainText
 		// title from state, contentState from textEditor
-		updateAnnouncement(id, title, contentState);
+		updateAnnouncement(id, title, contentState, plainText);
 	};
 	// updateAnnouncement(id, title, contentState);
 
@@ -83,6 +92,7 @@ const Announcements = ({
 				handleSubmit={type === 'edit' ? handleUpdate : handleSubmit}
 				contentState={type === 'edit' && contentEdit}
 				type={type}
+				plainText={type === 'edit' && plainTextEdit}
 			/>
 		</div>
 	) : (
@@ -124,7 +134,8 @@ const Announcements = ({
 										handleEdit(
 											announcements[0]._id,
 											announcements[0].title,
-											announcements[0].contentState
+											announcements[0].contentState,
+											announcements[0].plainText
 										)
 									}>
 									Edit
@@ -170,7 +181,9 @@ const Announcements = ({
 							<div className="Dashboard__announcement-buttons">
 								<button
 									className="btn btn__edit-xs"
-									onClick={() => handleEdit(el._id, el.title, el.contentState)}>
+									onClick={() =>
+										handleEdit(el._id, el.title, el.contentState, el.plainText)
+									}>
 									Edit
 								</button>
 								<button
@@ -194,13 +207,15 @@ Announcements.propTypes = {
 	updateAnnouncement: PropTypes.func.isRequired,
 	deleteAnnouncement: PropTypes.func.isRequired,
 	announcements: PropTypes.object.isRequired,
-	textEditor: PropTypes.object.isRequired
+	textEditor: PropTypes.object.isRequired,
+	alerts: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
 	users: state.users,
 	announcements: state.announcements,
-	textEditor: state.textEditor
+	textEditor: state.textEditor,
+	alerts: state.alerts
 });
 
 export default connect(

@@ -20,6 +20,10 @@ const announcementSchema = new mongoose.Schema({
 		type: Object,
 		required: [true, 'A post must have content.']
 	},
+	plainText: {
+		type: String,
+		required: [true, 'A post must have a plain text.']
+	},
 	lastEdited: {
 		type: Date,
 		default: Date.now

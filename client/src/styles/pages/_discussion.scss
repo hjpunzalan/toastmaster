@@ -11,6 +11,10 @@
     margin-bottom: 2rem;
   }
 
+  &__editor {
+    @include postEditor
+  }
+
   &__search {
     display: flex;
     align-items: center;
