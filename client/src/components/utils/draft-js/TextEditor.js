@@ -7,7 +7,6 @@ import { FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
 import Editor, { composeDecorators } from 'draft-js-plugins-editor';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createImagePlugin from 'draft-js-image-plugin';
-import createEmojiPlugin from 'draft-js-emoji-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
 import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 import createResizeablePlugin from 'draft-js-resizeable-plugin';
@@ -22,13 +21,10 @@ import {
 } from 'draft-js';
 import ImageAdd from './ImageAdd/ImageAdd';
 import pluginDecorator from './pluginDecorator';
-import theme from './emojiPlugin';
 
 // This fixes cannot delete child from node error when backspace of links
 const HANDLED = 'handled';
 const { hasCommandModifier } = KeyBindingUtil;
-const emojiPlugin = createEmojiPlugin({ theme });
-const { EmojiSelect } = emojiPlugin;
 const linkifyPlugin = createLinkifyPlugin({
 	//This gets rid of blockkey error warnings
 	component: ({ blockKey, ...rest }) => (
@@ -47,7 +43,6 @@ const imageDecorator = composeDecorators(
 const imagePlugin = createImagePlugin({ decorator: imageDecorator });
 const listOfPlugins = [
 	linkifyPlugin,
-	emojiPlugin,
 	blockDndPlugin,
 	resizeablePlugin,
 	focusPlugin,
@@ -156,7 +151,6 @@ class TextEditor extends Component {
 							editorState={editorState}
 							onToggle={this.toggleBlockType}
 							onChange={this.onChange}
-							emojiPlugin={emojiPlugin}
 						/>
 					</div>
 					<div className={className} onClick={this.focus}>
@@ -275,7 +269,6 @@ const InlineStyleControls = props => {
 					style={type.style}
 				/>
 			))}
-			<EmojiSelect />
 		</div>
 	);
 };
