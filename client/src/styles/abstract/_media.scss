@@ -1,0 +1,13 @@
+// Media manager
+// Will need to change editor on mobile devices first because we might have to change the  model
+// Need to add example content before implementing media queries
+
+@mixin respond($breakpoint) {
+    @if $breakpoint==big-desktop {
+        @media only screen and (min-width: 112.5em) {
+            @content;
+        }
+
+        // 1800px+
+    }
+}

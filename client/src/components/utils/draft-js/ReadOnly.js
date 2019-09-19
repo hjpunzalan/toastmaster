@@ -30,7 +30,7 @@ const imageDecorator = composeDecorators(
 const imagePlugin = createImagePlugin({ decorator: imageDecorator });
 const listOfPlugins = [
 	linkifyPlugin,
-	emojiPlugin,
+	// emojiPlugin,
 	blockDndPlugin,
 	resizeablePlugin,
 	focusPlugin,
@@ -55,10 +55,6 @@ export default class ReadOnly extends React.Component {
 		const focus = () => {
 			editor.focus();
 		};
-
-		// const storedState = EditorState.createWithContent(
-		// 	convertedState.getCurrentContent()
-		// );
 		return (
 			<div className="RichEditor-ReadOnly" onClick={focus}>
 				<Editor
