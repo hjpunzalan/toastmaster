@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Comments from './Comments';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { ContentState, convertToRaw } from 'draft-js';
 import {
 	getPost,
 	addComment,
@@ -17,6 +18,7 @@ import Spinner from '../../utils/Spinner';
 import PostHead from './PostHead';
 import PageButtons from './PageButtons';
 import CreatePost from '../../utils/CreatePost';
+import { onChange } from '../../../actions/textEditor';
 
 const Post = ({
 	match: {
@@ -31,6 +33,7 @@ const Post = ({
 	deleteComment,
 	post: { post },
 	textEditor,
+	onChange,
 	history,
 	location,
 	currentUser,
@@ -51,6 +54,14 @@ const Post = ({
 			: 1
 	);
 	const [title, setTitle] = useState('');
+	const [content, setContent] = useState('');
+	const handleChange = e => {
+		setContent(e.target.value);
+		const textToContentState = convertToRaw(
+			ContentState.createFromText(e.target.value)
+		);
+		onChange(textToContentState);
+	};
 
 	// handlers
 	const handleSubmit = () =>
@@ -72,6 +83,7 @@ const Post = ({
 	const limit = 6;
 	const start = (page - 1) * limit;
 	const end = page * limit;
+	const breakpoint = window.screen.width < 1000;
 
 	return post === null || postLoading ? (
 		<Spinner />
@@ -139,7 +151,29 @@ const Post = ({
 					/>
 					<div className="Post__addComment">
 						<h2 className="Post__addComment-title">Add Comment</h2>
-						<TextEditor handleSubmit={handleSubmit} />
+						{breakpoint ? (
+							<>
+								<textarea
+									className="CreatePost__editor"
+									type="text"
+									name="editor"
+									id="editor"
+									value={content}
+									onChange={handleChange}
+									required></textarea>
+								<button
+									className="btn btn__submit"
+									onClick={() => {
+										if (content.length === 0) return;
+										setContent('');
+										handleSubmit();
+									}}>
+									Submit
+								</button>
+							</>
+						) : (
+							<TextEditor handleSubmit={handleSubmit} />
+						)}
 					</div>
 				</>
 			)}
@@ -156,6 +190,7 @@ Post.propTypes = {
 	updatePost: PropTypes.func.isRequired,
 	contentState: PropTypes.string, //Converted to JSON string before sending to database and reconverted by texteditor
 	textEditor: PropTypes.object.isRequired,
+	onChange: PropTypes.func.isRequired,
 	postEdit: PropTypes.bool.isRequired,
 	post: PropTypes.object,
 	currentUser: PropTypes.object,
@@ -180,6 +215,7 @@ export default connect(
 		toggleEditPost,
 		deletePost,
 		deleteComment,
-		updatePost
+		updatePost,
+		onChange
 	}
 )(Post);
