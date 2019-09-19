@@ -6,7 +6,6 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import 'draft-js/dist/Draft.css';
 import 'draft-js-linkify-plugin/lib/plugin.css';
-import 'draft-js-emoji-plugin/lib/plugin.css';
 import 'draft-js-image-plugin/lib/plugin.css';
 import 'draft-js-focus-plugin/lib/plugin.css';
 
