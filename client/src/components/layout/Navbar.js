@@ -8,7 +8,6 @@ import { logoutUser } from '../../actions/auth';
 const Navbar = ({ auth: { isAuthenticated }, logoutUser }) => {
 	const [nav, setNav] = useState(false);
 
-	console.log(nav);
 	return (
 		<>
 			<ul className="Navbar">
