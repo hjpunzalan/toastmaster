@@ -1,7 +1,6 @@
 .Container {
     max-width: 120rem;
     min-height: $container-min-height;
-    padding-top: $padding-lg;
-    padding-bottom: 7rem;
+    padding: $padding-lg 1rem 1rem 7rem;
     margin: 0 auto;
 }
