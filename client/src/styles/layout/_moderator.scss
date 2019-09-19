@@ -8,6 +8,11 @@
     border: 1px solid $color-grey;
     font-size: $size-label;
 
+    @media only screen and (max-width: 25em) {
+        height: 3.5rem;
+        font-size: 1.3rem;
+    }
+
     &__mode {
         margin-right: 1rem;
     }

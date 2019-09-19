@@ -9,6 +9,10 @@
     padding: .5rem 5rem;
     box-shadow: 0px 3px 5px -1px $color-grey;
 
+    @media only screen and (max-width: 32.5em) {
+        padding: .5rem 1rem;
+    }
+
     @media only screen and (max-width: 62.5em) {
         position: relative;
         height: auto;
@@ -137,11 +141,23 @@
         font-size: $size-link;
         margin: 0 1rem;
         color: $color-white;
+
+        @media only screen and (max-width: 25em) {
+            margin: 0 .5rem;
+        }
     }
 
     &__logo {
         display: block;
         height: logoHeight($navbar-height);
+
+        @media only screen and (max-width: 40.625em) {
+            height: 5rem;
+        }
+
+        @media only screen and (max-width: 25em) {
+            height: 3rem;
+        }
     }
 
     &__header {
@@ -152,11 +168,23 @@
             font-size: 2.3rem;
             font-weight: 600;
             padding-bottom: 0.7rem;
+
+            @media only screen and (max-width: 40.625em) {
+                font-size: 1.7rem;
+            }
+
+            @media only screen and (max-width: 25em) {
+                font-size: 1.5rem;
+            }
         }
 
         &-caption {
             font-size: 1.3rem;
             padding-left: 2rem;
+
+            @media only screen and (max-width: 25em) {
+                font-size: 1rem;
+            }
         }
     }
 
