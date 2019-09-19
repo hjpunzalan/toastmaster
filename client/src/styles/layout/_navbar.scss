@@ -14,6 +14,11 @@
         height: auto;
         align-items: flex-start;
         flex-direction: column;
+
+        &-withLogin {
+            flex-direction: row;
+            align-items: center;
+        }
     }
 
     &__left {
@@ -22,7 +27,7 @@
         text-decoration: none;
 
         @media only screen and (max-width: 62.5em) {
-            width: 100%;
+            width: 100%
         }
 
 
@@ -93,7 +98,10 @@
         position: relative;
 
         @media only screen and (max-width: 62.5em) {
+            width: 100%;
             margin-left: 0;
+            display: flex; // This is for login to be aligned towards the right
+            justify-content: flex-end; // wont affect other nav because there's only one item
         }
 
 
@@ -116,7 +124,11 @@
         }
 
         .Navbar__open#nav {
-            margin-top: 2rem;
+            @media only screen and (max-width: 62.5em) {
+                margin-top: 2rem;
+                border-top: 2px solid $color-white;
+                padding: 2rem 0;
+            }
         }
     }
 

@@ -72,10 +72,6 @@
         text-decoration: none;
         font-size: $size-link;
         color: $color-link;
-
-        &:hover {
-            border-bottom: 3px solid $color-link;
-        }
     }
 
     &__goBack {

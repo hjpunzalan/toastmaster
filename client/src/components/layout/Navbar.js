@@ -7,10 +7,11 @@ import { logoutUser } from '../../actions/auth';
 
 const Navbar = ({ auth: { isAuthenticated }, logoutUser }) => {
 	const [nav, setNav] = useState(false);
+	const toggleNav = () => setNav(!nav);
 
 	return (
 		<>
-			<ul className="Navbar">
+			<ul className={`Navbar ${!isAuthenticated && 'Navbar-withLogin'}`}>
 				<div className="Navbar__left">
 					<li className="Navbar__item">
 						<img className="Navbar__logo" src={logo} alt="logo" />
@@ -27,33 +28,50 @@ const Navbar = ({ auth: { isAuthenticated }, logoutUser }) => {
 						type="checkbox"
 						name="checkbox"
 						id="hamburger"
-						value={nav}
-						onChange={() => setNav(!nav)}
+						checked={nav}
+						onChange={toggleNav}
 					/>
-					<label htmlFor="hamburger" className="Navbar__button">
-						<span></span>
-					</label>
+					{isAuthenticated && (
+						<label htmlFor="hamburger" className="Navbar__button">
+							<span></span>
+						</label>
+					)}
 				</div>
 				<div className="Navbar__right">
 					{isAuthenticated ? (
 						<ul id="nav" className={nav ? 'Navbar__open' : 'Navbar__closed'}>
 							<li className="Navbar__item">
-								<Link className="Navbar__link" to="/dashboard">
+								<Link
+									className="Navbar__link"
+									onClick={toggleNav}
+									to="/dashboard">
 									Dashboard
 								</Link>
 							</li>
 							<li className="Navbar__item">
-								<Link className="Navbar__link" to="/discussion">
+								<Link
+									className="Navbar__link"
+									onClick={toggleNav}
+									to="/discussion">
 									Discussion
 								</Link>
 							</li>
 							<li className="Navbar__item">
-								<Link className="Navbar__link" to="/members">
+								<Link
+									className="Navbar__link"
+									onClick={toggleNav}
+									to="/members">
 									Members
 								</Link>
 							</li>
 							<li className="Navbar__item">
-								<Link className="Navbar__link" to="/login" onClick={logoutUser}>
+								<Link
+									className="Navbar__link"
+									to="/login"
+									onClick={() => {
+										toggleNav();
+										logoutUser();
+									}}>
 									Logout
 								</Link>
 							</li>
