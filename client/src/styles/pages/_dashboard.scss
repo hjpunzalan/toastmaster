@@ -2,7 +2,9 @@
   display: flex;
   justify-content: space-between;
 
-
+  @media only screen and (max-width: 62.5em) {
+    flex-direction: column-reverse;
+  }
 
   &__top {
     margin-bottom: $padding-lg;
@@ -22,15 +24,37 @@
     padding: 0 6rem;
     display: flex;
     flex-direction: column;
+
+    @media only screen and (max-width: 62.5em) {
+      width: 100%;
+      flex-direction: row;
+      align-items: flex-end;
+      padding: 0;
+      margin-bottom: 5rem;
+    }
   }
 
   &__user {
     border: 1px solid grey;
 
+    &-details {
+      display: flex;
+      flex-direction: column;
+
+      @media only screen and (max-width: 62.5em) {
+        margin-left: 5rem;
+      }
+    }
+
     &-name {
       font-size: $size-text;
       margin: 2rem auto;
       display: inline-block;
+
+      @media only screen and (max-width: 62.5em) {
+        margin: 0;
+        font-size: $size-title;
+      }
     }
 
     &-photo {
@@ -39,6 +63,12 @@
       object-fit: cover;
       border: 1px solid $color-black;
       margin: 6rem auto 2rem auto;
+
+      @media only screen and (max-width: 62.5em) {
+        margin: 0;
+        width: 10rem;
+        height: 10rem;
+      }
     }
   }
 
@@ -49,6 +79,11 @@
     align-items: center;
     border-top: 1px solid $color-grey;
 
+    @media only screen and (max-width: 62.5em) {
+      flex-direction: row;
+      border-top: none;
+    }
+
     &-link {
       text-decoration: none;
       display: flex;
@@ -56,6 +91,12 @@
       margin: 0.7rem 0;
       font-size: $size-user;
       color: $color-primary;
+
+      &:not(:first-of-type) {
+        @media only screen and (max-width: 62.5em) {
+          margin-left: 4rem;
+        }
+      }
     }
   }
 
@@ -65,7 +106,7 @@
     width: 74.5%;
 
     @media only screen and (max-width: 62.5em) {
-      width: 65%;
+      width: 96%;
     }
   }
 
@@ -73,6 +114,10 @@
     width: 70%;
     height: 100%;
     padding-right: 4rem;
+
+    @media only screen and (max-width: 62.5em) {
+      width: 100%;
+    }
   }
 
   &__announcements {
@@ -83,6 +128,11 @@
     scrollbar-width: none;
     -ms-overflow-style: none;
     flex-shrink: 0;
+
+    @media only screen and (max-width: 62.5em) {
+      width: 100%;
+      height: auto;
+    }
 
     &::-webkit-scrollbar {
       width: 0;

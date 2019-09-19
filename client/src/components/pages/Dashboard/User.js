@@ -16,17 +16,20 @@ const User = ({ currentUser, isModified }) => {
 			) : (
 				<img className="Dashboard__user-photo" src={img} alt="user avatar" />
 			)}
-			<p className="Dashboard__user-name">
-				Hi <strong>{currentUser.firstName}</strong>
-			</p>
-			<div className="Dashboard__links">
-				<Link to="/user/update" className="Dashboard__links-link">
-					<FaUserAlt />{' '}
-					<span style={{ marginLeft: '1rem' }}>Update Profile</span>
-				</Link>
-				<Link to="/user/changepassword" className="Dashboard__links-link">
-					<FaKey /> <span style={{ marginLeft: '1rem' }}>Change Password</span>
-				</Link>
+			<div className="Dashboard__user-details">
+				<p className="Dashboard__user-name">
+					Hi <strong>{currentUser.firstName}</strong>
+				</p>
+				<div className="Dashboard__links">
+					<Link to="/user/update" className="Dashboard__links-link">
+						<FaUserAlt />{' '}
+						<span style={{ marginLeft: '1rem' }}>Update Profile</span>
+					</Link>
+					<Link to="/user/changepassword" className="Dashboard__links-link">
+						<FaKey />{' '}
+						<span style={{ marginLeft: '1rem' }}>Change Password</span>
+					</Link>
+				</div>
 			</div>
 		</div>
 	);
