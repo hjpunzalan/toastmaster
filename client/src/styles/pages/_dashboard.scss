@@ -94,6 +94,10 @@
     border: none;
     margin: 0 auto;
     overflow: hidden;
+
+    @media only screen and (max-width: 71.8em) {
+      margin-bottom: 2rem;
+    }
   }
 
   &__announcement {
