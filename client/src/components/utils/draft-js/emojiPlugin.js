@@ -34,7 +34,7 @@ export default {
 	emojiSelectPopoverScrollbarThumb:
 		'draftJsEmojiPlugin__emojiSelectPopoverScrollbarThumb',
 	emoji: 'draftJsEmojiPlugin__emoji',
-	emojiSuggestions: 'draftJsEmojiPlugin__emojiSuggestions',
+	// emojiSuggestions: 'draftJsEmojiPlugin__emojiSuggestions',
 	emojiSuggestionsEntry: 'draftJsEmojiPlugin__emojiSuggestionsEntry',
 	emojiSuggestionsEntryFocused:
 		'draftJsEmojiPlugin__emojiSuggestionsEntryFocused',

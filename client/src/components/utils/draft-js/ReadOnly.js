@@ -3,15 +3,12 @@ import { EditorState, convertFromRaw } from 'draft-js';
 import Editor, { composeDecorators } from 'draft-js-plugins-editor';
 import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import createImagePlugin from 'draft-js-image-plugin';
-// import createEmojiPlugin from 'draft-js-emoji-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
 import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 import createResizeablePlugin from 'draft-js-resizeable-plugin';
 import pluginDecorator from './pluginDecorator';
-// import theme from './emojiPlugin';
 
 let editor;
-// const emojiPlugin = createEmojiPlugin({ theme });
 const linkifyPlugin = createLinkifyPlugin({
 	//This gets rid of blockkey error warnings
 	component: ({ blockKey, ...rest }) => (
@@ -30,7 +27,6 @@ const imageDecorator = composeDecorators(
 const imagePlugin = createImagePlugin({ decorator: imageDecorator });
 const listOfPlugins = [
 	linkifyPlugin,
-	// emojiPlugin,
 	blockDndPlugin,
 	resizeablePlugin,
 	focusPlugin,
@@ -62,7 +58,7 @@ export default class ReadOnly extends React.Component {
 					plugins={listOfPlugins}
 					editorState={convertedState}
 					ref={element => {
-						editor = element;
+						this.editor = element;
 					}}
 					readOnly={true}
 				/>
