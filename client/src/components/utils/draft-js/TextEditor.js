@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { onChange } from '../../../actions/textEditor';
 import { IoMdQuote } from 'react-icons/io';
 import { GoListOrdered, GoListUnordered } from 'react-icons/go';
 import { FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
@@ -21,6 +20,7 @@ import {
 } from 'draft-js';
 import ImageAdd from './ImageAdd/ImageAdd';
 import pluginDecorator from './pluginDecorator';
+import { onChange } from '../../../actions/textEditor';
 
 // This fixes cannot delete child from node error when backspace of links
 const HANDLED = 'handled';
@@ -117,8 +117,7 @@ class TextEditor extends Component {
 		const text = this.state.plainText;
 		if (text.length === 0) return;
 		// prevent closure memory leak
-		if (this.props.withPlainText) this.props.handleSubmit(text);
-		else this.props.handleSubmit();
+		this.props.handleSubmit(text);
 		this.setState({ editorState: EditorState.createEmpty() }); // Whenever submit is pressed, the current state of editor will reset
 	};
 

@@ -78,3 +78,13 @@
     text-decoration: none;
     display: inline-block;
 }
+
+@mixin postEditor {
+    // fitted to be same as post
+    width: 98%;
+
+    @media only screen and (max-width: 61.25em) {
+        width: 88%;
+    }
+
+}

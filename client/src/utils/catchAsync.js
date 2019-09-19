@@ -16,12 +16,12 @@ const catchAsync = (type, fn = type) => {
 			console.error(err);
 			const errors = err.response.data;
 			// The types handles when loading is still true
+			if (errors) dispatch(setAlert(errors.message, 'fail'));
 			if (type === 'post') dispatch({ type: POST_ERROR });
 			if (type === 'auth') dispatch({ type: AUTH_ERROR });
 			if (type === 'update') dispatch({ type: UPDATE_FAILED });
 			if (type === 'announcement') dispatch({ type: ANNOUNCEMENT_ERROR });
 			if (type === 'user') dispatch({ type: USER_ERROR });
-			if (errors) dispatch(setAlert(errors.message, 'fail'));
 			// Log user out if deactivated --- 401 Unauthorized
 			// Log out user if roles changed --- 403  Forbidden
 			if (err.response.status === 401 || err.response.status === 403) {

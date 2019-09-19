@@ -70,26 +70,28 @@ const Discussion = ({
 	);
 	return (
 		<div className="Discussion">
-			<DiscussionHead
-				edit={edit}
-				contentState={contentState}
-				createPost={createPost}
-				toggleCreatePost={toggleCreatePost}
-				history={history}
-				searchPost={searchPost}
-				setPage={setPage}
-				loading={loading}
-			/>
 			{loading || postEdit ? (
 				<Spinner />
 			) : (
-				!edit && (
-					<>
-						{renderPagination}
-						{renderPosts}
-						{posts.length > 5 && renderPagination}
-					</>
-				)
+				<>
+					<DiscussionHead
+						edit={edit}
+						contentState={contentState}
+						createPost={createPost}
+						toggleCreatePost={toggleCreatePost}
+						history={history}
+						searchPost={searchPost}
+						setPage={setPage}
+						loading={loading}
+					/>
+					{!edit && (
+						<>
+							{renderPagination}
+							{renderPosts}
+							{posts.length > 5 && renderPagination}
+						</>
+					)}
+				</>
 			)}
 		</div>
 	);

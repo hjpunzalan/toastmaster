@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import TextEditor from '../utils/draft-js/TextEditor';
+import { onChange } from '../../actions/textEditor';
+import { ContentState, convertToRaw } from 'draft-js';
 
 const CreatePost = ({
 	handleSubmit,
@@ -8,12 +12,42 @@ const CreatePost = ({
 	setTitle,
 	type,
 	contentState,
-	withPlainText
+	plainText,
+	onChange
 }) => {
-	// Need a state for text field
-	// Need to convert to contentState when editing
+	useEffect(() => {
+		// This is to prevent a blank post when submitting with no changes during edit
+		if (plainText) {
+			const textToContentState = convertToRaw(
+				ContentState.createFromText(plainText)
+			);
+			onChange(textToContentState);
+		}
+		// eslint-disable-next-line
+	}, []);
+	// need to handlereadme
+	// Handled editting by plainText
+	// Handle submit contentState to be just a string instead
 	// If editing from mobile, need to use plain text only
-	// Need all post to have plain Text
+
+	// content is the input text value that is initialised as the post's plaintext
+	const [content, setContent] = useState(plainText ? plainText : '');
+	const handleChange = e => {
+		setContent(e.target.value);
+		const textToContentState = convertToRaw(
+			ContentState.createFromText(e.target.value)
+		);
+		onChange(textToContentState);
+	};
+
+	// Added Draftjs to convert plainText to contentState
+	const submitPost = () => {
+		if (content.length === 0) return;
+		handleSubmit(content);
+	};
+
+	// breakpoint: 1000px;
+	const breakpoint = window.screen.width < 1000;
 	return (
 		<div className="CreatePost">
 			<button className="btn btn__cancel" onClick={handleToggle}>
@@ -34,20 +68,24 @@ const CreatePost = ({
 					value={title}
 					onChange={e => setTitle(e.target.value)}
 					maxLength={80} // so it doesnt pollute the post too much
+					required
 				/>
-				{window.screen.width < 1000 ? (
+				{breakpoint ? (
 					<>
-						<input
+						<textarea
 							className="CreatePost__editor"
 							type="text"
 							name="editor"
 							id="editor"
-						/>
-						<button className="btn btn__submit">Submit Post</button>
+							value={content}
+							onChange={handleChange}
+							required></textarea>
+						<button className="btn btn__submit" onClick={submitPost}>
+							Submit Post
+						</button>
 					</>
 				) : (
 					<TextEditor
-						withPlainText={withPlainText} //true or false
 						contentState={contentState} // context
 						handleSubmit={handleSubmit} // submit function
 					/>
@@ -57,4 +95,11 @@ const CreatePost = ({
 	);
 };
 
-export default CreatePost;
+CreatePost.propTypes = {
+	onChange: PropTypes.func.isRequired
+};
+
+export default connect(
+	null,
+	{ onChange }
+)(CreatePost);

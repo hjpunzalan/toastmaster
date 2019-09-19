@@ -9,7 +9,8 @@ exports.createAnnouncement = catchAsync(async (req, res, next) => {
 	const announcement = new Announcements({
 		user: req.user.id,
 		title: req.body.title,
-		contentState: req.body.contentState
+		contentState: req.body.contentState,
+		plainText: req.body.plainText
 	});
 
 	await announcement.save();
@@ -41,7 +42,11 @@ exports.deleteAnnouncement = catchAsync(async (req, res, next) => {
 });
 
 exports.updateAnnouncement = catchAsync(async (req, res, next) => {
-	const filterBody = checkBody(req.body, next, ['title', 'contentState']);
+	const filterBody = checkBody(req.body, next, [
+		'title',
+		'contentState',
+		'plainText'
+	]);
 	const announcement = await Announcements.findByIdAndUpdate(
 		req.params.id,
 		filterBody,

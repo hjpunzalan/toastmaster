@@ -11,18 +11,17 @@ import { setAlert, resetAlert } from './alerts';
 import catchAsync from '../utils/catchAsync';
 
 export const toggleEdit = () => dispatch => {
-	dispatch(resetAlert());
 	dispatch({ type: TOGGLE_CREATE_ANNOUNCEMENT });
 };
 
-export const createAnnouncement = (title, contentState) =>
+export const createAnnouncement = (title, contentState, plainText) =>
 	catchAsync('announcement', async dispatch => {
 		dispatch(resetAlert()); //Need to be in every post/put/patch action with alert
 		const jsonContentState = JSON.stringify(contentState);
 		// This makes it more UX friendly calling a spinner instantly
 		dispatch({ type: LOADING_ANNOUNCEMENT_SUBMIT });
 		// Need to be in edit also
-		const body = { title, contentState: jsonContentState };
+		const body = { title, contentState: jsonContentState, plainText };
 		const res = await axios.post('/api/announcements', body, {
 			headers: {
 				'Content-type': 'application/json'
@@ -45,7 +44,7 @@ export const getAnnouncements = () =>
 		dispatch({ type: GET_ALL_ANNOUNCEMENT, payload: res.data });
 	});
 
-export const updateAnnouncement = (id, newTitle, newContentState) =>
+export const updateAnnouncement = (id, newTitle, newContentState, plainText) =>
 	catchAsync('announcement', async dispatch => {
 		dispatch(resetAlert());
 		dispatch({ type: LOADING_ANNOUNCEMENT_SUBMIT });
@@ -54,7 +53,8 @@ export const updateAnnouncement = (id, newTitle, newContentState) =>
 			`/api/announcements/${id}`,
 			{
 				title: newTitle,
-				contentState: jsonContentState
+				contentState: jsonContentState,
+				plainText
 			},
 			{
 				headers: {

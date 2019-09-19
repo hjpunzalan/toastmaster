@@ -76,15 +76,17 @@ const Post = ({
 	return post === null || postLoading ? (
 		<Spinner />
 	) : postEdit ? (
-		<CreatePost
-			handleToggle={handleToggleEditPost}
-			title={title}
-			setTitle={setTitle}
-			handleSubmit={handleUpdate}
-			withPlainText={true}
-			contentState={post.contentState}
-			type={'edit'}
-		/>
+		<div className="Post__editor">
+			<CreatePost
+				handleToggle={handleToggleEditPost}
+				title={title}
+				setTitle={setTitle}
+				handleSubmit={handleUpdate}
+				contentState={post.contentState}
+				plainText={post.plainText}
+				type={'edit'}
+			/>
+		</div>
 	) : (
 		<>
 			<Link to="/discussion" className="Post__goBack">

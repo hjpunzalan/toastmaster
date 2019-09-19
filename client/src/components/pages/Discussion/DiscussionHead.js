@@ -63,14 +63,15 @@ const DiscussionHead = ({
 				</>
 			) : (
 				!loading && (
-					<CreatePost
-						handleSubmit={handleSubmit}
-						handleToggle={handleToggle}
-						title={title}
-						setTitle={setTitle}
-						withPlainText={true}
-						type={'Post'}
-					/>
+					<div className="Discussion__editor">
+						<CreatePost
+							handleSubmit={handleSubmit}
+							handleToggle={handleToggle}
+							title={title}
+							setTitle={setTitle}
+							type={'Post'}
+						/>
+					</div>
 				)
 			)}
 		</div>
