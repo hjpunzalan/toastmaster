@@ -11,6 +11,7 @@ import { setAlert, resetAlert } from './alerts';
 import catchAsync from '../utils/catchAsync';
 
 export const toggleEdit = () => dispatch => {
+	dispatch(resetAlert());
 	dispatch({ type: TOGGLE_CREATE_ANNOUNCEMENT });
 };
 

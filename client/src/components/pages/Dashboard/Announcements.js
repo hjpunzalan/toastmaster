@@ -75,6 +75,14 @@ const Announcements = ({
 		width = 500;
 		height = 441;
 	}
+	if (window.screen.width <= 1000) {
+		width = 750;
+		height = 588;
+	}
+	if (window.screen.width < 900) {
+		width = 500;
+		height = 441;
+	}
 	if (window.screen.width < 720) {
 		width = 400;
 		height = 398;
