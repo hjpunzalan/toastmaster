@@ -8,6 +8,10 @@
         font-size: $size-title;
         color: $color-primary;
 
+        @media only screen and (max-width: 28.125em) {
+            font-size: 2rem;
+        }
+
         &:focus {
             outline: none;
             border: none;
@@ -17,6 +21,10 @@
     &__form {
         margin-top: 5rem;
         width: 100%;
+
+        @media only screen and (max-width: 28.125em) {
+            margin-top: 3rem;
+        }
 
         input[type="text"] {
             padding: 0.5rem;

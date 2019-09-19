@@ -91,6 +91,10 @@ const Announcements = ({
 		width = 350;
 		height = 366;
 	}
+	if (window.screen.width < 380) {
+		width = 280;
+		height = 320;
+	}
 	return edit ? (
 		<div className="Dashboard__editor">
 			<CreatePost

@@ -12,11 +12,19 @@
     padding-bottom: 1rem;
     display: flex;
     justify-content: space-between;
+
+    @media only screen and (max-width: 40.625em) {
+      margin-bottom: 2rem;
+    }
   }
 
   &__title {
     font-size: $size-title;
     text-transform: capitalize;
+
+    @media only screen and (max-width: 31.25em) {
+      font-size: 2rem;
+    }
   }
 
   &__right {
@@ -43,6 +51,10 @@
 
       @media only screen and (max-width: 62.5em) {
         margin-left: 5rem;
+      }
+
+      @media only screen and (max-width: 28.125em) {
+        margin-left: 3rem;
       }
     }
 
@@ -84,6 +96,10 @@
       border-top: none;
     }
 
+    @media only screen and (max-width: 25em) {
+      flex-direction: column;
+    }
+
     &-link {
       text-decoration: none;
       display: flex;
@@ -91,10 +107,16 @@
       margin: 0.7rem 0;
       font-size: $size-user;
       color: $color-primary;
+      flex-shrink: 0;
+
 
       &:not(:first-of-type) {
         @media only screen and (max-width: 62.5em) {
           margin-left: 4rem;
+        }
+
+        @media only screen and (max-width: 28.125em) {
+          margin-left: 1rem;
         }
       }
     }
@@ -117,6 +139,10 @@
 
     @media only screen and (max-width: 62.5em) {
       width: 100%;
+    }
+
+    @media only screen and (max-width: 40.625em) {
+      padding-right: 0;
     }
   }
 
@@ -149,8 +175,12 @@
     margin: 0 auto;
     overflow: hidden;
 
-    @media only screen and (max-width: 71.8em) {
-      margin-bottom: 2rem;
+    @media only screen and (max-width: 71.8em) and (min-width: 62.51em) {
+      margin-bottom: $padding-lg;
+    }
+
+    @media only screen and (max-width: 56.24em) {
+      margin-bottom: $padding-lg;
     }
   }
 
@@ -162,9 +192,20 @@
     border-radius: 5px;
     @include boxshadow;
 
+    @media only screen and (max-width: 40.625em) {
+      border: none;
+      padding: 2rem 0;
+    }
+
+
     &-title {
       font-size: $size-title;
       margin-bottom: 3rem;
+
+      @media only screen and (max-width: 31.25em) {
+        margin-bottom: 2rem;
+        font-size: 2rem;
+      }
     }
 
     &-bottom {
