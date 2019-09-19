@@ -43,7 +43,7 @@ const postSchema = new mongoose.Schema({
 	],
 	lastComment: {
 		type: Date,
-		default: Date.now()
+		default: Date.now
 	},
 	lastEdited: Date
 });
