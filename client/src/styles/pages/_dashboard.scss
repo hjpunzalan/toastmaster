@@ -38,7 +38,8 @@
       flex-direction: row;
       align-items: flex-end;
       padding: 0;
-      margin-bottom: 5rem;
+      margin-bottom: 10rem;
+      // justify-content: center;
     }
   }
 
@@ -56,6 +57,15 @@
       @media only screen and (max-width: 28.125em) {
         margin-left: 3rem;
       }
+
+      @media only screen and (max-width: 25em) {
+        margin-left: 5rem;
+        align-items: center;
+      }
+
+      @media only screen and (max-width: 20.625em) {
+        margin-left: 3rem;
+      }
     }
 
     &-name {
@@ -65,7 +75,15 @@
 
       @media only screen and (max-width: 62.5em) {
         margin: 0;
-        font-size: $size-title;
+        font-size: 3rem;
+      }
+
+      @media only screen and (max-width: 35em) {
+        font-size: 2.5rem;
+      }
+
+      @media only screen and (max-width: 20.625em) {
+        font-size: 2rem;
       }
     }
 
@@ -78,8 +96,23 @@
 
       @media only screen and (max-width: 62.5em) {
         margin: 0;
+        width: 15rem;
+        height: 15rem;
+      }
+
+      @media only screen and (max-width: 35em) {
+        width: 12rem;
+        height: 12rem;
+      }
+
+      @media only screen and (max-width: 31.25em) {
         width: 10rem;
         height: 10rem;
+      }
+
+      @media only screen and (max-width: 20.625em) {
+        width: 8rem;
+        height: 8rem;
       }
     }
   }
@@ -108,6 +141,16 @@
       font-size: $size-user;
       color: $color-primary;
       flex-shrink: 0;
+
+      @media only screen and (max-width: 62.5em) {
+        font-size: 1.5rem;
+        margin: 2rem 0 0 0;
+      }
+
+      @media only screen and (max-width: 35em) {
+        font-size: 1.3rem;
+        margin: 1rem 0 0 0;
+      }
 
 
       &:not(:first-of-type) {
