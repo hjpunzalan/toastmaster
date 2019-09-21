@@ -19,7 +19,10 @@ const DiscussionPost = ({
 			<div className="Discussion__postUser">
 				<img src={img} alt="user-logo" className="Discussion__postUser-img" />
 				<span className="Discussion__postUser-name">
-					{firstName} {lastName}
+					<span>{firstName}&nbsp;</span>
+					{(firstName.length <= 10 || lastName.length <= 10) && (
+						<span>{lastName}</span>
+					)}
 				</span>
 			</div>
 			<div className="Discussion__postBody">

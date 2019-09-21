@@ -27,9 +27,10 @@ const PostComment = ({
 					className="Post__commentUser-img"
 				/>
 				<span className="Post__commentUser-name">
-					{user.firstName}
-					<br />
-					{user.lastName}
+					<span>{user.firstName}&nbsp;</span>
+					{(user.firstName.length <= 10 || user.lastName.length <= 10) && (
+						<span>{user.lastName}</span>
+					)}
 				</span>
 			</div>
 			<div className="Post__commentBody">

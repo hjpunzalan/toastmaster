@@ -20,8 +20,11 @@ const PostHead = ({
 					className="Post__postUser-img"
 				/>
 				<span className="Post__postUser-name">
-					{post.user.firstName}
-					<br /> {post.user.lastName}
+					<span>{post.user.firstName}&nbsp;</span>
+					{(post.user.firstName.length <= 10 ||
+						post.user.lastName.length <= 10) && (
+						<span>{post.user.lastName}</span>
+					)}
 				</span>
 			</div>
 			<div className="Post__postBody">
