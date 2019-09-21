@@ -14,13 +14,17 @@
     justify-content: space-between;
 
     @media only screen and (max-width: 40.625em) {
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
     }
   }
 
   &__title {
     font-size: $size-title;
     text-transform: capitalize;
+
+    @media only screen and (max-width: 40.625em) {
+      font-size: $size-title-650;
+    }
 
     @media only screen and (max-width: 31.25em) {
       font-size: 2rem;
@@ -41,6 +45,10 @@
       margin-bottom: 10rem;
       // justify-content: center;
     }
+
+    @media only screen and (max-width: 40.625em) {
+      justify-content: center;
+    }
   }
 
   &__user {
@@ -59,7 +67,6 @@
       }
 
       @media only screen and (max-width: 25em) {
-        margin-left: 5rem;
         align-items: center;
       }
 
@@ -75,15 +82,22 @@
 
       @media only screen and (max-width: 62.5em) {
         margin: 0;
-        font-size: 3rem;
+        margin-bottom: 1.5rem;
+        font-size: 2.3rem;
       }
 
-      @media only screen and (max-width: 35em) {
-        font-size: 2.5rem;
-      }
-
-      @media only screen and (max-width: 20.625em) {
+      @media only screen and (max-width: 40.625em) {
+        margin-bottom: 1rem;
         font-size: 2rem;
+      }
+
+      @media only screen and (max-width: 28.125em) {
+        font-size: 2rem;
+      }
+
+      @media only screen and (max-width: 28.125em) {
+        margin-bottom: .5rem;
+        font-size: 1.5rem;
       }
     }
 
@@ -96,18 +110,18 @@
 
       @media only screen and (max-width: 62.5em) {
         margin: 0;
-        width: 15rem;
-        height: 15rem;
-      }
-
-      @media only screen and (max-width: 35em) {
-        width: 12rem;
-        height: 12rem;
-      }
-
-      @media only screen and (max-width: 31.25em) {
         width: 10rem;
         height: 10rem;
+      }
+
+      @media only screen and (max-width: 28.125em) {
+        width: 8rem;
+        height: 8rem;
+      }
+
+      @media only screen and (max-width: 25em) {
+        width: 12rem;
+        height: 12rem;
       }
 
       @media only screen and (max-width: 20.625em) {
@@ -129,6 +143,7 @@
       border-top: none;
     }
 
+
     @media only screen and (max-width: 25em) {
       flex-direction: column;
     }
@@ -144,12 +159,15 @@
 
       @media only screen and (max-width: 62.5em) {
         font-size: 1.5rem;
-        margin: 2rem 0 0 0;
+        margin: 0;
+      }
+
+      @media only screen and (max-width: 40.625em) {
+        font-size: $size-editor-text-650;
       }
 
       @media only screen and (max-width: 35em) {
         font-size: 1.3rem;
-        margin: 1rem 0 0 0;
       }
 
 
@@ -160,6 +178,10 @@
 
         @media only screen and (max-width: 28.125em) {
           margin-left: 1rem;
+        }
+
+        @media only screen and (max-width: 25em) {
+          margin-top: 1rem;
         }
       }
     }
@@ -244,6 +266,10 @@
     &-title {
       font-size: $size-title;
       margin-bottom: 3rem;
+
+      @media only screen and (max-width: 62.5em) {
+        font-size: $size-title-650;
+      }
 
       @media only screen and (max-width: 31.25em) {
         margin-bottom: 2rem;

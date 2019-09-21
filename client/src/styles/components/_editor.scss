@@ -118,6 +118,10 @@ div.DraftEditor-root {
     font-size: $size-editor-text;
     font-family: Arial, Helvetica, sans-serif;
 
+    @media only screen and (max-width: 40.625em) {
+        font-size: $size-editor-text-650;
+    }
+
     & img {
         display: block;
         margin: 0 auto;

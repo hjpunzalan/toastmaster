@@ -7,14 +7,18 @@
     >h1 {
         font-size: $size-title;
 
-        @media only screen and (max-width: 25em) {
-            font-size: 2.5rem;
+        @media only screen and (max-width: 40.625em) {
+            font-size: $size-title-650;
         }
     }
 
     &__text {
         font-size: $size-label;
         margin: 1.5rem 0;
+
+        @media only screen and (max-width: 40.625em) {
+            font-size: $size-editor-text-650;
+        }
 
         @media only screen and (max-width: 25em) {
             font-size: 1.3rem;
@@ -61,8 +65,8 @@
             display: inline-block;
             margin: .7rem 0;
 
-            @media only screen and (max-width: 25em) {
-                font-size: 1.3rem;
+            @media only screen and (max-width: 40.625em) {
+                font-size: $size-editor-text-650;
             }
         }
 
