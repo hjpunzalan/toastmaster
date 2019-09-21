@@ -1,9 +1,18 @@
 @mixin post {
     display: flex;
-    width: 100%;
+    width: 98%; // match with editor in addcomment
     padding: 4rem $padding-post-title $padding-post-title 2rem;
     text-decoration: none;
     color: inherit;
+
+    @media only screen and (max-width: 62.5em) {
+        flex-direction: column;
+    }
+
+    @media only screen and (max-width: 40.625em) {
+        padding-left: 0;
+        padding-right: 0;
+    }
 
     &User {
         display: flex;
@@ -12,18 +21,43 @@
         justify-content: flex-start;
         text-align: center;
         width: $userWidth;
+        margin-right: 1rem;
+        flex-shrink: 0;
+
+        @media only screen and (max-width: 62.5em) {
+            flex-direction: row;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
 
         &-img {
             width: 6rem;
             height: 6rem;
             border-radius: 50%;
             object-fit: cover;
+
+            @media only screen and (max-width: 40.625em) {
+                width: 5rem;
+                height: 5rem;
+            }
         }
 
         &-name {
             margin-top: 1.5rem;
             display: inline-block;
             font-size: $size-discussion-text;
+            // display: flex;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+
+
+            @media only screen and (max-width: 62.5em) {
+                margin-left: 2rem;
+                text-align: left;
+            }
         }
     }
 
@@ -32,7 +66,36 @@
         flex-direction: column;
         width: postBodyWidth($userWidth);
         position: relative;
+        margin: 0 auto;
         // just same as text editor width
+
+        @media only screen and (max-width: 62.5em) {
+            width: 100%;
+        }
+
+        @media only screen and (max-width: 40.625em) {
+            width: 92%;
+        }
+
+        @media only screen and (max-width: 32.5em) {
+            width: 91%;
+        }
+
+        @media only screen and (max-width: 28.125em) {
+            width: 90%;
+        }
+
+        @media only screen and (max-width: 25em) {
+            width: 89%;
+        }
+
+        @media only screen and (max-width: 23.4375em) {
+            width: 87%;
+        }
+
+        @media only screen and (max-width: 20.625em) {
+            width: 86%;
+        }
 
         &-text {
             display: inline-block;
@@ -78,9 +141,5 @@
 @mixin postEditor {
     // fitted to be same as post
     width: 98%;
-
-    @media only screen and (max-width: 62.5em) {
-        width: 88%;
-    }
 
 }

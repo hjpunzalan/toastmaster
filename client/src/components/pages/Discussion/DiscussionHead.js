@@ -39,7 +39,9 @@ const DiscussionHead = ({
 		<div className="Discussion__head">
 			{!edit ? (
 				<>
-					<button className="btn btn__submit" onClick={handleToggle}>
+					<button
+						className="btn btn__submit Discussion__create"
+						onClick={handleToggle}>
 						Create a new post
 					</button>
 					<div className="Discussion__search">
