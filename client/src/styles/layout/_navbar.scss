@@ -107,12 +107,14 @@
     &__right {
         margin-left: auto;
         position: relative;
+        flex-shrink: 0;
 
         @media only screen and (max-width: 62.5em) {
             width: 100%;
             margin-left: 0;
             display: flex; // This is for login to be aligned towards the right
             justify-content: flex-end; // wont affect other nav because there's only one item
+            flex-shrink: 1;
         }
 
 
