@@ -11,7 +11,8 @@ import {
 	POST_RESET,
 	SEARCH_POSTS,
 	POST_ERROR,
-	LOADING_SUBMIT_POST
+	LOADING_SUBMIT_POST,
+	POST_NEXT_PAGE
 } from '../actions/types';
 
 const initialState = {
@@ -70,6 +71,16 @@ export default (state = initialState, action) => {
 				loading: false,
 				post: null,
 				posts: payload.posts,
+				totalPages: Math.ceil(payload.numPosts / payload.limit)
+			};
+		case POST_NEXT_PAGE:
+			return {
+				...state,
+				edit: false,
+				postEdit: false,
+				loading: false,
+				post: null,
+				posts: [...state.posts, ...payload.posts],
 				totalPages: Math.ceil(payload.numPosts / payload.limit)
 			};
 		case UPDATE_POST:
