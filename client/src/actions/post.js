@@ -10,11 +10,15 @@ import {
 	DELETE_COMMENT,
 	POST_RESET,
 	LOADING_SUBMIT_POST,
-	SEARCH_POSTS
+	SEARCH_POSTS,
+	POST_NEXT_PAGE
 } from './types';
 import axios from 'axios';
 import { setAlert, resetAlert } from './alerts';
 import catchAsync from '../utils/catchAsync';
+
+// Pagination limit
+const limit = 7;
 
 export const toggleCreatePost = () => dispatch => {
 	dispatch(resetAlert());
@@ -52,7 +56,7 @@ export const getAllPost = (page = 1) =>
 		dispatch({
 			type: POST_RESET
 		}); // for pagination only
-		const limit = 10;
+		// check reducers when changing limit
 		// Gets post by page by limit and sorts by last comment then date.
 		const res = await axios.get(
 			`/api/posts?page=${page}&limit=${limit}&sort=-lastComment,-date`
@@ -64,6 +68,40 @@ export const getAllPost = (page = 1) =>
 				limit
 			}
 		});
+	});
+
+// With and without searching
+// isSearch is boolean || string
+// setPage is here to trigger the loader
+export const postNextPage = (page, setPage, isSearch = false) =>
+	catchAsync(async dispatch => {
+		// Gets post by page by limit and sorts by last comment then date.
+		let res;
+		const nextPage = page + 1;
+		if (isSearch) {
+			const config = {
+				headers: {
+					'Content-type': 'application/json'
+				}
+			};
+			res = await axios.post(
+				`/api/posts/search/text?page=${nextPage}&limit=${limit}&sort=-lastComment,-date`,
+				{ text: isSearch },
+				config
+			);
+		} else {
+			res = await axios.get(
+				`/api/posts?page=${nextPage}&limit=${limit}&sort=-lastComment,-date`
+			);
+		}
+		dispatch({
+			type: POST_NEXT_PAGE,
+			payload: {
+				...res.data,
+				limit
+			}
+		});
+		setPage(nextPage);
 	});
 
 export const getPost = (id, pageQuery, history, page, callback) =>
@@ -182,7 +220,6 @@ export const searchPost = (text, page = 1) =>
 	catchAsync('post', async dispatch => {
 		dispatch(resetAlert()); //Need to be in every action with alert
 		dispatch({ type: POST_RESET });
-		const limit = 10;
 		const config = {
 			headers: {
 				'Content-type': 'application/json'

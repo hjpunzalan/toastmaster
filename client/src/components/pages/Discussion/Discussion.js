@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import InfiniteScroll from 'react-infinite-scroller';
 import {
 	getAllPost,
 	createPost,
 	toggleCreatePost,
-	searchPost
+	searchPost,
+	postNextPage
 } from '../../../actions/post';
 import img from '../../../img/anonymous.png';
 import DiscussionHead from './DiscussionHead';
 import DiscussionPost from './DiscussionPost';
 import Spinner from '../../../components/utils/Spinner';
+import SpinnerSmall from '../../../components/utils/SpinnerSmall';
 
 const Discussion = ({
 	post: { posts, edit, postEdit, totalPages },
@@ -21,32 +23,16 @@ const Discussion = ({
 	createPost,
 	toggleCreatePost,
 	history,
-	searchPost
+	searchPost,
+	postNextPage
 }) => {
 	useEffect(() => {
 		getAllPost();
 	}, [getAllPost]);
 
 	const [page, setPage] = useState(1);
+	const [isSearch, setIsSearch] = useState(false); // boolean or string
 
-	const handlePage = pageNumber => {
-		setPage(pageNumber);
-		getAllPost(pageNumber);
-	};
-	const nextPage = (
-		<button
-			className="Discussion__page-next"
-			onClick={() => handlePage(page + 1)}>
-			<FaArrowRight />
-		</button>
-	);
-	const prevPage = (
-		<button
-			className="Discussion__page-prev"
-			onClick={() => handlePage(page - 1)}>
-			<FaArrowLeft />
-		</button>
-	);
 	const renderPosts = posts.map(post => (
 		<DiscussionPost
 			key={post._id}
@@ -60,14 +46,6 @@ const Discussion = ({
 			lastName={post.user.lastName}
 		/>
 	));
-
-	const renderPagination = (
-		<div className="Discussion__page">
-			{page > 1 && prevPage}
-			{totalPages > 0 && posts.length > 0 && `Page ${page} of ${totalPages}`}
-			{totalPages > 1 && page !== totalPages && nextPage}
-		</div>
-	);
 	return (
 		<div className="Discussion">
 			{loading || postEdit ? (
@@ -83,12 +61,18 @@ const Discussion = ({
 						searchPost={searchPost}
 						setPage={setPage}
 						loading={loading}
+						setIsSearch={setIsSearch}
 					/>
 					{!edit && (
 						<>
-							{renderPagination}
-							{renderPosts}
-							{posts.length > 5 && renderPagination}
+							<InfiniteScroll
+								pageStart={page}
+								loadMore={() => postNextPage(page, setPage, isSearch)}
+								hasMore={page < totalPages}
+								threshold={50}
+								loader={<SpinnerSmall key="loader" />}>
+								{renderPosts}
+							</InfiniteScroll>
 						</>
 					)}
 				</>
@@ -104,7 +88,8 @@ Discussion.propTypes = {
 	getAllPost: PropTypes.func.isRequired,
 	createPost: PropTypes.func.isRequired,
 	toggleCreatePost: PropTypes.func.isRequired,
-	searchPost: PropTypes.func.isRequired
+	searchPost: PropTypes.func.isRequired,
+	postNextPage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -115,5 +100,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ getAllPost, createPost, toggleCreatePost, searchPost }
+	{ getAllPost, createPost, toggleCreatePost, searchPost, postNextPage }
 )(Discussion);

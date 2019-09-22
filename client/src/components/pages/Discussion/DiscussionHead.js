@@ -10,7 +10,8 @@ const DiscussionHead = ({
 	history,
 	searchPost,
 	setPage,
-	loading
+	loading,
+	setIsSearch
 }) => {
 	const [title, setTitle] = useState('');
 	const [search, setSearch] = useState('');
@@ -26,6 +27,7 @@ const DiscussionHead = ({
 
 	const handleSearch = e => {
 		e.preventDefault();
+		setIsSearch(search);
 		searchPost(search);
 		setPage(1);
 	};
