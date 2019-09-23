@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Redirect } from 'react-router-dom';
 import NewRoute from './NewRoute';
 import PrivateRoute from './PrivateRoute';
 import Register from '../auth/Register';
@@ -34,6 +34,7 @@ const Routes = () => {
 				component={ChangePassword}
 			/>
 			<PrivateRoute exact path="/discussion/post/:postId" component={Post} />
+			<Redirect to="/dashboard" />
 		</Switch>
 	);
 };
