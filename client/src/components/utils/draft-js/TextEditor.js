@@ -63,6 +63,9 @@ class TextEditor extends Component {
 			plainText: ''
 		}; //Always makes a new content whenever rendered
 	}
+	componentDidCatch() {
+		this.forceUpdate();
+	}
 
 	focus = () => this.editor.focus();
 
@@ -155,7 +158,7 @@ class TextEditor extends Component {
 					<div className={className} onClick={this.focus}>
 						<Editor
 							blockStyleFn={getBlockStyle}
-							handleBeforeInput={this.handleBeforeInput}
+							// handleBeforeInput={this.handleBeforeInput}
 							editorState={editorState}
 							handleKeyCommand={this.handleKeyCommand}
 							keyBindingFn={this.mapKeyToEditorCommand}

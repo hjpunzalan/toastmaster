@@ -12,7 +12,7 @@ process.on('uncaughtException', err => {
 });
 //////////////
 
-dotenv.config({ path: './production.env' });
+dotenv.config({ path: './config.env' });
 
 // Connecting to mongoDB using mongoose
 const DB = process.env.DATABASE.replace(
