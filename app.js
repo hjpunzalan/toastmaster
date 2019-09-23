@@ -62,13 +62,13 @@ app.use('/api/posts', authController.protect, postsRouter); // all posts are pro
 app.use('/api/upload', authController.protect, uploadRouter); // all posts are protected
 
 // Handle all unhandled routes
-app.all('*', (req, res, next) => {
-	const err = new AppError(
-		`Can't find ${req.originalUrl} on this server!`,
-		404
-	);
-	next(err); // whatever is passed into next is assumed to be an error
-});
+// app.all('*', (req, res, next) => {
+// 	const err = new AppError(
+// 		`Can't find ${req.originalUrl} on this server!`,
+// 		404
+// 	);
+// 	next(err); // whatever is passed into next is assumed to be an error
+// });
 
 app.use(globalErrorHandler);
 // Serve static assets in production
