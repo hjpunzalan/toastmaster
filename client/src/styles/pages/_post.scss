@@ -91,6 +91,7 @@
         @include postEditor;
         display: flex;
         flex-direction: column;
+        margin: 0 auto;
 
         &-title {
             font-size: 2rem;
@@ -107,6 +108,10 @@
         >button {
             cursor: pointer;
             padding: 0.7rem 3rem;
+        }
+
+        @media only screen and (max-width:40.625em) {
+            display: none;
         }
     }
 

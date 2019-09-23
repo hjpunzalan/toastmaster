@@ -7,6 +7,8 @@
 
     @media only screen and (max-width: 62.5em) {
         flex-direction: column;
+        margin: 0 auto;
+
     }
 
     @media only screen and (max-width: 40.625em) {
@@ -26,8 +28,32 @@
 
         @media only screen and (max-width: 62.5em) {
             flex-direction: row;
-            margin-bottom: 2rem;
-            width: 100%;
+            width: 100%; //same with body
+            margin: 0 auto 2rem auto;
+        }
+
+        @media only screen and (max-width: 40.625em) {
+            width: 92%;
+        }
+
+        @media only screen and (max-width: 32.5em) {
+            width: 91%;
+        }
+
+        @media only screen and (max-width: 28.125em) {
+            width: 90%;
+        }
+
+        @media only screen and (max-width: 25em) {
+            width: 89%;
+        }
+
+        @media only screen and (max-width: 23.4375em) {
+            width: 87%;
+        }
+
+        @media only screen and (max-width: 20.625em) {
+            width: 86%;
         }
 
 
@@ -36,6 +62,7 @@
             height: 6rem;
             border-radius: 50%;
             object-fit: cover;
+            flex-shrink: 0;
 
             @media only screen and (max-width: 40.625em) {
                 width: 5rem;
@@ -66,11 +93,11 @@
         flex-direction: column;
         width: postBodyWidth($userWidth);
         position: relative;
-        margin: 0 auto;
         // just same as text editor width
 
         @media only screen and (max-width: 62.5em) {
             width: 100%;
+            margin: 0 auto;
         }
 
         @media only screen and (max-width: 40.625em) {
