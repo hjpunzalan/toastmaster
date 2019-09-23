@@ -8,9 +8,10 @@ import {
 	activateUser,
 	changeRole
 } from '../../../actions/users';
-import Table from './Table';
-import Spinner from '../../utils/Spinner';
 import { setAlert, resetAlert } from '../../../actions/alerts';
+import Spinner from '../../utils/Spinner';
+import Table from './Table';
+import SmallList from './SmallList';
 
 const MemberList = ({
 	getAllUsers,
@@ -60,7 +61,21 @@ const MemberList = ({
 					<label htmlFor="unactive">Unactive</label>
 				</div>
 			</div>
+			{/* // window.screen.width doesnt take into account the landscape of phone and thus wont rerender, better to use css */}
 			<Table
+				Moderator={Moderator}
+				users={active ? activeUsers : unActiveUsers}
+				active={active}
+				deActivateUser={deActivateUser}
+				activateUser={activateUser}
+				currentUser={currentUser}
+				setActive={setActive}
+				setAlert={setAlert}
+				resetAlert={resetAlert}
+				changeRole={changeRole}
+			/>
+			<SmallList
+				className="MemberList__smallList"
 				Moderator={Moderator}
 				users={active ? activeUsers : unActiveUsers}
 				active={active}
