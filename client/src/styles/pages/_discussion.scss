@@ -135,6 +135,10 @@
       flex-shrink: 0;
       min-width: 5rem;
 
+      @media only screen and (max-width: 23.475em) {
+        width: 25%;
+      }
+
       &-img {
         width: 6rem;
         height: 6rem;
@@ -170,12 +174,6 @@
           }
         }
 
-        @media only screen and (max-width: 20.625em) {
-          & span {
-            display: inline-block;
-          }
-        }
-
         @media only screen and (max-width: 31.25em) {
           font-size: $size-discussion-text-500;
           margin-top: .7rem;
@@ -189,6 +187,10 @@
       flex-direction: column;
       width: 80%;
       flex-shrink: 0;
+
+      @media only screen and (max-width: 23.475em) {
+        width: 75%;
+      }
 
       &-header {
         display: flex;
