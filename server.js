@@ -11,8 +11,11 @@ process.on('uncaughtException', err => {
 	process.exit(1); // 0 success , 1 for unhanled rejection
 });
 //////////////
-
-dotenv.config({ path: './config.env' });
+if (process.env.NODE_ENV === 'production') {
+	dotenv.config({ path: './production.env' });
+} else {
+	dotenv.config({ path: './config.env' });
+}
 
 // Connecting to mongoDB using mongoose
 const DB = process.env.DATABASE.replace(
