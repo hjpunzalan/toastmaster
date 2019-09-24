@@ -46,7 +46,7 @@ const createToken = (user, res) => {
 	};
 
 	// Attaching cookie to headers
-	if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+	// if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 	res.cookie('jwt', token, cookieOptions);
 
 	res.status(200).json(user);

@@ -68,12 +68,16 @@ module.exports = (err, req, res, next) => {
 	} else if (process.env.NODE_ENV === 'production') {
 		let newError = { ...err };
 		if (err.name === 'CastError') newError = handleCastErrorDB(newError);
-		if (err.code === 11000) newError = handleDuplicateFieldsDB(newError);
-		if (err.name === 'ValidationError')
+		else if (err.code === 11000) newError = handleDuplicateFieldsDB(newError);
+		else if (err.name === 'ValidationError')
 			newError = handleValidationErrorDB(newError);
-		if (err.name === 'JsonWebTokenError') newError = handleJWTError(newError);
+		else if (err.name === 'JsonWebTokenError')
+			newError = handleJWTError(newError);
+		else {
+			// in production mode, destructuring doesnt work with error
+			sendErrorProd(err, res);
+			return next();
+		}
 		sendErrorProd(newError, res);
 	}
-
-	next();
 };
