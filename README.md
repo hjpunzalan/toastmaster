@@ -100,6 +100,29 @@ Lastly, I've added the registration form page that is only visible to the commit
 
 After that, is making everything responsive!!! Then tada! Making it responsive will probably take a lot of work. Plus I feel like I will come across a few errors on the way but they key is that I am still moving forward.
  </p>
+ 
+ <hr/>
+<h3>28th September 2019 </h3>
+
+<p>
+It's been a long time since I've posted. I've deployed the application and its somewhat completed. 
+ 
+ I've completed the registration page and everything is functional including password resets. I added mobile support and the biggest hurdle in mobile support is the current text editor. Draft-js does not support mobile devices so I had to come up with a solution that is text-area which converts the string input into a contentState saved onto  the database. What users will still see is the styled posts of the normal draft-js editor even with an input from textarea that outputs strings. Editting will be the same the other way around however, it will not include images. Many layout changes was made with the navbar and adding posts. Breakpoints were added responsively to the app's UI. This is where I had wished I used css grid instead of flexbox everywhere. I just thought, if it were to be merged onto react-native, it will be easier.
+ 
+ There were plenty of bugs that came with Draft-js plugins. Firstly the emoji plugin came with an error whenever content was posted with a colon on it. It triggered the emoji suggestion component and can not located a parameter which was never included. Linkify plugin was also filled with bugs. Whenever its implemented it would produce a cannot remove child node error that crashes the whole app. There was a fix for this however it disables all inline styling which was more important. Therefore to fix this error, the original error was ignored however this time preventing the error crashing the app. This is of course a temporary solution. When the app goes into production, there are two choices, one is to remove adding of links instinctively or to use a different rich styling editor such as slate-js.
+ 
+ I cannot stress how difficult and time consuming it was to convert an application to be used in mobile devices. It is very complicated as there are many mobile devices that behave and display differently. When clicking a text-box sometimes they zoom in where UI is very unpredicatable and the only way it seems is to test it with a real phone. One thing I also noticed is the application having too many buttons and I've decided to remove the pagination buttons in the discussion page. I've decided to use infinite scrolling. I found this suprisingly easy to do compared to implementing the Draft-js editor.
+ 
+ Making the member list mobile responsive was a crazy hard task itself because the table layout is purely for computers only. I had to improvise and thought of a more compact layout which is mobile-friendly. The downside to this is I had to add another component that replaces the existing based on media queries which adds complexity and expense of memory.
+ 
+ After all of this, I felt the application was ready to be deployed which was another difficult task even with heroku. I had to move the server folder onto the main directory. I tried creating subtrees referring the server folder however, it just wouldn't work when I pushed it to heroku. It just won't locate the client folder and its npm package. I decided to move the server folder onto the main directory which makes everything easier. I added the environment variables onto heroku and the application was finally deployed!
+ 
+ There are still many things I could've done to improve. I noticed I passed too much props down to child components, some that intermediate components doesn't even use. I could add a container component which takes in props and renders the child component. This way all props to be passed down child components are passed directly to them instead of being passed from their sibling components.
+ 
+ I plan to study more of AWS and implement image handling in the future which would improve performance by a great margin. Additionally, I would like to improve the database as its causing the most load times. It could be because the database is hosted far away on a free tier plan or that I need to add effective indexes. I need more studying about database.
+ 
+ I've been focusing on studying on data structure and algorithms right now because I also think my coding skills can improve greatly if I understood more on producing efficient code. Then I will move on to studying AWS.
+</p>
 
 
 
