@@ -12,7 +12,8 @@ import {
 	SEARCH_POSTS,
 	POST_ERROR,
 	LOADING_SUBMIT_POST,
-	POST_NEXT_PAGE
+	POST_NEXT_PAGE,
+	CLEAR_POST
 } from '../actions/types';
 
 const initialState = {
@@ -30,6 +31,11 @@ export default (state = initialState, action) => {
 	switch (type) {
 		case LOADING_SUBMIT_POST:
 			return { ...state, loading: true, postLoading: true };
+		case CLEAR_POST:
+			return {
+				...state,
+				post: null
+			};
 		case POST_RESET:
 			return {
 				...state,
