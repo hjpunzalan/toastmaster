@@ -12,11 +12,10 @@ import {
 import img from '../../../img/anonymous.png';
 import DiscussionHead from './DiscussionHead';
 import DiscussionPost from './DiscussionPost';
-import Spinner from '../../../components/utils/Spinner';
 import SpinnerSmall from '../../../components/utils/SpinnerSmall';
 
 const Discussion = ({
-	post: { posts, edit, postEdit, totalPages },
+	post: { posts, edit, totalPages },
 	getAllPost,
 	loading,
 	contentState,
@@ -27,8 +26,12 @@ const Discussion = ({
 	postNextPage
 }) => {
 	useEffect(() => {
+		if (edit) {
+			toggleCreatePost();
+		}
 		getAllPost();
-	}, [getAllPost]);
+		// eslint-disable-next-line
+	}, []);
 
 	const [page, setPage] = useState(1);
 	const [isSearch, setIsSearch] = useState(false); // boolean or string
@@ -48,33 +51,29 @@ const Discussion = ({
 	));
 	return (
 		<div className="Discussion">
-			{loading || postEdit ? (
-				<Spinner />
-			) : (
+			<DiscussionHead
+				edit={edit}
+				contentState={contentState}
+				createPost={createPost}
+				toggleCreatePost={toggleCreatePost}
+				history={history}
+				searchPost={searchPost}
+				setPage={setPage}
+				loading={loading}
+				setIsSearch={setIsSearch}
+			/>
+			{!edit && (
 				<>
-					<DiscussionHead
-						edit={edit}
-						contentState={contentState}
-						createPost={createPost}
-						toggleCreatePost={toggleCreatePost}
-						history={history}
-						searchPost={searchPost}
-						setPage={setPage}
-						loading={loading}
-						setIsSearch={setIsSearch}
-					/>
-					{!edit && (
-						<>
-							<InfiniteScroll
-								pageStart={page}
-								loadMore={() => postNextPage(page, setPage, isSearch)}
-								hasMore={page < totalPages}
-								threshold={50}
-								loader={<SpinnerSmall key="loader" />}>
-								{renderPosts}
-							</InfiniteScroll>
-						</>
-					)}
+					<InfiniteScroll
+						pageStart={page}
+						loadMore={() => {
+							if (page < totalPages) postNextPage(page, setPage, isSearch);
+						}}
+						hasMore={page < totalPages}
+						threshold={50}
+						loader={<SpinnerSmall key="loader" />}>
+						{renderPosts}
+					</InfiniteScroll>
 				</>
 			)}
 		</div>

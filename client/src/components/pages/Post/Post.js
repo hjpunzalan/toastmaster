@@ -150,10 +150,18 @@ const Post = ({
 						postId={postId}
 					/>
 					<div className="Post__addComment">
-						<h2 className="Post__addComment-title">Add Comment</h2>
+						<div className="Post__addComment-top">
+							<img
+								src={currentUser.photo}
+								alt="current user"
+								className="Post__commentUser-img"
+							/>
+							<h2 className="Post__addComment-title">Add Comment</h2>
+						</div>
 						{breakpoint ? (
 							<>
 								<textarea
+									placeholder="Add comment...."
 									className="CreatePost__editor"
 									type="text"
 									name="editor"
