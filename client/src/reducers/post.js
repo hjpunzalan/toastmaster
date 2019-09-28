@@ -66,7 +66,6 @@ export default (state = initialState, action) => {
 		case SEARCH_POSTS:
 			return {
 				...state,
-				edit: false,
 				postEdit: false,
 				loading: false,
 				post: null,
