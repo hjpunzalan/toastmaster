@@ -37,13 +37,16 @@ const createToken = (user, res) => {
 		expiresIn: process.env.JWT_EXPIRATION
 	});
 
-	const cookieOptions = {
+	let cookieOptions = {
 		expires: new Date(
 			Date.now() + process.env.JWT_COOKIE_EXPIRATION * 24 * 60 * 60 * 1000
 		),
 		secure: true, // send in https
 		httpOnly: true // cannot be modified by browser
 	};
+	if (process.env.NODE_ENV === 'development') {
+		cookieOptions.secure = false;
+	}
 
 	// Attaching cookie to headers
 	if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
