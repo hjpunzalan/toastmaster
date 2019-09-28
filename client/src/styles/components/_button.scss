@@ -28,8 +28,8 @@
     }
 
     &__cancel {
-        background: $color-grey;
-        color: $color-black;
+        // for editting post mainly
+        cursor: pointer;
         width: 10rem;
         height: 3rem;
     }
@@ -111,16 +111,23 @@
             color: $color-white;
             border-radius: 50%;
             border: none;
-            padding: .7rem;
-            display: inline-block;
+            display: block;
+            position: relative;
+            padding: 0;
+            overflow: hidden;
+            width: 3rem;
+            height: 3rem;
 
             &:focus {
                 outline: none;
             }
 
             &::before {
+                position: absolute;
+                display: block;
+                top: 0;
+                left: 25%;
                 content: '+';
-                line-height: 1.8rem;
                 font-size: 2.5rem;
             }
         }

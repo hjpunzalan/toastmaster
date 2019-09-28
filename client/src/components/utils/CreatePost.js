@@ -50,7 +50,7 @@ const CreatePost = ({
 	const breakpoint = window.screen.width < 1000;
 	return (
 		<div className="CreatePost">
-			<button className="btn btn__cancel" onClick={handleToggle}>
+			<button className="btn__cancel" onClick={handleToggle}>
 				Cancel
 			</button>
 			{type !== 'edit' && (

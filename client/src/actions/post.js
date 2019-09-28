@@ -53,9 +53,7 @@ export const createPost = (title, contentState, history, plainText) =>
 
 export const getAllPost = (page = 1) =>
 	catchAsync('post', async dispatch => {
-		dispatch({
-			type: POST_RESET
-		}); // for pagination only
+		// for pagination only
 		// check reducers when changing limit
 		// Gets post by page by limit and sorts by last comment then date.
 		const res = await axios.get(

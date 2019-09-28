@@ -14,7 +14,7 @@ const PageButtons = ({ page, setPage, totalPages, postId }) => {
 					setPage(page + 1);
 					scrollToTop();
 				}}>
-				Next &nbsp; &rarr;
+				Next
 			</Link>
 		);
 	if (page > 1)
@@ -26,7 +26,7 @@ const PageButtons = ({ page, setPage, totalPages, postId }) => {
 					setPage(page - 1);
 					scrollToTop();
 				}}>
-				&larr; &nbsp; Previous
+				Previous
 			</Link>
 		);
 

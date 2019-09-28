@@ -71,6 +71,10 @@
             margin-left: 2rem;
             color: $color-danger;
 
+            &:focus {
+                outline: none;
+            }
+
             &:hover {
                 animation: tada 1s infinite;
             }
@@ -91,9 +95,15 @@
         @include postEditor;
         display: flex;
         flex-direction: column;
-        margin: 0 auto;
+        margin: 5rem auto;
+
+        &-top {
+            display: flex;
+            align-items: center;
+        }
 
         &-title {
+            margin-left: 2rem;
             font-size: 2rem;
         }
 
@@ -125,6 +135,11 @@
 
         @media only screen and (max-width: 62.5em) {
             margin-top: 2rem;
+        }
+
+        @media only screen and (max-width: 31.25em) {
+            display: flex;
+            justify-content: center;
         }
 
         &-buttons {
