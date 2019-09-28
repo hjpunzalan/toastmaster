@@ -11,7 +11,8 @@ import {
 	POST_RESET,
 	LOADING_SUBMIT_POST,
 	SEARCH_POSTS,
-	POST_NEXT_PAGE
+	POST_NEXT_PAGE,
+	CLEAR_POST
 } from './types';
 import axios from 'axios';
 import { setAlert, resetAlert } from './alerts';
@@ -53,7 +54,10 @@ export const createPost = (title, contentState, history, plainText) =>
 
 export const getAllPost = (page = 1) =>
 	catchAsync('post', async dispatch => {
-		// for pagination only
+		// clears post when switching between post
+		dispatch({
+			type: CLEAR_POST
+		});
 		// check reducers when changing limit
 		// Gets post by page by limit and sorts by last comment then date.
 		const res = await axios.get(
