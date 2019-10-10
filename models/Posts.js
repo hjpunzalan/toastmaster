@@ -49,6 +49,9 @@ const postSchema = new mongoose.Schema({
 });
 postSchema.plugin(autoPopulate);
 
+// Indexes
+postSchema.index({ lastComment: -1, date: -1 });
+
 //Model.update,findByIdAndUpdate,findOneAndUpdate,findOneAndRemove,findByIdAndRemove are all commands executed directly in the database
 postSchema.pre(/^find/, function(next) {
 	this.find().select('-__v');
