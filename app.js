@@ -55,7 +55,9 @@ app.use(
 );
 
 // Middleware that applies to '/api/' request
-app.use("/api/users", authController.protect, userRouter); // all users are protected
+// allow access to user during test mode as only logged in admin are able to
+if (process.env.NODE_ENV === "test") app.use("/api/users", userRouter);
+else app.use("/api/users", authController.protect, userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/announcements", authController.protect, announcementRouter);
 app.use("/api/posts", authController.protect, postsRouter); // all posts are protected
