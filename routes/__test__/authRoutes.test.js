@@ -11,9 +11,9 @@ const signup = async () => {
 			firstName: "test",
 			lastName: "test2",
 			email: "test@test.com",
+			password: "test123",
 		})
 		.expect(201);
-
 	return response.body;
 };
 
@@ -23,4 +23,17 @@ test("should create new account ", async () => {
 
 	expect(foundUsers.length).toEqual(1);
 	expect(foundUsers[0].id).toEqual(user._id);
+});
+
+describe("Invalid signin", () => {
+	test("Fails with invalid email", async () => {
+		await signup();
+		await request(app)
+			.post("/api/auth/login")
+			.send({
+				email: "tesst1@test.com",
+				password: "test123",
+			})
+			.expect(401);
+	});
 });
