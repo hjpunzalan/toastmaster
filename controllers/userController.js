@@ -1,13 +1,19 @@
-const Users = require('../models/Users');
-const AppError = require('../utils/appError');
-const catchAsync = require('../utils/catchAsync');
-const checkBody = require('../utils/checkBody');
-const QueryHandling = require('../utils/queryHandling');
-const Email = require('../utils/email');
+const Users = require("../models/Users");
+const AppError = require("../utils/appError");
+const catchAsync = require("../utils/catchAsync");
+const checkBody = require("../utils/checkBody");
+const QueryHandling = require("../utils/queryHandling");
+const Email = require("../utils/email");
 
 exports.register = catchAsync(async (req, res, next) => {
 	const { firstName, lastName, email, url } = req.body;
-	const newUser = await Users.create({ firstName, lastName, email });
+	const newUser = await new Users({
+		firstName,
+		lastName,
+		email,
+		password: req.body.password,
+	});
+	await newUser.save();
 	await new Email(newUser, url).sendWelcome();
 
 	// remove password from json output;
@@ -28,14 +34,14 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 exports.updateMe = catchAsync(async (req, res, next) => {
 	// Update user document
 	const filterBody = checkBody(req.body, next, [
-		'firstName',
-		'lastName',
-		'email',
-		'photo'
+		"firstName",
+		"lastName",
+		"email",
+		"photo",
 	]);
 	const user = await Users.findByIdAndUpdate(req.user.id, filterBody, {
 		new: true,
-		runValidators: true
+		runValidators: true,
 	});
 	res.status(200).json(user);
 });
@@ -61,13 +67,13 @@ exports.reActivateUser = catchAsync(async (req, res, next) => {
 
 exports.makeComittee = catchAsync(async (req, res, next) => {
 	const user = await Users.findById(req.params.id);
-	user.role = 'committee';
+	user.role = "committee";
 	await user.save();
 	res.status(200).json(user);
 });
 exports.removeCommittee = catchAsync(async (req, res, next) => {
 	const user = await Users.findById(req.params.id);
-	user.role = 'user';
+	user.role = "user";
 	await user.save();
 	res.status(200).json(user);
 });
