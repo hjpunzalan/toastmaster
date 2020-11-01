@@ -16,6 +16,7 @@ const announcementRouter = require("./routes/announcementRoutes.js");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 const authController = require("./controllers/authController");
+const userController = require("./controllers/userController");
 
 const app = express();
 
@@ -56,8 +57,10 @@ app.use(
 
 // Middleware that applies to '/api/' request
 // allow access to user during test mode as only logged in admin are able to
-if (process.env.NODE_ENV === "test") app.use("/api/users", userRouter);
-else app.use("/api/users", authController.protect, userRouter);
+if (process.env.NODE_ENV === "test") {
+	app.use("/api/test/createadmin", userController.createAdmin);
+}
+app.use("/api/users", authController.protect, userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/announcements", authController.protect, announcementRouter);
 app.use("/api/posts", authController.protect, postsRouter); // all posts are protected
