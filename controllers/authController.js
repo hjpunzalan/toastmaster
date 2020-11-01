@@ -44,14 +44,10 @@ const createToken = (user, res) => {
 		secure: true, // send in https
 		httpOnly: true, // cannot be modified by browser
 	};
-	if (process.env.NODE_ENV === "development") {
+	if (process.env.NODE_ENV !== "production") {
 		cookieOptions.secure = false;
-	}
-
-	// Attaching cookie to headers
-	if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
+	} else cookieOptions.secure = true;
 	res.cookie("jwt", token, cookieOptions);
-
 	res.status(200).json(user);
 };
 
