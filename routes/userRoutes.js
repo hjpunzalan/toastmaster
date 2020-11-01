@@ -3,14 +3,11 @@ const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
 
 const router = express.Router();
-if (process.env.NODE_ENV === "test")
-	router.post("/register", userController.register);
-else
-	router.post(
-		"/register",
-		authController.restrictTo("admin", "committee"),
-		userController.register
-	);
+router.post(
+	"/register",
+	authController.restrictTo("admin", "committee"),
+	userController.register
+);
 
 router.route("/").get(userController.getAllUsers);
 router.post("/updatePassword", authController.updatePassword);
