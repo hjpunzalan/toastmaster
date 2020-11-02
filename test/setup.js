@@ -6,6 +6,10 @@ const app = require("../app");
 
 let mongo;
 
+// Automatic mocking
+// Mock email class and all methods
+jest.mock("../utils/email");
+
 beforeAll(async () => {
 	process.env.JWT_SECRET = "asdsa";
 	process.env.JWT_EXPIRATION = 9999999;
@@ -22,6 +26,9 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+	// Reset mock function calls before each test
+	jest.clearAllMocks();
+
 	const collections = await mongoose.connection.db.collections();
 
 	for (let collection of collections) {
