@@ -58,4 +58,17 @@ describe("With admin rights", () => {
 
 		expect(response.body.length).toEqual(2);
 	});
+
+	test("update user password with a length equal or greater than 6", async () => {
+		const cookie = await signAdmin();
+
+		await request(app)
+			.post("/api/users/updatePassword")
+			.set("Cookie", cookie)
+			.send({
+				password: "test123",
+				newPassword: "test666",
+			})
+			.expect(200);
+	});
 });
