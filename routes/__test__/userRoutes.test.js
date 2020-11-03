@@ -134,4 +134,32 @@ describe("With admin rights", () => {
 			.send()
 			.expect(200);
 	});
+
+	test("Promote user as committee and demote back to normal", async () => {
+		const cookie = await signAdmin();
+		// Create user
+		const {
+			body: { _id },
+		} = await request(app)
+			.post("/api/users/register")
+			.set("Cookie", cookie)
+			.send({
+				firstName: "user",
+				lastName: "test",
+				email: "user@test.com",
+			})
+			.expect(201);
+
+		await request(app)
+			.patch(`/api/users/makeCommittee/${_id}`)
+			.set("Cookie", cookie)
+			.send()
+			.expect(200);
+
+		await request(app)
+			.patch(`/api/users/removeCommittee/${_id}`)
+			.set("Cookie", cookie)
+			.send()
+			.expect(200);
+	});
 });
