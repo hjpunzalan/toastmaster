@@ -12,7 +12,6 @@ router.post(
 router.route("/").get(userController.getAllUsers);
 router.post("/updatePassword", authController.updatePassword);
 router.patch("/updateMe", userController.updateMe);
-router.patch("/deleteMe", userController.deleteMe);
 router.patch(
 	"/deActivateUser/:id",
 	authController.restrictTo("admin", "committee"),
