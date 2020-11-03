@@ -65,5 +65,5 @@ exports.signUser = async (role) => {
 		.expect(200);
 
 	const cookie = response.get("Set-Cookie");
-	return cookie;
+	return { cookie, user: response.body };
 };

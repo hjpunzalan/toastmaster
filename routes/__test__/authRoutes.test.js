@@ -1,11 +1,15 @@
 const request = require("supertest");
 const app = require("../../app");
 const Users = require("../../models/Users");
-const signAdmin = require("../../test/setup").signAdmin;
+const signUser = require("../../test/setup").signUser;
 const Email = require("../../utils/email");
 
+test("should login user", async () => {
+	await signUser("user");
+});
+
 test("should check user is logged in", async () => {
-	const cookie = await signAdmin();
+	const { cookie } = await signUser("user");
 
 	await request(app)
 		.get("/api/auth/checkUser")
@@ -15,7 +19,7 @@ test("should check user is logged in", async () => {
 });
 
 test("should logout user", async () => {
-	const cookie = await signAdmin();
+	const { cookie } = await signUser("user");
 
 	await request(app)
 		.get("/api/auth/logout")
@@ -25,19 +29,9 @@ test("should logout user", async () => {
 });
 
 test("should able to request forgot password, send reset token to email, and reset password", async () => {
-	const cookie = await signAdmin();
-	// Create a user
 	const {
-		body: { email },
-	} = await request(app)
-		.post("/api/users/register")
-		.set("Cookie", cookie)
-		.send({
-			firstName: "user",
-			lastName: "test",
-			email: "user@test.com",
-		})
-		.expect(201);
+		user: { email },
+	} = await signUser("user");
 
 	// Request password reset
 	await request(app)
@@ -53,12 +47,11 @@ test("should able to request forgot password, send reset token to email, and res
 	);
 
 	// Should send a reset password email
-	expect(Email).toHaveBeenCalledTimes(2); //one for registering user
-	expect(Email.mock.instances[0].sendWelcome).toHaveBeenCalledTimes(1);
-	expect(Email.mock.instances[1].sendPasswordReset).toHaveBeenCalledTimes(1);
+	expect(Email).toHaveBeenCalledTimes(1); //one for registering user
+	expect(Email.mock.instances[0].sendPasswordReset).toHaveBeenCalledTimes(1);
 
 	// Request password reset
-	const resetURL = Email.mock.instances[1].constructor.mock.calls[1][1];
+	const resetURL = Email.mock.instances[0].constructor.mock.calls[0][1];
 	const resetToken = resetURL.replace("undefined/reset/", "");
 
 	await request(app)
