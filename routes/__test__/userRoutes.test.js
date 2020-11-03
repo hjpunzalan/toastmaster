@@ -67,8 +67,41 @@ describe("With admin rights", () => {
 			.set("Cookie", cookie)
 			.send({
 				password: "test123",
+				newPassword: "test2",
+			})
+			.expect(500);
+
+		await request(app)
+			.post("/api/users/updatePassword")
+			.set("Cookie", cookie)
+			.send({
+				password: "test123",
 				newPassword: "test666",
 			})
 			.expect(200);
+	});
+
+	test("update user details failing if invalid fields", async () => {
+		const cookie = await signAdmin();
+
+		await request(app)
+			.patch("/api/users/updateMe")
+			.set("Cookie", cookie)
+			.send({
+				firstName: "jona",
+				lastName: "testinggg",
+				email: "rip@riptest.com",
+			})
+			.expect(200);
+
+		await request(app)
+			.patch("/api/users/updateMe")
+			.set("Cookie", cookie)
+			.send({
+				firstName: "jona",
+				lastName: "testinggg",
+				start: "rip@riptest.com",
+			})
+			.expect(400);
 	});
 });
