@@ -104,4 +104,34 @@ describe("With admin rights", () => {
 			})
 			.expect(400);
 	});
+
+	test("Admin able to deactivate and reactivate user", async () => {
+		const cookie = await signAdmin();
+
+		// Create user
+		const {
+			body: { _id },
+		} = await request(app)
+			.post("/api/users/register")
+			.set("Cookie", cookie)
+			.send({
+				firstName: "user",
+				lastName: "test",
+				email: "user@test.com",
+			})
+			.expect(201);
+		// Deactivate user
+		await request(app)
+			.patch(`/api/users/deActivateUser/${_id}`)
+			.set("Cookie", cookie)
+			.send()
+			.expect(200);
+
+		// Reactivate user
+		await request(app)
+			.patch(`/api/users/activateUser/${_id}`)
+			.set("Cookie", cookie)
+			.send()
+			.expect(200);
+	});
 });
