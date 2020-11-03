@@ -7,21 +7,21 @@ const Email = require("../../utils/email");
 describe("With admin rights", () => {
 	test("should create new account and send email as admin", async () => {
 		const cookie = await signAdmin();
-		const email = "user@test.com";
-
-		await request(app)
+		const {
+			body: { _id },
+		} = await request(app)
 			.post("/api/users/register")
 			.set("Cookie", cookie)
 			.send({
 				firstName: "user",
 				lastName: "test",
-				email,
+				email: "user@test.com",
 			})
 			.expect(201);
 
-		const user = await Users.findOne({ email });
+		const user = await Users.findById(_id);
 
-		expect(user.email).toEqual(email);
+		expect(user.id).toEqual(_id);
 		expect(Email).toHaveBeenCalledTimes(1);
 		expect(Email.mock.instances[0].sendWelcome).toHaveBeenCalledTimes(1);
 	});
