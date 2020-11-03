@@ -43,14 +43,15 @@ afterAll(async () => {
 	await mongo.stop();
 });
 
-exports.signAdmin = async () => {
-	// Create admin
+exports.signUser = async (role) => {
+	// Create user
 	await request(app)
-		.post("/api/test/createAdmin")
+		.post("/api/test/createuser")
 		.send({
-			firstName: "admin",
-			lastName: "admin",
-			email: "admin@test.com",
+			firstName: "test",
+			lastName: "test",
+			role,
+			email: "test@test.com",
 			password: "test123",
 		})
 		.expect(201);
@@ -58,7 +59,7 @@ exports.signAdmin = async () => {
 	const response = await request(app)
 		.post("/api/auth/login")
 		.send({
-			email: "admin@test.com",
+			email: "test@test.com",
 			password: "test123",
 		})
 		.expect(200);

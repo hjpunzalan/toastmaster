@@ -5,18 +5,18 @@ const checkBody = require("../utils/checkBody");
 const QueryHandling = require("../utils/queryHandling");
 const Email = require("../utils/email");
 
-exports.createAdmin = catchAsync(async (req, res, next) => {
-	const { firstName, lastName, email, password } = req.body;
-	const admin = await Users.create({
+exports.createUser = catchAsync(async (req, res, next) => {
+	const { firstName, lastName, email, password, role } = req.body;
+	const user = await Users.create({
 		firstName,
 		lastName,
 		email,
 		password,
-		role: "admin",
+		role,
 	});
 
-	admin.password = undefined;
-	res.status(201).json(admin);
+	user.password = undefined;
+	res.status(201).json(user);
 });
 
 exports.register = catchAsync(async (req, res, next) => {
