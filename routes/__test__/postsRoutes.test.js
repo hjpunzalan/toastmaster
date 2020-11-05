@@ -97,6 +97,7 @@ test("should get post by params postid", async () => {
 		})
 		.expect(201);
 
+	// Get post
 	const { body } = await request(app)
 		.get(`/api/posts/${_id}`)
 		.set("Cookie", cookie)
@@ -104,4 +105,37 @@ test("should get post by params postid", async () => {
 		.expect(200);
 
 	expect(body._id).toEqual(_id);
+});
+
+test("should be able to edit post title,text,contentState", async () => {
+	const { cookie } = await signUser("user");
+
+	// Create post
+	const {
+		body: { _id, title, plainText, contentState },
+	} = await request(app)
+		.post("/api/posts/")
+		.set("Cookie", cookie)
+		.send({
+			title: "test",
+			plainText: "test",
+			contentState: {},
+		})
+		.expect(201);
+
+	// Edit post
+	const { body } = await request(app)
+		.patch(`/api/posts/${_id}`)
+		.set("Cookie", cookie)
+		.send({
+			title: "hello",
+			plainText: "it works",
+			contentState: { test: "2" },
+		})
+		.expect(200);
+
+	expect(body._id).toEqual(_id);
+	expect(body.title).not.toEqual(title);
+	expect(body.plainText).not.toEqual(plainText);
+	expect(body.contentState).not.toEqual(contentState);
 });
