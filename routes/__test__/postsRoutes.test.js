@@ -3,6 +3,7 @@ const app = require("../../app");
 const Users = require("../../models/Users");
 const signUser = require("../../test/setup").signUser;
 const Email = require("../../utils/email");
+const Posts = require("../../models/Posts");
 
 test("should create and get all posts with page and limit query", async () => {
 	const { cookie } = await signUser("user");
@@ -78,4 +79,29 @@ test("should be able to search post by title or plainText with pagination query"
 
 	expect(posts.length).toEqual(1);
 	expect(numPosts).toEqual(2);
+});
+
+test("should get post by params postid", async () => {
+	const { cookie } = await signUser("user");
+
+	// Create post
+	const {
+		body: { _id },
+	} = await request(app)
+		.post("/api/posts/")
+		.set("Cookie", cookie)
+		.send({
+			title: "test",
+			plainText: "test",
+			contentState: {},
+		})
+		.expect(201);
+
+	const { body } = await request(app)
+		.get(`/api/posts/${_id}`)
+		.set("Cookie", cookie)
+		.send()
+		.expect(200);
+
+	expect(body._id).toEqual(_id);
 });
