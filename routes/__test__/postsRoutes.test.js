@@ -139,3 +139,30 @@ test("should be able to edit post title,text,contentState", async () => {
 	expect(body.plainText).not.toEqual(plainText);
 	expect(body.contentState).not.toEqual(contentState);
 });
+
+test("should be able to delete post", async () => {
+	const { cookie } = await signUser("user");
+
+	// Create post
+	const {
+		body: { _id, title, plainText, contentState },
+	} = await request(app)
+		.post("/api/posts/")
+		.set("Cookie", cookie)
+		.send({
+			title: "test",
+			plainText: "test",
+			contentState: {},
+		})
+		.expect(201);
+
+	// delete post
+	await request(app)
+		.delete(`/api/posts/${_id}`)
+		.set("Cookie", cookie)
+		.send()
+		.expect(204);
+
+	const posts = await Posts.find({});
+	expect(posts.length).toEqual(0);
+});
