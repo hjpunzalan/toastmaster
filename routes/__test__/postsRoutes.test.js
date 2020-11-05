@@ -167,7 +167,7 @@ test("should be able to delete post", async () => {
 	expect(posts.length).toEqual(0);
 });
 
-test("should be able to comment on post", async () => {
+test("should be able to create and delete comment on post", async () => {
 	const { cookie } = await signUser("user");
 
 	// Create post
@@ -191,4 +191,13 @@ test("should be able to comment on post", async () => {
 		.expect(200);
 
 	expect(body.length).toBeGreaterThan(comments.length);
+
+	// delete comment from post
+	const response = await request(app)
+		.put(`/api/posts/${_id}/comments/${body[0]._id}`)
+		.set("Cookie", cookie)
+		.send()
+		.expect(200);
+
+	expect(response.body.length).toEqual(comments.length);
 });
