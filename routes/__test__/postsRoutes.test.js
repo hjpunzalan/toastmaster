@@ -15,7 +15,7 @@ test("should create and get all posts with page and limit query", async () => {
 		.send({
 			title: "test",
 			plainText: "test",
-			contentState: {},
+			contentState: { test: "add post" },
 		})
 		.expect(201);
 
@@ -25,7 +25,7 @@ test("should create and get all posts with page and limit query", async () => {
 		.send({
 			title: "test2",
 			plainText: "test2",
-			contentState: {},
+			contentState: { test: "add post" },
 		})
 		.expect(201);
 
@@ -52,7 +52,7 @@ test("should be able to search post by title or plainText with pagination query"
 		.send({
 			title: "candy",
 			plainText: "test",
-			contentState: {},
+			contentState: { test: "add post" },
 		})
 		.expect(201);
 
@@ -62,7 +62,7 @@ test("should be able to search post by title or plainText with pagination query"
 		.send({
 			title: "test2",
 			plainText: "candy",
-			contentState: {},
+			contentState: { test: "add post" },
 		})
 		.expect(201);
 
@@ -93,7 +93,7 @@ test("should get post by params postid", async () => {
 		.send({
 			title: "test",
 			plainText: "test",
-			contentState: {},
+			contentState: { test: "add post" },
 		})
 		.expect(201);
 
@@ -152,7 +152,7 @@ test("should be able to delete post", async () => {
 		.send({
 			title: "test",
 			plainText: "test",
-			contentState: {},
+			contentState: { test: "add post" },
 		})
 		.expect(201);
 
@@ -165,4 +165,30 @@ test("should be able to delete post", async () => {
 
 	const posts = await Posts.find({});
 	expect(posts.length).toEqual(0);
+});
+
+test("should be able to comment on post", async () => {
+	const { cookie } = await signUser("user");
+
+	// Create post
+	const {
+		body: { _id, comments },
+	} = await request(app)
+		.post("/api/posts/")
+		.set("Cookie", cookie)
+		.send({
+			title: "test",
+			plainText: "test",
+			contentState: { test: "add post" },
+		})
+		.expect(201);
+
+	// add comment to post
+	const { body } = await request(app)
+		.post(`/api/posts/${_id}`)
+		.set("Cookie", cookie)
+		.send({ contentState: { test: "add comment" } })
+		.expect(200);
+
+	expect(body.length).toBeGreaterThan(comments.length);
 });

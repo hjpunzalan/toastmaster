@@ -73,11 +73,9 @@ exports.addComment = catchAsync(async (req, res, next) => {
 		user: req.user.id,
 		contentState: req.body.contentState,
 	};
-
 	post.comments.push(newComment);
-	//To query based from newest comments of post and date
+	//Update time property to query based from newest comments of post and date
 	post.lastComment = post.comments[post.comments.length - 1].date;
-	console.log(post.lastComment);
 	await post.save();
 	res.status(200).json(post.comments);
 });
