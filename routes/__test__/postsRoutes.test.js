@@ -1,8 +1,6 @@
 const request = require("supertest");
 const app = require("../../app");
-const Users = require("../../models/Users");
 const signUser = require("../../test/setup").signUser;
-const Email = require("../../utils/email");
 const Posts = require("../../models/Posts");
 
 test("should create and get all posts with page and limit query", async () => {
