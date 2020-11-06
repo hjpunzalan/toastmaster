@@ -1,26 +1,26 @@
-const express = require('express');
-const announcementController = require('../controllers/announcementController');
-const authController = require('../controllers/authController.js');
+const express = require("express");
+const announcementController = require("../controllers/announcementController");
+const authController = require("../controllers/authController.js");
 
 const router = express.Router();
 
 router
-	.route('/')
+	.route("/")
 	.post(
-		authController.restrictTo('admin', 'committee'),
+		authController.restrictTo("admin", "committee"),
 		announcementController.createAnnouncement
 	)
 	.get(announcementController.getAllAnnouncements);
 
 router
-	.route('/:id')
+	.route("/:id")
 	.get(announcementController.getAnnouncement)
 	.delete(
-		authController.restrictTo('admin', 'committee'),
+		authController.restrictTo("admin", "committee"),
 		announcementController.deleteAnnouncement
 	)
 	.patch(
-		authController.restrictTo('admin', 'committee'),
+		authController.restrictTo("admin", "committee"),
 		announcementController.updateAnnouncement
 	);
 
