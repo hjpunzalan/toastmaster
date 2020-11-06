@@ -12,3 +12,33 @@ test("should get all announcements as user", async () => {
 		.send()
 		.expect(200);
 });
+
+test("should FAIL to create announcement as user", async () => {
+	const user = await signUser("user");
+
+	// create announcement as user
+	await request(app)
+		.post("/api/announcements/")
+		.set("Cookie", user.cookie)
+		.send({
+			title: "test",
+			contentState: { test: "test" },
+			plainText: "test",
+		})
+		.expect(403);
+});
+
+test("should create announcement as committee", async () => {
+	// create announcement as admin
+	const committee = await signUser("committee");
+
+	await request(app)
+		.post("/api/announcements/")
+		.set("Cookie", committee.cookie)
+		.send({
+			title: "test",
+			contentState: { test: "add announcement" },
+			plainText: "test",
+		})
+		.expect(201);
+});
