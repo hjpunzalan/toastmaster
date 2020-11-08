@@ -42,3 +42,44 @@ test("should create announcement as committee", async () => {
 		})
 		.expect(201);
 });
+
+test("should get,patch and delete announcement by id,", async () => {
+	const committee = await signUser("committee");
+
+	const {
+		body: { _id },
+	} = await request(app)
+		.post("/api/announcements/")
+		.set("Cookie", committee.cookie)
+		.send({
+			title: "test",
+			contentState: { test: "add announcement" },
+			plainText: "test",
+		})
+		.expect(201);
+
+	// Get announcement by id
+	await request(app)
+		.get(`/api/announcements/${_id}`)
+		.set("Cookie", committee.cookie)
+		.send()
+		.expect(200);
+
+	// Patch announcement by id
+	await request(app)
+		.patch(`/api/announcements/${_id}`)
+		.set("Cookie", committee.cookie)
+		.send({
+			title: "test2",
+			contentState: { test: "test3" },
+			plainText: "test4",
+		})
+		.expect(200);
+
+	// delete announcement by id
+	await request(app)
+		.delete(`/api/announcements/${_id}`)
+		.set("Cookie", committee.cookie)
+		.send()
+		.expect(204);
+});
