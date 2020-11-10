@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import {
 	REGISTER_SUCCESS,
 	UPDATE_ME,
@@ -9,77 +9,80 @@ import {
 	ACTIVATE_USER,
 	LOADING_USER,
 	MAKE_COMMITTEE,
-	REMOVE_COMMITTEE
-} from '../actions/types';
-import { setAlert, resetAlert } from './alerts';
-import catchAsync from '../utils/catchAsync';
+	REMOVE_COMMITTEE,
+} from "../actions/types";
+import { setAlert, resetAlert } from "./alerts";
+import catchAsync from "../utils/catchAsync";
 
 export const registerUser = (formData, url) =>
-	catchAsync('user', async dispatch => {
+	catchAsync("user", async (dispatch) => {
 		dispatch(resetAlert());
 		dispatch({ type: LOADING_USER });
 		const res = await axios.post(
-			'/api/users/register',
+			"/api/users/register",
 			{ ...formData, url },
 			{
 				headers: {
-					'Content-type': 'application/json'
-				}
+					"Content-type": "application/json",
+				},
 			}
 		);
 		dispatch({ type: REGISTER_SUCCESS, payload: res.data });
 		dispatch(
 			setAlert(
 				`${formData.firstName} ${formData.lastName} was successfully registered and temporary password sent to user's email`,
-				'success'
+				"success"
 			)
 		);
 	});
 
 export const updateMe = (formData, file, history) =>
-	catchAsync('update', async dispatch => {
+	catchAsync("update", async (dispatch) => {
 		dispatch(resetAlert());
 		dispatch({ type: LOADING_AUTH });
 
 		if (file) {
-			const uploadConfig = await axios.get('/api/upload');
+			const uploadConfig = await axios.post("/api/upload", { type: file.type });
 
-			await axios.put(uploadConfig.data.url, file, {
+			const res = await axios.put(uploadConfig.data.url, file, {
 				headers: {
-					'Content-Type': file.type
-				}
+					"Content-Type": file.type,
+				},
 			});
+
+			console.log(res);
+
 			formData.photo = `https://toastmaster-user-photo.s3-ap-southeast-2.amazonaws.com/${uploadConfig.data.key}`;
 		}
-		const res = await axios.patch('/api/users/updateMe', formData, {
+		const res = await axios.patch("/api/users/updateMe", formData, {
 			headers: {
-				'Content-Type': 'application/json'
-			}
+				"Content-Type": "application/json",
+			},
 		});
 
-		history.push('/dashboard');
+		history.push("/dashboard");
 		dispatch({
 			type: UPDATE_ME,
-			payload: res.data
+			payload: res.data,
 		});
-		dispatch(setAlert('User updated', 'success'));
+		dispatch(setAlert("User updated", "success"));
 	});
 
 export const getAllUsers = () =>
-	catchAsync(async dispatch => {
+	catchAsync(async (dispatch) => {
 		const res = await axios.get(`/api/users?sort=firstName`);
 
 		dispatch({
 			type: GET_ALL_USERS,
-			payload: res.data
+			payload: res.data,
 		});
 	});
 
-export const toggleView = () => dispatch =>
+export const toggleView = () => (dispatch) =>
 	dispatch({ type: TOGGLE_MODERATOR });
 
-export const deActivateUser = userId =>
-	catchAsync('user', async dispatch => {
+export const deActivateUser = (userId) =>
+	catchAsync("user", async (dispatch) => {
 		dispatch(resetAlert());
 		dispatch({ type: LOADING_USER });
 		const res = await axios.patch(`/api/users/deActivateUser/${userId}`);
@@ -88,13 +91,13 @@ export const deActivateUser = userId =>
 		dispatch(
 			setAlert(
 				`${res.data.firstName} ${res.data.lastName} has been deactivated!`,
-				'success'
+				"success"
 			)
 		);
 	});
 
-export const activateUser = userId =>
-	catchAsync('user', async dispatch => {
+export const activateUser = (userId) =>
+	catchAsync("user", async (dispatch) => {
 		dispatch(resetAlert());
 		dispatch({ type: LOADING_USER });
 		const res = await axios.patch(`/api/users/activateUser/${userId}`);
@@ -103,22 +106,22 @@ export const activateUser = userId =>
 		dispatch(
 			setAlert(
 				`${res.data.firstName} ${res.data.lastName} has been activated!`,
-				'success'
+				"success"
 			)
 		);
 	});
 
 export const changeRole = (userId, isCommittee) =>
-	catchAsync('user', async dispatch => {
+	catchAsync("user", async (dispatch) => {
 		dispatch(resetAlert());
 		dispatch({ type: LOADING_USER });
-		if (isCommittee === 'true') {
+		if (isCommittee === "true") {
 			const res = await axios.patch(`/api/users/makeCommittee/${userId}`);
 			dispatch({ type: MAKE_COMMITTEE, payload: res.data });
 			dispatch(
 				setAlert(
 					`${res.data.firstName} ${res.data.lastName} is now a committee member`,
-					'success'
+					"success"
 				)
 			);
 		} else {
@@ -127,7 +130,7 @@ export const changeRole = (userId, isCommittee) =>
 			dispatch(
 				setAlert(
 					`${res.data.firstName} ${res.data.lastName} is back to a normal member`,
-					'success'
+					"success"
 				)
 			);
 		}
