@@ -11,13 +11,18 @@ const connectToS3 = () => {
 exports.uploadToS3 = catchAsync(async (req, res, next) => {
 	// Todo fix s3 upload with version for each upload deleting previous version
 	// This fixes identical photo addresses with persistent cached image
+	// update the key to include version
+	// Delete previous version from aws s3
 	const s3 = connectToS3();
 	const key = `${req.user.id}/photo.jpeg`;
 	const params = {
 		Bucket: "toastmaster-user-photo",
-		ContentType: "image/jpeg",
+		ContentType: req.body.type,
 		Key: key,
 	};
+
+	// Get previous version id , delete previous object and create new one
+
 	await s3.getSignedUrl("putObject", params, (err, url) => {
 		res.status(200).json({ key, url });
 	});
