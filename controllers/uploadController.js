@@ -9,21 +9,37 @@ const connectToS3 = () => {
 };
 
 exports.uploadToS3 = catchAsync(async (req, res, next) => {
+	console.log(req.body);
 	// Todo fix s3 upload with version for each upload deleting previous version
 	// This fixes identical photo addresses with persistent cached image
 	// update the key to include version
-	// Delete previous version from aws s3
+	// Delete previous version
+	// REMOVE PRE SIGNED URL
 	const s3 = connectToS3();
-	const key = `${req.user.id}/photo.jpeg`;
-	const params = {
+	const key = `${req.user.id}/photo.${req.body.type.replace("image/", "")}`;
+	let params = {
 		Bucket: "toastmaster-user-photo",
 		ContentType: req.body.type,
 		Key: key,
 	};
 
-	// Get previous version id , delete previous object and create new one
+	// Put photo into bucket as an object
+	await s3.putObject(params, async (err, data) => {
+		// Delete previous version
+		if (req.user.photo.includes("versiondId")) {
+			// Extract old versionId
+			const oldVersion = req.user.photo.split("versionId=")[1];
 
-	await s3.getSignedUrl("putObject", params, (err, url) => {
-		res.status(200).json({ key, url });
+			params = {
+				...params,
+				VersionId: oldVersion,
+			};
+		}
+		await s3.deleteObject(params, err);
+
+		// Send new photo link
+		res.status(200).json({
+			key: `${key}?versionId=${data.VersionId}`,
+		});
 	});
 });
