@@ -42,16 +42,10 @@ export const updateMe = (formData, file, history) =>
 		dispatch({ type: LOADING_AUTH });
 
 		if (file) {
-			const uploadConfig = await axios.post("/api/upload", { type: file.type });
+			// Send file
+			const uploadConfig = await axios.post("/api/upload", file);
 
-			const res = await axios.put(uploadConfig.data.url, file, {
-				headers: {
-					"Content-Type": file.type,
-				},
-			});
-
-			console.log(res);
-
+			// Set photo link
 			formData.photo = `https://toastmaster-user-photo.s3-ap-southeast-2.amazonaws.com/${uploadConfig.data.key}`;
 		}
 		const res = await axios.patch("/api/users/updateMe", formData, {
