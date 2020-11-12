@@ -1,5 +1,6 @@
 const AWS = require("aws-sdk");
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
 
 const connectToS3 = () => {
 	return new AWS.S3({
@@ -16,18 +17,18 @@ exports.uploadToS3 = catchAsync(async (req, res, next) => {
 	// Delete previous version
 	const imageType = req.body.type.replace("image/", "");
 
-
 	// Establish old version
 	// Delete null versions if previously set already
 	let oldVersion = null;
-		if (req.user.photo.includes("-versionId=")) {
-		oldVersion = req.user.photo.split(`-versionId=`)[1];
+	if (req.user.photo.includes("-v")) {
+		oldVersion = parseInt(
+			req.user.photo.split(`-v`)[1].split(`.${imageType}`)[0]
+		);
 	}
-	
 
 	// Set params
 	const s3 = connectToS3();
-	const key = `${req.user.id}/photo-versionId=${oldVersion+1}.${imageType}`;
+	const key = `${req.user.id}/photo-v${oldVersion + 1}.${imageType}`;
 	const params = {
 		Bucket: "toastmaster-user-photo",
 		ContentType: req.body.type,
@@ -37,17 +38,22 @@ exports.uploadToS3 = catchAsync(async (req, res, next) => {
 	// Provide url to upload object to s3 bucket
 	// Prevents sending large image file to server and instead,
 	//is sent directly to AWS
-	await s3.getSignedUrl("putObject", params, (err, url) => {
+	await s3.getSignedUrl("putObject", params, async (err, url) => {
 		// Delete previous version
 		// WARNING: Must be called together with signedURL from client!!
-		
-		if(req.user.photo){
-		await s3.deleteObject({ ...params, VersionId: oldVersion }, (err, data) => {
-			if (err) {
-				console.error(err);
+
+		if (req.user.photo) {
+			const oldVersionParams = {
+				Bucket: "toastmaster-user-photo",
+				Key: `${req.user.id}/photo-v${oldVersion}.${imageType}`,
+			};
+			await s3.deleteObject(oldVersionParams, (err, data) => {
+				if (err) {
 					return next(new AppError("Something went wrong...", 500));
-			}
-		})}
+				}
+				console.log(data);
+			});
+		}
 
 		// Send url
 		res.status(200).json({ key, url });
