@@ -43,8 +43,13 @@ export const updateMe = (formData, file, history) =>
 
 		if (file) {
 			// Send file
-			const uploadConfig = await axios.post("/api/upload", file);
+			const uploadConfig = await axios.post("/api/upload", { type: file.type });
 
+			await axios.put(uploadConfig.data.url, file, {
+				headers: {
+					"Content-Type": file.type,
+				},
+			});
 			// Set photo link
 			formData.photo = `https://toastmaster-user-photo.s3-ap-southeast-2.amazonaws.com/${uploadConfig.data.key}`;
 		}
