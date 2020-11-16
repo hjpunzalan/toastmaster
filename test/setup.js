@@ -10,6 +10,9 @@ let mongo;
 // Mock email class and all methods
 jest.mock("../utils/email");
 
+// Mock connect to S3 class
+jest.mock("../utils/connectToS3");
+
 beforeAll(async () => {
 	process.env.JWT_SECRET = "asdsa";
 	process.env.JWT_EXPIRATION = 9999999;
