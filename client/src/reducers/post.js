@@ -85,7 +85,6 @@ const postReducer = (state = initialState, action) => {
 				edit: false,
 				postEdit: false,
 				loading: false,
-				post: null,
 				posts: [...state.posts, ...payload.posts],
 				totalPages: Math.ceil(payload.numPosts / payload.limit),
 			};
