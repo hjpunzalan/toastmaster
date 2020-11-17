@@ -42,6 +42,7 @@ const postReducer = (state = initialState, action) => {
 				loading: true,
 				posts: [],
 				post: null,
+				totalPages: null,
 			};
 		case TOGGLE_CREATE_POST:
 			return {
