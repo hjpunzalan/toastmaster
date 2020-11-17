@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import Moment from 'react-moment';
-import 'moment-timezone';
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import Moment from "react-moment";
+import "moment-timezone";
 import {
 	toggleEdit,
 	createAnnouncement,
 	updateAnnouncement,
-	deleteAnnouncement
-} from '../../../actions/announcements';
-import CreatePost from '../../utils/CreatePost';
-import ReadOnly from '../../utils/draft-js/ReadOnly';
+	deleteAnnouncement,
+} from "../../../actions/announcements";
+import CreatePost from "../../utils/CreatePost";
+import ReadOnly from "../../utils/draft-js/ReadOnly";
 
 const Announcements = ({
 	users: { Moderator },
@@ -20,11 +20,11 @@ const Announcements = ({
 	deleteAnnouncement,
 	announcements: { edit, announcements },
 	textEditor: { contentState },
-	alerts
+	alerts,
 }) => {
-	const [title, setTitle] = useState('');
+	const [title, setTitle] = useState("");
 	const [id, setId] = useState(null);
-	const [type, setType] = useState('announcement');
+	const [type, setType] = useState("announcement");
 	const [contentEdit, setContentEdit] = useState(null);
 	const [plainTextEdit, setPlainTextEdit] = useState(null);
 	useEffect(() => {
@@ -35,16 +35,16 @@ const Announcements = ({
 	// Announcement handlers
 	const handleToggle = () => {
 		// When new post or canceled is pressed
-		setType('announcement');
+		setType("announcement");
 		toggleEdit();
-		setTitle('');
+		setTitle("");
 	};
 
-	const handleSubmit = plainText => {
+	const handleSubmit = (plainText) => {
 		// dont need plainText
 		// title from state, contentState from redux TextEditor
 		createAnnouncement(title, contentState, plainText);
-		setTitle('');
+		setTitle("");
 	};
 
 	const handleEdit = (
@@ -53,7 +53,7 @@ const Announcements = ({
 		postContentState,
 		postPlainText
 	) => {
-		setType('edit');
+		setType("edit");
 		setTitle(currentTitle);
 		setId(postId);
 		setContentEdit(postContentState);
@@ -61,50 +61,22 @@ const Announcements = ({
 		toggleEdit();
 	};
 
-	const handleUpdate = plainText => {
+	const handleUpdate = (plainText) => {
 		// dont need plainText
 		// title from state, contentState from textEditor
 		updateAnnouncement(id, title, contentState, plainText);
 	};
-	// updateAnnouncement(id, title, contentState);
 
-	// For facebook post
-	let width = 750;
-	let height = 588;
-	if (window.screen.width < 1150) {
-		width = 500;
-		height = 441;
-	}
-	if (window.screen.width <= 1000) {
-		width = 750;
-		height = 588;
-	}
-	if (window.screen.width < 900) {
-		width = 500;
-		height = 441;
-	}
-	if (window.screen.width < 720) {
-		width = 400;
-		height = 398;
-	}
-	if (window.screen.width < 450) {
-		width = 350;
-		height = 366;
-	}
-	if (window.screen.width < 380) {
-		width = 280;
-		height = 320;
-	}
 	return edit ? (
 		<div className="Dashboard__editor">
 			<CreatePost
 				handleToggle={handleToggle}
 				title={title}
 				setTitle={setTitle}
-				handleSubmit={type === 'edit' ? handleUpdate : handleSubmit}
-				contentState={type === 'edit' && contentEdit}
+				handleSubmit={type === "edit" ? handleUpdate : handleSubmit}
+				contentState={type === "edit" && contentEdit}
 				type={type}
-				plainText={type === 'edit' && plainTextEdit}
+				plainText={type === "edit" && plainTextEdit}
 			/>
 		</div>
 	) : (
@@ -161,17 +133,7 @@ const Announcements = ({
 						)}
 					</div>
 				)}
-				<iframe
-					className="Dashboard__facebook"
-					title="Southern River Toastmaster Facebook"
-					src={`https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FSRTOASTMASTERSCLUB%2Fposts%2F1714806421985710&width=500&show_text=true&appId=2411264755855685&height=${height}`}
-					width={width}
-					height={height}
-					scrolling="no"
-					frameBorder="0"
-					allowtransparency="true"
-					allow="encrypted-media"></iframe>
-				{announcements.slice(1).map(el => (
+				{announcements.slice(1).map((el) => (
 					<div key={el._id} className="Dashboard__announcement">
 						<h1 className="Dashboard__announcement-title">{el.title}</h1>
 						<ReadOnly contentState={el.contentState} />
@@ -220,26 +182,19 @@ Announcements.propTypes = {
 	deleteAnnouncement: PropTypes.func.isRequired,
 	announcements: PropTypes.object.isRequired,
 	textEditor: PropTypes.object.isRequired,
-	alerts: PropTypes.object.isRequired
+	alerts: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
 	users: state.users,
 	announcements: state.announcements,
 	textEditor: state.textEditor,
-	alerts: state.alerts
+	alerts: state.alerts,
 });
 
-export default connect(
-	mapStateToProps,
-	{
-		toggleEdit,
-		createAnnouncement,
-		updateAnnouncement,
-		deleteAnnouncement
-	}
-)(Announcements);
-
-/*
-Need to add restriction in server for editing announcements or maybe removed author
-*/
+export default connect(mapStateToProps, {
+	toggleEdit,
+	createAnnouncement,
+	updateAnnouncement,
+	deleteAnnouncement,
+})(Announcements);
