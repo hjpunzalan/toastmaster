@@ -7,21 +7,21 @@ import {
 	ACTIVATE_USER,
 	LOADING_USER,
 	MAKE_COMMITTEE,
-	REMOVE_COMMITTEE
-} from '../actions/types';
+	REMOVE_COMMITTEE,
+} from "../actions/types";
 
 const initialState = {
 	users: [],
 	loading: true,
 	error: {},
-	Moderator: false
+	Moderator: false,
 };
 
-export default (state = initialState, action) => {
+const usersReducer = (state = initialState, action) => {
 	const { type, payload } = action;
 
 	const replaceUser = (id, userArray, newUser) => {
-		const index = userArray.findIndex(el => el._id === id);
+		const index = userArray.findIndex((el) => el._id === id);
 		userArray[index] = newUser;
 		return userArray;
 	};
@@ -36,18 +36,18 @@ export default (state = initialState, action) => {
 				//State needs to be first
 				...state,
 				users: [...state.users, payload],
-				loading: false
+				loading: false,
 			};
 		case GET_ALL_USERS:
 			return {
 				...state,
 				loading: false,
-				users: payload
+				users: payload,
 			};
 		case TOGGLE_MODERATOR:
 			return {
 				...state,
-				Moderator: !state.Moderator
+				Moderator: !state.Moderator,
 			};
 
 		case DEACTIVATE_USER:
@@ -57,10 +57,12 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				users: replaceUser(payload._id, state.users, payload),
-				loading: false
+				loading: false,
 			};
 
 		default:
 			return state;
 	}
 };
+
+export default usersReducer;

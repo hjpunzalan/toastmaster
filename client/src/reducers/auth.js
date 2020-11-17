@@ -8,17 +8,17 @@ import {
 	LOADING_AUTH,
 	FORGOT_PASSWORD,
 	RESET_PASSWORD,
-	CHANGE_PASSWORD
-} from '../actions/types';
+	CHANGE_PASSWORD,
+} from "../actions/types";
 
 const initialState = {
 	currentUser: null,
 	isAuthenticated: false,
 	loading: true,
-	isModified: false
+	isModified: false,
 };
 
-export default (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
 	const { type, payload } = action;
 
 	switch (type) {
@@ -29,7 +29,7 @@ export default (state = initialState, action) => {
 				...state,
 				currentUser: null,
 				isAuthenticated: false,
-				loading: true
+				loading: true,
 			};
 		case LOGIN_SUCCESS:
 		case RESET_PASSWORD:
@@ -39,7 +39,7 @@ export default (state = initialState, action) => {
 				...state,
 				currentUser: payload,
 				isAuthenticated: true,
-				loading: false
+				loading: false,
 			};
 		case FORGOT_PASSWORD:
 		case LOGOUT:
@@ -47,7 +47,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				isAuthenticated: false,
-				loading: false
+				loading: false,
 			};
 
 		case UPDATE_ME:
@@ -55,15 +55,17 @@ export default (state = initialState, action) => {
 				...state,
 				loading: false,
 				currentUser: payload,
-				isModified: true
+				isModified: true,
 			};
 		case UPDATE_FAILED:
 			return {
 				...state,
-				loading: false
+				loading: false,
 			};
 
 		default:
 			return state;
 	}
 };
+
+export default authReducer;
