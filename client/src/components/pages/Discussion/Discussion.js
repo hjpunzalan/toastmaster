@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import InfiniteScroll from 'react-infinite-scroller';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import InfiniteScroll from "react-infinite-scroller";
 import {
 	getAllPost,
 	createPost,
 	toggleCreatePost,
 	searchPost,
-	postNextPage
-} from '../../../actions/post';
-import img from '../../../img/anonymous.png';
-import DiscussionHead from './DiscussionHead';
-import DiscussionPost from './DiscussionPost';
-import SpinnerSmall from '../../../components/utils/SpinnerSmall';
+	postNextPage,
+} from "../../../actions/post";
+import img from "../../../img/anonymous.png";
+import DiscussionHead from "./DiscussionHead";
+import DiscussionPost from "./DiscussionPost";
+import SpinnerSmall from "../../../components/utils/SpinnerSmall";
 
 const Discussion = ({
 	post: { posts, edit, totalPages },
@@ -23,7 +23,7 @@ const Discussion = ({
 	toggleCreatePost,
 	history,
 	searchPost,
-	postNextPage
+	postNextPage,
 }) => {
 	useEffect(() => {
 		if (edit) {
@@ -36,7 +36,7 @@ const Discussion = ({
 	const [page, setPage] = useState(1);
 	const [isSearch, setIsSearch] = useState(false); // boolean or string
 
-	const renderPosts = posts.map(post => (
+	const renderPosts = posts.map((post) => (
 		<DiscussionPost
 			key={post._id}
 			title={post.title}
@@ -61,6 +61,7 @@ const Discussion = ({
 				setPage={setPage}
 				loading={loading}
 				setIsSearch={setIsSearch}
+				getAllPost={getAllPost}
 			/>
 			{!edit && (
 				<>
@@ -88,16 +89,19 @@ Discussion.propTypes = {
 	createPost: PropTypes.func.isRequired,
 	toggleCreatePost: PropTypes.func.isRequired,
 	searchPost: PropTypes.func.isRequired,
-	postNextPage: PropTypes.func.isRequired
+	postNextPage: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
 	post: state.post,
 	loading: state.post.loading,
-	contentState: state.textEditor.contentState
+	contentState: state.textEditor.contentState,
 });
 
-export default connect(
-	mapStateToProps,
-	{ getAllPost, createPost, toggleCreatePost, searchPost, postNextPage }
-)(Discussion);
+export default connect(mapStateToProps, {
+	getAllPost,
+	createPost,
+	toggleCreatePost,
+	searchPost,
+	postNextPage,
+})(Discussion);
