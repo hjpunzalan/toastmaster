@@ -1,20 +1,22 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-export default (blankForm, action, ...args) => {
+const useForms = (blankForm, action, ...args) => {
 	const [formData, setFormData] = useState({ ...blankForm });
 
 	return {
 		formData,
-		handleChange: e => {
+		handleChange: (e) => {
 			setFormData({ ...formData, [e.target.name]: e.target.value });
 		},
-		handleSubmit: e => {
+		handleSubmit: (e) => {
 			e.preventDefault();
 			action(formData, ...args);
 			setFormData({ ...blankForm });
 		},
 		handleCancel: () => {
 			setFormData({ ...blankForm });
-		}
+		},
 	};
 };
+
+export default useForms;

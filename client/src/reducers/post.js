@@ -13,8 +13,8 @@ import {
 	POST_ERROR,
 	LOADING_SUBMIT_POST,
 	POST_NEXT_PAGE,
-	CLEAR_POST
-} from '../actions/types';
+	CLEAR_POST,
+} from "../actions/types";
 
 const initialState = {
 	loading: true,
@@ -23,10 +23,10 @@ const initialState = {
 	post: null,
 	edit: false,
 	postEdit: false,
-	totalPages: null
+	totalPages: null,
 };
 
-export default (state = initialState, action) => {
+const postReducer = (state = initialState, action) => {
 	const { type, payload } = action;
 	switch (type) {
 		case LOADING_SUBMIT_POST:
@@ -34,31 +34,31 @@ export default (state = initialState, action) => {
 		case CLEAR_POST:
 			return {
 				...state,
-				post: null
+				post: null,
 			};
 		case POST_RESET:
 			return {
 				...state,
 				loading: true,
 				posts: [],
-				post: null
+				post: null,
 			};
 		case TOGGLE_CREATE_POST:
 			return {
 				...state,
-				edit: !state.edit
+				edit: !state.edit,
 			};
 		case TOGGLE_EDIT_POST:
 			return {
 				...state,
-				postEdit: !state.postEdit
+				postEdit: !state.postEdit,
 			};
 		case POST_CREATE:
 			return {
 				...state,
 				edit: false,
 				postLoading: false,
-				posts: [payload, ...state.posts]
+				posts: [payload, ...state.posts],
 			};
 		case GET_POST:
 			return {
@@ -66,7 +66,7 @@ export default (state = initialState, action) => {
 				edit: false,
 				postLoading: false,
 				postEdit: false,
-				post: payload
+				post: payload,
 			};
 		case GET_ALL_POST:
 		case SEARCH_POSTS:
@@ -76,7 +76,7 @@ export default (state = initialState, action) => {
 				loading: false,
 				post: null,
 				posts: payload.posts,
-				totalPages: Math.ceil(payload.numPosts / payload.limit)
+				totalPages: Math.ceil(payload.numPosts / payload.limit),
 			};
 		case POST_NEXT_PAGE:
 			return {
@@ -86,14 +86,14 @@ export default (state = initialState, action) => {
 				loading: false,
 				post: null,
 				posts: [...state.posts, ...payload.posts],
-				totalPages: Math.ceil(payload.numPosts / payload.limit)
+				totalPages: Math.ceil(payload.numPosts / payload.limit),
 			};
 		case UPDATE_POST:
 			return {
 				...state,
 				postLoading: false,
 				postEdit: false,
-				post: payload
+				post: payload,
 			};
 
 		case DELETE_POST:
@@ -101,7 +101,7 @@ export default (state = initialState, action) => {
 				...state,
 				post: null,
 				postLoading: true,
-				loading: true
+				loading: true,
 			};
 		case ADD_COMMENT:
 		case DELETE_COMMENT:
@@ -110,8 +110,8 @@ export default (state = initialState, action) => {
 				postLoading: false,
 				post: {
 					...state.post,
-					...payload
-				}
+					...payload,
+				},
 			};
 
 		case POST_ERROR:
@@ -119,10 +119,12 @@ export default (state = initialState, action) => {
 				...state,
 				loading: false,
 				postLoading: false,
-				totalPages: null
+				totalPages: null,
 			};
 
 		default:
 			return state;
 	}
 };
+
+export default postReducer;
