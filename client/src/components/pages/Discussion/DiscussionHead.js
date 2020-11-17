@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
-import CreatePost from '../../utils/CreatePost';
+import React, { useState } from "react";
+import { FaSearch } from "react-icons/fa";
+import CreatePost from "../../utils/CreatePost";
 
 const DiscussionHead = ({
 	createPost,
@@ -11,30 +11,39 @@ const DiscussionHead = ({
 	searchPost,
 	setPage,
 	loading,
-	setIsSearch
+	setIsSearch,
+	getAllPost,
 }) => {
-	const [title, setTitle] = useState('');
-	const [search, setSearch] = useState('');
+	const [title, setTitle] = useState("");
+	const [search, setSearch] = useState("");
 
 	const handleToggle = () => {
-		setTitle(''); //when create post is canceled
+		setTitle(""); //when create post is canceled
 		toggleCreatePost();
 	};
 
-	const handleSubmit = plainText => {
+	const handleSubmit = (plainText) => {
 		createPost(title, contentState, history, plainText);
 	};
 
-	const handleSearch = e => {
+	const handleSearch = (e) => {
 		e.preventDefault();
+		// Configures next page api request
 		setIsSearch(search);
+		// Search post
 		searchPost(search);
+		// Reset page number
 		setPage(1);
 	};
 
-	const handleReset = e => {
-		setSearch('');
-		searchPost('');
+	const handleReset = (e) => {
+		// Clear search bar
+		setSearch("");
+		// Configures next page api request back to normal
+		setIsSearch(false);
+		// Get all post again
+		getAllPost();
+		// Reset page number
 		setPage(1);
 	};
 	return (
@@ -52,7 +61,7 @@ const DiscussionHead = ({
 								type="text"
 								placeholder="Search all posts"
 								value={search}
-								onChange={e => setSearch(e.target.value)}
+								onChange={(e) => setSearch(e.target.value)}
 							/>
 							<button className="Discussion__search-searchIcon">
 								<FaSearch />
@@ -73,7 +82,7 @@ const DiscussionHead = ({
 							handleToggle={handleToggle}
 							title={title}
 							setTitle={setTitle}
-							type={'Post'}
+							type={"Post"}
 						/>
 					</div>
 				)
