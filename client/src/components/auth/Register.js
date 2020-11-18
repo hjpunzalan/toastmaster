@@ -1,33 +1,33 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
-import { registerUser } from '../../actions/users';
-import useForms from '../../hooks/useForms';
-import Spinner from '../utils/Spinner';
+import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
+import { registerUser } from "../../actions/users";
+import useForms from "../../hooks/useForms";
+import Spinner from "../utils/Spinner";
 
 const Register = ({
 	registerUser,
 	users: { loading, Moderator },
-	auth: { currentUser }
+	auth: { currentUser },
 }) => {
 	// This makes react the single source of truth
-	const handleRegister = formData => {
+	const handleRegister = (formData) => {
 		// replace register with login
-		const url = document.location.href.replace('register', 'login');
+		const url = document.location.href.replace("register", "login");
 		console.log(url);
 		registerUser(formData, url);
 	};
 
-	const blankForm = { firstName: '', lastName: '', email: '' };
+	const blankForm = { firstName: "", lastName: "", email: "" };
 	const { formData, handleChange, handleSubmit, handleCancel } = useForms(
 		blankForm,
 		handleRegister
 	);
 	const { firstName, lastName, email } = formData;
 
-	return currentUser.role === 'user' || !Moderator ? (
+	return currentUser.role === "user" || !Moderator ? (
 		<Redirect to="/dashboard" />
 	) : loading ? (
 		<Spinner />
@@ -66,7 +66,7 @@ const Register = ({
 					<b>Email</b>
 				</label>
 				<input
-					type="text"
+					type="email"
 					placeholder="Enter Email"
 					name="email"
 					value={email}
@@ -85,15 +85,12 @@ const Register = ({
 };
 
 Register.propTypes = {
-	registerUser: PropTypes.func.isRequired
+	registerUser: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
 	users: state.users,
-	auth: state.auth
+	auth: state.auth,
 });
 
-export default connect(
-	mapStateToProps,
-	{ registerUser }
-)(Register);
+export default connect(mapStateToProps, { registerUser })(Register);
