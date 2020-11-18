@@ -1,26 +1,26 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { changePassword } from '../../actions/auth';
-import useForms from '../../hooks/useForms';
-import Spinner from '../utils/Spinner';
-import { setAlert, resetAlert } from '../../actions/alerts';
+import React from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import { changePassword } from "../../actions/auth";
+import useForms from "../../hooks/useForms";
+import Spinner from "../utils/Spinner";
+import { setAlert, resetAlert } from "../../actions/alerts";
 
 const ChangePassword = ({
 	setAlert,
 	resetAlert,
 	changePassword,
 	match: {
-		params: { resetToken }
+		params: { resetToken },
 	},
 	history,
-	auth: { loading }
+	auth: { loading },
 }) => {
 	const blankForm = {
-		currentPassword: '',
-		newPassword: '',
-		confirmPassword: ''
+		currentPassword: "",
+		newPassword: "",
+		confirmPassword: "",
 	};
 	const { formData, handleChange, handleSubmit } = useForms(
 		blankForm,
@@ -29,10 +29,10 @@ const ChangePassword = ({
 	);
 	const { currentPassword, newPassword, confirmPassword } = formData;
 
-	const passwordNotMatch = e => {
+	const passwordNotMatch = (e) => {
 		resetAlert();
 		e.preventDefault();
-		setAlert('Passwords does not match', 'fail');
+		setAlert("Passwords does not match", "fail");
 	};
 
 	return loading ? (
@@ -92,7 +92,11 @@ const ChangePassword = ({
 					required
 				/>
 				<div className="Form__btns">
-					<input type="submit" className="btn btn__submit" value="Login" />
+					<input
+						type="submit"
+						className="btn btn__submit"
+						value="Change Password"
+					/>
 				</div>
 			</form>
 		</div>
@@ -103,14 +107,15 @@ ChangePassword.propTypes = {
 	changePassword: PropTypes.func.isRequired,
 	setAlert: PropTypes.func.isRequired,
 	resetAlert: PropTypes.func.isRequired,
-	auth: PropTypes.object.isRequired
+	auth: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-	auth: state.auth
+const mapStateToProps = (state) => ({
+	auth: state.auth,
 });
 
-export default connect(
-	mapStateToProps,
-	{ changePassword, setAlert, resetAlert }
-)(ChangePassword);
+export default connect(mapStateToProps, {
+	changePassword,
+	setAlert,
+	resetAlert,
+})(ChangePassword);
