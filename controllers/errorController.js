@@ -5,12 +5,8 @@ const handleCastErrorDB = (err) => {
 	return new AppError(message, 400);
 };
 const handleDuplicateFieldsDB = (err) => {
-	// regular expressions is always between two slashes '/'
-	const value = err.errmsg.match(/(["'])(\\?.)*?\1/); //reg expression between quotation marks
-	const message = `Duplicate field value: ${
-		//value returns an array
-		value[0]
-	}. Please use another value!`;
+	const value = Object.values(err.keyValue)[0];
+	const message = `${value} is already taken. Please use another value!`;
 	return new AppError(message, 400);
 };
 
@@ -68,7 +64,7 @@ module.exports = (err, req, res, next) => {
 		process.env.NODE_ENV === "test"
 	) {
 		sendErrorDev(err, res);
-	} else if (process.env.NODE_ENV === "production") {
+	} else {
 		let newError = { ...err };
 		if (err.name === "CastError") newError = handleCastErrorDB(newError);
 		else if (err.code === 11000) newError = handleDuplicateFieldsDB(newError);
