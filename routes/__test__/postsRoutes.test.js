@@ -199,3 +199,49 @@ test("should be able to create and delete comment on post", async () => {
 
 	expect(response.body.length).toEqual(comments.length);
 });
+
+test("should fail with invalid fields", async () => {
+	const { cookie } = await signUser("user");
+
+	const invalidMongooseFields = await request(app)
+		.post("/api/posts/")
+		.set("Cookie", cookie)
+		.send({
+			test: "test",
+			test: "test",
+			test: { test: "add post" },
+		})
+		.expect(500);
+
+	expect(
+		invalidMongooseFields.body.message.includes("validation failed")
+	).toEqual(true);
+
+	// Create post
+	const {
+		body: { _id },
+	} = await request(app)
+		.post("/api/posts/")
+		.set("Cookie", cookie)
+		.send({
+			title: "test",
+			plainText: "test",
+			contentState: {},
+		})
+		.expect(201);
+
+	// Edit post
+	const invalidReqFields = await request(app)
+		.patch(`/api/posts/${_id}`)
+		.set("Cookie", cookie)
+		.send({
+			title: "hello",
+			test: "it works",
+			contentState: { test: "2" },
+		})
+		.expect(400);
+	console.log(invalidReqFields.body.message);
+	expect(invalidReqFields.body.message.includes("Invalid request")).toEqual(
+		true
+	);
+});
