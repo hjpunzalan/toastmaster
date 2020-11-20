@@ -28,7 +28,7 @@ test("should FAIL to create announcement as user", async () => {
 		.expect(403);
 });
 
-test("should create announcement as committee", async () => {
+test("should create announcement as committee and, send error without title or context", async () => {
 	// create announcement as admin
 	const committee = await signUser("committee");
 
@@ -41,6 +41,52 @@ test("should create announcement as committee", async () => {
 			plainText: "test",
 		})
 		.expect(201);
+});
+
+test("should fail with invalid fields when creating or updating announcement", async () => {
+	const { cookie } = await signUser("committee");
+
+	const invalidMongooseFields = await request(app)
+		.post("/api/announcements/")
+		.set("Cookie", cookie)
+		.send({
+			test: "test",
+			test: "test",
+			test: { test: "add post" },
+		})
+		.expect(500);
+
+	expect(
+		invalidMongooseFields.body.message.includes("validation failed")
+	).toEqual(true);
+
+	// Create announcement
+	const {
+		body: { _id },
+	} = await request(app)
+		.post("/api/announcements/")
+		.set("Cookie", cookie)
+		.send({
+			title: "test",
+			plainText: "test",
+			contentState: {},
+		})
+		.expect(201);
+
+	// Edit announcements
+	const invalidReqFields = await request(app)
+		.patch(`/api/announcements/${_id}`)
+		.set("Cookie", cookie)
+		.send({
+			title: "hello",
+			test: "it works",
+			contentState: { test: "2" },
+		})
+		.expect(400);
+	console.log(invalidReqFields.body.message);
+	expect(invalidReqFields.body.message.includes("Invalid request")).toEqual(
+		true
+	);
 });
 
 test("should get,patch and delete announcement by id,", async () => {
