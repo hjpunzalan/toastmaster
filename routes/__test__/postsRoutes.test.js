@@ -200,7 +200,7 @@ test("should be able to create and delete comment on post", async () => {
 	expect(response.body.length).toEqual(comments.length);
 });
 
-test("should fail with invalid fields", async () => {
+test("should fail with invalid fields when creating or updating post", async () => {
 	const { cookie } = await signUser("user");
 
 	const invalidMongooseFields = await request(app)
@@ -240,7 +240,6 @@ test("should fail with invalid fields", async () => {
 			contentState: { test: "2" },
 		})
 		.expect(400);
-	console.log(invalidReqFields.body.message);
 	expect(invalidReqFields.body.message.includes("Invalid request")).toEqual(
 		true
 	);
