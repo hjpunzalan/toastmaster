@@ -54,8 +54,15 @@ test("should able to request forgot password, send reset token to email, and res
 	const resetURL = Email.mock.instances[0].constructor.mock.calls[0][1];
 	const resetToken = resetURL.replace("undefined/reset/", "");
 
+	const newPassword = "cake123";
 	await request(app)
 		.patch(`/api/auth/resetPassword/${resetToken}`)
-		.send({ password: "test123" })
+		.send({ password: newPassword })
+		.expect(200);
+
+	// Test login
+	await request(app)
+		.post("/api/auth/login")
+		.send({ email, password: newPassword })
 		.expect(200);
 });
