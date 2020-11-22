@@ -54,10 +54,14 @@ test("should fail with invalid fields when creating or updating announcement", a
 			test: "test",
 			test: { test: "add post" },
 		})
-		.expect(500);
+		.expect(400);
 
 	expect(
-		invalidMongooseFields.body.message.includes("validation failed")
+		invalidMongooseFields.body.message.includes(
+			"title",
+			"contentState",
+			"plainText"
+		)
 	).toEqual(true);
 
 	// Create announcement
