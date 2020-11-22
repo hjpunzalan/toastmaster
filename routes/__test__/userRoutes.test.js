@@ -51,14 +51,16 @@ test("Get all users", async () => {
 test("update user password with a length equal or greater than 6", async () => {
 	const { cookie } = await signUser("user");
 
-	await request(app)
+	const res = await request(app)
 		.post("/api/users/updatePassword")
 		.set("Cookie", cookie)
 		.send({
 			password: "test123",
 			newPassword: "test2",
 		})
-		.expect(500);
+		.expect(400);
+
+	expect(res.body.message.includes("minimum", "length")).toEqual(true);
 
 	await request(app)
 		.post("/api/users/updatePassword")
@@ -68,6 +70,38 @@ test("update user password with a length equal or greater than 6", async () => {
 			newPassword: "test666",
 		})
 		.expect(200);
+});
+
+test("account creation fails if duplicate details found", async () => {
+	const { cookie } = await signUser("committee");
+
+	// First account
+	const {
+		body: { email },
+	} = await request(app)
+		.post("/api/users/register")
+		.set("Cookie", cookie)
+		.send({
+			firstName: "user",
+			lastName: "user",
+			email: "user@test.com",
+		})
+		.expect(201);
+
+	// Duplicate email
+	const res = await request(app)
+		.post("/api/users/register")
+		.set("Cookie", cookie)
+		.send({
+			firstName: "user",
+			lastName: "user",
+			email: "user@test.com",
+		})
+		.expect(500);
+
+	console.log(res.body);
+
+	// expect(res.body.message.includes("already taken")).toEqual(true);
 });
 
 test("update user details failing if invalid fields", async () => {
