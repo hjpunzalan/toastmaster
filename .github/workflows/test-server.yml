@@ -1,6 +1,9 @@
 name: tests-server
 
 on:
+  push:
+    branches:
+      - master
   pull_request:
     paths:
       - "/"
