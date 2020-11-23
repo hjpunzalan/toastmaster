@@ -99,8 +99,6 @@ test("account creation fails if duplicate details found", async () => {
 		})
 		.expect(500);
 
-	console.log(res.body);
-
 	// expect(res.body.message.includes("already taken")).toEqual(true);
 });
 
