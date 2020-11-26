@@ -14,6 +14,9 @@ import { resetAlert, setAlert } from "./alerts";
 
 export const loginUser = (formData, history) =>
 	catchAsync("auth", async (dispatch) => {
+		// Need to be in every post/put/patch action with alert
+		// If request fails there may be an alert for the error
+		dispatch(resetAlert());
 		// ENSURE auth is empty and change loading state to true
 		dispatch({ type: CLEAR_LOGIN });
 		// Send login form
