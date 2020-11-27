@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Comments from './Comments';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { ContentState, convertToRaw } from 'draft-js';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Comments from "./Comments";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { ContentState, convertToRaw } from "draft-js";
 import {
 	getPost,
 	addComment,
 	deleteComment,
 	toggleEditPost,
 	deletePost,
-	updatePost
-} from '../../../actions/post';
-import img from '../../../img/anonymous.png';
-import TextEditor from '../../utils/draft-js/TextEditor';
-import Spinner from '../../utils/Spinner';
-import PostHead from './PostHead';
-import PageButtons from './PageButtons';
-import CreatePost from '../../utils/CreatePost';
-import { onChange } from '../../../actions/textEditor';
+	updatePost,
+} from "../../../actions/post";
+import img from "../../../img/anonymous.png";
+import TextEditor from "../../utils/draft-js/TextEditor";
+import Spinner from "../../utils/Spinner";
+import PostHead from "./PostHead";
+import PageButtons from "./PageButtons";
+import CreatePost from "../../utils/CreatePost";
+import { onChange } from "../../../actions/textEditor";
 
 const Post = ({
 	match: {
-		params: { postId }
+		params: { postId },
 	},
 	getPost,
 	toggleEditPost,
@@ -31,31 +31,35 @@ const Post = ({
 	updatePost,
 	addComment,
 	deleteComment,
-	post: { post },
+	post: { post, totalPages },
 	textEditor,
 	onChange,
 	history,
 	location,
 	currentUser,
 	postLoading,
-	users: { Moderator }
+	users: { Moderator },
 }) => {
 	useEffect(() => {
 		// runs once and on updatePost
-		getPost(postId, pageQuery, history, page, setPage);
+		getPost(postId, currentPage, history, page);
+		// Redirect user if attempting to access invalid page query
+		if ((currentPage, history, page))
+			if (isNaN(currentPage) || currentPage > totalPages || page > totalPages) {
+				history.push(`/discussion/post/${postId}`);
+			}
 		// eslint-disable-next-line
 	}, []);
 
 	// Sets default pageQuery if theres not set
-	const pageQuery = parseInt(location.search.split('?page=')[1]) || 1;
-	const [page, setPage] = useState(
-		location.search.includes('?page=')
-			? pageQuery // page from query
-			: 1
-	);
-	const [title, setTitle] = useState('');
-	const [content, setContent] = useState('');
-	const handleChange = e => {
+	let currentPage = 1;
+	if (parseInt(location.search.split("?page=")[1]) < totalPages) {
+		currentPage = parseInt(location.search.split("?page=")[1]);
+	}
+	const [page, setPage] = useState(currentPage);
+	const [title, setTitle] = useState("");
+	const [content, setContent] = useState("");
+	const handleChange = (e) => {
 		setContent(e.target.value);
 		const textToContentState = convertToRaw(
 			ContentState.createFromText(e.target.value)
@@ -71,7 +75,7 @@ const Post = ({
 		toggleEditPost();
 	};
 	const handleDeletePost = () => deletePost(postId, history);
-	const handleUpdate = plainText => {
+	const handleUpdate = (plainText) => {
 		// plain text from textEditor
 		updatePost(postId, title, textEditor.contentState, plainText);
 	};
@@ -96,7 +100,7 @@ const Post = ({
 				handleSubmit={handleUpdate}
 				contentState={post.contentState}
 				plainText={post.plainText}
-				type={'edit'}
+				type={"edit"}
 			/>
 		</div>
 	) : (
@@ -125,7 +129,7 @@ const Post = ({
 						/>
 					)}
 					<div className="Post__comments">
-						{post.comments.slice(start, end).map(c => (
+						{post.comments.slice(start, end).map((c) => (
 							<Comments
 								key={c._id}
 								img={img}
@@ -173,7 +177,7 @@ const Post = ({
 									className="btn btn__submit"
 									onClick={() => {
 										if (content.length === 0) return;
-										setContent('');
+										setContent("");
 										handleSubmit();
 									}}>
 									Submit
@@ -203,27 +207,24 @@ Post.propTypes = {
 	post: PropTypes.object,
 	currentUser: PropTypes.object,
 	postLoading: PropTypes.bool.isRequired,
-	users: PropTypes.object.isRequired
+	users: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
 	postEdit: state.post.postEdit,
 	post: state.post,
 	textEditor: state.textEditor,
 	currentUser: state.auth.currentUser,
 	users: state.users,
-	postLoading: state.post.postLoading
+	postLoading: state.post.postLoading,
 });
 
-export default connect(
-	mapStateToProps,
-	{
-		getPost,
-		addComment,
-		toggleEditPost,
-		deletePost,
-		deleteComment,
-		updatePost,
-		onChange
-	}
-)(Post);
+export default connect(mapStateToProps, {
+	getPost,
+	addComment,
+	toggleEditPost,
+	deletePost,
+	deleteComment,
+	updatePost,
+	onChange,
+})(Post);

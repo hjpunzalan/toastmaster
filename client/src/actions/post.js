@@ -18,52 +18,60 @@ import axios from "axios";
 import { setAlert, resetAlert } from "./alerts";
 import catchAsync from "../utils/catchAsync";
 
-// Pagination limit
+// Pagination limit for get all post and post next page
 const limit = 7;
 
 export const toggleCreatePost = () => (dispatch) => {
+	// Clear any previous alert
 	dispatch(resetAlert());
+	// Change create post state
 	dispatch({ type: TOGGLE_CREATE_POST });
 };
 export const toggleEditPost = () => (dispatch) => {
+	// Clear any previous alert
 	dispatch(resetAlert());
+	// Change edit post state
 	dispatch({ type: TOGGLE_EDIT_POST });
 };
 
 export const createPost = (title, contentState, history, plainText) =>
 	catchAsync("post", async (dispatch) => {
-		dispatch(resetAlert()); //Need to be in every post/put/patch action with alert
-		const jsonContentState = JSON.stringify(contentState);
+		// Need to be in every post/put/patch action with alert
+		// If request fails there may be an alert for the error
+		dispatch(resetAlert());
 		// This makes it more UX friendly calling a spinner instantly
+		// Change loading state within postLoading and post group
+		// Post group loading to update and load all the posts again
 		dispatch({ type: LOADING_SUBMIT_POST });
-		// Need to be in edit also
+		// Send request with appropriate body
+		const jsonContentState = JSON.stringify(contentState);
 		const body = { title, contentState: jsonContentState, plainText };
 		const res = await axios.post("/api/posts", body, {
 			headers: {
 				"Content-type": "application/json",
 			},
 		});
+		// Obtain post id from response
 		const postId = res.data._id;
-
+		// Dispatch post create and change postLoading to false
 		dispatch({
 			type: POST_CREATE,
 			payload: res.data,
 		});
+		// Navigate user to the new post page
 		history.push(`/discussion/post/${postId}`);
 	});
 
 export const getAllPost = (page = 1) =>
 	catchAsync("post", async (dispatch) => {
-		dispatch(resetAlert()); // Resets alert if searching for empty posts beforehand
-		// clears post when switching between post
-		dispatch({
-			type: CLEAR_POST,
-		});
-		// check reducers when changing limit
-		// Gets post by page by limit and sorts by last comment then date.
+		// Resets alert if searching for empty posts beforehand
+		// Empty posts from search will result in an error alert
+		dispatch(resetAlert());
+		// Gets post by page with limit, sorts by last comment then date.
 		const res = await axios.get(
 			`/api/posts?page=${page}&limit=${limit}&sort=-lastComment,-date`
 		);
+		// Dispatch data and change posts state
 		dispatch({
 			type: GET_ALL_POST,
 			payload: {
@@ -75,44 +83,51 @@ export const getAllPost = (page = 1) =>
 
 // With and without searching
 // isSearch is boolean || string
-// setPage is here to trigger the loader
+// setPage from component state is passed to trigger the loader from InfiniteScroll component
 export const postNextPage = (page, setPage, isSearch = false) =>
 	catchAsync(async (dispatch) => {
-		// Gets post by page by limit and sorts by last comment then date.
 		let res;
 		const nextPage = page + 1;
+		// Gets post by page with limit ,sorts by last comment then date.
 		if (isSearch) {
-			const config = {
-				headers: {
-					"Content-type": "application/json",
-				},
-			};
 			res = await axios.post(
 				`/api/posts/search/text?page=${nextPage}&limit=${limit}&sort=-lastComment,-date`,
-				{ text: isSearch },
-				config
+				{ text: isSearch }
 			);
 		} else {
 			res = await axios.get(
 				`/api/posts?page=${nextPage}&limit=${limit}&sort=-lastComment,-date`
 			);
 		}
-		dispatch({
-			type: POST_NEXT_PAGE,
-			payload: {
-				...res.data,
-				limit,
-			},
-		});
-		setPage(nextPage);
+		if (res.data) {
+			dispatch({
+				type: POST_NEXT_PAGE,
+				payload: {
+					...res.data,
+					limit,
+				},
+			});
+			// Change page state only after request has been made
+			// If request fails, state does not change
+			// Page number remains the same
+			setPage(nextPage);
+		}
 	});
 
-export const getPost = (id, pageQuery, history, page, callback) =>
+export const getPost = (id, currentPage, history, page) =>
 	catchAsync("post", async (dispatch) => {
+		// Clear previous post state
+		dispatch({
+			type: CLEAR_POST,
+		});
+		// Make request with post id
 		const res = await axios.get(`/api/posts/${id}`);
-
+		// Calculate total amount pages (client-side pagination)
 		const comments = res.data.comments;
-		const totalPages = Math.ceil(comments.length / 6) || 1; // pagelimit = 10 }
+		// Consider if there's no comments made
+		const limitPerPage = 6;
+		const totalPages = Math.ceil(comments.length / limitPerPage) || 1; // pagelimit = 10 }
+		// Update post state
 		dispatch({
 			type: GET_POST,
 			payload: {
@@ -120,11 +135,6 @@ export const getPost = (id, pageQuery, history, page, callback) =>
 				totalPages,
 			},
 		});
-		if ((pageQuery, history, page, callback))
-			if (isNaN(pageQuery) || pageQuery > totalPages || page > totalPages) {
-				history.push(`/discussion/post/${id}`);
-				callback(1);
-			}
 	});
 
 export const updatePost = (postId, newTitle, newContentState, plainText) =>
