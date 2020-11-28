@@ -19,7 +19,8 @@ import { setAlert, resetAlert } from "./alerts";
 import catchAsync from "../utils/catchAsync";
 
 // Pagination limit for get all post and post next page
-const limit = 7;
+const postLimitPerPage = 7;
+const commentsLimitPerPage = 6;
 
 export const toggleCreatePost = () => (dispatch) => {
 	// Clear any previous alert
@@ -69,14 +70,14 @@ export const getAllPost = (page = 1) =>
 		dispatch(resetAlert());
 		// Gets post by page with limit, sorts by last comment then date.
 		const res = await axios.get(
-			`/api/posts?page=${page}&limit=${limit}&sort=-lastComment,-date`
+			`/api/posts?page=${page}&limit=${postLimitPerPage}&sort=-lastComment,-date`
 		);
 		// Dispatch data and change posts state
 		dispatch({
 			type: GET_ALL_POST,
 			payload: {
 				...res.data,
-				limit,
+				limit: postLimitPerPage,
 			},
 		});
 	});
@@ -91,12 +92,12 @@ export const postNextPage = (page, setPage, isSearch = false) =>
 		// Gets post by page with limit ,sorts by last comment then date.
 		if (isSearch) {
 			res = await axios.post(
-				`/api/posts/search/text?page=${nextPage}&limit=${limit}&sort=-lastComment,-date`,
+				`/api/posts/search/text?page=${nextPage}&limit=${postLimitPerPage}&sort=-lastComment,-date`,
 				{ text: isSearch }
 			);
 		} else {
 			res = await axios.get(
-				`/api/posts?page=${nextPage}&limit=${limit}&sort=-lastComment,-date`
+				`/api/posts?page=${nextPage}&limit=${postLimitPerPage}&sort=-lastComment,-date`
 			);
 		}
 		if (res.data) {
@@ -104,7 +105,7 @@ export const postNextPage = (page, setPage, isSearch = false) =>
 				type: POST_NEXT_PAGE,
 				payload: {
 					...res.data,
-					limit,
+					postLimitPerPage,
 				},
 			});
 			// Change page state only after request has been made
@@ -114,7 +115,7 @@ export const postNextPage = (page, setPage, isSearch = false) =>
 		}
 	});
 
-export const getPost = (id, currentPage, history, page) =>
+export const getPost = (id, currentPage, history, setPage) =>
 	catchAsync("post", async (dispatch) => {
 		// Clear previous post state
 		dispatch({
@@ -125,8 +126,7 @@ export const getPost = (id, currentPage, history, page) =>
 		// Calculate total amount pages (client-side pagination)
 		const comments = res.data.comments;
 		// Consider if there's no comments made
-		const limitPerPage = 6;
-		const totalPages = Math.ceil(comments.length / limitPerPage) || 1; // pagelimit = 10 }
+		const totalPages = Math.ceil(comments.length / commentsLimitPerPage) || 1;
 		// Update post state
 		dispatch({
 			type: GET_POST,
@@ -135,6 +135,12 @@ export const getPost = (id, currentPage, history, page) =>
 				totalPages,
 			},
 		});
+
+		// Redirect user if attempting to access invalid page query
+		if (isNaN(currentPage) || currentPage > totalPages) {
+			history.push(`/discussion/post/${id}`);
+			setPage(1);
+		}
 	});
 
 export const updatePost = (postId, newTitle, newContentState, plainText) =>
@@ -142,59 +148,57 @@ export const updatePost = (postId, newTitle, newContentState, plainText) =>
 		dispatch(resetAlert());
 		// This makes it more UX friendly calling a spinner instantly
 		dispatch({ type: LOADING_SUBMIT_POST });
+		// Convert contentstate object to JSON
 		const jsonContentState = JSON.stringify(newContentState);
-		const config = {
-			headers: {
-				"Content-type": "application/json",
-			},
-		};
+		// Make request to update post
 		const body = {
 			title: newTitle,
 			contentState: jsonContentState,
 			plainText,
 		};
-		const res = await axios.patch(`/api/posts/${postId}`, body, config);
-
+		const res = await axios.patch(`/api/posts/${postId}`, body);
+		// Dispatch update post action and change loading state
 		dispatch({
 			type: UPDATE_POST,
 			payload: res.data,
 		});
-		dispatch(getPost(postId));
 	});
 
 export const deletePost = (postId, history) =>
 	catchAsync("post", async (dispatch) => {
+		// Prompt user to confirm deletion
 		if (window.confirm("Are you sure you want to delete post?")) {
 			// This considers if somehow the request takes a long time
 			dispatch({ type: LOADING_SUBMIT_POST });
+			// Make request to delete post
 			await axios.delete(`/api/posts/${postId}`);
+			// Dispatch delete post and stop loading
 			dispatch({
 				type: DELETE_POST,
 			});
+			// Navigate user back to discussion board
 			history.push("/discussion");
+			// Send alert to user post was deleted
 			dispatch(setAlert("Post Deleted", "success"));
 		} else {
 			return;
 		}
 	});
 
-export const addComment = (contentState, postId, history, callback) =>
+export const addComment = (contentState, postId, history, setPage) =>
 	catchAsync("post", async (dispatch) => {
-		dispatch(resetAlert()); //Need to be in every action with alert
+		// Require to reset alert possibly from removing comment
+		dispatch(resetAlert());
+		// Convert contentstate object to JSON
 		const jsonContentState = JSON.stringify(contentState);
-		const config = {
-			headers: {
-				"Content-type": "application/json",
-			},
-		};
-		const res = await axios.post(
-			`/api/posts/${postId}`,
-			{ contentState: jsonContentState },
-			config
-		);
+		// Make request to add comment to server
+		const res = await axios.post(`/api/posts/${postId}`, {
+			contentState: jsonContentState,
+		});
+		// Calculate total pages after new comment was added
 		const comments = res.data;
-		const totalPages = Math.ceil(comments.length / 6) || 1; // pagelimit = 10 }
-
+		const totalPages = Math.ceil(comments.length / commentsLimitPerPage) || 1;
+		// Dispatch add comment action
 		dispatch({
 			type: ADD_COMMENT,
 			payload: {
@@ -203,18 +207,21 @@ export const addComment = (contentState, postId, history, callback) =>
 			},
 		}); // loads whilst posting comment
 
-		// Redirect to last page when sending comment
+		// Redirect to the last page when sending comment
 		history.push(`/discussion/post/${postId}?page=${totalPages}`);
-		callback(totalPages);
+		setPage(totalPages);
 	});
 
-export const deleteComment = (postId, commentId, history, page, callback) =>
+export const deleteComment = (postId, commentId, history, page, setPage) =>
 	catchAsync("post", async (dispatch) => {
-		dispatch(resetAlert()); //Need to be in every action with alert
+		// Require to reset alert from removing comment
+		dispatch(resetAlert());
+		// Send request to delete comment from post with postId
 		const res = await axios.put(`/api/posts/${postId}/comments/${commentId}`);
-
+		// Calculate total pages
 		const comments = res.data;
-		const totalPages = Math.ceil(comments.length / 6) || 1; // pagelimit = 10
+		const totalPages = Math.ceil(comments.length / commentsLimitPerPage) || 1; // pagelimit = 10
+		// Dispatch delete comment action
 		dispatch({
 			type: DELETE_COMMENT,
 			payload: {
@@ -222,32 +229,33 @@ export const deleteComment = (postId, commentId, history, page, callback) =>
 				totalPages,
 			},
 		});
+		// If current page number is higher than total amount of pages
+		// Redirect user
 		if (page > totalPages) {
 			history.push(`/discussion/post/${postId}?page=${totalPages}`);
-			callback(totalPages);
+			setPage(totalPages);
 		}
+		// Send alert to user
 		dispatch(setAlert("Comment removed", "success"));
 	});
 
 export const searchPost = (text, page = 1) =>
 	catchAsync("post", async (dispatch) => {
-		dispatch(resetAlert()); //Need to be in every action with alert
+		// Clear possible alert from empty searches
+		dispatch(resetAlert());
+		// Clear post list state
 		dispatch({ type: POST_RESET });
-		const config = {
-			headers: {
-				"Content-type": "application/json",
-			},
-		};
+		// Make request to search post
 		const res = await axios.post(
-			`/api/posts/search/text?page=${page}&limit=${limit}&sort=-lastComment,-date`,
-			{ text },
-			config
+			`/api/posts/search/text?page=${page}&limit=${postLimitPerPage}&sort=-lastComment,-date`,
+			{ text }
 		);
+		// Dispatch search post action and update state
 		dispatch({
 			type: SEARCH_POSTS,
 			payload: {
 				...res.data,
-				limit,
+				limit: postLimitPerPage,
 			},
 		});
 	});
