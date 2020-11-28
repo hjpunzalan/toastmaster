@@ -42,20 +42,15 @@ const Post = ({
 }) => {
 	useEffect(() => {
 		// runs once and on updatePost
-		getPost(postId, currentPage, history, page);
-		// Redirect user if attempting to access invalid page query
-		if ((currentPage, history, page))
-			if (isNaN(currentPage) || currentPage > totalPages || page > totalPages) {
-				history.push(`/discussion/post/${postId}`);
-			}
+		// pageQuery only works once totalPages has been defined
+		// totalPages defined after getPost
+		getPost(postId, currentPage, history, setPage);
+
 		// eslint-disable-next-line
 	}, []);
 
 	// Sets default pageQuery if theres not set
-	let currentPage = 1;
-	if (parseInt(location.search.split("?page=")[1]) < totalPages) {
-		currentPage = parseInt(location.search.split("?page=")[1]);
-	}
+	const currentPage = parseInt(location.search.split("?page=")[1]) || 1;
 	const [page, setPage] = useState(currentPage);
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
