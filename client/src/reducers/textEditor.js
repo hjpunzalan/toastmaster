@@ -1,6 +1,9 @@
 import { ON_CHANGE } from "../actions/types";
 
 const initialState = {
+	// This state is for creating/editing announcements,post and comments
+	// For the current editor on page
+	// ONLY one editor per page!
 	contentState: {},
 };
 
