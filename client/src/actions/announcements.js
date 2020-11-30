@@ -17,7 +17,7 @@ export const toggleEdit = () => (dispatch) => {
 	dispatch({ type: TOGGLE_CREATE_ANNOUNCEMENT });
 };
 
-export const createAnnouncement = (title, contentState, plainText) =>
+export const createAnnouncement = ({ title, contentState, plainText }) =>
 	catchAsync("announcement", async (dispatch) => {
 		//Reset alert to be in every post/put/patch action that calls setAlert
 		dispatch(resetAlert());
@@ -27,11 +27,10 @@ export const createAnnouncement = (title, contentState, plainText) =>
 		dispatch({ type: LOADING_ANNOUNCEMENT_SUBMIT });
 
 		// Send title, contentstate and plainText version of contentstate to server
-		const body = { title, contentState: jsonContentState, plainText };
-		const res = await axios.post("/api/announcements", body, {
-			headers: {
-				"Content-type": "application/json",
-			},
+		const res = await axios.post("/api/announcements", {
+			title,
+			contentState: jsonContentState,
+			plainText,
 		});
 
 		// Dispatch create announcement action and update announcement state
@@ -55,7 +54,12 @@ export const getAnnouncements = () =>
 		dispatch({ type: GET_ALL_ANNOUNCEMENT, payload: res.data });
 	});
 
-export const updateAnnouncement = (id, newTitle, newContentState, plainText) =>
+export const updateAnnouncement = ({
+	id,
+	newTitle,
+	newContentState,
+	plainText,
+}) =>
 	catchAsync("announcement", async (dispatch) => {
 		//Reset alert to be in every post/put/patch action that calls setAlert
 		dispatch(resetAlert());
@@ -64,19 +68,11 @@ export const updateAnnouncement = (id, newTitle, newContentState, plainText) =>
 		// Convert contentState object to JSON to send down to server
 		const jsonContentState = JSON.stringify(newContentState);
 		// Using announcement id, patch announcement including title, contentstate and plainText
-		const res = await axios.patch(
-			`/api/announcements/${id}`,
-			{
-				title: newTitle,
-				contentState: jsonContentState,
-				plainText,
-			},
-			{
-				headers: {
-					"Content-type": "application/json",
-				},
-			}
-		);
+		const res = await axios.patch(`/api/announcements/${id}`, {
+			title: newTitle,
+			contentState: jsonContentState,
+			plainText,
+		});
 		// Dispatch create announcement action and update announcement state
 		dispatch({ type: UPDATE_ANNOUNCEMENT, payload: res.data });
 		// Dispatch alert to user
