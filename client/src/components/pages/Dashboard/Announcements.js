@@ -43,7 +43,7 @@ const Announcements = ({
 	const handleSubmit = (plainText) => {
 		// dont need plainText
 		// title from state, contentState from redux TextEditor
-		createAnnouncement(title, contentState, plainText);
+		createAnnouncement({ title, contentState, plainText });
 		setTitle("");
 	};
 
@@ -64,7 +64,12 @@ const Announcements = ({
 	const handleUpdate = (plainText) => {
 		// dont need plainText
 		// title from state, contentState from textEditor
-		updateAnnouncement(id, title, contentState, plainText);
+		updateAnnouncement({
+			id,
+			newTitle: title,
+			newContentState: contentState,
+			plainText,
+		});
 	};
 
 	return edit ? (
