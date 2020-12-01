@@ -64,15 +64,7 @@ export const forgotPassword = (email, url) =>
 		// Change loading state to true
 		dispatch({ type: LOADING_AUTH });
 		// Send info to server that will send email.
-		await axios.post(
-			"/api/auth/forgotPassword",
-			{ email, url },
-			{
-				headers: {
-					"Content-type": "application/json",
-				},
-			}
-		);
+		await axios.post("/api/auth/forgotPassword", { email, url });
 		// Change loading state to false due to forgot password
 		dispatch({ type: FORGOT_PASSWORD });
 		// Dispatch alert to user
@@ -84,22 +76,16 @@ export const forgotPassword = (email, url) =>
 		);
 	});
 
-export const resetPassword = ({ password: newPassword }, token, history) =>
+export const resetPassword = ({ password, resetToken, history }) =>
 	catchAsync("auth", async (dispatch) => {
 		// Clear any previous alert that may be set
 		dispatch(resetAlert());
 		// Change loading state to true
 		dispatch({ type: LOADING_AUTH });
 		// Send info to server that will send email.
-		const res = await axios.patch(
-			`/api/auth/resetPassword/${token}`,
-			{ password: newPassword },
-			{
-				headers: {
-					"Content-type": "application/json",
-				},
-			}
-		);
+		const res = await axios.patch(`/api/auth/resetPassword/${resetToken}`, {
+			password,
+		});
 		// Authenticate user details and change loading state to false
 		dispatch({ type: RESET_PASSWORD, payload: res.data });
 		// Navigate user to dashboard
