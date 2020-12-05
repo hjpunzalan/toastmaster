@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useForms = (blankForm, action, ...args) => {
+const useForms = (blankForm, action, args) => {
 	const [formData, setFormData] = useState({ ...blankForm });
 
 	return {
@@ -10,7 +10,7 @@ const useForms = (blankForm, action, ...args) => {
 		},
 		handleSubmit: (e) => {
 			e.preventDefault();
-			action(formData, ...args);
+			action({ formData, ...args });
 			setFormData({ ...blankForm });
 		},
 		handleCancel: () => {
