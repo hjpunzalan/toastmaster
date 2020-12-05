@@ -12,7 +12,7 @@ import {
 import catchAsync from "../utils/catchAsync";
 import { resetAlert, setAlert } from "./alerts";
 
-export const loginUser = (formData, history) =>
+export const loginUser = ({ formData, history }) =>
 	catchAsync("auth", async (dispatch) => {
 		// Need to be in every post/put/patch action with alert
 		// If request fails there may be an alert for the error
@@ -94,25 +94,20 @@ export const resetPassword = ({ password, resetToken, history }) =>
 		dispatch(setAlert("Success! New passsword has been set.", "success"));
 	});
 
-export const changePassword = (
-	{ currentPassword: password, newPassword },
-	history
-) =>
+export const changePassword = ({
+	formData: { currentPassword, newPassword },
+	history,
+}) =>
 	catchAsync("update", async (dispatch) => {
 		// Clear any previous alert
 		dispatch(resetAlert());
 		// Change loading state to true
 		dispatch({ type: LOADING_AUTH });
 		// Send info to server that will send email.
-		const res = await axios.post(
-			`/api/users/updatePassword`,
-			{ password, newPassword },
-			{
-				headers: {
-					"Content-type": "application/json",
-				},
-			}
-		);
+		const res = await axios.post(`/api/users/updatePassword`, {
+			currentPassword,
+			newPassword,
+		});
 		// Change loading state to false
 		dispatch({ type: CHANGE_PASSWORD, payload: res.data });
 		// Navigate user back to dashboard

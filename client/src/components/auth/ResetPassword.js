@@ -1,37 +1,36 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { resetPassword } from '../../actions/auth';
-import useForms from '../../hooks/useForms';
-import Spinner from '../utils/Spinner';
-import { setAlert, resetAlert } from '../../actions/alerts';
+import React from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { resetPassword } from "../../actions/auth";
+import useForms from "../../hooks/useForms";
+import Spinner from "../utils/Spinner";
+import { setAlert, resetAlert } from "../../actions/alerts";
 
 const ResetPassword = ({
 	setAlert,
 	resetAlert,
 	resetPassword,
 	match: {
-		params: { resetToken }
+		params: { resetToken },
 	},
 	history,
-	auth: { loading }
+	auth: { loading },
 }) => {
 	const blankForm = {
-		password: '',
-		confirmPassword: ''
+		password: "",
+		confirmPassword: "",
 	};
 	const { formData, handleChange, handleSubmit } = useForms(
 		blankForm,
 		resetPassword,
-		resetToken,
-		history
+		{ resetToken, history }
 	);
 	const { password, confirmPassword } = formData;
 
-	const passwordNotMatch = e => {
+	const passwordNotMatch = (e) => {
 		resetAlert();
 		e.preventDefault();
-		setAlert('Passwords does not match', 'fail');
+		setAlert("Passwords does not match", "fail");
 	};
 
 	return loading ? (
@@ -83,14 +82,15 @@ ResetPassword.propTypes = {
 	resetPassword: PropTypes.func.isRequired,
 	setAlert: PropTypes.func.isRequired,
 	resetAlert: PropTypes.func.isRequired,
-	auth: PropTypes.object.isRequired
+	auth: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-	auth: state.auth
+const mapStateToProps = (state) => ({
+	auth: state.auth,
 });
 
-export default connect(
-	mapStateToProps,
-	{ resetPassword, setAlert, resetAlert }
-)(ResetPassword);
+export default connect(mapStateToProps, {
+	resetPassword,
+	setAlert,
+	resetAlert,
+})(ResetPassword);

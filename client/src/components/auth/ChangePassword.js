@@ -11,9 +11,6 @@ const ChangePassword = ({
 	setAlert,
 	resetAlert,
 	changePassword,
-	match: {
-		params: { resetToken },
-	},
 	history,
 	auth: { loading },
 }) => {
@@ -25,7 +22,7 @@ const ChangePassword = ({
 	const { formData, handleChange, handleSubmit } = useForms(
 		blankForm,
 		changePassword,
-		history
+		{ history }
 	);
 	const { currentPassword, newPassword, confirmPassword } = formData;
 

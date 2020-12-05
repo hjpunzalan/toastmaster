@@ -1,20 +1,20 @@
-import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import useForms from '../../hooks/useForms';
-import { loginUser } from '../../actions/auth';
-import Spinner from '../utils/Spinner';
+import React from "react";
+import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import useForms from "../../hooks/useForms";
+import { loginUser } from "../../actions/auth";
+import Spinner from "../utils/Spinner";
 
 const Login = ({ loginUser, history, auth: { isAuthenticated, loading } }) => {
 	const blankForm = {
-		email: '',
-		password: ''
+		email: "",
+		password: "",
 	};
 	const { formData, handleChange, handleSubmit } = useForms(
 		blankForm,
 		loginUser,
-		history
+		{ history }
 	);
 	const { email, password } = formData;
 
@@ -69,14 +69,11 @@ const Login = ({ loginUser, history, auth: { isAuthenticated, loading } }) => {
 
 Login.propTypes = {
 	loginUser: PropTypes.func.isRequired,
-	auth: PropTypes.object.isRequired
+	auth: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-	auth: state.auth
+const mapStateToProps = (state) => ({
+	auth: state.auth,
 });
 
-export default connect(
-	mapStateToProps,
-	{ loginUser }
-)(Login);
+export default connect(mapStateToProps, { loginUser })(Login);
