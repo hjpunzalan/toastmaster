@@ -55,7 +55,7 @@ test("update user password with a length equal or greater than 6", async () => {
 		.post("/api/users/updatePassword")
 		.set("Cookie", cookie)
 		.send({
-			password: "test123",
+			currentPassword: "test123",
 			newPassword: "test2",
 		})
 		.expect(400);
@@ -66,7 +66,7 @@ test("update user password with a length equal or greater than 6", async () => {
 		.post("/api/users/updatePassword")
 		.set("Cookie", cookie)
 		.send({
-			password: "test123",
+			currentPassword: "test123",
 			newPassword: "test666",
 		})
 		.expect(200);
