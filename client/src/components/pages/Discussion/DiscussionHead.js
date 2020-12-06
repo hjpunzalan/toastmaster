@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import CreatePost from "../../utils/CreatePost";
+import ContentEditor from "../../utils/ContentEditor";
 
 const DiscussionHead = ({
 	createPost,
@@ -23,7 +23,7 @@ const DiscussionHead = ({
 	};
 
 	const handleSubmit = (plainText) => {
-		createPost(title, contentState, history, plainText);
+		createPost({ title, contentState, history, plainText });
 	};
 
 	const handleSearch = (e) => {
@@ -77,12 +77,12 @@ const DiscussionHead = ({
 			) : (
 				!loading && (
 					<div className="Discussion__editor">
-						<CreatePost
+						<ContentEditor
 							handleSubmit={handleSubmit}
 							handleToggle={handleToggle}
 							title={title}
 							setTitle={setTitle}
-							type={"Post"}
+							type={"createPost"}
 						/>
 					</div>
 				)

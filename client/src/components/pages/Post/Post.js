@@ -17,7 +17,7 @@ import TextEditor from "../../utils/draft-js/TextEditor";
 import Spinner from "../../utils/Spinner";
 import PostHead from "./PostHead";
 import PageButtons from "./PageButtons";
-import CreatePost from "../../utils/CreatePost";
+import ContentEditor from "../../utils/ContentEditor";
 import { onChange } from "../../../actions/textEditor";
 
 const Post = ({
@@ -51,9 +51,12 @@ const Post = ({
 
 	// Sets default pageQuery if theres not set
 	const currentPage = parseInt(location.search.split("?page=")[1]) || 1;
+	// Define page, title and content editor state
 	const [page, setPage] = useState(currentPage);
-	const [title, setTitle] = useState("");
+	const [title, setTitle] = useState(post.title);
 	const [content, setContent] = useState("");
+
+	// Change content state and raw text to be sent through actions
 	const handleChange = (e) => {
 		setContent(e.target.value);
 		const textToContentState = convertToRaw(
@@ -62,34 +65,33 @@ const Post = ({
 		onChange(textToContentState);
 	};
 
-	// handlers
+	// Submit comment
 	const handleSubmit = () =>
 		addComment(textEditor.contentState, postId, history, setPage);
-	const handleToggleEditPost = () => {
-		setTitle(post.title);
-		toggleEditPost();
-	};
+
+	// Delete post handler
 	const handleDeletePost = () => deletePost(postId, history);
+
+	// Update post handler
 	const handleUpdate = (plainText) => {
 		// plain text from textEditor
 		updatePost(postId, title, textEditor.contentState, plainText);
 	};
 
 	// Client side pagination
-	//Prevent error when first loading page
-	// check for invalid queries
-	// Need to wait until getPost is called first from effect
+	// Set limit, start and end of a page
 	const limit = 6;
 	const start = (page - 1) * limit;
 	const end = page * limit;
+	const minTopPageButtonsAppear = 3;
 	const breakpoint = window.screen.width < 1000;
 
 	return post === null || postLoading ? (
 		<Spinner />
 	) : postEdit ? (
 		<div className="Post__editor">
-			<CreatePost
-				handleToggle={handleToggleEditPost}
+			<ContentEditor
+				handleToggle={toggleEditPost}
 				title={title}
 				setTitle={setTitle}
 				handleSubmit={handleUpdate}
@@ -110,16 +112,16 @@ const Post = ({
 				Moderator={Moderator}
 				post={post}
 				currentUser={currentUser}
-				handleToggleEditPost={handleToggleEditPost}
+				toggleEditPost={toggleEditPost}
 				handleDeletePost={handleDeletePost}
 			/>
 			{post && (
 				<>
-					{post.comments.slice(start, end).length > 3 && (
+					{post.comments.slice(start, end).length > minTopPageButtonsAppear && (
 						<PageButtons
 							page={page}
 							setPage={setPage}
-							totalPages={post.totalPages}
+							totalPages={totalPages}
 							postId={postId}
 						/>
 					)}
@@ -145,7 +147,7 @@ const Post = ({
 					<PageButtons
 						page={page}
 						setPage={setPage}
-						totalPages={post.totalPages}
+						totalPages={totalPages}
 						postId={postId}
 					/>
 					<div className="Post__addComment">
