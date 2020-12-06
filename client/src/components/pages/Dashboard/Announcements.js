@@ -9,7 +9,7 @@ import {
 	updateAnnouncement,
 	deleteAnnouncement,
 } from "../../../actions/announcements";
-import CreatePost from "../../utils/CreatePost";
+import ContentEditor from "../../utils/ContentEditor";
 import ReadOnly from "../../utils/draft-js/ReadOnly";
 
 const Announcements = ({
@@ -24,7 +24,7 @@ const Announcements = ({
 }) => {
 	const [title, setTitle] = useState("");
 	const [id, setId] = useState(null);
-	const [type, setType] = useState("announcement");
+	const [type, setType] = useState("createAnnouncement");
 	const [contentEdit, setContentEdit] = useState(null);
 	const [plainTextEdit, setPlainTextEdit] = useState(null);
 	useEffect(() => {
@@ -74,7 +74,7 @@ const Announcements = ({
 
 	return edit ? (
 		<div className="Dashboard__editor">
-			<CreatePost
+			<ContentEditor
 				handleToggle={handleToggle}
 				title={title}
 				setTitle={setTitle}

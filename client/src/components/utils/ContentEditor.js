@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import TextEditor from '../utils/draft-js/TextEditor';
-import { onChange } from '../../actions/textEditor';
-import { ContentState, convertToRaw } from 'draft-js';
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import TextEditor from "./draft-js/TextEditor";
+import { onChange } from "../../actions/textEditor";
+import { ContentState, convertToRaw } from "draft-js";
 
-const CreatePost = ({
+const ContentEditor = ({
 	handleSubmit,
 	handleToggle,
 	title,
@@ -13,7 +13,7 @@ const CreatePost = ({
 	type,
 	contentState,
 	plainText,
-	onChange
+	onChange,
 }) => {
 	useEffect(() => {
 		// This is to prevent a blank post when submitting with no changes during edit
@@ -31,8 +31,8 @@ const CreatePost = ({
 	// If editing from mobile, need to use plain text only
 
 	// content is the input text value that is initialised as the post's plaintext
-	const [content, setContent] = useState(plainText ? plainText : '');
-	const handleChange = e => {
+	const [content, setContent] = useState(plainText ? plainText : "");
+	const handleChange = (e) => {
 		setContent(e.target.value);
 		const textToContentState = convertToRaw(
 			ContentState.createFromText(e.target.value)
@@ -53,7 +53,7 @@ const CreatePost = ({
 			<button className="btn__cancel" onClick={handleToggle}>
 				Cancel
 			</button>
-			{type !== 'edit' && (
+			{type !== "edit" && (
 				<h1 className="CreatePost__title">Submit a new {type}</h1>
 			)}
 			<div className="CreatePost__form">
@@ -66,7 +66,7 @@ const CreatePost = ({
 					name="title"
 					placeholder="Insert Title"
 					value={title}
-					onChange={e => setTitle(e.target.value)}
+					onChange={(e) => setTitle(e.target.value)}
 					maxLength={80} // so it doesnt pollute the post too much
 					required
 				/>
@@ -95,11 +95,8 @@ const CreatePost = ({
 	);
 };
 
-CreatePost.propTypes = {
-	onChange: PropTypes.func.isRequired
+ContentEditor.propTypes = {
+	onChange: PropTypes.func.isRequired,
 };
 
-export default connect(
-	null,
-	{ onChange }
-)(CreatePost);
+export default connect(null, { onChange })(ContentEditor);
