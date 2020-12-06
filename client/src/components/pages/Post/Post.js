@@ -53,7 +53,7 @@ const Post = ({
 	const currentPage = parseInt(location.search.split("?page=")[1]) || 1;
 	// Define page, title and content editor state
 	const [page, setPage] = useState(currentPage);
-	const [title, setTitle] = useState(post.title);
+	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 
 	// Change content state and raw text to be sent through actions
@@ -78,6 +78,11 @@ const Post = ({
 		updatePost(postId, title, textEditor.contentState, plainText);
 	};
 
+	const handleToggleEditPost = () => {
+		setTitle(post.title);
+		toggleEditPost();
+	};
+
 	// Client side pagination
 	// Set limit, start and end of a page
 	const limit = 6;
@@ -91,7 +96,7 @@ const Post = ({
 	) : postEdit ? (
 		<div className="Post__editor">
 			<ContentEditor
-				handleToggle={toggleEditPost}
+				handleToggle={handleToggleEditPost}
 				title={title}
 				setTitle={setTitle}
 				handleSubmit={handleUpdate}
@@ -112,7 +117,7 @@ const Post = ({
 				Moderator={Moderator}
 				post={post}
 				currentUser={currentUser}
-				toggleEditPost={toggleEditPost}
+				toggleEditPost={handleToggleEditPost}
 				handleDeletePost={handleDeletePost}
 			/>
 			{post && (

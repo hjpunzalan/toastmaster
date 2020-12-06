@@ -1,15 +1,15 @@
-import React from 'react';
-import Moment from 'react-moment';
-import 'moment-timezone';
-import ReadOnly from '../../utils/draft-js/ReadOnly';
+import React from "react";
+import Moment from "react-moment";
+import "moment-timezone";
+import ReadOnly from "../../utils/draft-js/ReadOnly";
 
 const PostHead = ({
 	post,
 	img,
 	currentUser,
-	handleToggleEditPost,
+	toggleEditPost,
 	handleDeletePost,
-	Moderator
+	Moderator,
 }) => {
 	return (
 		<div className="Post__post">
@@ -48,14 +48,12 @@ const PostHead = ({
 					)}
 					<div className="Post__postButtons">
 						{currentUser._id === post.user._id && (
-							<button
-								className="btn btn__edit-xs"
-								onClick={handleToggleEditPost}>
+							<button className="btn btn__edit-xs" onClick={toggleEditPost}>
 								Edit
 							</button>
 						)}
 						{(currentUser._id === post.user._id ||
-							(Moderator && currentUser.role === 'admin')) && (
+							(Moderator && currentUser.role === "admin")) && (
 							<button className="btn btn__delete-xs" onClick={handleDeletePost}>
 								Delete
 							</button>
