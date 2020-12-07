@@ -49,7 +49,7 @@ export const getAnnouncements = () =>
 		// @todo show all with pagination
 		const limit = 10; //limit to 10 docs
 		const res = await axios.get(
-			`/api/announcements?sort=-lastEdited,-date&limit=${limit}`
+			`/api/announcements?sort=-lastEdited&limit=${limit}`
 		);
 		dispatch({ type: GET_ALL_ANNOUNCEMENT, payload: res.data });
 	});
