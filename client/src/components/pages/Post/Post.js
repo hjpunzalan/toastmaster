@@ -44,7 +44,7 @@ const Post = ({
 		// runs once and on updatePost
 		// pageQuery only works once totalPages has been defined
 		// totalPages defined after getPost
-		getPost(postId, currentPage, history, setPage);
+		getPost({ id: postId, currentPage, history, setPage });
 
 		// eslint-disable-next-line
 	}, []);
@@ -67,7 +67,12 @@ const Post = ({
 
 	// Submit comment
 	const handleSubmit = () =>
-		addComment(textEditor.contentState, postId, history, setPage);
+		addComment({
+			contentState: textEditor.contentState,
+			postId,
+			history,
+			setPage,
+		});
 
 	// Delete post handler
 	const handleDeletePost = () => deletePost(postId, history);
@@ -75,7 +80,12 @@ const Post = ({
 	// Update post handler
 	const handleUpdate = (plainText) => {
 		// plain text from textEditor
-		updatePost(postId, title, textEditor.contentState, plainText);
+		updatePost({
+			postId,
+			newTitle: title,
+			newContentState: textEditor.contentState,
+			plainText,
+		});
 	};
 
 	const handleToggleEditPost = () => {

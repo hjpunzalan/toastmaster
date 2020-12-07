@@ -35,7 +35,7 @@ export const toggleEditPost = () => (dispatch) => {
 	dispatch({ type: TOGGLE_EDIT_POST });
 };
 
-export const createPost = (title, contentState, history, plainText) =>
+export const createPost = ({ title, contentState, history, plainText }) =>
 	catchAsync("post", async (dispatch) => {
 		// Need to be in every post/put/patch action with alert
 		// If request fails there may be an alert for the error
@@ -47,11 +47,7 @@ export const createPost = (title, contentState, history, plainText) =>
 		// Send request with appropriate body
 		const jsonContentState = JSON.stringify(contentState);
 		const body = { title, contentState: jsonContentState, plainText };
-		const res = await axios.post("/api/posts", body, {
-			headers: {
-				"Content-type": "application/json",
-			},
-		});
+		const res = await axios.post("/api/posts", body);
 		// Obtain post id from response
 		const postId = res.data._id;
 		// Dispatch post create and change postLoading to false
@@ -70,7 +66,7 @@ export const getAllPost = (page = 1) =>
 		dispatch(resetAlert());
 		// Gets post by page with limit, sorts by last comment then date.
 		const res = await axios.get(
-			`/api/posts?page=${page}&limit=${postLimitPerPage}&sort=-lastComment,-date`
+			`/api/posts?page=${page}&limit=${postLimitPerPage}&sort=,-lastEdited,-lastComment`
 		);
 		// Dispatch data and change posts state
 		dispatch({
@@ -115,7 +111,7 @@ export const postNextPage = (page, setPage, isSearch = false) =>
 		}
 	});
 
-export const getPost = (id, currentPage, history, setPage) =>
+export const getPost = ({ id, currentPage, history, setPage }) =>
 	catchAsync("post", async (dispatch) => {
 		// Clear previous post state
 		dispatch({
@@ -143,7 +139,7 @@ export const getPost = (id, currentPage, history, setPage) =>
 		}
 	});
 
-export const updatePost = (postId, newTitle, newContentState, plainText) =>
+export const updatePost = ({ postId, newTitle, newContentState, plainText }) =>
 	catchAsync("post", async (dispatch) => {
 		dispatch(resetAlert());
 		// This makes it more UX friendly calling a spinner instantly
@@ -185,7 +181,7 @@ export const deletePost = (postId, history) =>
 		}
 	});
 
-export const addComment = (contentState, postId, history, setPage) =>
+export const addComment = ({ contentState, postId, history, setPage }) =>
 	catchAsync("post", async (dispatch) => {
 		// Require to reset alert possibly from removing comment
 		dispatch(resetAlert());
@@ -212,7 +208,7 @@ export const addComment = (contentState, postId, history, setPage) =>
 		setPage(totalPages);
 	});
 
-export const deleteComment = (postId, commentId, history, page, setPage) =>
+export const deleteComment = ({ postId, commentId, history, page, setPage }) =>
 	catchAsync("post", async (dispatch) => {
 		// Require to reset alert from removing comment
 		dispatch(resetAlert());
