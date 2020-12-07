@@ -1,8 +1,8 @@
-import React from 'react';
-import Moment from 'react-moment';
-import 'moment-timezone';
-import { IoIosTrash } from 'react-icons/io';
-import ReadOnly from '../../utils/draft-js/ReadOnly';
+import React from "react";
+import Moment from "react-moment";
+import "moment-timezone";
+import { IoIosTrash } from "react-icons/io";
+import ReadOnly from "../../utils/draft-js/ReadOnly";
 
 const PostComment = ({
 	img,
@@ -16,7 +16,7 @@ const PostComment = ({
 	page,
 	setPage,
 	currentUser,
-	Moderator
+	Moderator,
 }) => {
 	return (
 		<div className="Post__comment">
@@ -44,10 +44,12 @@ const PostComment = ({
 						</Moment>
 					</span>
 					{(currentUser._id === user._id ||
-						(Moderator && currentUser.role === 'admin')) && (
+						(Moderator && currentUser.role === "admin")) && (
 						<button
 							className="Post__comment-trash"
-							onClick={() => deleteComment(postId, id, history, page, setPage)}>
+							onClick={() =>
+								deleteComment({ postId, commentId: id, history, page, setPage })
+							}>
 							<IoIosTrash />
 						</button>
 					)}
