@@ -38,7 +38,7 @@ const PostHead = ({
 							{post.date}
 						</Moment>
 					</span>
-					{post.lastEdited && (
+					{post.lastEdited !== post.date && (
 						<span className="Post__postBody-edited">
 							Last edited:
 							<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm">

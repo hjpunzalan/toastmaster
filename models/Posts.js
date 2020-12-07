@@ -1,51 +1,54 @@
-const mongoose = require('mongoose');
-const autoPopulate = require('mongoose-autopopulate');
+const mongoose = require("mongoose");
+const autoPopulate = require("mongoose-autopopulate");
 
 const postSchema = new mongoose.Schema({
 	user: {
 		type: mongoose.SchemaTypes.ObjectId,
-		ref: 'Users',
-		autopopulate: true
+		ref: "Users",
+		autopopulate: true,
 	},
 	title: {
 		type: String,
-		required: [true, 'A post must have a title'],
-		maxlength: 90
+		required: [true, "A post must have a title"],
+		maxlength: 90,
 	},
 	date: {
 		type: Date,
-		default: Date.now
+		default: Date.now,
 	},
 	contentState: {
 		type: Object,
-		required: [true, 'A post must have content.']
+		required: [true, "A post must have content."],
 	},
 	plainText: {
 		type: String,
-		required: true
+		required: true,
 	},
 	comments: [
 		{
 			user: {
 				type: mongoose.SchemaTypes.ObjectId,
-				ref: 'Users',
-				autopopulate: true
+				ref: "Users",
+				autopopulate: true,
 			},
 			date: {
 				type: Date,
-				default: Date.now
+				default: Date.now,
 			},
 			contentState: {
 				type: Object,
-				required: [true, 'A comment must have content.']
-			}
-		}
+				required: [true, "A comment must have content."],
+			},
+		},
 	],
 	lastComment: {
 		type: Date,
-		default: Date.now
+		default: Date.now,
 	},
-	lastEdited: Date
+	lastEdited: {
+		type: Date,
+		default: Date.now,
+	},
 });
 postSchema.plugin(autoPopulate);
 
@@ -53,22 +56,22 @@ postSchema.plugin(autoPopulate);
 postSchema.index({ lastComment: -1, date: -1 });
 
 //Model.update,findByIdAndUpdate,findOneAndUpdate,findOneAndRemove,findByIdAndRemove are all commands executed directly in the database
-postSchema.pre(/^find/, function(next) {
-	this.find().select('-__v');
+postSchema.pre(/^find/, function (next) {
+	this.find().select("-__v");
 	next();
 });
 
-postSchema.post('save', async function(doc, next) {
+postSchema.post("save", async function (doc, next) {
 	await doc
 		.populate({
-			path: 'comments.user'
+			path: "comments.user",
 		})
-		.populate('user')
+		.populate("user")
 		.execPopulate();
 	next();
 });
 // /schema methods are only available when there's a single result.!
 
-const Posts = mongoose.model('Posts', postSchema);
+const Posts = mongoose.model("Posts", postSchema);
 
 module.exports = Posts;
