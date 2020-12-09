@@ -53,11 +53,7 @@ export const updateMe = (formData, file, history) =>
 			formData.photo = `https://toastmaster-user-photo.s3-ap-southeast-2.amazonaws.com/${uploadConfig.data.key}`;
 		}
 		// Send updated user details
-		const res = await axios.patch("/api/users/updateMe", formData, {
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
+		const res = await axios.patch("/api/users/updateMe", formData);
 		// Dispatch updated user details
 		dispatch({
 			type: UPDATE_ME,
