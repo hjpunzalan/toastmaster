@@ -1,6 +1,6 @@
 import { SET_ALERT, RESET_ALERT, ERROR } from "../actions/types";
 
-const initialState = {
+export const initialState = {
 	msg: [],
 	alertType: null,
 	error: {},
