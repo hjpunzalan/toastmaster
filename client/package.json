@@ -13,7 +13,10 @@
     "draft-js-linkify-plugin": "^2.0.2",
     "draft-js-plugins-editor": "^2.1.1",
     "draft-js-resizeable-plugin": "^2.0.8",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
     "immutable": "^4.0.0-rc.12",
+    "jest-enzyme": "^7.1.2",
     "linkify-it": "^2.2.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",
@@ -53,5 +56,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8000"
+  "proxy": "http://localhost:8000",
+  "devDependencies": {
+    "moxios": "^0.4.0"
+  }
 }
