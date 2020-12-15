@@ -1,7 +1,11 @@
 // integration test that test both action and reducer
 import moxios from "moxios";
 import { storeFactory } from "../../utils/testUtils";
-import { toggleEdit, createAnnouncement } from "../announcements";
+import {
+	toggleEdit,
+	createAnnouncement,
+	getAnnouncements,
+} from "../announcements";
 
 test("should toggle edit and reset alert", () => {
 	const store = storeFactory();
@@ -24,14 +28,15 @@ describe("Announcement CRUD operations", () => {
 		moxios.uninstall();
 	});
 
+	// Set announcement data to be passed
+	const announcement = {
+		title: "test",
+		contentState: "contentstate",
+		plaintText: "hello",
+	};
+
 	test("should create announcement and reset alert", () => {
 		const store = storeFactory();
-		// Set announcement data to be passed
-		const announcement = {
-			title: "test",
-			contentState: "contentstate",
-			plaintText: "hello",
-		};
 
 		moxios.wait(() => {
 			// Define how moxios respond from axios
@@ -60,5 +65,25 @@ describe("Announcement CRUD operations", () => {
 				expect(alerts.msg.length).toEqual(1);
 				expect(alerts.alertType).toBe("success");
 			});
+	});
+
+	test("should get announcements", () => {
+		const store = storeFactory();
+
+		moxios.wait(() => {
+			// Define how moxios respond from axios
+			const request = moxios.requests.mostRecent();
+			request.respondWith({
+				status: 200,
+				response: [announcement],
+			});
+		});
+
+		// Dispatch create announcement action
+		store.dispatch(getAnnouncements()).then(() => {
+			// Assert announcement creation
+			const { announcements } = store.getState();
+			expect(announcements.announcements[0]).toEqual(announcement);
+		});
 	});
 });
