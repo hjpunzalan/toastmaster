@@ -70,7 +70,7 @@ describe("Announcement CRUD operations", () => {
 		expect(alerts.alertType).toBe("success");
 	});
 
-	test("should get announcements", () => {
+	test("should get announcements", async () => {
 		const store = storeFactory();
 
 		moxios.wait(() => {
@@ -83,11 +83,10 @@ describe("Announcement CRUD operations", () => {
 		});
 
 		// Dispatch create announcement action
-		store.dispatch(getAnnouncements()).then(() => {
-			// Assert announcement creation
-			const { announcements } = store.getState();
-			expect(announcements.announcements[0]).toEqual(announcement);
-		});
+		await store.dispatch(getAnnouncements());
+		// Assert announcement creation
+		const { announcements } = store.getState();
+		expect(announcements.announcements[0]).toEqual(announcement);
 	});
 
 	test("should update announcements and reset alerts", () => {
