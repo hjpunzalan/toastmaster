@@ -4,6 +4,7 @@ import { storeFactory } from "../../utils/testUtils";
 import {
 	toggleEdit,
 	createAnnouncement,
+	updateAnnouncement,
 	getAnnouncements,
 } from "../announcements";
 import { setAlert } from "../alerts";
@@ -31,6 +32,7 @@ describe("Announcement CRUD operations", () => {
 
 	// Set announcement data to be passed
 	const announcement = {
+		id: "test",
 		title: "test",
 		contentState: "contentstate",
 		plaintText: "hello",
@@ -89,7 +91,7 @@ describe("Announcement CRUD operations", () => {
 		expect(announcements.announcements[0]).toEqual(announcement);
 	});
 
-	test("should update announcements and reset alerts", () => {
+	test("should update announcements and reset alerts", async () => {
 		const store = storeFactory();
 
 		moxios.wait(() => {
@@ -97,15 +99,60 @@ describe("Announcement CRUD operations", () => {
 			const request = moxios.requests.mostRecent();
 			request.respondWith({
 				status: 200,
-				response: [announcement],
+				response: announcement,
 			});
 		});
 
+		// Test reset alert
+		const msg = "test";
+		const alertType = "success";
+		store.dispatch(setAlert(msg, alertType));
+
 		// Dispatch create announcement action
-		store.dispatch(getAnnouncements()).then(() => {
-			// Assert announcement creation
-			const { announcements } = store.getState();
-			expect(announcements.announcements[0]).toEqual(announcement);
+		await store.dispatch(
+			createAnnouncement({
+				title: announcement.title,
+				contentState: announcement.contentState,
+				plainText: announcement.plainText,
+			})
+		);
+
+		const newAnnouncement = {
+			title: "test2",
+			contentState: { test: "test2" },
+			plainText: "test2",
+		};
+
+		moxios.wait(() => {
+			// Define how moxios respond from axios
+			const request = moxios.requests.mostRecent();
+			request.respondWith({
+				status: 200,
+				response: { ...announcement, ...newAnnouncement },
+			});
 		});
+
+		await store.dispatch(
+			updateAnnouncement({
+				id: announcement.id,
+				newTitle: newAnnouncement.title,
+				newContentState: newAnnouncement.contentState,
+				plainText: newAnnouncement.plainText,
+			})
+		);
+
+		// Assert announcement update
+		const { announcements, alerts } = store.getState();
+		expect(announcements.announcements[0].title).toEqual(newAnnouncement.title);
+		expect(announcements.announcements[0].contentState).toEqual(
+			newAnnouncement.contentState
+		);
+		expect(announcements.announcements[0].plainText).toEqual(
+			newAnnouncement.plainText
+		);
+
+		// // Alert sent to user
+		expect(alerts.msg.length).toEqual(1);
+		expect(alerts.alertType).toBe("success");
 	});
 });
