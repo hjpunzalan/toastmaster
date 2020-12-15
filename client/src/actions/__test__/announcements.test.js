@@ -6,6 +6,7 @@ import {
 	createAnnouncement,
 	updateAnnouncement,
 	getAnnouncements,
+	deleteAnnouncement,
 } from "../announcements";
 import { setAlert } from "../alerts";
 
@@ -32,7 +33,7 @@ describe("Announcement CRUD operations", () => {
 
 	// Set announcement data to be passed
 	const announcement = {
-		id: "test",
+		_id: "test",
 		title: "test",
 		contentState: "contentstate",
 		plaintText: "hello",
@@ -117,6 +118,7 @@ describe("Announcement CRUD operations", () => {
 			})
 		);
 
+		// Updated announcement
 		const newAnnouncement = {
 			title: "test2",
 			contentState: { test: "test2" },
@@ -128,13 +130,14 @@ describe("Announcement CRUD operations", () => {
 			const request = moxios.requests.mostRecent();
 			request.respondWith({
 				status: 200,
+				// Update previous announcement
 				response: { ...announcement, ...newAnnouncement },
 			});
 		});
-
+		// Dispatch updateAnnouncement action
 		await store.dispatch(
 			updateAnnouncement({
-				id: announcement.id,
+				_id: announcement.id,
 				newTitle: newAnnouncement.title,
 				newContentState: newAnnouncement.contentState,
 				plainText: newAnnouncement.plainText,
@@ -150,6 +153,55 @@ describe("Announcement CRUD operations", () => {
 		expect(announcements.announcements[0].plainText).toEqual(
 			newAnnouncement.plainText
 		);
+
+		// // Alert sent to user
+		expect(alerts.msg.length).toEqual(1);
+		expect(alerts.alertType).toBe("success");
+	});
+
+	test("should delete announcement", async () => {
+		window.confirm = jest.fn(() => true);
+
+		const store = storeFactory();
+
+		moxios.wait(() => {
+			// Define how moxios respond from axios
+			const request = moxios.requests.mostRecent();
+			request.respondWith({
+				status: 200,
+				response: announcement,
+			});
+		});
+
+		// Test reset alert
+		const msg = "test";
+		const alertType = "success";
+		store.dispatch(setAlert(msg, alertType));
+
+		// Dispatch create announcement action
+		await store.dispatch(
+			createAnnouncement({
+				title: announcement.title,
+				contentState: announcement.contentState,
+				plainText: announcement.plainText,
+			})
+		);
+
+		moxios.wait(() => {
+			// Define how moxios respond from axios
+			const request = moxios.requests.mostRecent();
+			request.respondWith({
+				// Delete announcement response
+				status: 204,
+				response: announcement,
+			});
+		});
+		// Dispatch deleteAnnnouncement action
+		await store.dispatch(deleteAnnouncement(announcement._id));
+
+		// Assert announcement deletion
+		const { announcements, alerts } = store.getState();
+		expect(announcements.announcements.length).toEqual(0);
 
 		// // Alert sent to user
 		expect(alerts.msg.length).toEqual(1);
