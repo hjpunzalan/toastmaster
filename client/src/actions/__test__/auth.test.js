@@ -2,7 +2,7 @@ import moxios from "moxios";
 import { createBrowserHistory } from "history";
 import { storeFactory } from "../../utils/testUtils";
 import { setAlert } from "../alerts";
-import { loginUser } from "../auth";
+import { loginUser, checkUser } from "../auth";
 
 describe("AUTH request patterns", () => {
 	// Insert a specific axios instance
@@ -60,5 +60,28 @@ describe("AUTH request patterns", () => {
 
 		// Assert redirection of user
 		expect(history.push).toHaveBeenCalledWith("/dashboard");
+	});
+
+	test("should authenticate user if logged in already", async () => {
+		const store = storeFactory();
+
+		moxios.wait(() => {
+			// Define how moxios respond from axios
+			const request = moxios.requests.mostRecent();
+			request.respondWith({
+				status: 200,
+				response: {
+					_id: user._id,
+					email: user.email,
+				},
+			});
+		});
+
+		// Dispatch create announcement action
+		await store.dispatch(checkUser());
+		const { auth } = store.getState();
+
+		// Assert login user
+		expect(auth.currentUser.email).toBe(user.email);
 	});
 });
