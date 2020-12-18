@@ -134,7 +134,7 @@ exports.restrictTo = (...roles) => {
 };
 //Only for rendered pages, no errors as this is a middleware for checking if user is logged in
 // bearer token headers are only sent for api building purposes
-exports.isLoggedIn = catchAsync(async (req, res, next) => {
+exports.checkUser = catchAsync(async (req, res, next) => {
 	if (req.cookies.jwt) {
 		// Same errors as protect route that validates user from token and sends error message to client
 		// Validation only occurs in members page and not in landing page.
