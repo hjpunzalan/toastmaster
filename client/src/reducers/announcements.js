@@ -8,7 +8,7 @@ import {
 	ANNOUNCEMENT_ERROR,
 } from "../actions/types";
 
-const initialState = {
+export const initialState = {
 	loading: true,
 	edit: false,
 	announcements: [],

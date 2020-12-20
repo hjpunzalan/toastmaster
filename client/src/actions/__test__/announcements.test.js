@@ -9,6 +9,7 @@ import {
 	deleteAnnouncement,
 } from "../announcements";
 import { setAlert } from "../alerts";
+import { initialState } from "../../reducers/announcements";
 
 test("should toggle edit and reset alert", () => {
 	const store = storeFactory();
@@ -38,6 +39,38 @@ describe("Announcement CRUD operations", () => {
 		contentState: "contentstate",
 		plaintText: "hello",
 	};
+
+	test("should send announcement error when request fails", async () => {
+		const store = storeFactory();
+		const error = {
+			statusText: "fail",
+			status: 401,
+		};
+
+		moxios.wait(() => {
+			// Define how moxios respond from axios
+			const request = moxios.requests.mostRecent();
+			request.reject({
+				status: 401,
+				response: error,
+			});
+		});
+
+		await store.dispatch(
+			createAnnouncement({
+				title: announcement.title,
+				contentState: announcement.contentState,
+				plainText: announcement.plainText,
+			})
+		);
+
+		// Assert announcement error
+		const { announcements, alerts } = store.getState();
+		expect(announcements).toEqual({ ...initialState, loading: false });
+
+		// Alert sent to user
+		expect(alerts.error.msg).toEqual("fail");
+	});
 
 	test("should create announcement and reset alert", async () => {
 		const store = storeFactory();
