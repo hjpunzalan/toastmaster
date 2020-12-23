@@ -40,38 +40,6 @@ describe("Announcement CRUD operations", () => {
 		plaintText: "hello",
 	};
 
-	test("should send announcement error when request fails", async () => {
-		const store = storeFactory();
-		const error = {
-			statusText: "fail",
-			status: 401,
-		};
-
-		moxios.wait(() => {
-			// Define how moxios respond from axios
-			const request = moxios.requests.mostRecent();
-			request.reject({
-				status: 401,
-				response: error,
-			});
-		});
-
-		await store.dispatch(
-			createAnnouncement({
-				title: announcement.title,
-				contentState: announcement.contentState,
-				plainText: announcement.plainText,
-			})
-		);
-
-		// Assert announcement error
-		const { announcements, alerts } = store.getState();
-		expect(announcements).toEqual({ ...initialState, loading: false });
-
-		// Alert sent to user
-		expect(alerts.error.msg).toEqual("fail");
-	});
-
 	test("should create announcement and reset alert", async () => {
 		const store = storeFactory();
 
@@ -239,5 +207,103 @@ describe("Announcement CRUD operations", () => {
 		// // Alert sent to user
 		expect(alerts.msg.length).toEqual(1);
 		expect(alerts.alertType).toBe("success");
+	});
+
+	describe("should send announcement error when request fails", () => {
+		const store = storeFactory();
+		const error = {
+			statusText: "fail",
+			status: 401,
+		};
+
+		test("should send error when creating announcements", async () => {
+			moxios.wait(() => {
+				// Define how moxios respond from axios
+				const request = moxios.requests.mostRecent();
+				request.reject({
+					status: 401,
+					response: error,
+				});
+			});
+
+			await store.dispatch(
+				createAnnouncement({
+					title: announcement.title,
+					contentState: announcement.contentState,
+					plainText: announcement.plainText,
+				})
+			);
+
+			// GET CURRENT STATE
+			const { announcements, alerts } = store.getState();
+			// Assert announcement error
+			expect(announcements).toEqual({ ...initialState, loading: false });
+			// Alert sent to user
+			expect(alerts.error.msg).toEqual("fail");
+		});
+
+		test("should send error when getting announcements", async () => {
+			moxios.wait(() => {
+				// Define how moxios respond from axios
+				const request = moxios.requests.mostRecent();
+				request.reject({
+					status: 401,
+					response: error,
+				});
+			});
+			await store.dispatch(getAnnouncements());
+			// GET CURRENT STATE
+			const { announcements, alerts } = store.getState();
+			// Assert announcement error
+			expect(announcements).toEqual({ ...initialState, loading: false });
+			// Alert sent to user
+			expect(alerts.error.msg).toEqual("fail");
+		});
+		test("should send error when updating announcements", async () => {
+			moxios.wait(() => {
+				// Define how moxios respond from axios
+				const request = moxios.requests.mostRecent();
+				request.reject({
+					status: 401,
+					response: error,
+				});
+			});
+
+			await store.dispatch(
+				updateAnnouncement({
+					_id: "test",
+				})
+			);
+
+			// GET CURRENT STATE
+			const { announcements, alerts } = store.getState();
+			// Assert announcement error
+			expect(announcements).toEqual({ ...initialState, loading: false });
+			// Alert sent to user
+			expect(alerts.error.msg).toEqual("fail");
+		});
+		test("should send error when deleting announcements", async () => {
+			moxios.wait(() => {
+				// Define how moxios respond from axios
+				const request = moxios.requests.mostRecent();
+				request.reject({
+					status: 401,
+					response: error,
+				});
+			});
+
+			await store.dispatch(
+				updateAnnouncement({
+					_id: "test",
+				})
+			);
+
+			// GET CURRENT STATE
+			const { announcements, alerts } = store.getState();
+			// Assert announcement error
+			expect(announcements).toEqual({ ...initialState, loading: false });
+			// Alert sent to user
+			expect(alerts.error.msg).toEqual("fail");
+		});
 	});
 });
