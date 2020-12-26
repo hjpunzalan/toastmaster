@@ -2,7 +2,7 @@ import moxios from "moxios";
 import { createBrowserHistory } from "history";
 import { storeFactory } from "../../utils/testUtils";
 import { setAlert } from "../alerts";
-import { loginUser, checkUser } from "../auth";
+import { loginUser, checkUser, logoutUser } from "../auth";
 
 describe("AUTH request patterns", () => {
 	// Insert a specific axios instance
@@ -19,7 +19,7 @@ describe("AUTH request patterns", () => {
 		password: "testing",
 	};
 
-	test("should login user", async () => {
+	test("should login and logout", async () => {
 		const store = storeFactory();
 
 		moxios.wait(() => {
@@ -43,7 +43,7 @@ describe("AUTH request patterns", () => {
 		const history = createBrowserHistory();
 		jest.spyOn(history, "push");
 
-		// Dispatch create announcement action
+		// Dispatch login action
 		await store.dispatch(
 			loginUser({
 				formData: { email: user.email, password: user.password },
@@ -60,6 +60,23 @@ describe("AUTH request patterns", () => {
 
 		// Assert redirection of user
 		expect(history.push).toHaveBeenCalledWith("/dashboard");
+
+		////////////////
+		moxios.wait(() => {
+			// Define how moxios respond from axios
+			const request = moxios.requests.mostRecent();
+			request.respondWith({
+				status: 200,
+			});
+		});
+
+		// Dispatch logout action
+		await store.dispatch(logoutUser());
+
+		const logoutState = store.getState();
+
+		// Assert login user
+		expect(logoutState.auth.isAuthenticated).toBe(false);
 	});
 
 	test("should authenticate user if logged in already", async () => {
