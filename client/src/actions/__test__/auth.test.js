@@ -2,7 +2,7 @@ import moxios from "moxios";
 import { createBrowserHistory } from "history";
 import { storeFactory } from "../../utils/testUtils";
 import { setAlert } from "../alerts";
-import { loginUser, checkUser, logoutUser } from "../auth";
+import { loginUser, checkUser, logoutUser, forgotPassword } from "../auth";
 
 describe("AUTH request patterns", () => {
 	// Insert a specific axios instance
@@ -94,11 +94,32 @@ describe("AUTH request patterns", () => {
 			});
 		});
 
-		// Dispatch create announcement action
+		// Dispatch create checkuser action
 		await store.dispatch(checkUser());
 		const { auth } = store.getState();
 
 		// Assert login user
 		expect(auth.currentUser.email).toBe(user.email);
+	});
+
+	test("forgot password", async () => {
+		const store = storeFactory();
+
+		moxios.wait(() => {
+			// Define how moxios respond from axios
+			const request = moxios.requests.mostRecent();
+			request.respondWith({
+				status: 200,
+			});
+		});
+
+		// Dispatch create forgot password action
+		await store.dispatch(forgotPassword("test@example.com", "localhost:3000"));
+		const { auth, alerts } = store.getState();
+
+		// Assert auth loading and alert sent
+		expect(auth.loading).toBe(false);
+		expect(alerts.msg.length).toEqual(1);
+		expect(alerts.alertType).toBe("success");
 	});
 });
