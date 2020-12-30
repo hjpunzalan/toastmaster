@@ -240,8 +240,6 @@ describe("Announcement CRUD operations", () => {
 
 			// GET CURRENT STATE
 			const { announcements, alerts } = store.getState();
-			// Assert announcement loading
-			expect(announcements.loading).toBe(false);
 			// Assert announcement error
 			expect(announcements).toEqual({ ...initialState, loading: false });
 			// Alert sent to user
@@ -260,8 +258,6 @@ describe("Announcement CRUD operations", () => {
 			await store.dispatch(getAnnouncements());
 			// GET CURRENT STATE
 			const { announcements, alerts } = store.getState();
-			// Assert announcement loading
-			expect(announcements.loading).toBe(false);
 			// Assert announcement error
 			expect(announcements).toEqual({ ...initialState, loading: false });
 			// Alert sent to user
@@ -285,8 +281,6 @@ describe("Announcement CRUD operations", () => {
 
 			// GET CURRENT STATE
 			const { announcements, alerts } = store.getState();
-			// Assert announcement loading
-			expect(announcements.loading).toBe(false);
 			// Assert announcement error
 			expect(announcements).toEqual({ ...initialState, loading: false });
 			// Alert sent to user
@@ -310,8 +304,6 @@ describe("Announcement CRUD operations", () => {
 
 			// GET CURRENT STATE
 			const { announcements, alerts } = store.getState();
-			// Assert announcement loading
-			expect(announcements.loading).toBe(false);
 			// Assert announcement error
 			expect(announcements).toEqual({ ...initialState, loading: false });
 			// Alert sent to user
