@@ -2,7 +2,13 @@ import moxios from "moxios";
 import { createBrowserHistory } from "history";
 import { storeFactory } from "../../utils/testUtils";
 import { setAlert } from "../alerts";
-import { loginUser, checkUser, logoutUser, forgotPassword } from "../auth";
+import {
+	loginUser,
+	checkUser,
+	logoutUser,
+	forgotPassword,
+	resetPassword,
+} from "../auth";
 
 describe("AUTH request patterns", () => {
 	// Insert a specific axios instance
@@ -121,5 +127,44 @@ describe("AUTH request patterns", () => {
 		expect(auth.loading).toBe(false);
 		expect(alerts.msg.length).toEqual(1);
 		expect(alerts.alertType).toBe("success");
+	});
+
+	test("should reset passsword", async () => {
+		const store = storeFactory();
+
+		moxios.wait(() => {
+			// Define how moxios respond from axios
+			const request = moxios.requests.mostRecent();
+			request.respondWith({
+				status: 200,
+				_id: user._id,
+				email: user.email,
+			});
+		});
+
+		// Test reset alert
+		const msg = "test";
+		const alertType = "success";
+		store.dispatch(setAlert(msg, alertType));
+
+		// Spy mock on history
+		const history = createBrowserHistory();
+		jest.spyOn(history, "push");
+
+		// Dispatch login action
+		await store.dispatch(
+			resetPassword({
+				password: user.password,
+				resetToken: "test",
+				history,
+			})
+		);
+		const { auth, alerts } = store.getState();
+
+		// Assert auth loading, alert sent, history push
+		expect(auth.loading).toBe(false);
+		expect(alerts.msg.length).toEqual(1);
+		expect(alerts.alertType).toBe("success");
+		expect(history.push).toHaveBeenCalledWith("/dashboard");
 	});
 });
