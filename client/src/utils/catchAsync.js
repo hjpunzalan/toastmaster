@@ -13,7 +13,6 @@ import { logoutUser } from "../actions/auth";
 const catchAsync = (type, fn = type) => {
 	return async (dispatch) => {
 		await fn(dispatch).catch((err) => {
-			console.error(err);
 			const errors = err.response.data;
 			// The types handles when loading is still true
 			if (errors) dispatch(setAlert(errors.message, "fail"));
@@ -25,6 +24,7 @@ const catchAsync = (type, fn = type) => {
 			// Log user out if deactivated --- 401 Unauthorized
 			// Log out user if roles changed --- 403  Forbidden
 			if (err.response.status === 401 || err.response.status === 403) {
+				// Remove the cookie
 				dispatch(logoutUser());
 			}
 			dispatch({
