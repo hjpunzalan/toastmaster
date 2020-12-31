@@ -11,7 +11,7 @@ import {
 	CHANGE_PASSWORD,
 } from "../actions/types";
 
-const initialState = {
+export const initialState = {
 	currentUser: null,
 	isAuthenticated: false,
 	loading: true,
@@ -46,7 +46,6 @@ const authReducer = (state = initialState, action) => {
 		case AUTH_ERROR:
 			return {
 				...state,
-				isAuthenticated: false,
 				loading: false,
 			};
 
