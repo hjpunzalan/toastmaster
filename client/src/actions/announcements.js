@@ -43,11 +43,14 @@ export const createAnnouncement = ({ title, contentState, plainText }) =>
 		dispatch(setAlert("New announcement posted!", "success"));
 	});
 
+// Send to test
+export const limit = 10;
+
 export const getAnnouncements = () =>
 	catchAsync("announcement", async (dispatch) => {
 		// Only show the 10 recently updated announcements! (eg. by date)
 		// @todo show all with pagination
-		const limit = 10; //limit to 10 docs
+		//limit to 10 docs
 		const res = await axios.get(
 			`/api/announcements?sort=-lastEdited&limit=${limit}`
 		);
