@@ -176,6 +176,7 @@ describe("Announcement CRUD operations", () => {
 		const error = {
 			statusText: "fail",
 			status: 401,
+			message: "fail message",
 		};
 
 		test("should send error when creating announcements", async () => {
@@ -199,35 +200,31 @@ describe("Announcement CRUD operations", () => {
 			// Assert announcement error
 			expect(announcements).toEqual({ ...initialState, loading: false });
 			// Alert sent to user
-			expect(alerts.error.msg).toEqual("fail");
+			expect(alerts.alertType).toEqual("fail");
 		});
 
 		test("should send error when getting announcements", async () => {
-			moxios.wait(() => {
-				// Define how moxios respond from axios
-				const request = moxios.requests.mostRecent();
-				request.reject({
-					status: 401,
-					response: error,
-				});
-			});
+			const mock = new MockAdapter(axios);
+			mock
+				.onGet("/api/announcements")
+				.reply(401, error)
+				.onGet("/api/auth/logout")
+				.reply(200);
 			await store.dispatch(getAnnouncements());
 			// GET CURRENT STATE
 			const { announcements, alerts } = store.getState();
 			// Assert announcement error
 			expect(announcements).toEqual({ ...initialState, loading: false });
 			// Alert sent to user
-			expect(alerts.error.msg).toEqual("fail");
+			expect(alerts.alertType).toEqual("fail");
 		});
 		test("should send error when updating announcements", async () => {
-			moxios.wait(() => {
-				// Define how moxios respond from axios
-				const request = moxios.requests.mostRecent();
-				request.reject({
-					status: 401,
-					response: error,
-				});
-			});
+			const mock = new MockAdapter(axios);
+			mock
+				.onPatch(`/api/announcements/${announcement._id}`)
+				.reply(401, error)
+				.onGet("/api/auth/logout")
+				.reply(200);
 
 			await store.dispatch(
 				updateAnnouncement({
@@ -240,17 +237,15 @@ describe("Announcement CRUD operations", () => {
 			// Assert announcement error
 			expect(announcements).toEqual({ ...initialState, loading: false });
 			// Alert sent to user
-			expect(alerts.error.msg).toEqual("fail");
+			expect(alerts.alertType).toEqual("fail");
 		});
 		test("should send error when deleting announcements", async () => {
-			moxios.wait(() => {
-				// Define how moxios respond from axios
-				const request = moxios.requests.mostRecent();
-				request.reject({
-					status: 401,
-					response: error,
-				});
-			});
+			const mock = new MockAdapter(axios);
+			mock
+				.onDelete(`/api/announcements/${announcement._id}`)
+				.reply(401, error)
+				.onGet("/api/auth/logout")
+				.reply(200);
 
 			await store.dispatch(
 				updateAnnouncement({
@@ -263,7 +258,7 @@ describe("Announcement CRUD operations", () => {
 			// Assert announcement error
 			expect(announcements).toEqual({ ...initialState, loading: false });
 			// Alert sent to user
-			expect(alerts.error.msg).toEqual("fail");
+			expect(alerts.alertType).toEqual("fail");
 		});
 	});
 });
