@@ -1,5 +1,6 @@
 // integration test that test both action and reducer
-import moxios from "moxios";
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
 import { storeFactory } from "../../utils/testUtils";
 import {
 	toggleEdit,
@@ -7,6 +8,7 @@ import {
 	updateAnnouncement,
 	getAnnouncements,
 	deleteAnnouncement,
+	limit,
 } from "../announcements";
 import { setAlert } from "../alerts";
 import { initialState } from "../../reducers/announcements";
@@ -24,14 +26,6 @@ test("should toggle edit and reset alert", () => {
 });
 
 describe("Announcement CRUD operations", () => {
-	// Insert a specific axios instance
-	beforeEach(() => {
-		moxios.install();
-	});
-	afterEach(() => {
-		moxios.uninstall();
-	});
-
 	// Set announcement data to be passed
 	const announcement = {
 		_id: "test",
@@ -42,15 +36,8 @@ describe("Announcement CRUD operations", () => {
 
 	test("should create announcement and reset alert", async () => {
 		const store = storeFactory();
-
-		moxios.wait(() => {
-			// Define how moxios respond from axios
-			const request = moxios.requests.mostRecent();
-			request.respondWith({
-				status: 200,
-				response: announcement,
-			});
-		});
+		const mock = new MockAdapter(axios);
+		mock.onPost("/api/announcements").reply(201, announcement);
 
 		// Test reset alert
 		const msg = "test";
@@ -77,15 +64,10 @@ describe("Announcement CRUD operations", () => {
 
 	test("should get announcements", async () => {
 		const store = storeFactory();
-
-		moxios.wait(() => {
-			// Define how moxios respond from axios
-			const request = moxios.requests.mostRecent();
-			request.respondWith({
-				status: 200,
-				response: [announcement],
-			});
-		});
+		const mock = new MockAdapter(axios);
+		mock
+			.onGet(`/api/announcements?sort=-lastEdited&limit=${limit}`)
+			.reply(200, [announcement]);
 
 		// Dispatch create announcement action
 		await store.dispatch(getAnnouncements());
@@ -96,16 +78,20 @@ describe("Announcement CRUD operations", () => {
 	});
 
 	test("should update announcements and reset alerts", async () => {
-		const store = storeFactory();
+		// Updated announcement
+		const newAnnouncement = {
+			title: "test2",
+			contentState: { test: "test2" },
+			plainText: "test2",
+		};
 
-		moxios.wait(() => {
-			// Define how moxios respond from axios
-			const request = moxios.requests.mostRecent();
-			request.respondWith({
-				status: 200,
-				response: announcement,
-			});
-		});
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+		mock
+			.onPost("/api/announcements")
+			.reply(201, announcement)
+			.onPatch(`/api/announcements/${announcement._id}`)
+			.reply(200, { _id: announcement._id, ...newAnnouncement });
 
 		// Test reset alert
 		const msg = "test";
@@ -121,26 +107,10 @@ describe("Announcement CRUD operations", () => {
 			})
 		);
 
-		// Updated announcement
-		const newAnnouncement = {
-			title: "test2",
-			contentState: { test: "test2" },
-			plainText: "test2",
-		};
-
-		moxios.wait(() => {
-			// Define how moxios respond from axios
-			const request = moxios.requests.mostRecent();
-			request.respondWith({
-				status: 200,
-				// Update previous announcement
-				response: { ...announcement, ...newAnnouncement },
-			});
-		});
 		// Dispatch updateAnnouncement action
 		await store.dispatch(
 			updateAnnouncement({
-				_id: announcement.id,
+				id: announcement._id,
 				newTitle: newAnnouncement.title,
 				newContentState: newAnnouncement.contentState,
 				plainText: newAnnouncement.plainText,
@@ -167,15 +137,12 @@ describe("Announcement CRUD operations", () => {
 		window.confirm = jest.fn(() => true);
 
 		const store = storeFactory();
-
-		moxios.wait(() => {
-			// Define how moxios respond from axios
-			const request = moxios.requests.mostRecent();
-			request.respondWith({
-				status: 200,
-				response: announcement,
-			});
-		});
+		const mock = new MockAdapter(axios);
+		mock
+			.onPost("/api/announcements")
+			.reply(201, announcement)
+			.onDelete(`/api/announcements/${announcement._id}`)
+			.reply(200, announcement);
 
 		// Test reset alert
 		const msg = "test";
@@ -191,15 +158,6 @@ describe("Announcement CRUD operations", () => {
 			})
 		);
 
-		moxios.wait(() => {
-			// Define how moxios respond from axios
-			const request = moxios.requests.mostRecent();
-			request.respondWith({
-				// Delete announcement response
-				status: 204,
-				response: announcement,
-			});
-		});
 		// Dispatch deleteAnnnouncement action
 		await store.dispatch(deleteAnnouncement(announcement._id));
 
@@ -221,14 +179,12 @@ describe("Announcement CRUD operations", () => {
 		};
 
 		test("should send error when creating announcements", async () => {
-			moxios.wait(() => {
-				// Define how moxios respond from axios
-				const request = moxios.requests.mostRecent();
-				request.reject({
-					status: 401,
-					response: error,
-				});
-			});
+			const mock = new MockAdapter(axios);
+			mock
+				.onPost("/api/announcements")
+				.reply(401, error)
+				.onGet("/api/auth/logout")
+				.reply(200);
 
 			await store.dispatch(
 				createAnnouncement({
