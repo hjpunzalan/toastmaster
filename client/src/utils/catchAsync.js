@@ -15,7 +15,7 @@ const catchAsync = (type, fn = type) => {
 		await fn(dispatch).catch(async (err) => {
 			const errors = err.response;
 			// The types handles when loading is still true
-			if (errors) dispatch(setAlert(errors.message, "fail"));
+			if (errors) dispatch(setAlert(err.message, "fail"));
 			if (type === "post") dispatch({ type: POST_ERROR });
 			if (type === "auth") dispatch({ type: AUTH_ERROR });
 			if (type === "update") dispatch({ type: UPDATE_FAILED });
