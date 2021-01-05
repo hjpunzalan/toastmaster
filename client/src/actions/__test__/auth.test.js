@@ -220,5 +220,15 @@ describe("AUTH request patterns", () => {
 			// Alert sent to user
 			expect(alerts.alertType).toEqual("fail");
 		});
+		test("should send auth error when user is not logged in", async () => {
+			const mock = new MockAdapter(axios);
+			mock.onGet("/api/auth/checkUser").reply(401, error);
+
+			await store.dispatch(checkUser());
+			// GET CURRENT STATE
+			const { auth } = store.getState();
+			// Assert announcement error
+			expect(auth).toEqual({ ...initialState, loading: false });
+		});
 	});
 });
