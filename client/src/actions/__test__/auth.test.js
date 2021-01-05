@@ -203,10 +203,6 @@ describe("AUTH request patterns", () => {
 			const alertType = "success";
 			store.dispatch(setAlert(msg, alertType));
 
-			// Spy mock on history
-			const history = createBrowserHistory();
-			jest.spyOn(history, "push");
-
 			await store.dispatch(
 				loginUser({
 					formData: { email: user.email, password: user.password },
@@ -219,8 +215,10 @@ describe("AUTH request patterns", () => {
 			expect(auth).toEqual({ ...initialState, loading: false });
 			// Alert sent to user
 			expect(alerts.alertType).toEqual("fail");
+			// Reset alert
+			expect(alerts.msg.length).toEqual(1);
 		});
-		test("should send auth error when user is not logged in", async () => {
+		test("should send auth error/stop loading when user is not logged in", async () => {
 			const mock = new MockAdapter(axios);
 			mock.onGet("/api/auth/checkUser").reply(404, error);
 
@@ -229,6 +227,41 @@ describe("AUTH request patterns", () => {
 			const { auth } = store.getState();
 			// Assert announcement error
 			expect(auth).toEqual({ ...initialState, loading: false });
+		});
+
+		test("should stop loading when theres error logging out ", async () => {
+			const mock = new MockAdapter(axios);
+			mock.onGet("/api/auth/logout").reply(500);
+
+			await store.dispatch(logoutUser());
+			// GET CURRENT STATE
+			const { auth } = store.getState();
+			// Assert announcement error
+			expect(auth).toEqual({ ...initialState, loading: false });
+		});
+
+		test("should send error if user doesnt not exist/sending email when forgetting password", async () => {
+			const mock = new MockAdapter(axios);
+			mock
+				.onPost("/api/auth/forgotPassword")
+				.reply(404, error)
+				.onGet("/api/auth/logout")
+				.reply(200);
+
+			// Test reset alert
+			const msg = "test";
+			const alertType = "success";
+			store.dispatch(setAlert(msg, alertType));
+
+			await store.dispatch(forgotPassword(user.email, "test"));
+			// GET CURRENT STATE
+			const { auth, alerts } = store.getState();
+			// Assert announcement error
+			expect(auth).toEqual({ ...initialState, loading: false });
+			// Alert sent to user
+			expect(alerts.alertType).toEqual("fail");
+			// Reset alert
+			expect(alerts.msg.length).toEqual(1);
 		});
 	});
 });
