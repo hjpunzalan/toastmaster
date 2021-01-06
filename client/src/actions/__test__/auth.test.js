@@ -231,7 +231,7 @@ describe("AUTH request patterns", () => {
 			await store.dispatch(checkUser());
 			// GET CURRENT STATE
 			const { auth } = store.getState();
-			// Assert announcement error
+			// Assert auth error
 			expect(auth).toEqual({ ...initialState, loading: false });
 		});
 
@@ -242,7 +242,7 @@ describe("AUTH request patterns", () => {
 			await store.dispatch(logoutUser());
 			// GET CURRENT STATE
 			const { auth } = store.getState();
-			// Assert announcement error
+			// Assert auth error
 			expect(auth).toEqual({ ...initialState, loading: false });
 		});
 
@@ -262,7 +262,7 @@ describe("AUTH request patterns", () => {
 			await store.dispatch(forgotPassword(user.email, "test"));
 			// GET CURRENT STATE
 			const { auth, alerts } = store.getState();
-			// Assert announcement error
+			// Assert auth error
 			expect(auth).toEqual({ ...initialState, loading: false });
 			// Alert sent to user
 			expect(alerts.alertType).toEqual("fail");
@@ -290,7 +290,47 @@ describe("AUTH request patterns", () => {
 			// GET CURRENT STATE
 			const { auth, alerts } = store.getState();
 
-			// Assert announcement error
+			// Assert auth error
+			expect(auth).toEqual({ ...initialState, loading: false });
+			// Alert sent to user
+			expect(alerts.alertType).toEqual("fail");
+			// Reset alert
+			expect(alerts.msg.length).toEqual(1);
+
+			// Assert redirection of user
+			expect(history.push).not.toHaveBeenCalledWith("/dashboard");
+		});
+		test("send error when changing password", async () => {
+			const mock = new MockAdapter(axios);
+			mock
+				.onPost("/api/auth/updatePassword", user.password, "test12345")
+				.reply(401, error)
+				.onGet("/api/auth/logout")
+				.reply(200);
+
+			// Test reset alert
+			const msg = "test";
+			const alertType = "fail";
+			store.dispatch(setAlert(msg, alertType));
+
+			// Spy mock on history
+			const history = createBrowserHistory();
+			jest.spyOn(history, "push");
+
+			// Dispatch login action
+			await store.dispatch(
+				changePassword({
+					formData: {
+						currentPassword: user.password,
+						newPassword: "test12345",
+					},
+					history,
+				})
+			);
+			// GET CURRENT STATE
+			const { auth, alerts } = store.getState();
+
+			// Assert auth error
 			expect(auth).toEqual({ ...initialState, loading: false });
 			// Alert sent to user
 			expect(alerts.alertType).toEqual("fail");
