@@ -203,6 +203,9 @@ describe("AUTH request patterns", () => {
 			const alertType = "success";
 			store.dispatch(setAlert(msg, alertType));
 
+			const history = createBrowserHistory();
+			jest.spyOn(history, "push");
+
 			await store.dispatch(
 				loginUser({
 					formData: { email: user.email, password: user.password },
@@ -217,6 +220,9 @@ describe("AUTH request patterns", () => {
 			expect(alerts.alertType).toEqual("fail");
 			// Reset alert
 			expect(alerts.msg.length).toEqual(1);
+
+			// Assert redirection of user
+			expect(history.push).not.toHaveBeenCalledWith("/dashboard");
 		});
 		test("should send auth error/stop loading when user is not logged in", async () => {
 			const mock = new MockAdapter(axios);
@@ -262,6 +268,37 @@ describe("AUTH request patterns", () => {
 			expect(alerts.alertType).toEqual("fail");
 			// Reset alert
 			expect(alerts.msg.length).toEqual(1);
+		});
+		test("should send error if token invalid when resetting password", async () => {
+			const token = "testtoken";
+			const mock = new MockAdapter(axios);
+			mock
+				.onPatch(`/api/auth/resetPassword/${token}`)
+				.reply(400, error)
+				.onGet("/api/auth/logout")
+				.reply(200);
+
+			// Test reset alert
+			const msg = "test";
+			const alertType = "success";
+			store.dispatch(setAlert(msg, alertType));
+
+			const history = createBrowserHistory();
+			jest.spyOn(history, "push");
+
+			await store.dispatch(resetPassword("test", token));
+			// GET CURRENT STATE
+			const { auth, alerts } = store.getState();
+
+			// Assert announcement error
+			expect(auth).toEqual({ ...initialState, loading: false });
+			// Alert sent to user
+			expect(alerts.alertType).toEqual("fail");
+			// Reset alert
+			expect(alerts.msg.length).toEqual(1);
+
+			// Assert redirection of user
+			expect(history.push).not.toHaveBeenCalledWith("/dashboard");
 		});
 	});
 });
