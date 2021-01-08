@@ -16,7 +16,7 @@ import {
 	CLEAR_POST,
 } from "../actions/types";
 
-const initialState = {
+export const initialState = {
 	loading: true,
 	postLoading: true,
 	posts: [],
