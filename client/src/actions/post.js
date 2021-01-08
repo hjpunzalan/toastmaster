@@ -19,8 +19,8 @@ import { setAlert, resetAlert } from "./alerts";
 import catchAsync from "../utils/catchAsync";
 
 // Pagination limit for get all post and post next page
-const postLimitPerPage = 7;
-const commentsLimitPerPage = 6;
+export const postLimitPerPage = 7;
+export const commentsLimitPerPage = 6;
 
 export const toggleCreatePost = () => (dispatch) => {
 	// Clear any previous alert
