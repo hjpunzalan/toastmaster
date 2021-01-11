@@ -3,7 +3,7 @@ import MockAdapter from "axios-mock-adapter";
 import { createBrowserHistory } from "history";
 import { storeFactory } from "../../utils/testUtils";
 import { setAlert } from "../alerts";
-import { toggleCreatePost } from "../post";
+import { toggleCreatePost, toggleEditPost } from "../post";
 import { initialState } from "../../reducers/post";
 
 describe("POST request patterns", () => {
@@ -25,6 +25,21 @@ describe("POST request patterns", () => {
 		const { post, alerts } = store.getState();
 		// Assert postEdit state is toggled
 		expect(post.edit).not.toEqual(initialState.edit);
+		// Assert reset alert works
+		expect(alerts.msg.length).toEqual(0);
+	});
+
+	test("should toggle edit post", async () => {
+		const store = storeFactory();
+		// Test reset alert
+		const msg = "test";
+		const alertType = "fail";
+		store.dispatch(setAlert(msg, alertType));
+
+		store.dispatch(toggleEditPost());
+		const { post, alerts } = store.getState();
+		// Assert postEdit state is toggled
+		expect(post.postEdit).not.toEqual(initialState.postEdit);
 		// Assert reset alert works
 		expect(alerts.msg.length).toEqual(0);
 	});
