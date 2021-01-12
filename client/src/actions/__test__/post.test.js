@@ -3,7 +3,13 @@ import MockAdapter from "axios-mock-adapter";
 import { createBrowserHistory } from "history";
 import { storeFactory } from "../../utils/testUtils";
 import { setAlert } from "../alerts";
-import { toggleCreatePost, toggleEditPost, createPost } from "../post";
+import {
+	toggleCreatePost,
+	toggleEditPost,
+	createPost,
+	postLimitPerPage,
+	getAllPost,
+} from "../post";
 import { initialState } from "../../reducers/post";
 
 describe("POST request patterns", () => {
@@ -81,5 +87,40 @@ describe("POST request patterns", () => {
 		expect(history.push).toHaveBeenCalledWith(
 			`/discussion/post/${testPost._id}`
 		);
+	});
+
+	test("should get all posts", async () => {
+		const store = storeFactory();
+		const page = 1;
+
+		const mock = new MockAdapter(axios);
+
+		// Mock axios request for login and logout
+		mock
+			.onGet(
+				`/api/posts?page=${page}&limit=${postLimitPerPage}&sort=,-lastEdited,-lastComment`
+			)
+			.reply(200, {
+				posts: [testPost],
+				numPosts: 1,
+			});
+		// Test reset alert
+		const msg = "test";
+		const alertType = "fail";
+		store.dispatch(setAlert(msg, alertType));
+
+		// Spy mock on history
+		const history = createBrowserHistory();
+		jest.spyOn(history, "push");
+
+		await store.dispatch(getAllPost(page));
+		const { post, alerts } = store.getState();
+		// Assert posts list updated
+		expect(post.posts.length).toEqual(1);
+		// Assert edit and loading
+		expect(post.postEdit).toEqual(initialState.postEdit);
+		expect(post.loading).not.toEqual(initialState.loading);
+		// Assert reset alert works
+		expect(alerts.msg.length).toEqual(0);
 	});
 });
