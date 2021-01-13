@@ -84,16 +84,19 @@ export const getAllPost = (page = 1) =>
 export const postNextPage = (page, setPage, isSearch = false) =>
 	catchAsync(async (dispatch) => {
 		let res;
-		const nextPage = page + 1;
 		// Gets post by page with limit ,sorts by last comment then date.
 		if (isSearch) {
 			res = await axios.post(
-				`/api/posts/search/text?page=${nextPage}&limit=${postLimitPerPage}&sort=-lastComment,-date`,
+				`/api/posts/search/text?page=${
+					page + 1
+				}&limit=${postLimitPerPage}&sort=-lastComment,-date`,
 				{ text: isSearch }
 			);
 		} else {
 			res = await axios.get(
-				`/api/posts?page=${nextPage}&limit=${postLimitPerPage}&sort=-lastComment,-date`
+				`/api/posts?page=${
+					page + 1
+				}&limit=${postLimitPerPage}&sort=-lastComment,-date`
 			);
 		}
 		if (res.data) {
@@ -101,13 +104,13 @@ export const postNextPage = (page, setPage, isSearch = false) =>
 				type: POST_NEXT_PAGE,
 				payload: {
 					...res.data,
-					postLimitPerPage,
+					limit: postLimitPerPage,
 				},
 			});
 			// Change page state only after request has been made
 			// If request fails, state does not change
 			// Page number remains the same
-			setPage(nextPage);
+			setPage(page + 1);
 		}
 	});
 
