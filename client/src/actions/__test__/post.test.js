@@ -9,6 +9,7 @@ import {
 	createPost,
 	postLimitPerPage,
 	getAllPost,
+	postNextPage,
 } from "../post";
 import { initialState } from "../../reducers/post";
 
@@ -120,7 +121,63 @@ describe("POST request patterns", () => {
 		// Assert edit and loading
 		expect(post.postEdit).toEqual(initialState.postEdit);
 		expect(post.loading).not.toEqual(initialState.loading);
+		// Assert total pages
+		expect(post.totalPages).toEqual(1);
 		// Assert reset alert works
 		expect(alerts.msg.length).toEqual(0);
+	});
+
+	test("should get next page", async () => {
+		const store = storeFactory();
+		const page = 1;
+
+		const mock = new MockAdapter(axios);
+
+		// Mock axios request for login and logout
+		mock
+			.onPost(
+				`/api/posts/search/text?page=${
+					page + 1
+				}&limit=${postLimitPerPage}&sort=-lastComment,-date`
+			)
+			.reply(200, {
+				posts: [testPost],
+				numPosts: 1,
+			})
+			.onGet(
+				`/api/posts?page=${
+					page + 1
+				}&limit=${postLimitPerPage}&sort=-lastComment,-date`
+			)
+			.reply(200, {
+				posts: [testPost],
+				numPosts: 1,
+			});
+
+		const mockSetPage = jest.fn();
+		// Test with search //
+		await store.dispatch(postNextPage(page, mockSetPage, "test"));
+
+		const { post } = store.getState();
+		// Assert posts list updated
+		expect(post.posts.length).toEqual(1);
+		// Assert edit and loading
+		expect(post.postEdit).toEqual(initialState.postEdit);
+		expect(post.loading).not.toEqual(initialState.loading);
+		// Assert post total pages
+		expect(post.totalPages).toEqual(1);
+
+		// Test without search //
+		await store.dispatch(postNextPage(page, mockSetPage));
+
+		const newState = store.getState();
+		// Assert posts list updated
+		// Should be two as list includes prev page posts
+		expect(newState.post.posts.length).toEqual(2);
+		// Assert edit and loading
+		expect(newState.post.postEdit).toEqual(initialState.postEdit);
+		expect(newState.post.loading).not.toEqual(initialState.loading);
+		// Assert post total pages
+		expect(newState.post.totalPages).toEqual(1);
 	});
 });
