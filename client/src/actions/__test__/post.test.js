@@ -10,6 +10,7 @@ import {
 	postLimitPerPage,
 	getAllPost,
 	postNextPage,
+	getPost,
 } from "../post";
 import { initialState } from "../../reducers/post";
 
@@ -20,6 +21,7 @@ describe("POST request patterns", () => {
 		title: "title",
 		contentState: {},
 		plainText: "text",
+		comments: [{}],
 	};
 	test("should toggle create post", () => {
 		const store = storeFactory();
@@ -179,5 +181,39 @@ describe("POST request patterns", () => {
 		expect(newState.post.loading).not.toEqual(initialState.loading);
 		// Assert post total pages
 		expect(newState.post.totalPages).toEqual(1);
+	});
+
+	test("should get post by id", async () => {
+		const store = storeFactory();
+
+		const mock = new MockAdapter(axios);
+
+		// Mock axios request for login and logout
+		mock.onGet(`/api/posts/${testPost._id}`).reply(200, testPost);
+
+		// Mock props
+		const currentPage = 1;
+		const mockSetPage = jest.fn();
+		// Spy mock on history
+		const history = createBrowserHistory();
+		jest.spyOn(history, "push");
+
+		// Test with search //
+		await store.dispatch(
+			getPost({ id: testPost._id, currentPage, history, setPage: mockSetPage })
+		);
+
+		const { post } = store.getState();
+		// Assert edit
+		expect(post.edit).toEqual(false);
+		// Assert post edit and loading
+		expect(post.postEdit).toEqual(false);
+		expect(post.postLoading).toEqual(false);
+		// Assert post total pages
+		expect(post.post).toEqual({ ...testPost, totalPages: 1 });
+		// // Assert redirection
+		// expect(history.push).toHaveBeenCalledWith(
+		// 	`/discussion/post/${testPost._id}`
+		// );
 	});
 });
