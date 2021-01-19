@@ -13,6 +13,7 @@ import {
 	getPost,
 	updatePost,
 	deletePost,
+	addComment,
 } from "../post";
 import { initialState } from "../../reducers/post";
 
@@ -23,7 +24,7 @@ describe("POST request patterns", () => {
 		title: "title",
 		contentState: {},
 		plainText: "text",
-		comments: [{}],
+		comments: [{ plainText: "test" }],
 	};
 	test("should toggle create post", () => {
 		const store = storeFactory();
@@ -231,6 +232,8 @@ describe("POST request patterns", () => {
 		expect(history.push).toHaveBeenCalledWith(
 			`/discussion/post/${testPost._id}`
 		);
+		// Assert setPage
+		expect(mockSetPage).toHaveBeenCalledWith(1);
 	});
 
 	test("should update post", async () => {
@@ -300,5 +303,50 @@ describe("POST request patterns", () => {
 		expect(history.push).toHaveBeenCalledWith("/discussion");
 		// Assert alert
 		expect(alerts.alertType).toEqual("success");
+	});
+
+	test("should add comment", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+
+		// Mock axios request for add comment to post
+		mock.onPost(`/api/posts/${testPost._id}`).reply(200, testPost.comments);
+
+		// Test reset alert
+		const msg = "test";
+		const alertType = "fail";
+		store.dispatch(setAlert(msg, alertType));
+
+		// Mock props
+		const mockSetPage = jest.fn();
+		const totalPages = 1;
+		// Spy mock on history
+		const history = createBrowserHistory();
+		jest.spyOn(history, "push");
+
+		// Dispatch action
+		await store.dispatch(
+			addComment({
+				contentState: testPost.contentState,
+				postId: testPost._id,
+				history,
+				setPage: mockSetPage,
+			})
+		);
+
+		const { post, alerts } = store.getState();
+		// Assert reset alert works
+		expect(alerts.msg.length).toEqual(0);
+		// Assert post loading
+		expect(post.postLoading).toEqual(false);
+		// Assert post
+		expect(post.post).toEqual({ comments: testPost.comments, totalPages });
+
+		// Assert redirection
+		expect(history.push).toHaveBeenCalledWith(
+			`/discussion/post/${testPost._id}?page=${totalPages}`
+		);
+		// Assert setPage
+		expect(mockSetPage).toHaveBeenCalledWith(totalPages);
 	});
 });
