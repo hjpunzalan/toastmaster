@@ -11,6 +11,7 @@ import {
 	getAllPost,
 	postNextPage,
 	getPost,
+	updatePost,
 } from "../post";
 import { initialState } from "../../reducers/post";
 
@@ -236,46 +237,37 @@ describe("POST request patterns", () => {
 
 		const mock = new MockAdapter(axios);
 
-		// Mock axios request for login and logout
-		mock.onGet(`/api/posts/${testPost._id}`).reply(200, testPost);
+		const updatedPost = {
+			...testPost,
+			title: "update",
+			plainText: "new things",
+		};
 
-		// Mock props
-		const currentPage = 1;
-		const mockSetPage = jest.fn();
-		// Spy mock on history
-		const history = createBrowserHistory();
-		jest.spyOn(history, "push");
+		// Mock axios request for login and logout
+		mock.onPatch(`/api/posts/${testPost._id}`).reply(200, updatedPost);
+
+		// Test reset alert
+		const msg = "test";
+		const alertType = "fail";
+		store.dispatch(setAlert(msg, alertType));
 
 		// Test with search //
 		await store.dispatch(
-			getPost({ id: testPost._id, currentPage, history, setPage: mockSetPage })
+			updatePost({
+				postId: testPost._id,
+				newTitle: updatedPost.title,
+				newContentState: updatedPost.contentState,
+				plainText: updatedPost.plainText,
+			})
 		);
 
-		const { post } = store.getState();
-		// Assert edit
-		expect(post.edit).toEqual(false);
+		const { post, alerts } = store.getState();
 		// Assert post edit and loading
 		expect(post.postEdit).toEqual(false);
 		expect(post.postLoading).toEqual(false);
 		// Assert post total pages
-		expect(post.post).toEqual({ ...testPost, totalPages: 1 });
-		// Assert redirection
-		expect(history.push).not.toHaveBeenCalledWith(
-			`/discussion/post/${testPost._id}`
-		);
-
-		// Test with current page higher than total pages or NaN
-		await store.dispatch(
-			getPost({
-				id: testPost._id,
-				currentPage: 99,
-				history,
-				setPage: mockSetPage,
-			})
-		);
-		// Assert redirection
-		expect(history.push).toHaveBeenCalledWith(
-			`/discussion/post/${testPost._id}`
-		);
+		expect(post.post).toEqual({ ...updatedPost });
+		// Assert reset alert works
+		expect(alerts.msg.length).toEqual(0);
 	});
 });
