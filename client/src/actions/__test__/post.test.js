@@ -12,6 +12,7 @@ import {
 	postNextPage,
 	getPost,
 	updatePost,
+	deletePost,
 } from "../post";
 import { initialState } from "../../reducers/post";
 
@@ -59,7 +60,7 @@ describe("POST request patterns", () => {
 
 		const mock = new MockAdapter(axios);
 
-		// Mock axios request for login and logout
+		// Mock axios request for creating post
 		mock.onPost("/api/posts").reply(201, testPost);
 		// Test reset alert
 		const msg = "test";
@@ -136,7 +137,7 @@ describe("POST request patterns", () => {
 
 		const mock = new MockAdapter(axios);
 
-		// Mock axios request for login and logout
+		// Mock axios request get post list next page
 		mock
 			.onPost(
 				`/api/posts/search/text?page=${
@@ -158,7 +159,7 @@ describe("POST request patterns", () => {
 			});
 
 		const mockSetPage = jest.fn();
-		// Test with search //
+		// Dispatch action
 		await store.dispatch(postNextPage(page, mockSetPage, "test"));
 
 		const { post } = store.getState();
@@ -189,7 +190,7 @@ describe("POST request patterns", () => {
 
 		const mock = new MockAdapter(axios);
 
-		// Mock axios request for login and logout
+		// Mock axios request for get post by id
 		mock.onGet(`/api/posts/${testPost._id}`).reply(200, testPost);
 
 		// Mock props
@@ -199,7 +200,7 @@ describe("POST request patterns", () => {
 		const history = createBrowserHistory();
 		jest.spyOn(history, "push");
 
-		// Test with search //
+		// Dispatch action
 		await store.dispatch(
 			getPost({ id: testPost._id, currentPage, history, setPage: mockSetPage })
 		);
@@ -243,7 +244,7 @@ describe("POST request patterns", () => {
 			plainText: "new things",
 		};
 
-		// Mock axios request for login and logout
+		// Mock axios request for update post
 		mock.onPatch(`/api/posts/${testPost._id}`).reply(200, updatedPost);
 
 		// Test reset alert
@@ -251,7 +252,7 @@ describe("POST request patterns", () => {
 		const alertType = "fail";
 		store.dispatch(setAlert(msg, alertType));
 
-		// Test with search //
+		// Dispatch action
 		await store.dispatch(
 			updatePost({
 				postId: testPost._id,
@@ -265,9 +266,39 @@ describe("POST request patterns", () => {
 		// Assert post edit and loading
 		expect(post.postEdit).toEqual(false);
 		expect(post.postLoading).toEqual(false);
-		// Assert post total pages
+		// Assert post
 		expect(post.post).toEqual({ ...updatedPost });
 		// Assert reset alert works
 		expect(alerts.msg.length).toEqual(0);
+	});
+
+	test("should delete post", async () => {
+		// Mock window confirm click
+		window.confirm = jest.fn(() => true);
+
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+
+		// Mock axios request for delete post
+		mock.onDelete(`/api/posts/${testPost._id}`).reply(204);
+
+		// Spy mock on history
+		const history = createBrowserHistory();
+		jest.spyOn(history, "push");
+
+		// Dispatch action
+		await store.dispatch(deletePost(testPost._id, history));
+
+		const { post, alerts } = store.getState();
+		// Assert post loading
+		expect(post.postLoading).toEqual(true);
+		expect(post.loading).toEqual(true);
+		// Assert post
+		expect(post.post).toEqual(null);
+
+		// Assert redirection
+		expect(history.push).toHaveBeenCalledWith("/discussion");
+		// Assert alert
+		expect(alerts.alertType).toEqual("success");
 	});
 });
