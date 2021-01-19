@@ -211,9 +211,71 @@ describe("POST request patterns", () => {
 		expect(post.postLoading).toEqual(false);
 		// Assert post total pages
 		expect(post.post).toEqual({ ...testPost, totalPages: 1 });
-		// // Assert redirection
-		// expect(history.push).toHaveBeenCalledWith(
-		// 	`/discussion/post/${testPost._id}`
-		// );
+		// Assert redirection
+		expect(history.push).not.toHaveBeenCalledWith(
+			`/discussion/post/${testPost._id}`
+		);
+
+		// Test with current page higher than total pages or NaN
+		await store.dispatch(
+			getPost({
+				id: testPost._id,
+				currentPage: 99,
+				history,
+				setPage: mockSetPage,
+			})
+		);
+		// Assert redirection
+		expect(history.push).toHaveBeenCalledWith(
+			`/discussion/post/${testPost._id}`
+		);
+	});
+
+	test("should update post", async () => {
+		const store = storeFactory();
+
+		const mock = new MockAdapter(axios);
+
+		// Mock axios request for login and logout
+		mock.onGet(`/api/posts/${testPost._id}`).reply(200, testPost);
+
+		// Mock props
+		const currentPage = 1;
+		const mockSetPage = jest.fn();
+		// Spy mock on history
+		const history = createBrowserHistory();
+		jest.spyOn(history, "push");
+
+		// Test with search //
+		await store.dispatch(
+			getPost({ id: testPost._id, currentPage, history, setPage: mockSetPage })
+		);
+
+		const { post } = store.getState();
+		// Assert edit
+		expect(post.edit).toEqual(false);
+		// Assert post edit and loading
+		expect(post.postEdit).toEqual(false);
+		expect(post.postLoading).toEqual(false);
+		// Assert post total pages
+		expect(post.post).toEqual({ ...testPost, totalPages: 1 });
+		// Assert redirection
+		expect(history.push).not.toHaveBeenCalledWith(
+			`/discussion/post/${testPost._id}`
+		);
+
+		// Test with current page higher than total pages or NaN
+		await store.dispatch(
+			getPost({
+				id: testPost._id,
+				currentPage: 99,
+				history,
+				setPage: mockSetPage,
+			})
+		);
+		// Assert redirection
+		expect(history.push).toHaveBeenCalledWith(
+			`/discussion/post/${testPost._id}`
+		);
 	});
 });
