@@ -14,6 +14,7 @@ import {
 	updatePost,
 	deletePost,
 	addComment,
+	deleteComment,
 } from "../post";
 import { initialState } from "../../reducers/post";
 
@@ -24,7 +25,7 @@ describe("POST request patterns", () => {
 		title: "title",
 		contentState: {},
 		plainText: "text",
-		comments: [{ plainText: "test" }],
+		comments: [{ id: "test", plainText: "test" }],
 	};
 	test("should toggle create post", () => {
 		const store = storeFactory();
@@ -343,6 +344,65 @@ describe("POST request patterns", () => {
 		expect(post.post).toEqual({ comments: testPost.comments, totalPages });
 
 		// Assert redirection
+		expect(history.push).toHaveBeenCalledWith(
+			`/discussion/post/${testPost._id}?page=${totalPages}`
+		);
+		// Assert setPage
+		expect(mockSetPage).toHaveBeenCalledWith(totalPages);
+	});
+	test("should delete comment", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+
+		// Mock axios request for add comment to post
+		mock
+			.onPut(`/api/posts/${testPost._id}/comments/${testPost.comments[0].id}`)
+			.reply(200, testPost.comments);
+
+		// Test reset alert
+		const msg = "test";
+		const alertType = "fail";
+		store.dispatch(setAlert(msg, alertType));
+
+		// Mock props
+		const mockSetPage = jest.fn();
+		const page = 1;
+		const totalPages = 1;
+		// Spy mock on history
+		const history = createBrowserHistory();
+		jest.spyOn(history, "push");
+
+		// Dispatch action
+		await store.dispatch(
+			deleteComment({
+				postId: testPost._id,
+				commentId: testPost.comments[0].id,
+				history,
+				page,
+				setPage: mockSetPage,
+			})
+		);
+
+		const { post, alerts } = store.getState();
+		// Assert reset and send alert works
+		expect(alerts.msg.length).toEqual(1);
+		expect(alerts.alertType).toEqual("success");
+		// Assert post loading
+		expect(post.postLoading).toEqual(false);
+		// Assert post
+		expect(post.post).toEqual({ comments: testPost.comments, totalPages });
+
+		/////// Assert redirection when page > total pages ///////////
+		// Dispatch action
+		await store.dispatch(
+			deleteComment({
+				postId: testPost._id,
+				commentId: testPost.comments[0].id,
+				history,
+				page: 999,
+				setPage: mockSetPage,
+			})
+		);
 		expect(history.push).toHaveBeenCalledWith(
 			`/discussion/post/${testPost._id}?page=${totalPages}`
 		);
