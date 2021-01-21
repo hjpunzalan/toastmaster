@@ -15,6 +15,7 @@ import {
 	deletePost,
 	addComment,
 	deleteComment,
+	searchPost,
 } from "../post";
 import { initialState } from "../../reducers/post";
 
@@ -408,5 +409,37 @@ describe("POST request patterns", () => {
 		);
 		// Assert setPage
 		expect(mockSetPage).toHaveBeenCalledWith(totalPages);
+	});
+
+	test("should search post", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+		const page = 1;
+
+		// Mock axios request for add comment to post
+		mock
+			.onPost(
+				`/api/posts/search/text?page=${page}&limit=${postLimitPerPage}&sort=-lastComment,-date`
+			)
+			.reply(200, { posts: [testPost], numPosts: 1 });
+
+		// Test reset alert
+		const msg = "test";
+		const alertType = "fail";
+		store.dispatch(setAlert(msg, alertType));
+
+		// Dispatch action
+		await store.dispatch(searchPost("test"));
+
+		const { post, alerts } = store.getState();
+		// Assert reset and send alert works
+		expect(alerts.msg.length).toEqual(0);
+		// Assert post loading and edit
+		expect(post.loading).toEqual(false);
+		expect(post.postEdit).toEqual(false);
+		// Assert post
+		expect(post.post).toEqual(null);
+		// Assert total pages
+		expect(post.totalPages).toEqual(1);
 	});
 });
