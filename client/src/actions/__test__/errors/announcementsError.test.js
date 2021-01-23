@@ -2,14 +2,10 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { storeFactory } from "../../../utils/testUtils";
 import {
-	toggleEdit,
 	createAnnouncement,
 	updateAnnouncement,
 	getAnnouncements,
-	deleteAnnouncement,
-	limit,
 } from "../../announcements";
-import { setAlert } from "../../alerts";
 import { initialState } from "../../../reducers/announcements";
 
 describe("should send announcement error when request fails", () => {
