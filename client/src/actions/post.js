@@ -82,7 +82,7 @@ export const getAllPost = (page = 1) =>
 // isSearch is boolean || string
 // setPage from component state is passed to trigger the loader from InfiniteScroll component
 export const postNextPage = (page, setPage, isSearch = false) =>
-	catchAsync(async (dispatch) => {
+	catchAsync("post", async (dispatch) => {
 		let res;
 		// Gets post by page with limit ,sorts by last comment then date.
 		if (isSearch) {
