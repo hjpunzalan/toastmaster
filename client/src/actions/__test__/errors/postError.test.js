@@ -20,7 +20,6 @@ import {
 import { initialState } from "../../../reducers/post";
 
 describe("Test for error handling post actions", () => {
-	const store = storeFactory();
 	const error = {
 		statusText: "fail",
 		status: 401,
@@ -36,6 +35,7 @@ describe("Test for error handling post actions", () => {
 		comments: [{ id: "test", plainText: "test" }],
 	};
 	test("should send error when creating post", async () => {
+		const store = storeFactory();
 		const mock = new MockAdapter(axios);
 		mock.onPost("/api/posts").reply(400, error);
 
@@ -62,6 +62,7 @@ describe("Test for error handling post actions", () => {
 		expect(alerts.msg.length).toEqual(1);
 	});
 	test("should send error when getting all post", async () => {
+		const store = storeFactory();
 		const mock = new MockAdapter(axios);
 		const page = 1;
 		mock
@@ -84,5 +85,49 @@ describe("Test for error handling post actions", () => {
 		expect(alerts.alertType).toEqual("fail");
 		// Reset alert
 		expect(alerts.msg.length).toEqual(1);
+	});
+	test("should send error at post next page", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+		const page = 1;
+		mock
+			.onPost(
+				`/api/posts/search/text?page=${
+					page + 1
+				}&limit=${postLimitPerPage}&sort=-lastComment,-date`
+			)
+			.reply(400, error)
+			.onGet(
+				`/api/posts?page=${
+					page + 1
+				}&limit=${postLimitPerPage}&sort=-lastComment,-date`
+			)
+			.reply(400, error);
+
+		const mockSetPage = jest.fn();
+		// Dispatch action
+		await store.dispatch(postNextPage(page, mockSetPage, "test"));
+
+		const { post, alerts } = store.getState();
+		// Assert loading
+		expect(post.loading).toEqual(false);
+		expect(post.postLoading).toEqual(false);
+		// Alert sent to user
+		expect(alerts.alertType).toEqual("fail");
+		console.log(alerts.msg);
+		// Reset alert
+		expect(alerts.msg.length).toEqual(1);
+
+		// Test without search //
+		await store.dispatch(postNextPage(page, mockSetPage));
+
+		const newState = store.getState();
+		// Assert edit and loading
+		expect(newState.post.postLoading).toEqual(false);
+		expect(newState.post.loading).toEqual(false);
+		// Alert sent to user
+		expect(newState.alerts.alertType).toEqual("fail");
+		// Alert msg must be 2
+		expect(newState.alerts.msg.length).toEqual(2);
 	});
 });
