@@ -188,4 +188,65 @@ describe("Test for error handling post actions", () => {
 		// Reset alert
 		expect(alerts.msg.length).toEqual(1);
 	});
+	test("should send error when deleting a post", async () => {
+		// Mock window confirm click
+		window.confirm = jest.fn(() => true);
+
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+
+		// Spy mock on history
+		const history = createBrowserHistory();
+		jest.spyOn(history, "push");
+
+		// Mock axios request for delete post
+		mock.onDelete(`/api/posts/${testPost._id}`).reply(400, error);
+
+		// Dispatch action
+		await store.dispatch(deletePost(testPost._id, history));
+
+		const { post, alerts } = store.getState();
+		// Assert loading
+		expect(post.loading).toEqual(false);
+		expect(post.postLoading).toEqual(false);
+		// Alert sent to user
+		expect(alerts.alertType).toEqual("fail");
+	});
+
+	test("should send error when adding a comment to a post", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+
+		// Mock axios request for add comment to post
+		mock.onPost(`/api/posts/${testPost._id}`).reply(400, error);
+
+		// Test reset alert
+		const msg = "test";
+		const alertType = "success";
+		store.dispatch(setAlert(msg, alertType));
+
+		// Mock props
+		const mockSetPage = jest.fn();
+		// Spy mock on history
+		const history = createBrowserHistory();
+		jest.spyOn(history, "push");
+
+		// Dispatch action
+		await store.dispatch(
+			addComment({
+				contentState: testPost.contentState,
+				postId: testPost._id,
+				history,
+				setPage: mockSetPage,
+			})
+		);
+		const { post, alerts } = store.getState();
+		// Assert loading
+		expect(post.loading).toEqual(false);
+		expect(post.postLoading).toEqual(false);
+		// Alert sent to user
+		expect(alerts.alertType).toEqual("fail");
+		// Reset alert
+		expect(alerts.msg.length).toEqual(1);
+	});
 });
