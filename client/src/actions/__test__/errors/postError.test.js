@@ -114,7 +114,6 @@ describe("Test for error handling post actions", () => {
 		expect(post.postLoading).toEqual(false);
 		// Alert sent to user
 		expect(alerts.alertType).toEqual("fail");
-		console.log(alerts.msg);
 		// Reset alert
 		expect(alerts.msg.length).toEqual(1);
 
@@ -129,5 +128,19 @@ describe("Test for error handling post actions", () => {
 		expect(newState.alerts.alertType).toEqual("fail");
 		// Alert msg must be 2
 		expect(newState.alerts.msg.length).toEqual(2);
+	});
+	test("should send error when getting a post", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+		const page = 1;
+		mock.onGet(`/api/posts/${testPost._id}`).reply(400, error);
+
+		await store.dispatch(getAllPost(page));
+		const { post, alerts } = store.getState();
+		// Assert loading
+		expect(post.loading).toEqual(false);
+		expect(post.postLoading).toEqual(false);
+		// Alert sent to user
+		expect(alerts.alertType).toEqual("fail");
 	});
 });
