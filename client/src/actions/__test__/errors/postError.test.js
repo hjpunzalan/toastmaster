@@ -290,4 +290,34 @@ describe("Test for error handling post actions", () => {
 		// Reset alert
 		expect(alerts.msg.length).toEqual(1);
 	});
+
+	test("should send error when searching a post", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+		const page = 1;
+
+		// Mock axios request for add comment to post
+		mock
+			.onPost(
+				`/api/posts/search/text?page=${page}&limit=${postLimitPerPage}&sort=-lastComment,-date`
+			)
+			.reply(400, error);
+
+		// Test reset alert
+		const msg = "test";
+		const alertType = "success";
+		store.dispatch(setAlert(msg, alertType));
+
+		// Dispatch action
+		await store.dispatch(searchPost("test"));
+
+		const { post, alerts } = store.getState();
+		// Assert loading
+		expect(post.loading).toEqual(false);
+		expect(post.postLoading).toEqual(false);
+		// Alert sent to user
+		expect(alerts.alertType).toEqual("fail");
+		// Reset alert
+		expect(alerts.msg.length).toEqual(1);
+	});
 });
