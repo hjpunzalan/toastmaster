@@ -249,4 +249,45 @@ describe("Test for error handling post actions", () => {
 		// Reset alert
 		expect(alerts.msg.length).toEqual(1);
 	});
+
+	test("should send error when deleting a comment to a post", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+		const page = 1;
+
+		// Mock axios request for add comment to post
+		mock
+			.onPut(`/api/posts/${testPost._id}/comments/${testPost.comments[0].id}`)
+			.reply(400, error);
+
+		// Test reset alert
+		const msg = "test";
+		const alertType = "success";
+		store.dispatch(setAlert(msg, alertType));
+
+		// Mock props
+		const mockSetPage = jest.fn();
+		// Spy mock on history
+		const history = createBrowserHistory();
+		jest.spyOn(history, "push");
+
+		// Dispatch action
+		await store.dispatch(
+			deleteComment({
+				postId: testPost._id,
+				commentId: testPost.comments[0].id,
+				history,
+				page,
+				setPage: mockSetPage,
+			})
+		);
+		const { post, alerts } = store.getState();
+		// Assert loading
+		expect(post.loading).toEqual(false);
+		expect(post.postLoading).toEqual(false);
+		// Alert sent to user
+		expect(alerts.alertType).toEqual("fail");
+		// Reset alert
+		expect(alerts.msg.length).toEqual(1);
+	});
 });
