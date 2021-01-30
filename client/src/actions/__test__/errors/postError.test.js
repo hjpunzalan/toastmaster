@@ -143,4 +143,25 @@ describe("Test for error handling post actions", () => {
 		// Alert sent to user
 		expect(alerts.alertType).toEqual("fail");
 	});
+	test("should send error when updating a post", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+		const page = 1;
+		mock.onPatch(`/api/posts/${testPost._id}`).reply(400, error);
+
+		// Test reset alert
+		const msg = "test";
+		const alertType = "success";
+		store.dispatch(setAlert(msg, alertType));
+
+		await store.dispatch(getAllPost(page));
+		const { post, alerts } = store.getState();
+		// Assert loading
+		expect(post.loading).toEqual(false);
+		expect(post.postLoading).toEqual(false);
+		// Alert sent to user
+		expect(alerts.alertType).toEqual("fail");
+		// Reset alert
+		expect(alerts.msg.length).toEqual(1);
+	});
 });
