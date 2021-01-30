@@ -132,10 +132,21 @@ describe("Test for error handling post actions", () => {
 	test("should send error when getting a post", async () => {
 		const store = storeFactory();
 		const mock = new MockAdapter(axios);
-		const page = 1;
+
 		mock.onGet(`/api/posts/${testPost._id}`).reply(400, error);
 
-		await store.dispatch(getAllPost(page));
+		// Mock props
+		const currentPage = 1;
+		const mockSetPage = jest.fn();
+		// Spy mock on history
+		const history = createBrowserHistory();
+		jest.spyOn(history, "push");
+
+		// Dispatch action
+		await store.dispatch(
+			getPost({ id: testPost._id, currentPage, history, setPage: mockSetPage })
+		);
+
 		const { post, alerts } = store.getState();
 		// Assert loading
 		expect(post.loading).toEqual(false);
@@ -146,7 +157,12 @@ describe("Test for error handling post actions", () => {
 	test("should send error when updating a post", async () => {
 		const store = storeFactory();
 		const mock = new MockAdapter(axios);
-		const page = 1;
+		const updatedPost = {
+			...testPost,
+			title: "update",
+			plainText: "new things",
+		};
+
 		mock.onPatch(`/api/posts/${testPost._id}`).reply(400, error);
 
 		// Test reset alert
@@ -154,7 +170,15 @@ describe("Test for error handling post actions", () => {
 		const alertType = "success";
 		store.dispatch(setAlert(msg, alertType));
 
-		await store.dispatch(getAllPost(page));
+		// Dispatch action
+		await store.dispatch(
+			updatePost({
+				postId: testPost._id,
+				newTitle: updatedPost.title,
+				newContentState: updatedPost.contentState,
+				plainText: updatedPost.plainText,
+			})
+		);
 		const { post, alerts } = store.getState();
 		// Assert loading
 		expect(post.loading).toEqual(false);
