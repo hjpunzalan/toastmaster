@@ -10,6 +10,7 @@ import {
 	getAllUsers,
 	toggleView,
 	deActivateUser,
+	activateUser,
 } from "../users";
 
 describe("USER request patterns", () => {
@@ -183,6 +184,42 @@ describe("USER request patterns", () => {
 		expect(alerts.alertType).toBe("success");
 		expect(alerts.msg[0]).toBe(
 			`${testUser.firstName} ${testUser.lastName} has been deactivated!`
+		);
+	});
+
+	test("should reActivate user", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+
+		// Mock axios request
+		mock
+			.onPatch(`/api/users/activateUser/${testUser._id}`)
+			.reply(200, { ...testUser, active: true });
+
+		// Test reset alert
+		const msg = "test";
+		const alertType = "fail";
+		store.dispatch(setAlert(msg, alertType));
+
+		// Register user first
+		// Mock register request and dispatch action
+		await registerTestUser(mock, store);
+
+		// Dispatch  action
+		await store.dispatch(activateUser(testUser._id));
+		const { users, alerts } = store.getState();
+		// Assert loading
+		expect(users.loading).toBe(false);
+
+		// Assert user deactivated
+		expect(users.users[0].active).toBe(true);
+
+		// Assert reset alert works
+		expect(alerts.msg.length).toEqual(1);
+		// Assert alert sent to user
+		expect(alerts.alertType).toBe("success");
+		expect(alerts.msg[0]).toBe(
+			`${testUser.firstName} ${testUser.lastName} has been activated!`
 		);
 	});
 });
