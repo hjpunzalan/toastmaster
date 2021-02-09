@@ -10,7 +10,7 @@ import {
 	REMOVE_COMMITTEE,
 } from "../actions/types";
 
-const initialState = {
+export const initialState = {
 	users: [],
 	loading: true,
 	error: {},

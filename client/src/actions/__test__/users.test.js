@@ -4,7 +4,7 @@ import { createBrowserHistory } from "history";
 import { storeFactory } from "../../utils/testUtils";
 import { setAlert } from "../alerts";
 import { initialState } from "../../reducers/users";
-import { registerUser, updateMe, getAllUsers } from "../users";
+import { registerUser, updateMe, getAllUsers, toggleView } from "../users";
 
 describe("USER request patterns", () => {
 	const testUser = {
@@ -128,5 +128,12 @@ describe("USER request patterns", () => {
 
 		// Assert userss list
 		expect(users.users.length).toBe(1);
+	});
+
+	test("should toggle user view state if user is committee or admin", () => {
+		const store = storeFactory();
+		store.dispatch(toggleView());
+		const { users } = store.getState();
+		expect(users.Moderator).not.toEqual(initialState.Moderator);
 	});
 });
