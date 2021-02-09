@@ -4,7 +4,13 @@ import { createBrowserHistory } from "history";
 import { storeFactory } from "../../utils/testUtils";
 import { setAlert } from "../alerts";
 import { initialState } from "../../reducers/users";
-import { registerUser, updateMe, getAllUsers, toggleView } from "../users";
+import {
+	registerUser,
+	updateMe,
+	getAllUsers,
+	toggleView,
+	deActivateUser,
+} from "../users";
 
 describe("USER request patterns", () => {
 	const testUser = {
@@ -15,20 +21,12 @@ describe("USER request patterns", () => {
 		password: "testing",
 	};
 
-	test("should register user", async () => {
-		const store = storeFactory();
-		const mock = new MockAdapter(axios);
-
+	const registerTestUser = async (mock, store) => {
 		// Mock axios request
 		mock.onPost("/api/users/register").reply(200, {
 			_id: testUser._id,
 			email: testUser.email,
 		});
-
-		// Test reset alert
-		const msg = "test";
-		const alertType = "fail";
-		store.dispatch(setAlert(msg, alertType));
 
 		// Dispatch register action
 		await store.dispatch(
@@ -41,6 +39,20 @@ describe("USER request patterns", () => {
 				"testUrl"
 			)
 		);
+	};
+
+	test("should register user", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+
+		// Test reset alert
+		const msg = "test";
+		const alertType = "fail";
+		store.dispatch(setAlert(msg, alertType));
+
+		// Mock register request and dispatch action
+		await registerTestUser(mock, store);
+
 		const { users, alerts } = store.getState();
 		// Assert loading
 		expect(users.loading).toBe(false);
@@ -136,5 +148,41 @@ describe("USER request patterns", () => {
 		const { users } = store.getState();
 		// Assert user moderator view state has been changed
 		expect(users.Moderator).not.toEqual(initialState.Moderator);
+	});
+
+	test("should deactivate user by user id", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+
+		// Mock axios request
+		mock
+			.onPatch(`/api/users/deActivateUser/${testUser._id}`)
+			.reply(200, { ...testUser, active: false });
+
+		// Test reset alert
+		const msg = "test";
+		const alertType = "fail";
+		store.dispatch(setAlert(msg, alertType));
+
+		// Register user first
+		// Mock register request and dispatch action
+		await registerTestUser(mock, store);
+
+		// Dispatch  action
+		await store.dispatch(deActivateUser(testUser._id));
+		const { users, alerts } = store.getState();
+		// Assert loading
+		expect(users.loading).toBe(false);
+
+		// Assert user deactivated
+		expect(users.users[0].active).toBe(false);
+
+		// Assert reset alert works
+		expect(alerts.msg.length).toEqual(1);
+		// Assert alert sent to user
+		expect(alerts.alertType).toBe("success");
+		expect(alerts.msg[0]).toBe(
+			`${testUser.firstName} ${testUser.lastName} has been deactivated!`
+		);
 	});
 });
