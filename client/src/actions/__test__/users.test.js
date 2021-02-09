@@ -4,7 +4,7 @@ import { createBrowserHistory } from "history";
 import { storeFactory } from "../../utils/testUtils";
 import { setAlert } from "../alerts";
 import { initialState } from "../../reducers/users";
-import { registerUser, updateMe } from "../users";
+import { registerUser, updateMe, getAllUsers } from "../users";
 
 describe("USER request patterns", () => {
 	const testUser = {
@@ -111,5 +111,22 @@ describe("USER request patterns", () => {
 		// Assert alert sent to user
 		expect(alerts.alertType).toBe("success");
 		expect(alerts.msg[0]).toBe("User updated");
+	});
+
+	test("should get all users", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+
+		// Mock axios request
+		mock.onGet("/api/users?sort=firstName").reply(200, [testUser]);
+
+		// Dispatch login action
+		await store.dispatch(getAllUsers());
+		const { users } = store.getState();
+		// Assert loading
+		expect(users.loading).toBe(false);
+
+		// Assert userss list
+		expect(users.users.length).toBe(1);
 	});
 });
