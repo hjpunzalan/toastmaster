@@ -30,7 +30,7 @@ describe("USER request patterns", () => {
 		const alertType = "fail";
 		store.dispatch(setAlert(msg, alertType));
 
-		// Dispatch login action
+		// Dispatch register action
 		await store.dispatch(
 			registerUser(
 				{
@@ -91,7 +91,7 @@ describe("USER request patterns", () => {
 		const history = createBrowserHistory();
 		jest.spyOn(history, "push");
 
-		// Dispatch login action with file
+		// Dispatch action
 		await store.dispatch(updateMe(testUser, file, history));
 		const { auth, alerts } = store.getState();
 		// Assert loading
@@ -120,7 +120,7 @@ describe("USER request patterns", () => {
 		// Mock axios request
 		mock.onGet("/api/users?sort=firstName").reply(200, [testUser]);
 
-		// Dispatch login action
+		// Dispatch get all users action
 		await store.dispatch(getAllUsers());
 		const { users } = store.getState();
 		// Assert loading
@@ -134,6 +134,7 @@ describe("USER request patterns", () => {
 		const store = storeFactory();
 		store.dispatch(toggleView());
 		const { users } = store.getState();
+		// Assert user moderator view state has been changed
 		expect(users.Moderator).not.toEqual(initialState.Moderator);
 	});
 });
