@@ -11,6 +11,7 @@ import {
 	toggleView,
 	deActivateUser,
 	activateUser,
+	changeRole,
 } from "../users";
 
 describe("USER request patterns", () => {
@@ -20,6 +21,7 @@ describe("USER request patterns", () => {
 		lastName: "testLastName",
 		email: "test@example.com",
 		password: "testing",
+		role: "user",
 	};
 
 	const registerTestUser = async (mock, store) => {
@@ -220,6 +222,62 @@ describe("USER request patterns", () => {
 		expect(alerts.alertType).toBe("success");
 		expect(alerts.msg[0]).toBe(
 			`${testUser.firstName} ${testUser.lastName} has been activated!`
+		);
+	});
+
+	test("should change role", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+
+		// Mock axios request
+		mock
+			.onPatch(`/api/users/makeCommittee/${testUser._id}`)
+			.reply(200, { ...testUser, role: "committee" })
+			.onPatch(`/api/users/removeCommittee/${testUser._id}`)
+			.reply(200, { ...testUser, role: "user" });
+
+		// Test reset alert
+		const msg = "test";
+		const alertType = "fail";
+		store.dispatch(setAlert(msg, alertType));
+
+		// Register user first
+		// Mock register request and dispatch action
+		await registerTestUser(mock, store);
+
+		// Dispatch  action change role to committee
+		await store.dispatch(changeRole(testUser._id, "true"));
+
+		const { users, alerts } = store.getState();
+		// Assert loading
+		expect(users.loading).toBe(false);
+
+		// Assert user role
+		expect(users.users[0].role).toBe("committee");
+
+		// Assert reset alert works
+		expect(alerts.msg.length).toEqual(1);
+		// Assert alert sent to user
+		expect(alerts.alertType).toBe("success");
+		expect(alerts.msg[0]).toBe(
+			`${testUser.firstName} ${testUser.lastName} is now a committee member`
+		);
+		//////////////////
+
+		// Dispatch  action change role demote to user
+		await store.dispatch(changeRole(testUser._id, "false"));
+
+		const newState = store.getState();
+
+		// Assert user role
+		expect(newState.users.users[0].role).toBe("user");
+
+		// Assert reset alert works
+		expect(newState.alerts.msg.length).toEqual(1);
+		// Assert alert sent to user
+		expect(newState.alerts.alertType).toBe("success");
+		expect(newState.alerts.msg[0]).toBe(
+			`${testUser.firstName} ${testUser.lastName} is back to a normal member`
 		);
 	});
 });
