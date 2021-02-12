@@ -17,7 +17,6 @@ import {
 	deleteComment,
 	searchPost,
 } from "../../post";
-import { initialState } from "../../../reducers/post";
 
 describe("Test for error handling post actions", () => {
 	const error = {
