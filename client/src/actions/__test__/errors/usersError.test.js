@@ -82,4 +82,58 @@ describe("USER request patterns", () => {
 		// Reset alert
 		expect(alerts.msg.length).toEqual(1);
 	});
+
+	test("should send error when updating user", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+
+		// Test reset alert
+		const msg = "test";
+		const alertType = "fail";
+		store.dispatch(setAlert(msg, alertType));
+
+		// props
+		const url = "testUrl";
+		const file = { file: "data" };
+
+		// Spy mock on history
+		const history = createBrowserHistory();
+		jest.spyOn(history, "push");
+
+		// Mock register request and dispatch action
+		// Mock axios request
+		mock
+			.onPost("/api/upload")
+			.reply(400, error)
+			.onPut(url)
+			.reply(400)
+			.onPatch("/api/users/updateMe")
+			.reply(400, error);
+
+		// Dispatch action with file
+		await store.dispatch(updateMe(testUser, file, history));
+
+		const { auth, alerts } = store.getState();
+		// Assert loading
+		expect(auth.loading).toEqual(false);
+		// Alert sent to user
+		expect(alerts.alertType).toEqual("fail");
+		// Reset alert
+		expect(alerts.msg.length).toEqual(1);
+		// Assert history redirection
+		expect(history.push).not.toHaveBeenCalled();
+
+		// Dispatch action without file
+		await store.dispatch(updateMe(testUser, null, history));
+
+		const newState = store.getState();
+		// Assert loading
+		expect(newState.auth.loading).toEqual(false);
+		// Alert sent to user
+		expect(newState.alerts.alertType).toEqual("fail");
+		// Reset alert
+		expect(newState.alerts.msg.length).toEqual(1);
+		// Assert history redirection
+		expect(history.push).not.toHaveBeenCalled();
+	});
 });
