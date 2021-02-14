@@ -66,7 +66,7 @@ export const updateMe = (formData, file, history) =>
 	});
 
 export const getAllUsers = () =>
-	catchAsync(async (dispatch) => {
+	catchAsync("users", async (dispatch) => {
 		// Send request to get all user sorted by first name
 		const res = await axios.get(`/api/users?sort=firstName`);
 

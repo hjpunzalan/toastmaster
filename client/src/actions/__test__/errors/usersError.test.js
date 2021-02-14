@@ -136,4 +136,24 @@ describe("USER request patterns", () => {
 		// Assert history redirection
 		expect(history.push).not.toHaveBeenCalled();
 	});
+
+	test("should send error when getting all users", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+
+		// Mock register request and dispatch action
+		// Mock axios request
+		mock.onGet("/api/users?sort=firstName").reply(400, error);
+
+		// Dispatch action
+		await store.dispatch(getAllUsers());
+
+		const { users, alerts } = store.getState();
+		// Assert loading
+		expect(users.loading).toEqual(false);
+		// Alert sent to user
+		expect(alerts.alertType).toEqual("fail");
+		// Reset alert
+		expect(alerts.msg.length).toEqual(1);
+	});
 });
