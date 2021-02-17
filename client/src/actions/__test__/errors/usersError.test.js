@@ -184,4 +184,33 @@ describe("USER request patterns", () => {
 		// Reset alert
 		expect(alerts.msg.length).toEqual(1);
 	});
+
+	test("should send error when reactivating a user", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+
+		// Mock register request and dispatch action
+		// Mock axios request
+		mock.onPatch(`/api/users/activateUser/${testUser._id}`).reply(400, error);
+
+		// Test reset alert
+		const msg = "test";
+		const alertType = "success";
+		store.dispatch(setAlert(msg, alertType));
+
+		// Register user first
+		// Mock register request and dispatch action
+		await registerTestUser(mock, store);
+
+		// Dispatch  action
+		await store.dispatch(activateUser(testUser._id));
+
+		const { users, alerts } = store.getState();
+		// Assert loading
+		expect(users.loading).toEqual(false);
+		// Alert sent to user
+		expect(alerts.alertType).toEqual("fail");
+		// Reset alert
+		expect(alerts.msg.length).toEqual(1);
+	});
 });
