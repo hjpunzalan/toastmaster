@@ -213,4 +213,51 @@ describe("USER request patterns", () => {
 		// Reset alert
 		expect(alerts.msg.length).toEqual(1);
 	});
+	test("should send error when changing a user role", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+
+		// Mock register request and dispatch action
+		// Mock axios request
+		// Mock axios request
+		mock
+			.onPatch(`/api/users/makeCommittee/${testUser._id}`)
+			.reply(400, error)
+			.onPatch(`/api/users/removeCommittee/${testUser._id}`)
+			.reply(400, error);
+		// Test reset alert
+		const msg = "test";
+		const alertType = "success";
+		store.dispatch(setAlert(msg, alertType));
+
+		// Register user first
+		// Mock register request and dispatch action
+		await registerTestUser(mock, store);
+
+		// Dispatch  action change role to committee
+		await store.dispatch(changeRole(testUser._id, "true"));
+
+		const { users, alerts } = store.getState();
+		// Assert loading
+		expect(users.loading).toEqual(false);
+		// Alert sent to user
+		expect(alerts.alertType).toEqual("fail");
+		// Reset alert
+		expect(alerts.msg.length).toEqual(1);
+
+		//////////////////
+
+		// Dispatch  action change role demote to user
+		await store.dispatch(changeRole(testUser._id, "false"));
+
+		const newState = store.getState();
+
+		// Assert user role
+		expect(newState.users.loading).toEqual(false);
+
+		// Assert reset alert works
+		expect(newState.alerts.msg.length).toEqual(1);
+		// Assert alert sent to user
+		expect(newState.alerts.alertType).toBe("fail");
+	});
 });
