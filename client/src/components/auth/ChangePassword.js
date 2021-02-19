@@ -35,7 +35,7 @@ const ChangePassword = ({
 	return loading ? (
 		<Spinner />
 	) : (
-		<div className="Form">
+		<div data-test="component-changepassword" className="Form">
 			<Link className="Form__goBack" to="/dashboard">
 				<button>Cancel</button>
 			</Link>
