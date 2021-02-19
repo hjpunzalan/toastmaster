@@ -3,6 +3,8 @@ import checkPropTypes from "check-prop-types";
 import rootReducer from "../reducers";
 import { middleware, composeEnhancers } from "../store";
 
+const initialState = {};
+
 export const storeFactory = (initialState) => {
 	return createStore(
 		rootReducer,
