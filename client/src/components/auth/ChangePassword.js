@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import { changePassword } from "../../actions/auth";
 import useForms from "../../hooks/useForms";
 import Spinner from "../utils/Spinner";
@@ -36,9 +35,14 @@ const ChangePassword = ({
 		<Spinner />
 	) : (
 		<div data-test="component-changepassword" className="Form">
-			<Link className="Form__goBack" to="/dashboard">
-				<button>Cancel</button>
-			</Link>
+			<button
+				data-test="cancel-button"
+				className="Form__goBack"
+				onClick={() => {
+					history.push("/dashboard");
+				}}>
+				Cancel
+			</button>
 			<h1>Change Your Password</h1>
 			<p className="Form__text">
 				Changing your password will log you out from other devices.

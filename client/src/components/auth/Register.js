@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
@@ -11,6 +10,7 @@ const Register = ({
 	registerUser,
 	users: { loading, Moderator },
 	auth: { currentUser },
+	history,
 }) => {
 	// This makes react the single source of truth
 	const handleRegister = (formData) => {
@@ -33,9 +33,14 @@ const Register = ({
 		<Spinner />
 	) : (
 		<div className="Form">
-			<Link to="/members" className="Form__goBack">
-				<button>Go Back</button>
-			</Link>
+			<button
+				data-test="cancel-button"
+				className="Form__goBack"
+				onClick={() => {
+					history.push("/members");
+				}}>
+				Cancel
+			</button>
 			<h1>Register a User</h1>
 			<p className="Form__text">Please fill the form as per member's details</p>
 			<hr />
