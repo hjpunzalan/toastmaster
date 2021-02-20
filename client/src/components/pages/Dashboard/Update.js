@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import useForms from '../../../hooks/useForms';
-import { updateMe } from '../../../actions/users';
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import useForms from "../../../hooks/useForms";
+import { updateMe } from "../../../actions/users";
 
 const Update = ({ auth: { currentUser }, updateMe, history }) => {
-	const [file, setFile] = useState('');
+	const [file, setFile] = useState("");
 	const { firstName, lastName, email } = currentUser;
 	const blankForm = { firstName, lastName, email };
 	const { formData, handleChange, handleSubmit } = useForms(
@@ -16,15 +16,20 @@ const Update = ({ auth: { currentUser }, updateMe, history }) => {
 		history
 	);
 
-	const handleFileChange = e => {
+	const handleFileChange = (e) => {
 		setFile(e.target.files[0]);
 	};
 
 	return (
 		<div className="Form">
-			<Link className="Form__goBack" to="/dashboard">
-				<button>Cancel</button>
-			</Link>
+			<button
+				data-test="cancel-button"
+				className="Form__goBack"
+				onClick={() => {
+					history.push("/dashboard");
+				}}>
+				Cancel
+			</button>
 			<h1>Update your profile</h1>
 			<form className="Form__form" onSubmit={handleSubmit}>
 				<label htmlFor="image">
@@ -71,14 +76,11 @@ const Update = ({ auth: { currentUser }, updateMe, history }) => {
 
 Update.propTypes = {
 	updateMe: PropTypes.func.isRequired,
-	auth: PropTypes.object.isRequired
+	auth: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-	auth: state.auth
+const mapStateToProps = (state) => ({
+	auth: state.auth,
 });
 
-export default connect(
-	mapStateToProps,
-	{ updateMe }
-)(Update);
+export default connect(mapStateToProps, { updateMe })(Update);

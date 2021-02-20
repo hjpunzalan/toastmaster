@@ -103,14 +103,13 @@
         text-decoration: none;
         font-size: $size-cancel;
         margin-bottom: 5rem;
+        cursor: pointer;
+        padding: 0.7rem 3rem;
 
         @media only screen and (max-width: 25em) {
             font-size: 1.3rem;
         }
 
-        >button {
-            cursor: pointer;
-            padding: 0.7rem 3rem;
-        }
+
     }
 }
