@@ -43,17 +43,22 @@ test("renders without error when loading is false", () => {
 	const wrapper = setup({
 		auth: { loading: false },
 	});
-	const component = findByTestAttr(wrapper, "component-changepassword");
-	expect(component.length).toBe(1);
+	const component = wrapper.find(".Form");
+	expect(component).toHaveLength(1);
 	// Should hide spinner
 	expect(wrapper.contains(<Spinner />)).toBe(false);
+	// Should render all component children
+	expect(component.find(".Form__goBack")).toHaveLength(1);
+	expect(component.find(".Form__text")).toHaveLength(1);
+	const form = component.find(".Form__form");
+	expect(form).toHaveLength(1);
 });
 
 test("cancel button works", () => {
 	const wrapper = setup({
 		auth: { loading: false },
 	});
-	const button = findByTestAttr(wrapper, "cancel-button");
+	const button = wrapper.find(".Form__goBack");
 	expect(button.length).toBe(1);
 	// Simulate click
 	jest.spyOn(history, "push");
