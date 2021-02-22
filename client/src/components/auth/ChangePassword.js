@@ -34,9 +34,8 @@ const ChangePassword = ({
 	return loading ? (
 		<Spinner />
 	) : (
-		<div data-test="component-changepassword" className="Form">
+		<div className="Form">
 			<button
-				data-test="cancel-button"
 				className="Form__goBack"
 				onClick={() => {
 					history.push("/dashboard");
