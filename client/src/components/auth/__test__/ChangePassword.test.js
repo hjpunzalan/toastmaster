@@ -65,3 +65,22 @@ test("cancel button works", () => {
 	button.simulate("click");
 	expect(history.push).toHaveBeenCalledWith("/dashboard");
 });
+
+test("renders form text", () => {
+	const wrapper = setup({
+		auth: { loading: false },
+	});
+	const formText = wrapper.find(".Form__text");
+	expect(formText.text()).toBe(
+		"Changing your password will log you out from other devices."
+	);
+});
+
+test("form renders all the children", () => {
+	const wrapper = setup({
+		auth: { loading: false },
+	});
+	const form = wrapper.find(".Form__form");
+	// Ensure theres password input and label
+	// @@@@@TODO CHANGE ALL LABELS AND INPUT OF FORMS
+});
