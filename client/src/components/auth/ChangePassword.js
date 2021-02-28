@@ -6,6 +6,8 @@ import useForms from "../../hooks/useForms";
 import Spinner from "../utils/Spinner";
 import { setAlert, resetAlert } from "../../actions/alerts";
 
+export let inputs;
+
 const ChangePassword = ({
 	setAlert,
 	resetAlert,
@@ -31,6 +33,23 @@ const ChangePassword = ({
 		setAlert("Passwords does not match", "fail");
 	};
 
+	inputs = [
+		{
+			label: "Current Password",
+			placeholder: "Enter your current Password",
+			value: currentPassword,
+		},
+		{
+			label: "New Password",
+			placeholder: "Enter your new Password",
+			value: newPassword,
+		},
+		{
+			label: "Confirm Password",
+			placeholder: "Confirm password",
+			value: confirmPassword,
+		},
+	];
 	return loading ? (
 		<Spinner />
 	) : (
@@ -52,45 +71,25 @@ const ChangePassword = ({
 				onSubmit={
 					newPassword !== confirmPassword ? passwordNotMatch : handleSubmit
 				}>
-				<label htmlFor="currentPassword">
-					<b>Current Password</b>
-				</label>
-				<input
-					type="password"
-					placeholder="Enter your current Password"
-					name="currentPassword"
-					value={currentPassword}
-					onChange={handleChange}
-					required
-					autoComplete="on"
-				/>
-				<br />
-				<br />
-				<label htmlFor="newPassword">
-					<b>New Password</b>
-				</label>
-				<input
-					type="password"
-					placeholder="Enter your new Password"
-					name="newPassword"
-					value={newPassword}
-					onChange={handleChange}
-					autoComplete="on"
-					minLength="6"
-					required
-				/>
-				<label htmlFor="confirmPassword">
-					<b>Confirm Password</b>
-				</label>
-				<input
-					type="password"
-					placeholder="Confirm password"
-					name="confirmPassword"
-					value={confirmPassword}
-					onChange={handleChange}
-					minLength="6"
-					required
-				/>
+				{inputs.map((input, i) => {
+					return (
+						<label key={input.label}>
+							<b>{input.label}</b>
+
+							<input
+								type="password"
+								placeholder={input.placeholder}
+								value={input.value}
+								name={Object.keys(blankForm)[i]}
+								onChange={handleChange}
+								autoComplete="on"
+								minLength="6"
+								required
+							/>
+						</label>
+					);
+				})}
+
 				<div className="Form__btns">
 					<input
 						type="submit"
