@@ -8,24 +8,27 @@ import { setAlert, resetAlert } from "../../actions/alerts";
 
 export let inputs;
 
-const ChangePassword = ({
+export const ChangePassword = ({
 	setAlert,
 	resetAlert,
 	changePassword,
 	history,
 	auth: { loading },
+	initialFormState,
 }) => {
 	const blankForm = {
 		currentPassword: "",
 		newPassword: "",
 		confirmPassword: "",
 	};
+
 	const { formData, handleChange, handleSubmit } = useForms(
-		blankForm,
+		initialFormState ? initialFormState : blankForm,
 		changePassword,
 		{ history }
 	);
 	const passwordNotMatch = (e) => {
+		console.log("test");
 		resetAlert();
 		e.preventDefault();
 		setAlert("Passwords does not match", "fail");
