@@ -25,29 +25,33 @@ const ChangePassword = ({
 		changePassword,
 		{ history }
 	);
-	const { currentPassword, newPassword, confirmPassword } = formData;
-
 	const passwordNotMatch = (e) => {
 		resetAlert();
 		e.preventDefault();
 		setAlert("Passwords does not match", "fail");
 	};
 
+	const names = Object.keys(blankForm);
+
+	// Form data should contain all blank form names
 	inputs = [
 		{
 			label: "Current Password",
 			placeholder: "Enter your current Password",
-			value: currentPassword,
+			name: names[0],
+			value: formData[names[0]],
 		},
 		{
 			label: "New Password",
 			placeholder: "Enter your new Password",
-			value: newPassword,
+			name: names[1],
+			value: formData[names[1]],
 		},
 		{
 			label: "Confirm Password",
 			placeholder: "Confirm password",
-			value: confirmPassword,
+			name: names[2],
+			value: formData[names[2]],
 		},
 	];
 	return loading ? (
@@ -69,7 +73,9 @@ const ChangePassword = ({
 			<form
 				className="Form__form"
 				onSubmit={
-					newPassword !== confirmPassword ? passwordNotMatch : handleSubmit
+					formData[names[1]] !== formData[names[2]]
+						? passwordNotMatch
+						: handleSubmit
 				}>
 				{inputs.map((input, i) => {
 					return (
@@ -80,7 +86,7 @@ const ChangePassword = ({
 								type="password"
 								placeholder={input.placeholder}
 								value={input.value}
-								name={Object.keys(blankForm)[i]}
+								name={input.name}
 								onChange={handleChange}
 								autoComplete="on"
 								minLength="6"
