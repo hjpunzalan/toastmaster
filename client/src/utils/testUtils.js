@@ -13,11 +13,6 @@ export const storeFactory = (initialState) => {
 	);
 };
 
-export const findByTestAttr = (wrapper, val) => {
-	// Find custom attribute data-test
-	return wrapper.find(`[data-test="${val}"]`);
-};
-
 export const checkProps = (component, conformingProps) => {
 	const propError = checkPropTypes(
 		component.propTypes,
