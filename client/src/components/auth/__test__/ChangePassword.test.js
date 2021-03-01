@@ -22,6 +22,7 @@ const setup = (props = {}) => {
 	// destructuring matters in order
 	let initialState = { auth: { ...props.auth } };
 	const store = storeFactory(initialState);
+	// Includes default props with action
 	const setupProps = { ...defaultProps, ...props };
 	return shallow(<ChangePassword {...setupProps} store={store} />)
 		.dive()
@@ -98,4 +99,25 @@ test("form renders all the children", () => {
 	// Renders input submit
 	const submitButton = form.find("[type='submit']");
 	expect(submitButton.props().value).toEqual("Change Password");
+});
+
+test("input passwords should work as intended", () => {
+	const wrapper = setup({
+		auth: { loading: false },
+	});
+
+	const inputComponents = wrapper.find("[type='password']");
+	// Make sure all inputs have correct value when text is typed
+	const testPasswords = ["test111", "test222", "test333"];
+	// Simulate typing
+	inputComponents.forEach((input, i) => {
+		input.simulate("change", {
+			target: { name: inputs[i].name, value: testPasswords[i] },
+		});
+		// Assert input values
+		// Wrappers(except root one) are immutable so you need to .find() element again.
+		expect(wrapper.find("[type='password']").get(i).props.value).toEqual(
+			testPasswords[i]
+		);
+	});
 });
