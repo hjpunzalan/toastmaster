@@ -3,9 +3,9 @@ import { shallow } from "enzyme";
 import { createBrowserHistory } from "history";
 import { findByTestAttr, storeFactory } from "../../../utils/testUtils";
 import { setAlert, resetAlert } from "../../../actions/alerts";
-import { changePassword } from "../../../actions/users";
+import { changePassword } from "../../../actions/auth";
 
-import ChangePassword from "../ChangePassword";
+import ChangePassword, { inputs } from "../ChangePassword";
 import Spinner from "../../utils/Spinner";
 
 const history = createBrowserHistory();
@@ -64,6 +64,11 @@ test("cancel button works", () => {
 	jest.spyOn(history, "push");
 	button.simulate("click");
 	expect(history.push).toHaveBeenCalledWith("/dashboard");
+
+	// Obtain form values from inputs array
+	const formValues = inputs.map((input) => input.value);
+	// Assert empty inputs
+	formValues.forEach((v) => expect(v).toBe(""));
 });
 
 test("renders form text", () => {
@@ -81,6 +86,16 @@ test("form renders all the children", () => {
 		auth: { loading: false },
 	});
 	const form = wrapper.find(".Form__form");
-	// Ensure theres password input and label
-	// @@@@@TODO CHANGE ALL LABELS AND INPUT OF FORMS
+	const labels = form.find("label");
+	const labelsText = labels.find("b");
+
+	// Make sure all labels are there and correctly labeled in order
+	labelsText.forEach((t, i) => expect(t.text()).toEqual(inputs[i].label));
+
+	// Correct number of input passwords
+	expect(form.find("[type='password']").length).toEqual(3);
+
+	// Renders input submit
+	const submitButton = form.find("[type='submit']");
+	expect(submitButton.props().value).toEqual("Change Password");
 });
