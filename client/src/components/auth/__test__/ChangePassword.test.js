@@ -1,22 +1,26 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { createBrowserHistory } from "history";
-import { storeFactory } from "../../../utils/testUtils";
 
-import ChangePassword, { inputs } from "../ChangePassword";
+import { ChangePassword, inputs } from "../ChangePassword";
 import Spinner from "../../utils/Spinner";
+import { setAlert, resetAlert } from "../../../actions/alerts";
+import { changePassword } from "../../../actions/auth";
 
 const history = createBrowserHistory();
 
+const initialProps = {
+	setAlert,
+	resetAlert,
+	changePassword,
+	history,
+	auth: { loading: true },
+};
+
 // Setup function that returns wrapper
 const setup = (props = {}) => {
-	// default props and props together and may be overwritten
-	// destructuring matters in order
-	let initialState = { auth: { ...props.auth } };
-	const store = storeFactory(initialState);
-	return shallow(<ChangePassword {...props} history={history} store={store} />)
-		.dive()
-		.dive();
+	const setupProps = { ...initialProps, ...props };
+	return shallow(<ChangePassword {...setupProps} history={history} />);
 };
 
 // FOR DEBUGGING
@@ -101,6 +105,9 @@ test("input passwords should work as intended", () => {
 	const testPasswords = ["test111", "test222", "test333"];
 	// Simulate typing
 	inputComponents.forEach((input, i) => {
+		// Assert an empty form
+		expect(input.props().value).toEqual("");
+
 		input.simulate("change", {
 			target: { name: inputs[i].name, value: testPasswords[i] },
 		});
@@ -110,4 +117,22 @@ test("input passwords should work as intended", () => {
 			testPasswords[i]
 		);
 	});
+});
+
+test("Submit button should call change password unless confirm password does not match", () => {
+	const changePasswordMock = jest.fn();
+	const wrapper = setup({
+		auth: { loading: false },
+		changePassword: changePasswordMock,
+		initialFormState: {
+			currentPassword: "test123",
+			newPassword: "test123",
+			confirmPassword: "test123",
+		},
+	});
+
+	// Simulate submit
+	const form = wrapper.find("form");
+	form.simulate("submit", { preventDefault() {} });
+	expect(changePasswordMock.mock.calls.length).toBe(1);
 });
