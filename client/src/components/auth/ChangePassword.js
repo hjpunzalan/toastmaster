@@ -28,7 +28,6 @@ export const ChangePassword = ({
 		{ history }
 	);
 	const passwordNotMatch = (e) => {
-		console.log("test");
 		resetAlert();
 		e.preventDefault();
 		setAlert("Passwords does not match", "fail");

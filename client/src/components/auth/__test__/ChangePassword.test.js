@@ -136,3 +136,21 @@ test("Submit button should call change password unless confirm password does not
 	form.simulate("submit", { preventDefault() {} });
 	expect(changePasswordMock.mock.calls.length).toBe(1);
 });
+
+test("Submit button should set alert fail when password does not match", () => {
+	const setAlertMock = jest.fn();
+	const wrapper = setup({
+		auth: { loading: false },
+		setAlert: setAlertMock,
+		initialFormState: {
+			currentPassword: "test123",
+			newPassword: "test123",
+			confirmPassword: "test111",
+		},
+	});
+
+	// Simulate submit
+	const form = wrapper.find("form");
+	form.simulate("submit", { preventDefault() {} });
+	expect(setAlertMock).toHaveBeenCalledWith("Passwords does not match", "fail");
+});
