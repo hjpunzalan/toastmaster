@@ -1,20 +1,12 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { createBrowserHistory } from "history";
-import { findByTestAttr, storeFactory } from "../../../utils/testUtils";
-import { setAlert, resetAlert } from "../../../actions/alerts";
-import { changePassword } from "../../../actions/auth";
+import { storeFactory } from "../../../utils/testUtils";
 
 import ChangePassword, { inputs } from "../ChangePassword";
 import Spinner from "../../utils/Spinner";
 
 const history = createBrowserHistory();
-const defaultProps = {
-	history,
-	setAlert,
-	resetAlert,
-	changePassword,
-};
 
 // Setup function that returns wrapper
 const setup = (props = {}) => {
@@ -22,9 +14,7 @@ const setup = (props = {}) => {
 	// destructuring matters in order
 	let initialState = { auth: { ...props.auth } };
 	const store = storeFactory(initialState);
-	// Includes default props with action
-	const setupProps = { ...defaultProps, ...props };
-	return shallow(<ChangePassword {...setupProps} store={store} />)
+	return shallow(<ChangePassword {...props} history={history} store={store} />)
 		.dive()
 		.dive();
 };
