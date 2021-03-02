@@ -100,6 +100,11 @@ test("form renders all the children", () => {
 	// Renders input submit
 	const submitButton = form.find("[type='submit']");
 	expect(submitButton.props().value).toEqual("Login");
+
+	// Renders form link
+	const forgotPasswordLink = form.find(".Form__link");
+	expect(forgotPasswordLink.text().length).not.toBe(0);
+	expect(forgotPasswordLink.props().to).toEqual("/forgotpassword");
 });
 
 test("inputs should be initially blank and handleChange works", () => {
