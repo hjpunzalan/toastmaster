@@ -62,3 +62,19 @@ test("renders form text is not empty", () => {
 	const formText = wrapper.find(".Form__text");
 	expect(formText.text().length).not.toBe(0);
 });
+
+test("form renders all the children", () => {
+	const wrapper = setup({
+		auth: { loading: false },
+	});
+	const form = wrapper.find(".Form__form");
+	const labels = form.find("label");
+
+	// Correct number of input text
+	expect(form.find("[type='text']").length).toEqual(1);
+	expect(form.find("[type='text']").props().placeholder).not.toBe(0);
+
+	// Renders input submit
+	const submitButton = form.find("[type='submit']");
+	expect(submitButton.props().value.length).not.toBe(0);
+});
