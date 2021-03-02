@@ -32,10 +32,10 @@ export const ChangePassword = ({
 		e.preventDefault();
 		setAlert("Passwords does not match", "fail");
 	};
+	// This ensures all names and values correctly follows formData state
+	const names = Object.keys(initialFormState ? initialFormState : blankForm);
 
-	const names = Object.keys(blankForm);
-
-	// Form data should contain all blank form names
+	// Form data should contain all formData names
 	inputs = [
 		{
 			label: "Current Password",
