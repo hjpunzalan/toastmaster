@@ -79,7 +79,7 @@ export const ChangePassword = ({
 						? passwordNotMatch
 						: handleSubmit
 				}>
-				{inputs.map((input, i) => {
+				{inputs.map((input) => {
 					return (
 						<label key={input.label}>
 							<b>{input.label}</b>

@@ -6,17 +6,42 @@ import useForms from "../../hooks/useForms";
 import { loginUser } from "../../actions/auth";
 import Spinner from "../utils/Spinner";
 
-const Login = ({ loginUser, history, auth: { isAuthenticated, loading } }) => {
+export let inputs;
+
+export const Login = ({
+	loginUser,
+	history,
+	auth: { isAuthenticated, loading },
+	initialFormState,
+}) => {
 	const blankForm = {
 		email: "",
 		password: "",
 	};
 	const { formData, handleChange, handleSubmit } = useForms(
-		blankForm,
+		initialFormState ? initialFormState : blankForm,
 		loginUser,
 		{ history }
 	);
-	const { email, password } = formData;
+
+	// This ensures all names and values correctly follows formData state
+	const names = Object.keys(initialFormState ? initialFormState : blankForm);
+
+	// Form data should contain all formData names
+	inputs = [
+		{
+			label: "Email",
+			placeholder: "Enter email",
+			name: names[0],
+			value: formData[names[0]],
+		},
+		{
+			label: "Password",
+			placeholder: "Enter Password",
+			name: names[1],
+			value: formData[names[1]],
+		},
+	];
 
 	// Redirect if logged in
 	if (isAuthenticated) {
@@ -33,29 +58,29 @@ const Login = ({ loginUser, history, auth: { isAuthenticated, loading } }) => {
 			</p>
 			<hr />
 			<form className="Form__form" onSubmit={handleSubmit}>
-				<label htmlFor="email">
-					<b>Email</b>
+				<label>
+					<b>{inputs[0].label}</b>
+					<input
+						type="text"
+						placeholder={inputs[0].placeholder}
+						name={inputs[0].name}
+						value={inputs[0].value}
+						onChange={handleChange}
+						required
+					/>
 				</label>
-				<input
-					type="text"
-					placeholder="Enter Email"
-					name="email"
-					value={email}
-					onChange={handleChange}
-					required
-				/>
-				<label htmlFor="password">
-					<b>Password</b>
+				<label>
+					<b>{inputs[1].label}</b>
+					<input
+						type="password"
+						placeholder={inputs[1].placeholder}
+						name={inputs[1].name}
+						value={inputs[1].value}
+						onChange={handleChange}
+						required
+						autoComplete="on"
+					/>
 				</label>
-				<input
-					type="password"
-					placeholder="Enter Password"
-					name="password"
-					value={password}
-					onChange={handleChange}
-					required
-					autoComplete="on"
-				/>
 				<div className="Form__btns">
 					<input type="submit" className="btn btn__submit" value="Login" />
 				</div>
