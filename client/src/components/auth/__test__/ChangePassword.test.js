@@ -59,6 +59,7 @@ test("cancel button works", () => {
 	});
 	const button = wrapper.find(".Form__goBack");
 	expect(button.length).toBe(1);
+	expect(button.text().length).not.toBe(0);
 	// Simulate click
 	jest.spyOn(history, "push");
 	button.simulate("click");
