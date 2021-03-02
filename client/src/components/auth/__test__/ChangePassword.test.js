@@ -87,7 +87,7 @@ test("form renders all the children", () => {
 	// Make sure all labels are there and correctly labeled in order
 	labelsText.forEach((t, i) => expect(t.text()).toEqual(inputs[i].label));
 
-	// Correct number of input passwords
+	// Correct number of input passwords and are initially empty
 	expect(form.find("[type='password']").length).toEqual(3);
 
 	// Renders input submit
@@ -95,7 +95,7 @@ test("form renders all the children", () => {
 	expect(submitButton.props().value).toEqual("Change Password");
 });
 
-test("input passwords should work as intended", () => {
+test("input passwords should be initially blank and handleChange works", () => {
 	const wrapper = setup({
 		auth: { loading: false },
 	});
@@ -119,7 +119,7 @@ test("input passwords should work as intended", () => {
 	});
 });
 
-test("Submit button should call change password unless confirm password does not match", () => {
+test("Submit button should call change password when confirm password matches", () => {
 	const changePasswordMock = jest.fn();
 	const wrapper = setup({
 		auth: { loading: false },
@@ -139,9 +139,11 @@ test("Submit button should call change password unless confirm password does not
 
 test("Submit button should set alert fail when password does not match", () => {
 	const setAlertMock = jest.fn();
+	const resetAlertMock = jest.fn();
 	const wrapper = setup({
 		auth: { loading: false },
 		setAlert: setAlertMock,
+		resetAlert: resetAlertMock,
 		initialFormState: {
 			currentPassword: "test123",
 			newPassword: "test123",
@@ -149,8 +151,9 @@ test("Submit button should set alert fail when password does not match", () => {
 		},
 	});
 
-	// Simulate submit
+	// Simulate submit when password does not match
 	const form = wrapper.find("form");
 	form.simulate("submit", { preventDefault() {} });
+	expect(resetAlertMock.mock.calls.length).toEqual(1);
 	expect(setAlertMock).toHaveBeenCalledWith("Passwords does not match", "fail");
 });
