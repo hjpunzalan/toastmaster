@@ -96,8 +96,15 @@ test("form renders all the children", () => {
 	// Make sure all labels are there and correctly labeled in order
 	labelsText.forEach((t, i) => expect(t.text()).toEqual(inputs[i].label));
 
-	// Correct number of input passwords and are initially empty
+	// Correct number of input passwords
 	expect(form.find("[type='password']").length).toEqual(3);
+
+	// Correct placeholders in inputs
+	form
+		.find("[type='password']")
+		.forEach((input, i) =>
+			expect(input.props().placeholder).toEqual(inputs[i].placeholder)
+		);
 
 	// Renders input submit
 	const submitButton = form.find("[type='submit']");
