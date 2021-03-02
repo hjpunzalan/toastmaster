@@ -104,7 +104,7 @@ test("form renders all the children", () => {
 
 test("inputs should be initially blank and handleChange works", () => {
 	const wrapper = setup({
-		auth: { loading: false },
+		auth: { isAuthenticated: false, loading: false },
 	});
 
 	expect(wrapper.find("[type='text']").props().value).toEqual("");
@@ -122,4 +122,21 @@ test("inputs should be initially blank and handleChange works", () => {
 		"test@example.com"
 	);
 	expect(wrapper.find("[type='password']").props().value).toEqual("test123");
+});
+
+test("Submit button should call loginUser", () => {
+	const loginUserMock = jest.fn();
+	const wrapper = setup({
+		loginUser: loginUserMock,
+		auth: { isAuthenticated: false, loading: false },
+		initialFormState: {
+			email: "test@example.com",
+			password: "test123",
+		},
+	});
+
+	// Simulate submit
+	const form = wrapper.find("form");
+	form.simulate("submit", { preventDefault() {} });
+	expect(loginUserMock.mock.calls.length).toBe(1);
 });
