@@ -24,7 +24,6 @@ export const ForgotPassword = ({ forgotPassword, auth: { loading } }) => {
 			<hr />
 			<form className="Form__form" onSubmit={handleSubmit}>
 				<label>
-					<b>Email</b>
 					<input
 						type="text"
 						placeholder="Enter Email"
