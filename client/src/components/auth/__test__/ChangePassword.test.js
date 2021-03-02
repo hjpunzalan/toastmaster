@@ -40,10 +40,13 @@ test("renders without error when loading is false", () => {
 	});
 	const component = wrapper.find(".Form");
 	expect(component).toHaveLength(1);
+
 	// Should hide spinner
 	expect(wrapper.contains(<Spinner />)).toBe(false);
+
 	// Should render all component children
 	expect(component.find(".Form__goBack")).toHaveLength(1);
+	expect(component.find("h1")).toHaveLength(1);
 	expect(component.find(".Form__text")).toHaveLength(1);
 	const form = component.find(".Form__form");
 	expect(form).toHaveLength(1);
