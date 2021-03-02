@@ -71,8 +71,8 @@ test("form renders all the children", () => {
 	const labels = form.find("label");
 
 	// Correct number of input text
-	expect(form.find("[type='text']").length).toEqual(1);
-	expect(form.find("[type='text']").props().placeholder).not.toBe(0);
+	expect(form.find("[type='email']").length).toEqual(1);
+	expect(form.find("[type='email']").props().placeholder).not.toBe(0);
 
 	// Renders input submit
 	const submitButton = form.find("[type='submit']");
@@ -84,7 +84,7 @@ test("input email should be initially blank and onChange works", () => {
 		auth: { loading: false },
 	});
 
-	const input = wrapper.find("[type='text']");
+	const input = wrapper.find("[type='email']");
 	// Should be empty initially
 	expect(input.props().value).toEqual("");
 	// Simulate typing
@@ -93,7 +93,7 @@ test("input email should be initially blank and onChange works", () => {
 	});
 	// Assert input values
 	// Wrappers(except root one) are immutable so you need to .find() element again.
-	expect(wrapper.find("[type='text']").props().value).toEqual(
+	expect(wrapper.find("[type='email']").props().value).toEqual(
 		"test@example.com"
 	);
 });
