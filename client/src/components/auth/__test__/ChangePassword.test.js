@@ -34,22 +34,23 @@ test("render with spinner when loading is true", () => {
 	expect(wrapper.contains(<Spinner />)).toBe(true);
 });
 
-test("renders without error when loading is false", () => {
+describe("renders without error when loading is false", () => {
 	const wrapper = setup({
 		auth: { loading: false },
 	});
 	const component = wrapper.find(".Form");
-	expect(component).toHaveLength(1);
-
-	// Should hide spinner
-	expect(wrapper.contains(<Spinner />)).toBe(false);
-
-	// Should render all component children
-	expect(component.find(".Form__goBack")).toHaveLength(1);
-	expect(component.find("h1")).toHaveLength(1);
-	expect(component.find(".Form__text")).toHaveLength(1);
-	const form = component.find(".Form__form");
-	expect(form).toHaveLength(1);
+	test("should render component", () => {
+		expect(component).toHaveLength(1);
+	});
+	test("should hide spinner", () => {
+		expect(wrapper.contains(<Spinner />)).toBe(false);
+	});
+	test("should render all component children", () => {
+		expect(component.find(".Form__goBack")).toHaveLength(1);
+		expect(component.find("h1")).toHaveLength(1);
+		expect(component.find(".Form__text")).toHaveLength(1);
+		expect(component.find(".Form__form")).toHaveLength(1);
+	});
 });
 
 test("cancel button works", () => {
@@ -69,14 +70,19 @@ test("cancel button works", () => {
 	formValues.forEach((v) => expect(v).toBe(""));
 });
 
-test("renders form text", () => {
+test("renders h1 is not empty", () => {
+	const wrapper = setup({
+		auth: { loading: false },
+	});
+	expect(wrapper.find("h1").text().length).not.toBe(0);
+});
+
+test("renders form text is not empty", () => {
 	const wrapper = setup({
 		auth: { loading: false },
 	});
 	const formText = wrapper.find(".Form__text");
-	expect(formText.text()).toBe(
-		"Changing your password will log you out from other devices."
-	);
+	expect(formText.text().length).not.toBe(0);
 });
 
 test("form renders all the children", () => {
