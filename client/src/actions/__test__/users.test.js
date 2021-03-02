@@ -33,14 +33,14 @@ describe("USER request patterns", () => {
 
 		// Dispatch register action
 		await store.dispatch(
-			registerUser(
-				{
+			registerUser({
+				formData: {
 					email: testUser.email,
 					firstName: testUser.firstName,
 					lastName: testUser.lastName,
 				},
-				"testUrl"
-			)
+				url: "testUrl",
+			})
 		);
 	};
 
