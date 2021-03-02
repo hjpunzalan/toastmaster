@@ -97,3 +97,16 @@ test("input email should be initially blank and onChange works", () => {
 		"test@example.com"
 	);
 });
+
+test("Submit button should call forgotPassword", () => {
+	const forgotPasswordMock = jest.fn();
+	const wrapper = setup({
+		auth: { loading: false },
+		forgotPassword: forgotPasswordMock,
+	});
+
+	// Simulate submit
+	const form = wrapper.find("form");
+	form.simulate("submit", { preventDefault() {} });
+	expect(forgotPasswordMock.mock.calls.length).toBe(1);
+});
