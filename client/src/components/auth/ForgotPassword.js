@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { forgotPassword } from '../../actions/auth';
-import Spinner from '../utils/Spinner';
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { forgotPassword } from "../../actions/auth";
+import Spinner from "../utils/Spinner";
 
-const ForgotPassword = ({ forgotPassword, auth: { loading } }) => {
-	const [email, setEmail] = useState('');
+export const ForgotPassword = ({ forgotPassword, auth: { loading } }) => {
+	const [email, setEmail] = useState("");
 
-	const handleSubmit = e => {
+	const handleSubmit = (e) => {
 		e.preventDefault();
 		forgotPassword(email, document.location.href);
 	};
@@ -23,17 +23,17 @@ const ForgotPassword = ({ forgotPassword, auth: { loading } }) => {
 			</p>
 			<hr />
 			<form className="Form__form" onSubmit={handleSubmit}>
-				<label htmlFor="email">
+				<label>
 					<b>Email</b>
+					<input
+						type="text"
+						placeholder="Enter Email"
+						name="email"
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+						required
+					/>
 				</label>
-				<input
-					type="text"
-					placeholder="Enter Email"
-					name="email"
-					value={email}
-					onChange={e => setEmail(e.target.value)}
-					required
-				/>
 				<input type="submit" className="btn btn__submit" value="Send Email" />
 			</form>
 		</div>
@@ -42,14 +42,11 @@ const ForgotPassword = ({ forgotPassword, auth: { loading } }) => {
 
 ForgotPassword.propTypes = {
 	forgotPassword: PropTypes.func.isRequired,
-	auth: PropTypes.object.isRequired
+	auth: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-	auth: state.auth
+const mapStateToProps = (state) => ({
+	auth: state.auth,
 });
 
-export default connect(
-	mapStateToProps,
-	{ forgotPassword }
-)(ForgotPassword);
+export default connect(mapStateToProps, { forgotPassword })(ForgotPassword);
