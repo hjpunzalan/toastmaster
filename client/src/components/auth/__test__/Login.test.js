@@ -101,3 +101,25 @@ test("form renders all the children", () => {
 	const submitButton = form.find("[type='submit']");
 	expect(submitButton.props().value).toEqual("Login");
 });
+
+test("inputs should be initially blank and handleChange works", () => {
+	const wrapper = setup({
+		auth: { loading: false },
+	});
+
+	expect(wrapper.find("[type='text']").props().value).toEqual("");
+	expect(wrapper.find("[type='password']").props().value).toEqual("");
+
+	wrapper.find("[type='text']").simulate("change", {
+		target: { name: inputs[0].name, value: "test@example.com" },
+	});
+	wrapper.find("[type='password']").simulate("change", {
+		target: { name: inputs[1].name, value: "test123" },
+	});
+	// Assert input values
+	// Wrappers(except root one) are immutable so you need to .find() element again.
+	expect(wrapper.find("[type='text']").props().value).toEqual(
+		"test@example.com"
+	);
+	expect(wrapper.find("[type='password']").props().value).toEqual("test123");
+});
