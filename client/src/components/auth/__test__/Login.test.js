@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { createBrowserHistory } from "history";
 import { Redirect } from "react-router-dom";
-import { Login } from "../Login";
+import { Login, inputs } from "../Login";
 import Spinner from "../../utils/Spinner";
 import { loginUser } from "../../../actions/auth";
 
@@ -59,4 +59,45 @@ describe("renders without error when loading and isAuthenticated is false", () =
 		expect(component.find(".Form__text")).toHaveLength(1);
 		expect(component.find(".Form__form")).toHaveLength(1);
 	});
+});
+
+test("renders h1 is not empty", () => {
+	const wrapper = setup({
+		auth: { loading: false },
+	});
+	expect(wrapper.find("h1").text().length).not.toBe(0);
+});
+
+test("renders form text is not empty", () => {
+	const wrapper = setup({
+		auth: { loading: false },
+	});
+	const formText = wrapper.find(".Form__text");
+	expect(formText.text().length).not.toBe(0);
+});
+
+test("form renders all the children", () => {
+	const wrapper = setup({
+		auth: { loading: false },
+	});
+	const form = wrapper.find(".Form__form");
+	const labels = form.find("label");
+	const labelsText = labels.find("b");
+
+	// Make sure all labels are there and correctly labeled in order
+	labelsText.forEach((t, i) => expect(t.text()).toEqual(inputs[i].label));
+
+	// Correct number of inputs
+	const emailInput = form.find("[type='text']");
+	const passwordInput = form.find("[type='password']");
+	expect(emailInput.length).toEqual(1);
+	expect(passwordInput.length).toEqual(1);
+
+	// Correct placeholders in inputs
+	expect(emailInput.props().placeholder).toEqual(inputs[0].placeholder);
+	expect(passwordInput.props().placeholder).toEqual(inputs[1].placeholder);
+
+	// Renders input submit
+	const submitButton = form.find("[type='submit']");
+	expect(submitButton.props().value).toEqual("Login");
 });
