@@ -86,5 +86,32 @@ describe("Role is committee and is a Moderator", () => {
 			const formText = wrapper.find(".Form__text");
 			expect(formText.text().length).not.toBe(0);
 		});
+
+		test("form renders all the children", () => {
+			const form = wrapper.find(".Form__form");
+			const labels = form.find("label");
+			const labelsText = labels.find("b");
+
+			// Make sure all labels are there and correctly labeled in order
+			labelsText.forEach((t, i) => expect(t.text()).toEqual(inputs[i].label));
+
+			// Correct number of inputs
+			expect(form.find("[type='text']").length).toEqual(2);
+			expect(form.find("[type='email']").length).toEqual(1);
+
+			// Correct placeholders in inputs
+			form
+				.find("[type='text']")
+				.forEach((input, i) =>
+					expect(input.props().placeholder).toEqual(inputs[i].placeholder)
+				);
+			expect(form.find("[type='email']").props().placeholder).toEqual(
+				inputs[2].placeholder
+			);
+
+			// Renders input submit
+			const submitButton = form.find("[type='submit']");
+			expect(submitButton.props().value).toEqual("Register");
+		});
 	});
 });
