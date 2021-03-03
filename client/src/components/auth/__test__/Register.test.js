@@ -36,12 +36,36 @@ test("Redirect component when role is user", () => {
 	expect(wrapper.contains(<Redirect to="/dashboard" />)).toBe(true);
 });
 
-test("render with spinner when loading is true", () => {
-	const wrapper = setup({
-		users: { loading: true, Moderator: true },
-		auth: {
-			currentUser: { role: "committee" },
-		},
+describe("Role is committee and is a Moderator", () => {
+	test("render with spinner when loading is true", () => {
+		const wrapper = setup({
+			users: { loading: true, Moderator: true },
+			auth: {
+				currentUser: { role: "committee" },
+			},
+		});
+		expect(wrapper.contains(<Spinner />)).toBe(true);
 	});
-	expect(wrapper.contains(<Spinner />)).toBe(true);
+	describe("When loading is false", () => {
+		const wrapper = setup({
+			users: { loading: false, Moderator: true },
+			auth: {
+				currentUser: { role: "committee" },
+			},
+		});
+		const component = wrapper.find(".Form");
+		//////////////////////////////////////////////////////
+		test("should render component", () => {
+			expect(component).toHaveLength(1);
+		});
+		test("should hide spinner", () => {
+			expect(wrapper.contains(<Spinner />)).toBe(false);
+		});
+		test("should render all component children", () => {
+			expect(component.find(".Form__goBack")).toHaveLength(1);
+			expect(component.find("h1")).toHaveLength(1);
+			expect(component.find(".Form__text")).toHaveLength(1);
+			expect(component.find(".Form__form")).toHaveLength(1);
+		});
+	});
 });
