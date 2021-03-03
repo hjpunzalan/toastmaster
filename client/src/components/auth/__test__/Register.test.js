@@ -37,7 +37,7 @@ test("Redirect component when role is user", () => {
 });
 
 describe("Role is committee and is a Moderator", () => {
-	test("render with spinner when loading is true", () => {
+	test("Render with spinner when loading is true", () => {
 		const wrapper = setup({
 			users: { loading: true, Moderator: true },
 			auth: {
@@ -66,6 +66,16 @@ describe("Role is committee and is a Moderator", () => {
 			expect(component.find("h1")).toHaveLength(1);
 			expect(component.find(".Form__text")).toHaveLength(1);
 			expect(component.find(".Form__form")).toHaveLength(1);
+		});
+
+		test("cancel button works", () => {
+			const button = wrapper.find(".Form__goBack");
+			expect(button.length).toBe(1);
+			expect(button.text().length).not.toBe(0);
+			// Simulate click
+			jest.spyOn(history, "push");
+			button.simulate("click");
+			expect(history.push).toHaveBeenCalledWith("/members");
 		});
 	});
 });
