@@ -113,5 +113,30 @@ describe("Role is committee and is a Moderator", () => {
 			const submitButton = form.find("[type='submit']");
 			expect(submitButton.props().value).toEqual("Register");
 		});
+
+		test("inputs should be initially blank and handleChange works", () => {
+			wrapper.find("[type='text']").forEach((input) => {
+				// Ensure inputs are blank
+				expect(input.props().value).toEqual("");
+			});
+			expect(wrapper.find("[type='email']").props().value).toEqual("");
+
+			// Check if handleChange works
+			wrapper.find("[type='text']").forEach((input, i) => {
+				input.simulate("change", {
+					target: { name: inputs[i].name, value: "Test" },
+				});
+				// Assert change
+				expect(wrapper.find("[type='text']").get(i).props.value).toEqual(
+					"Test"
+				);
+			});
+			wrapper.find("[type='email']").simulate("change", {
+				target: { name: inputs[2].name, value: "test@example.com" },
+			});
+			expect(wrapper.find("[type='email']").props().value).toEqual(
+				"test@example.com"
+			);
+		});
 	});
 });
