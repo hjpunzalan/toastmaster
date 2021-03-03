@@ -14,7 +14,7 @@ import {
 import { setAlert, resetAlert } from "./alerts";
 import catchAsync from "../utils/catchAsync";
 
-export const registerUser = (formData, url) =>
+export const registerUser = ({ formData, url }) =>
 	catchAsync("user", async (dispatch) => {
 		// Reset alert if there is register user error alert
 		dispatch(resetAlert());
