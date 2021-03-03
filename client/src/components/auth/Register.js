@@ -6,26 +6,52 @@ import { registerUser } from "../../actions/users";
 import useForms from "../../hooks/useForms";
 import Spinner from "../utils/Spinner";
 
-const Register = ({
+export let inputs;
+
+export const Register = ({
 	registerUser,
 	users: { loading, Moderator },
 	auth: { currentUser },
 	history,
+	initialFormState,
 }) => {
-	// This makes react the single source of truth
-	const handleRegister = (formData) => {
-		// replace register with login
-		const url = document.location.href.replace("register", "login");
-		console.log(url);
-		registerUser(formData, url);
-	};
-
 	const blankForm = { firstName: "", lastName: "", email: "" };
+
+	// replace register with login to send url by email to user
+	const url = document.location.href.replace("register", "login");
+
 	const { formData, handleChange, handleSubmit, handleCancel } = useForms(
-		blankForm,
-		handleRegister
+		initialFormState ? initialFormState : blankForm,
+		registerUser,
+		{
+			url,
+		}
 	);
-	const { firstName, lastName, email } = formData;
+
+	// This ensures all names and values correctly follows formData state
+	const names = Object.keys(initialFormState ? initialFormState : blankForm);
+
+	// Form data should contain all formData names
+	inputs = [
+		{
+			label: "First Name",
+			placeholder: "Enter first name",
+			name: names[0],
+			value: formData[names[0]],
+		},
+		{
+			label: "Last Name",
+			placeholder: "Enter last name",
+			name: names[1],
+			value: formData[names[1]],
+		},
+		{
+			label: "Email",
+			placeholder: "Enter Email",
+			name: names[2],
+			value: formData[names[2]],
+		},
+	];
 
 	return currentUser.role === "user" || !Moderator ? (
 		<Redirect to="/dashboard" />
@@ -34,7 +60,6 @@ const Register = ({
 	) : (
 		<div className="Form">
 			<button
-				data-test="cancel-button"
 				className="Form__goBack"
 				onClick={() => {
 					history.push("/members");
@@ -45,39 +70,37 @@ const Register = ({
 			<p className="Form__text">Please fill the form as per member's details</p>
 			<hr />
 			<form className="Form__form" onSubmit={handleSubmit}>
-				<label htmlFor="firstName">
-					<b>First Name</b>
+				{inputs.map((input, i) => {
+					if (i <= 1)
+						return (
+							<label key={input.label}>
+								<b>{input.label}</b>
+
+								<input
+									type="text"
+									placeholder={input.placeholder}
+									value={input.value}
+									name={input.name}
+									onChange={handleChange}
+									autoComplete="on"
+									required
+								/>
+							</label>
+						);
+				})}
+				<label key={inputs[2].label}>
+					<b>{inputs[2].label}</b>
+
+					<input
+						type="email"
+						placeholder={inputs[2].placeholder}
+						value={inputs[2].value}
+						name={inputs[2].name}
+						onChange={handleChange}
+						autoComplete="on"
+						required
+					/>
 				</label>
-				<input
-					type="text"
-					placeholder="Enter first name"
-					name="firstName"
-					value={firstName}
-					onChange={handleChange}
-					required
-				/>
-				<label htmlFor="lastName">
-					<b>Last Name</b>
-				</label>
-				<input
-					type="text"
-					placeholder="Enter last name"
-					name="lastName"
-					value={lastName}
-					onChange={handleChange}
-					required
-				/>
-				<label htmlFor="email">
-					<b>Email</b>
-				</label>
-				<input
-					type="email"
-					placeholder="Enter Email"
-					name="email"
-					value={email}
-					onChange={handleChange}
-					required
-				/>
 				<div className="Form__btns">
 					<button className="btn" onClick={handleCancel}>
 						Clear
