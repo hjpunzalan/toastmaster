@@ -77,5 +77,14 @@ describe("Role is committee and is a Moderator", () => {
 			button.simulate("click");
 			expect(history.push).toHaveBeenCalledWith("/members");
 		});
+
+		test("renders h1 is not empty", () => {
+			expect(wrapper.find("h1").text().length).not.toBe(0);
+		});
+
+		test("renders form text is not empty", () => {
+			const formText = wrapper.find(".Form__text");
+			expect(formText.text().length).not.toBe(0);
+		});
 	});
 });
