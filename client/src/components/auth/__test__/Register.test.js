@@ -4,7 +4,6 @@ import { createBrowserHistory } from "history";
 import { Redirect } from "react-router-dom";
 import { Register, inputs } from "../Register";
 import Spinner from "../../utils/Spinner";
-import { setAlert, resetAlert } from "../../../actions/alerts";
 import { registerUser } from "../../../actions/users";
 
 const history = createBrowserHistory();
@@ -170,6 +169,26 @@ describe("Role is committee and is a Moderator", () => {
 			// Simulate click on clear
 			clearButton.simulate("click");
 			expect(wrapper.find("[type='email']").props().value).toBe("");
+		});
+
+		test("Submit button should call registerUser", () => {
+			const registerUserMock = jest.fn();
+			const wrapper = setup({
+				users: { loading: false, Moderator: true },
+				auth: {
+					currentUser: { role: "committee" },
+				},
+				registerUser: registerUserMock,
+				initialFormState: {
+					firstName: "Test",
+					lastName: "Test",
+					email: "test@example.com",
+				},
+			});
+			// Simulate submit
+			const form = wrapper.find("form");
+			form.simulate("submit", { preventDefault() {} });
+			expect(registerUserMock.mock.calls.length).toBe(1);
 		});
 	});
 });
