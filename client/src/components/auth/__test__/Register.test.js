@@ -109,6 +109,10 @@ describe("Role is committee and is a Moderator", () => {
 				inputs[2].placeholder
 			);
 
+			// Renders button group
+			expect(form.find(".Form__btns")).toHaveLength(1);
+			// Render clear button
+			expect(form.find(".Form__btns button")).toHaveLength(1);
 			// Renders input submit
 			const submitButton = form.find("[type='submit']");
 			expect(submitButton.props().value).toEqual("Register");
@@ -137,6 +141,35 @@ describe("Role is committee and is a Moderator", () => {
 			expect(wrapper.find("[type='email']").props().value).toEqual(
 				"test@example.com"
 			);
+		});
+
+		test("Clear button works", () => {
+			const clearButton = wrapper.find(".Form__btns button");
+
+			// Check if handleChange works
+			wrapper.find("[type='text']").forEach((input, i) => {
+				input.simulate("change", {
+					target: { name: inputs[i].name, value: "Test" },
+				});
+				// Assert change
+				expect(wrapper.find("[type='text']").get(i).props.value).toEqual(
+					"Test"
+				);
+				// Simulate click on clear
+				clearButton.simulate("click");
+				expect(wrapper.find("[type='text']").get(i).props.value).toBe("");
+			});
+
+			// For input email
+			wrapper.find("[type='email']").simulate("change", {
+				target: { name: inputs[2].name, value: "test@example.com" },
+			});
+			expect(wrapper.find("[type='email']").props().value).toEqual(
+				"test@example.com"
+			);
+			// Simulate click on clear
+			clearButton.simulate("click");
+			expect(wrapper.find("[type='email']").props().value).toBe("");
 		});
 	});
 });
