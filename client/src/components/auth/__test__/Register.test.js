@@ -35,3 +35,13 @@ test("Redirect component when role is user", () => {
 	});
 	expect(wrapper.contains(<Redirect to="/dashboard" />)).toBe(true);
 });
+
+test("render with spinner when loading is true", () => {
+	const wrapper = setup({
+		users: { loading: true, Moderator: true },
+		auth: {
+			currentUser: { role: "committee" },
+		},
+	});
+	expect(wrapper.contains(<Spinner />)).toBe(true);
+});
