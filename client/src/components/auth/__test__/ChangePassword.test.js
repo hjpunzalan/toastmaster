@@ -64,11 +64,6 @@ test("cancel button works", () => {
 	jest.spyOn(history, "push");
 	button.simulate("click");
 	expect(history.push).toHaveBeenCalledWith("/dashboard");
-
-	// Obtain form values from inputs array
-	const formValues = inputs.map((input) => input.value);
-	// Assert empty inputs
-	formValues.forEach((v) => expect(v).toBe(""));
 });
 
 test("renders h1 is not empty", () => {
