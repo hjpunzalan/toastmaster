@@ -6,7 +6,9 @@ import useForms from "../../hooks/useForms";
 import Spinner from "../utils/Spinner";
 import { setAlert, resetAlert } from "../../actions/alerts";
 
-const ResetPassword = ({
+export let inputs;
+
+export const ResetPassword = ({
 	setAlert,
 	resetAlert,
 	resetPassword,
@@ -15,23 +17,42 @@ const ResetPassword = ({
 	},
 	history,
 	auth: { loading },
+	initialFormState,
 }) => {
 	const blankForm = {
 		password: "",
 		confirmPassword: "",
 	};
 	const { formData, handleChange, handleSubmit } = useForms(
-		blankForm,
+		initialFormState ? initialFormState : blankForm,
 		resetPassword,
 		{ resetToken, history }
 	);
-	const { password, confirmPassword } = formData;
 
 	const passwordNotMatch = (e) => {
 		resetAlert();
 		e.preventDefault();
 		setAlert("Passwords does not match", "fail");
 	};
+
+	// This ensures all names and values correctly follows formData state
+	const names = Object.keys(initialFormState ? initialFormState : blankForm);
+
+	// Form data should contain all formData names
+	inputs = [
+		{
+			label: "Password",
+			placeholder: "Enter a new Password",
+			name: names[0],
+			value: formData[names[0]],
+		},
+		{
+			label: "Confirm password",
+			placeholder: "Confirm password",
+			name: names[1],
+			value: formData[names[1]],
+		},
+	];
 
 	return loading ? (
 		<Spinner />
@@ -43,33 +64,28 @@ const ResetPassword = ({
 			<form
 				className="Form__form"
 				onSubmit={
-					password !== confirmPassword ? passwordNotMatch : handleSubmit
+					formData[names[1]] !== formData[names[2]]
+						? passwordNotMatch
+						: handleSubmit
 				}>
-				<label htmlFor="password">
-					<b>Password</b>
-				</label>
-				<input
-					type="password"
-					placeholder="Enter a new Password"
-					name="password"
-					value={password}
-					onChange={handleChange}
-					minLength="6"
-					autoComplete="on"
-					required
-				/>
-				<label htmlFor="confirmPassword">
-					<b>Confirm Password</b>
-				</label>
-				<input
-					type="password"
-					placeholder="Confirm password"
-					name="confirmPassword"
-					value={confirmPassword}
-					onChange={handleChange}
-					minLength="6"
-					required
-				/>
+				{inputs.map((input) => {
+					return (
+						<label key={input.label}>
+							<b>{input.label}</b>
+
+							<input
+								type="password"
+								placeholder={input.placeholder}
+								value={input.value}
+								name={input.name}
+								onChange={handleChange}
+								autoComplete="on"
+								minLength="6"
+								required
+							/>
+						</label>
+					);
+				})}
 				<div className="Form__btns">
 					<input type="submit" className="btn btn__submit" value="Login" />
 				</div>
