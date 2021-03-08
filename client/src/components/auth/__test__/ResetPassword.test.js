@@ -120,4 +120,44 @@ describe("renders without error when loading is false", () => {
 			);
 		});
 	});
+
+	test("Submit button should call change password when confirm password matches", () => {
+		const resetPasswordMock = jest.fn();
+		const wrapper = setup({
+			auth: { loading: false },
+			resetPassword: resetPasswordMock,
+			initialFormState: {
+				password: "test123",
+				confirmPassword: "test123",
+			},
+		});
+
+		// Simulate submit
+		const form = wrapper.find("form");
+		form.simulate("submit", { preventDefault() {} });
+		expect(resetPasswordMock.mock.calls.length).toBe(1);
+	});
+
+	test("Submit button should set alert fail when password does not match", () => {
+		const setAlertMock = jest.fn();
+		const resetAlertMock = jest.fn();
+		const wrapper = setup({
+			auth: { loading: false },
+			setAlert: setAlertMock,
+			resetAlert: resetAlertMock,
+			initialFormState: {
+				password: "test123",
+				confirmPassword: "test555",
+			},
+		});
+
+		// Simulate submit when password does not match
+		const form = wrapper.find("form");
+		form.simulate("submit", { preventDefault() {} });
+		expect(resetAlertMock.mock.calls.length).toEqual(1);
+		expect(setAlertMock).toHaveBeenCalledWith(
+			"Passwords does not match",
+			"fail"
+		);
+	});
 });
