@@ -64,7 +64,7 @@ export const ResetPassword = ({
 			<form
 				className="Form__form"
 				onSubmit={
-					formData[names[1]] !== formData[names[2]]
+					formData[names[0]] !== formData[names[1]]
 						? passwordNotMatch
 						: handleSubmit
 				}>
@@ -87,7 +87,11 @@ export const ResetPassword = ({
 					);
 				})}
 				<div className="Form__btns">
-					<input type="submit" className="btn btn__submit" value="Login" />
+					<input
+						type="submit"
+						className="btn btn__submit"
+						value="Reset Password"
+					/>
 				</div>
 			</form>
 		</div>
