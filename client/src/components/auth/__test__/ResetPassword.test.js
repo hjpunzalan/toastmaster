@@ -37,3 +37,22 @@ test("render with spinner when loading is true", () => {
 	});
 	expect(wrapper.contains(<Spinner />)).toBe(true);
 });
+
+describe("renders without error when loading is false", () => {
+	const wrapper = setup({
+		auth: { loading: false },
+	});
+	const component = wrapper.find(".Form");
+	test("should render component", () => {
+		expect(component).toHaveLength(1);
+	});
+	test("should hide spinner", () => {
+		expect(wrapper.contains(<Spinner />)).toBe(false);
+	});
+	test("should render all component children", () => {
+		expect(component.find("h1")).toHaveLength(1);
+		expect(component.find(".Form__text")).toHaveLength(1);
+		expect(component.find(".Form__form")).toHaveLength(1);
+		expect(component.find(".Form__btns")).toHaveLength(1);
+	});
+});
