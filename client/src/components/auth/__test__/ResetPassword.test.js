@@ -55,4 +55,19 @@ describe("renders without error when loading is false", () => {
 		expect(component.find(".Form__form")).toHaveLength(1);
 		expect(component.find(".Form__btns")).toHaveLength(1);
 	});
+
+	test("renders h1 is not empty", () => {
+		const wrapper = setup({
+			auth: { loading: false },
+		});
+		expect(wrapper.find("h1").text().length).not.toBe(0);
+	});
+
+	test("renders form text is not empty", () => {
+		const wrapper = setup({
+			auth: { loading: false },
+		});
+		const formText = wrapper.find(".Form__text");
+		expect(formText.text().length).not.toBe(0);
+	});
 });
