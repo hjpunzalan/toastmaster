@@ -96,4 +96,28 @@ describe("renders without error when loading is false", () => {
 		const submitButton = form.find("[type='submit']");
 		expect(submitButton.props().value).toEqual("Reset Password");
 	});
+
+	test("input passwords should be initially blank and handleChange works", () => {
+		const wrapper = setup({
+			auth: { loading: false },
+		});
+
+		const inputComponents = wrapper.find("[type='password']");
+		// Make sure all inputs have correct value when text is typed
+		const testPasswords = ["test111", "test222"];
+		// Simulate typing
+		inputComponents.forEach((input, i) => {
+			// Assert an empty form
+			expect(input.props().value).toEqual("");
+
+			input.simulate("change", {
+				target: { name: inputs[i].name, value: testPasswords[i] },
+			});
+			// Assert input values
+			// Wrappers(except root one) are immutable so you need to .find() element again.
+			expect(wrapper.find("[type='password']").get(i).props.value).toEqual(
+				testPasswords[i]
+			);
+		});
+	});
 });
