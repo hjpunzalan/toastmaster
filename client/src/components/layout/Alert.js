@@ -8,7 +8,7 @@ export const Alert = ({ msg, alertType }) => {
 			<div className={`Alert Alert__${alertType}`}>
 				<strong>{alertType === "fail" ? "Warning: " : "Success: "}</strong>
 				{msg.map((alert) => (
-					<p key={msg}> {alert}</p>
+					<p key={alert}>{alert} </p>
 				))}
 			</div>
 		)

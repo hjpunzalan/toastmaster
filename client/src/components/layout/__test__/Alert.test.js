@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 import { Alert } from "../Alert";
 
 const initialProps = {
-	msg: ["test"],
+	msg: [],
 	alertType: "success",
 };
 
@@ -36,4 +36,22 @@ test("Shows alert if there is an alert type of fail", () => {
 		alertType: "fail",
 	});
 	expect(wrapper.find(".Alert.Alert__fail").length).toBe(1);
+});
+
+test("should show alert message when alert type is success", () => {
+	const wrapper = setup({
+		msg: ["test"],
+		alertType: "success",
+	});
+	expect(wrapper.find("strong").props().children).toBe("Success: ");
+	expect(wrapper.find("p").props().children.length).not.toBe(0);
+});
+
+test("should show alert message when alert type is fail", () => {
+	const wrapper = setup({
+		msg: ["test"],
+		alertType: "fail",
+	});
+	expect(wrapper.find("strong").props().children).toBe("Warning: ");
+	expect(wrapper.find("p").props().children.length).not.toBe(0);
 });
