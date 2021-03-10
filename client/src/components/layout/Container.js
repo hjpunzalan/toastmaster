@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-const Container = ({ children }) => {
+export const Container = ({ children }) => {
 	return <div className="Container">{children}</div>;
 };
 
