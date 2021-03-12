@@ -23,14 +23,28 @@ const setup = (props = {}) => {
 // console.log(wrapper.debug());
 // console.log(wrapper.props());
 
-test("Renders moderator view unchecked as a committee", () => {
-	const wrapper = setup();
-	expect(wrapper.find(".Moderator").length).toBe(1);
-	expect(wrapper.find(".Moderator__checked").length).toBe(0);
-});
+describe("As moderator", () => {
+	const toggleViewMock = jest.fn();
+	const wrapper = setup({
+		toggleView: toggleViewMock,
+	});
 
-test("Renders moderator view unchecked as an admin", () => {
-	const wrapper = setup();
-	expect(wrapper.find(".Moderator").length).toBe(1);
-	expect(wrapper.find(".Moderator__checked").length).toBe(0);
+	test("Renders moderator view unchecked as a committee", () => {
+		expect(wrapper.find(".Moderator").length).toBe(1);
+		expect(wrapper.find(".Moderator__checked").length).toBe(0);
+	});
+
+	test("Renders all children", () => {
+		expect(wrapper.find(".Moderator__mode").props().children.length).not.toBe(
+			0
+		);
+		expect(wrapper.find(".Moderator__checkbox").length).toBe(1);
+		expect(wrapper.find(".Moderator__slider").length).toBe(1);
+	});
+
+	test("Checkbox should work ", () => {
+		expect(wrapper.find(".Moderator__checked").length).toBe(0);
+		wrapper.find(".Moderator__checkbox").simulate("change");
+		expect(wrapper.find(".Moderator__checked").length).toBe(1);
+	});
 });
