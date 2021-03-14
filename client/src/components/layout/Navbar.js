@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import logo from '../../img/logo.png';
-import { logoutUser } from '../../actions/auth';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import logo from "../../img/logo.png";
+import { logoutUser } from "../../actions/auth";
 
-const Navbar = ({ auth: { isAuthenticated }, logoutUser }) => {
+export const Navbar = ({ auth: { isAuthenticated }, logoutUser }) => {
 	const [nav, setNav] = useState(false);
 	const toggleNav = () => setNav(!nav);
 
 	return (
 		<>
-			<ul className={`Navbar ${!isAuthenticated ? 'Navbar-withLogin' : ''}`}>
+			<ul className={`Navbar ${!isAuthenticated ? "Navbar-withLogin" : ""}`}>
 				<div className="Navbar__left">
 					<li className="Navbar__item">
 						<img className="Navbar__logo" src={logo} alt="logo" />
@@ -39,7 +39,7 @@ const Navbar = ({ auth: { isAuthenticated }, logoutUser }) => {
 				</div>
 				<div className="Navbar__right">
 					{isAuthenticated ? (
-						<ul id="nav" className={nav ? 'Navbar__open' : 'Navbar__closed'}>
+						<ul id="nav" className={nav ? "Navbar__open" : "Navbar__closed"}>
 							<li className="Navbar__item">
 								<Link
 									className="Navbar__link"
@@ -91,14 +91,11 @@ const Navbar = ({ auth: { isAuthenticated }, logoutUser }) => {
 
 Navbar.propTypes = {
 	auth: PropTypes.object.isRequired,
-	logoutUser: PropTypes.func.isRequired
+	logoutUser: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-	auth: state.auth
+const mapStateToProps = (state) => ({
+	auth: state.auth,
 });
 
-export default connect(
-	mapStateToProps,
-	{ logoutUser }
-)(Navbar);
+export default connect(mapStateToProps, { logoutUser })(Navbar);
