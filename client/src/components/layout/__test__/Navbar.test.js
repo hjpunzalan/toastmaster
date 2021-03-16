@@ -25,7 +25,7 @@ test('render Logo', () => {
 	expect(wrapper.find(".Navbar__left .Navbar__item .Navbar__logo").length).toBe(1);
 })
 
-test('Render text and caption', () => {
+test('render text and caption', () => {
 	const wrapper = setup();
 	const header = wrapper.find(".Navbar__left .Navbar__header")
 	expect(header.props().children.length).toBe(2)
@@ -33,6 +33,15 @@ test('Render text and caption', () => {
 	expect(header.find(".Navbar__item.Navbar__header-caption").props().children.length).not.toBe(0);
 })
 
+test('render hamburger nav and toggles when clicked', () => {
+	const wrapper = setup({ auth: { isAuthenticated: true } });
+	const checkbox = wrapper.find("#hamburger")
+	expect(checkbox.length).toBe(1);
+	expect(checkbox.props().checked).toBe(false)
+	expect(wrapper.find(".Navbar__button").length).toBe(1);
+	checkbox.simulate("change")
+	expect(wrapper.find("#hamburger").props().checked).toBe(true)
+})
 
 
 describe('Not Authenticated', () => {
