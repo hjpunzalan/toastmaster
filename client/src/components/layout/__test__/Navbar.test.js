@@ -44,8 +44,33 @@ test('render hamburger nav and toggles when clicked', () => {
 })
 
 
-describe('Not Authenticated', () => {
+test('Not Authenticated will show login link only', () => {
 	const wrapper = setup({ auth: { isAuthenticated: false } });
 	// Check if theres only login on nav bar link
 	expect(wrapper.find(".Navbar__right .Navbar__item").length).toBe(1)
+})
+
+test('Authenticated will show more than 1 link', () => {
+	const wrapper = setup({ auth: { isAuthenticated: true } });
+	// Check if theres only login on nav bar link
+	expect(wrapper.find(".Navbar__right .Navbar__item").length).toBeGreaterThan(1)
+})
+
+test('Authenticated will show the specified links', () => {
+	const wrapper = setup({ auth: { isAuthenticated: true } });
+	expect(wrapper.find(".Navbar__right .Navbar__link").get(0).props.to).toEqual("/dashboard")
+	expect(wrapper.find(".Navbar__right .Navbar__link").get(1).props.to).toEqual("/discussion")
+	expect(wrapper.find(".Navbar__right .Navbar__link").get(2).props.to).toEqual("/members")
+	expect(wrapper.find(".Navbar__right .Navbar__link").get(3).props.to).toEqual("/login")
+})
+
+
+test('Authenticated links will toggleNav and logout will logout user', () => {
+	// const wrapper = setup({ auth: { isAuthenticated: true } });
+	
+	// wrapper.find(".Navbar__right .Navbar__link").forEach((link) => {
+	// 	expect(wrapper.find(".Navbar__closed").length).toBe(1)
+	// 	link.simulate("click")
+	// 	expect(wrapper.find(".Navbar__open").length).toBe(1)
+	// )
 })
