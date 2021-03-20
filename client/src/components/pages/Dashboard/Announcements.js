@@ -12,7 +12,7 @@ import {
 import ContentEditor from "../../utils/ContentEditor";
 import ReadOnly from "../../utils/draft-js/ReadOnly";
 
-const Announcements = ({
+export const Announcements = ({
 	users: { Moderator },
 	toggleEdit,
 	createAnnouncement,
@@ -28,6 +28,7 @@ const Announcements = ({
 	const [contentEdit, setContentEdit] = useState(null);
 	const [plainTextEdit, setPlainTextEdit] = useState(null);
 	useEffect(() => {
+		// Refresh editor
 		if (edit && alerts.msg.length === 0) toggleEdit();
 		// eslint-disable-next-line
 	}, []);
