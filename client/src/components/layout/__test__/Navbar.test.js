@@ -66,11 +66,17 @@ test('Authenticated will show the specified links', () => {
 
 
 test('Authenticated links will toggleNav and logout will logout user', () => {
-	// const wrapper = setup({ auth: { isAuthenticated: true } });
+	const logoutUserMock = jest.fn()
+	const wrapper = setup({ auth: { isAuthenticated: true }, logoutUser: logoutUserMock });
 	
-	// wrapper.find(".Navbar__right .Navbar__link").forEach((link) => {
-	// 	expect(wrapper.find(".Navbar__closed").length).toBe(1)
-	// 	link.simulate("click")
-	// 	expect(wrapper.find(".Navbar__open").length).toBe(1)
-	// )
+	// Doesnt work when link.simulate possibly because the context is outside of component after a click
+	wrapper.find(".Navbar__item .Navbar__link").forEach((link, i) => {
+		wrapper.find("#hamburger").simulate("change")
+		expect(wrapper.find(".Navbar__open").length).toBe(1)
+		wrapper.find(".Navbar__item .Navbar__link").get(i).props.onClick()
+		expect(wrapper.find(".Navbar__closed").length).toBe(1)
+
+		if (i === 3)
+			expect(logoutUserMock).toHaveBeenCalled()
+	})
 })
