@@ -5,6 +5,8 @@ import TextEditor from "./draft-js/TextEditor";
 import { onChange } from "../../actions/textEditor";
 import { ContentState, convertToRaw } from "draft-js";
 
+// Test all component props that utilise ContentEditor
+
 const ContentEditor = ({
 	handleSubmit,
 	handleToggle,

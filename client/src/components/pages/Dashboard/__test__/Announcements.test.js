@@ -40,4 +40,24 @@ test('If state is on edit for creating or editing, show content editor', () => {
     expect(wrapper.find(".Dashboard__editor").containsMatchingElement(<ContentEditor/>)).toBe(true)
     
 })
- 
+
+test('If state is on edit for creating or editing, show content editor', () => {
+    const wrapper = setup({ announcements: { edit: true } })
+    expect(wrapper.find(".Dashboard__editor").containsMatchingElement(<ContentEditor/>)).toBe(true)
+})
+
+test('Display title and create new announcement button if moderator', () => {
+	const toggleEditMock = jest.fn()
+	const wrapper = setup({users: {Moderator: true}, toggleEdit: toggleEditMock});
+	const topLayer = wrapper.find(".Dashboard__left .Dashboard__top")
+	// Make sure text is not empty
+	expect(topLayer.find(".Dashboard__title").text().length).not.toBe(0)
+	// Make sure button exist and has text
+	const button = topLayer.find("button.btn__announcement")
+	expect(button.length).toBe(1)
+	expect(button.text().length).not.toBe(0)
+
+	button.simulate("click")
+	expect(toggleEditMock).toHaveBeenCalled()
+
+})
