@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import useForms from "../../../hooks/useForms";
 import { updateMe } from "../../../actions/users";
 

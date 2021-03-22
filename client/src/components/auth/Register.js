@@ -70,24 +70,32 @@ export const Register = ({
 			<p className="Form__text">Please fill the form as per member's details</p>
 			<hr />
 			<form className="Form__form" onSubmit={handleSubmit}>
-				{inputs.map((input, i) => {
-					if (i <= 1)
-						return (
-							<label key={input.label}>
-								<b>{input.label}</b>
+		<label key={inputs[0].label}>
+								<b>{inputs[0].label}</b>
 
 								<input
 									type="text"
-									placeholder={input.placeholder}
-									value={input.value}
-									name={input.name}
+									placeholder={inputs[0].placeholder}
+									value={inputs[0].value}
+									name={inputs[0].name}
+									onChange={handleChange}
+									autoComplete="on"
+									required
+								/>
+						</label>
+						<label key={inputs[1].label}>
+								<b>{inputs[1].label}</b>
+
+								<input
+									type="text"
+									placeholder={inputs[1].placeholder}
+									value={inputs[1].value}
+									name={inputs[1].name}
 									onChange={handleChange}
 									autoComplete="on"
 									required
 								/>
 							</label>
-						);
-				})}
 				<label key={inputs[2].label}>
 					<b>{inputs[2].label}</b>
 
