@@ -10,13 +10,23 @@ import {
 
 
 import ContentEditor from "../../../utils/ContentEditor";
+import ReadOnly from "../../../utils/draft-js/ReadOnly";
 
-const announcementSample = {
+
+const announcements= [{
     _id: 'test',
     title: "test",
-    contentState: {},
-    plainText: "test"
-}
+    contentState: {test: "test"},
+	plainText: "test",
+	date: '1976-04-19T12:59-0500',
+	lastEdited: '1977-04-19T12:59-0500'
+}, {
+    _id: 'test2',
+    title: "test2",
+    contentState: {test: "test2"},
+	plainText: "test2",
+	date: '1976-04-19T12:59-0500'
+}]
 
 const initialProps = {
 	users: { Moderator: false },
@@ -24,7 +34,7 @@ const initialProps = {
 	createAnnouncement,
 	updateAnnouncement,
 	deleteAnnouncement,
-	announcements: { edit: false, announcements: [announcementSample, announcementSample] },
+	announcements: { edit: false, announcements },
 	textEditor: { contentState: {} },
 	alerts: {msg: "alert"} 
 }
@@ -57,7 +67,71 @@ test('Display title and create new announcement button if moderator', () => {
 	expect(button.length).toBe(1)
 	expect(button.text().length).not.toBe(0)
 
+	// Expect toggle editor state is on
 	button.simulate("click")
 	expect(toggleEditMock).toHaveBeenCalled()
 
 })
+
+describe('Display each announcement', () => {
+	const wrapper = setup({ announcements: { edit: false, announcements }, })
+	const announcementList = wrapper.find(".Dashboard__announcement");
+
+	test('Display the title', () => {
+		announcementList.forEach(a => {
+			expect(a.find(".Dashboard__announcement-title").text().length).not.toBe(0)
+		})
+	})
+	test('Show contentstate from ReadOnly component', () => {
+			announcementList.forEach((a,i) => {
+				expect(a.containsMatchingElement(<ReadOnly />)).toBe(true)
+				expect(a.find("ReadOnly").props().contentState).toBe(announcements[i].contentState)
+		})
+	})
+	test('Show time and and date at the bottom', () => {
+		announcementList.forEach((a, i) => {
+			if(announcements[i].lastEdited >announcements[i].date ) expect(a.find(".Dashboard__announcement-bottom t").props().children).toEqual(announcements[i].lastEdited)
+			else expect(a.find(".Dashboard__announcement-bottom t").props().children).toEqual(announcements[i].date)
+		})
+	})
+
+	test('should buttons for moderator only', () => {
+			announcementList.forEach((a, i) => {
+				expect(a.find(".Dashboard__announcement-buttons").length).toBe(0)
+			})
+		
+		const toggleEditMock = jest.fn()
+		const deleteAnnouncementMock = jest.fn()
+
+		const newWrapper = setup({
+			deleteAnnouncement: deleteAnnouncementMock,
+			toggleEdit: toggleEditMock,
+			announcements: { edit: false, announcements },
+			users: { Moderator: true },
+		})
+
+		const newList = newWrapper.find(".Dashboard__announcement");
+		newList.forEach(a => {
+			const buttons = a.find(".Dashboard__announcement-buttons")
+			expect(buttons.length).toBe(1)
+
+			// Test edit button
+			const editButton = buttons.find("button.btn.btn__edit-xs")
+			editButton.simulate("click");
+			expect(toggleEditMock).toHaveBeenCalled()
+
+			// Test delete button
+			const deleteButton = buttons.find("button.btn.btn__delete-xs")
+			deleteButton.simulate("click");
+			expect(deleteAnnouncementMock).toHaveBeenCalled()
+
+		})
+	})
+
+
+	
+	
+	
+})
+
+
