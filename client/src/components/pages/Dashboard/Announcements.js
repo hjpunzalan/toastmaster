@@ -96,50 +96,7 @@ export const Announcements = ({
 				)}
 			</div>
 			<div className="Dashboard__announcements">
-				{announcements[0] && (
-					<div className="Dashboard__announcement">
-						<h1 className="Dashboard__announcement-title">
-							{announcements[0].title}
-						</h1>
-						<ReadOnly contentState={announcements[0].contentState} />
-						<div className="Dashboard__announcement-bottom">
-							{announcements[0].lastEdited > announcements[0].date ? (
-								<span>
-									Edited: &nbsp;
-									<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm">
-										{announcements[0].lastEdited}
-									</Moment>
-								</span>
-							) : (
-								<Moment tz="Australia/Perth" format="ddd MMM DD YYYY HH:mm">
-									{announcements[0].date}
-								</Moment>
-							)}
-						</div>
-						{Moderator && (
-							<div className="Dashboard__announcement-buttons">
-								<button
-									className="btn btn__edit-xs"
-									onClick={() =>
-										handleEdit(
-											announcements[0]._id,
-											announcements[0].title,
-											announcements[0].contentState,
-											announcements[0].plainText
-										)
-									}>
-									Edit
-								</button>
-								<button
-									className="btn btn__delete-xs"
-									onClick={() => deleteAnnouncement(announcements[0]._id)}>
-									Delete
-								</button>
-							</div>
-						)}
-					</div>
-				)}
-				{announcements.slice(1).map((el) => (
+				{announcements.map((el) => (
 					<div key={el._id} className="Dashboard__announcement">
 						<h1 className="Dashboard__announcement-title">{el.title}</h1>
 						<ReadOnly contentState={el.contentState} />
