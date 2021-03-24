@@ -6,7 +6,7 @@ import User from './User';
 import Spinner from '../../utils/Spinner';
 import { getAnnouncements } from '../../../actions/announcements';
 
-const Dashboard = ({
+export const Dashboard = ({
 	auth: { currentUser, isModified },
 	announcements: { loading, edit },
 	getAnnouncements
