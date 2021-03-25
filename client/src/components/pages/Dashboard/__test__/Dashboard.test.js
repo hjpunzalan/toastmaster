@@ -24,3 +24,12 @@ const setup = (props = {}) => {
 	const setupProps = { ...initialProps, ...props };
 	return shallow(<Dashboard {...setupProps} />);
 };
+
+test('should get all announcements', () => {
+	const getAnnouncementsMock = jest.fn()
+	const wrapper = setup({ getAnnouncements: getAnnouncementsMock });
+	
+	expect(getAnnouncementsMock).toHaveBeenCalled()
+
+})
+
