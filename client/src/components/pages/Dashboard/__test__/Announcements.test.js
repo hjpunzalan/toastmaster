@@ -45,6 +45,14 @@ const setup = (props = {}) => {
 	return shallow(<Announcements {...setupProps} />);
 };
 
+test('If state is edit on and no alerts, toggle edit', () => {
+	const toggleEditMock = jest.fn()
+	setup({ toggleEdit: toggleEditMock, announcements: { edit: true }, alerts: { msg: [] } })
+	expect( toggleEditMock).toHaveBeenCalled()
+	
+})
+
+
 test('If state is on edit for creating or editing, show content editor', () => {
     const wrapper = setup({ announcements: { edit: true } })
     expect(wrapper.find(".Dashboard__editor").containsMatchingElement(<ContentEditor/>)).toBe(true)
