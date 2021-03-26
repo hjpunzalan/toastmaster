@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { toggleView } from "../../actions/users";
@@ -8,26 +8,19 @@ export const Moderator = ({
 	toggleView,
 	users: { Moderator },
 }) => {
-	const [isModerator, toggleModerator] = useState(false);
 
-	// This sets is Moderator to false automatically after logging out
 	useEffect(() => {
-		toggleModerator(false);
 		if (Moderator) toggleView();
 		// eslint-disable-next-line
 	}, [currentUser]);
 
-	const handleChange = () => {
-		toggleModerator(!isModerator);
-		toggleView();
-	};
 	return (
 		currentUser &&
 		currentUser.role !== "user" && (
-			<div className={`Moderator ${isModerator && "Moderator__checked"}`}>
+			<div className={`Moderator${Moderator ? " Moderator__checked" : ""}`}>
 				<span className="Moderator__mode">
 					View as:&nbsp;
-					{isModerator
+					{Moderator
 						? currentUser.role === "admin" // Works with only two roles
 							? "admin"
 							: "committee"
@@ -37,8 +30,8 @@ export const Moderator = ({
 					className="Moderator__checkbox"
 					id="moderator"
 					type="checkbox"
-					value={isModerator}
-					onChange={handleChange}
+					value={Moderator}
+					onChange={toggleView}
 				/>
 				<label htmlFor="moderator" className="Moderator__slider" />
 			</div>
