@@ -23,6 +23,9 @@ const setup = (props = {}) => {
 // console.log(wrapper.debug());
 // console.log(wrapper.props());
 
+
+
+
 test("Should not render Moderator as user", () => {
 	const wrapper = setup({
 		auth: {
@@ -55,10 +58,15 @@ describe("As moderator", () => {
 	});
 
 	test("Checkbox should work ", () => {
-		expect(wrapper.find(".Moderator__checked").length).toBe(0);
 		wrapper.find(".Moderator__checkbox").simulate("change");
-		expect(wrapper.find(".Moderator__checked").length).toBe(1);
+		expect(toggleViewMock).toHaveBeenCalled();
 	});
+
+	test('Render moderator view when moderator is true', () => {
+		const moderatorWrapper = setup({ users: { Moderator: true } })
+		expect(moderatorWrapper.find(".Moderator__checked").length).toBe(1)
+		expect(moderatorWrapper.find(".Moderator__checkbox").props().value).toBe(true)
+			});
 });
 
 describe("As admin", () => {
@@ -86,8 +94,14 @@ describe("As admin", () => {
 	});
 
 	test("Checkbox should work ", () => {
-		expect(wrapper.find(".Moderator__checked").length).toBe(0);
 		wrapper.find(".Moderator__checkbox").simulate("change");
-		expect(wrapper.find(".Moderator__checked").length).toBe(1);
+		expect(toggleViewMock).toHaveBeenCalled();
 	});
+
+	test('Render moderator view when moderator is true', () => {
+		const moderatorWrapper = setup({ users: { Moderator: true } })
+		expect(moderatorWrapper.find(".Moderator__checked").length).toBe(1)
+		expect(moderatorWrapper.find(".Moderator__checkbox").props().value).toBe(true)
+	})
+	
 });
