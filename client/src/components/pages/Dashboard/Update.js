@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import useForms from "../../../hooks/useForms";
 import { updateMe } from "../../../actions/users";
 
-const Update = ({ auth: { currentUser }, updateMe, history }) => {
+export const Update = ({ auth: { currentUser }, updateMe, history }) => {
 	const [file, setFile] = useState("");
 	const { firstName, lastName, email } = currentUser;
 	const blankForm = { firstName, lastName, email };
