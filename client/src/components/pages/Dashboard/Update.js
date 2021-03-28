@@ -19,6 +19,10 @@ export const Update = ({ auth: { currentUser }, updateMe, history }) => {
 		setFile(e.target.files[0]);
 	};
 
+	// 
+	//
+	// Refactor labelling
+
 	return (
 		<div className="Form">
 			<button
