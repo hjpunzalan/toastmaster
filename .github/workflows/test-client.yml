@@ -1,9 +1,11 @@
-name: tests-server
+name: tests-client
 
 on:
   push:
     branches:
       - master
+    paths:
+      - "client/**"
 jobs:
   build:
     runs-on: ubuntu-latest
