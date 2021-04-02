@@ -6,6 +6,7 @@ import { createBrowserHistory } from "history";
 
 
 const history = createBrowserHistory();
+jest.spyOn(history, "push");
 
 const initialProps = {
     auth: {
@@ -21,7 +22,16 @@ const setup = (props = {}) => {
 };
 
 
-test('Render form', () => {
+test('render form', () => {
     const wrapper = setup();
     expect(wrapper.find(".Form").length).toBe(1)
 })
+
+test('render cancel button and on-click works', () => {
+    const wrapper = setup()
+    const cancelButton = wrapper.find(".Form__goBack")
+    expect(cancelButton.length).toBe(1);
+    cancelButton.simulate("click");
+    expect(history.push).toHaveBeenCalledWith("/dashboard");
+})
+
