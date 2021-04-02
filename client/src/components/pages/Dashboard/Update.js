@@ -26,7 +26,6 @@ export const Update = ({ auth: { currentUser }, updateMe, history }) => {
 	return (
 		<div className="Form">
 			<button
-				data-test="cancel-button"
 				className="Form__goBack"
 				onClick={() => {
 					history.push("/dashboard");
@@ -35,42 +34,42 @@ export const Update = ({ auth: { currentUser }, updateMe, history }) => {
 			</button>
 			<h1>Update your profile</h1>
 			<form className="Form__form" onSubmit={handleSubmit}>
-				<label htmlFor="image">
+				<label>
 					<strong>Profile photo</strong>
-				</label>
 				<input
 					type="file"
 					accept="image/*"
 					name="image"
 					onChange={handleFileChange}
-				/>
-				<label htmlFor="firstName">
+					/>
+					</label>
+				<label>
 					<strong>First Name</strong>
-				</label>
 				<input
 					type="text"
 					name="firstName"
 					value={formData.firstName}
 					onChange={handleChange}
-				/>
-				<label htmlFor="lastName">
+					/>
+					</label>
+				<label>
 					<strong>Last Name</strong>
-				</label>
 				<input
 					type="text"
 					name="lastName"
 					value={formData.lastName}
 					onChange={handleChange}
-				/>
-				<label htmlFor="email">
+					/>
+						</label>
+				<label>
 					<strong>Email</strong>
-				</label>
 				<input
 					type="email"
 					name="email"
 					value={formData.email}
 					onChange={handleChange}
-				/>
+					/>
+						</label>
 				<button className="btn btn__submit">Submit</button>
 			</form>
 		</div>

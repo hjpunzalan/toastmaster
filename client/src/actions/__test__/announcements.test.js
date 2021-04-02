@@ -11,7 +11,6 @@ import {
 	limit,
 } from "../announcements";
 import { setAlert } from "../alerts";
-import { initialState } from "../../reducers/announcements";
 
 test("should toggle edit and reset alert", () => {
 	const store = storeFactory();
