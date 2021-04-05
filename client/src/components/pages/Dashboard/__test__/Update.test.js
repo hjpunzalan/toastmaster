@@ -35,3 +35,11 @@ test('render cancel button and on-click works', () => {
     expect(history.push).toHaveBeenCalledWith("/dashboard");
 })
 
+test('render title', () => {
+    const wrapper = setup()
+    const title = wrapper.find("h1")
+    expect(title.length).toBe(1)
+    expect(title.text()).toEqual("Update your profile")
+})
+
+
