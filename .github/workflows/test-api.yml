@@ -1,4 +1,5 @@
-name: tests-server
+  
+name: tests-api
 
 on:
   push:
