@@ -21,7 +21,7 @@ module.exports = class Email {
 					pass: process.env.SENDGRID_PASSWORD
 				}
 			});
-		}
+		} else 
 		return nodemailer.createTransport({
 			host: process.env.EMAIL_HOST,
 			port: process.env.EMAIL_PORT,
