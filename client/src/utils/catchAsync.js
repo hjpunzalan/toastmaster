@@ -30,7 +30,7 @@ const catchAsync = (type, fn = type) => {
 			dispatch({
 				type: ERROR,
 				payload: {
-					msg: err.response.statusText,
+					msg: err.response.data.message,
 					status: err.response.status,
 				},
 			});
