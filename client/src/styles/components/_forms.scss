@@ -43,10 +43,7 @@
             height: 4rem;
             background: $color-input;
             border: 1px solid $color-grey;
-
-            @media only screen and (max-width: 25em) {
-                font-size: 1.3rem;
-            }
+            font-size: 1.4rem;
 
             &:focus {
                 outline: none;
