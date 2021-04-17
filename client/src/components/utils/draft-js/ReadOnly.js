@@ -1,11 +1,11 @@
 import React from 'react';
 import { EditorState, convertFromRaw } from 'draft-js';
-import Editor, { composeDecorators } from 'draft-js-plugins-editor';
-import createLinkifyPlugin from 'draft-js-linkify-plugin';
-import createImagePlugin from 'draft-js-image-plugin';
-import createFocusPlugin from 'draft-js-focus-plugin';
-import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
-import createResizeablePlugin from 'draft-js-resizeable-plugin';
+import Editor, { composeDecorators } from '@draft-js-plugins/editor';
+import createLinkifyPlugin from '@draft-js-plugins/linkify';
+import createImagePlugin from '@draft-js-plugins/image';
+import createFocusPlugin from '@draft-js-plugins/focus';
+import createBlockDndPlugin from '@draft-js-plugins/drag-n-drop';
+import createResizeablePlugin from '@draft-js-plugins/resizeable';
 import pluginDecorator from './pluginDecorator';
 
 let editor;

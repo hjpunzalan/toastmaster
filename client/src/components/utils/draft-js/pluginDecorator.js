@@ -1,4 +1,4 @@
-import MultiDecorator from "draft-js-plugins-editor/lib/Editor/MultiDecorator";
+import MultiDecorator from "@draft-js-plugins/editor";
 import { CompositeDecorator } from "draft-js";
 
 const getPluginDecoratorArray = (listOfPlugins) => {
