@@ -11,8 +11,8 @@ export const Update = ({ auth: { currentUser }, updateMe, history }) => {
 	const { formData, handleChange, handleSubmit } = useForms(
 		blankForm,
 		updateMe,
-		file,
-		history
+		{file,
+		history}
 	);
 
 	const handleFileChange = (e) => {

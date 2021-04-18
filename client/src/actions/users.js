@@ -34,7 +34,7 @@ export const registerUser = ({ formData, url }) =>
 		);
 	});
 
-export const updateMe = (formData, file, history) =>
+export const updateMe = ({formData, file, history}) =>
 	catchAsync("update", async (dispatch) => {
 		// Reset alert if there was error
 		dispatch(resetAlert());
