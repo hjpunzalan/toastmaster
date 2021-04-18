@@ -1,4 +1,3 @@
-import MultiDecorator from "@draft-js-plugins/editor";
 import { CompositeDecorator } from "draft-js";
 
 const getPluginDecoratorArray = (listOfPlugins) => {
@@ -18,9 +17,8 @@ const getPluginDecoratorArray = (listOfPlugins) => {
 const pluginDecorator = (listOfPlugins) => {
 	// I can't quite remember why I had to wrap things in this exact way, but found that I ran into
 	// errors if I did not both have a MultiDecorator and a CompositeDecorator wrapping
-	return new MultiDecorator([
-		new CompositeDecorator(getPluginDecoratorArray(listOfPlugins)),
-	]);
+	return new CompositeDecorator(getPluginDecoratorArray(listOfPlugins))
+	
 };
 
 export default pluginDecorator;
