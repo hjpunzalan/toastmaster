@@ -79,7 +79,7 @@ describe("USER request patterns", () => {
 		// props
 		const url = "testUrl";
 		const key = "testPhoto";
-		const file = { file: "data" };
+		const file = { file: "data", type:"jpg" };
 		const updatedUser = {
 			...testUser,
 			photo: `https://toastmaster-user-photo.s3-ap-southeast-2.amazonaws.com/${key}`,
@@ -107,7 +107,7 @@ describe("USER request patterns", () => {
 		jest.spyOn(history, "push");
 
 		// Dispatch action
-		await store.dispatch(updateMe(testUser, file, history));
+		await store.dispatch(updateMe({formData: testUser, file, history}));
 		const { auth, alerts } = store.getState();
 		// Assert loading
 		expect(auth.loading).toBe(false);
