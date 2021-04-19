@@ -1,14 +1,16 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { storeFactory } from "../../../utils/testUtils";
-import {
+import {limit,
 	createAnnouncement,
 	updateAnnouncement,
 	getAnnouncements,
+	deleteAnnouncement
 } from "../../announcements";
 import { initialState } from "../../../reducers/announcements";
 
 describe("should send announcement error when request fails", () => {
+	
 	const store = storeFactory();
 	const error = {
 		statusText: "fail",
@@ -51,10 +53,12 @@ describe("should send announcement error when request fails", () => {
 	test("should send error when getting announcements", async () => {
 		const mock = new MockAdapter(axios);
 		mock
-			.onGet("/api/announcements")
+			.onGet(`/api/announcements?sort=-lastEdited&limit=${limit}`)
 			.reply(401, error)
 			.onGet("/api/auth/logout")
 			.reply(200);
+		
+	
 		await store.dispatch(getAnnouncements());
 		// GET CURRENT STATE
 		const { announcements, alerts } = store.getState();
@@ -73,7 +77,7 @@ describe("should send announcement error when request fails", () => {
 
 		await store.dispatch(
 			updateAnnouncement({
-				_id: "test",
+			id: announcement._id
 			})
 		);
 
@@ -93,9 +97,7 @@ describe("should send announcement error when request fails", () => {
 			.reply(200);
 
 		await store.dispatch(
-			updateAnnouncement({
-				_id: "test",
-			})
+			deleteAnnouncement(announcement._id)
 		);
 
 		// GET CURRENT STATE
