@@ -21,7 +21,7 @@ const userController = require("./controllers/userController");
 const app = express();
 
 //////////////////////// Global Middlewares//////////////////////////
-app.use(helmet()); // add http headers that secure the server
+app.use(helmet({ contentSecurityPolicy: false,})); // add http headers that secure the server
 
 // Development logging
 if (process.env.NODE_ENV !== "production") {
