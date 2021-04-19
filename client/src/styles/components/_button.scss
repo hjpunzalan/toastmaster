@@ -10,10 +10,6 @@
         width: 15rem;
     }
 
-    @media only screen and (max-width: 28.125em) {
-        height: $button-height-450;
-    }
-
     &:focus {
         outline: none;
     }
