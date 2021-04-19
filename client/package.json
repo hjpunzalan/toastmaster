@@ -57,7 +57,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8000/",
+  "proxy": "http://localhost:8000",
   "devDependencies": {
     "check-prop-types": "^1.1.2",
     "jest-react-hooks-shallow": "^1.5.1"
