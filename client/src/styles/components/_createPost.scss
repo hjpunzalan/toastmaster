@@ -27,6 +27,7 @@
         }
 
         input[type="text"] {
+            font-size: $size-label;
             padding: 0.5rem;
             max-width: 600px;
             width: 60%;
@@ -43,7 +44,7 @@
         width: 100%; //Optimised with content's width
         margin: 2rem 0;
         overflow: auto;
-        height: 5rem;
+        height: 15rem;
         line-height: 150%;
         font-size: $size-editor-text;
         font-family: Arial,

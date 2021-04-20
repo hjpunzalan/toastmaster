@@ -26,7 +26,7 @@ export const Update = ({ auth: { currentUser }, updateMe, history }) => {
 	return (
 		<div className="Form">
 			<button
-				className="Form__goBack"
+				className="Form__goBack btn__cancel"
 				onClick={() => {
 					history.push("/dashboard");
 				}}>

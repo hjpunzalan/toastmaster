@@ -60,7 +60,7 @@ export const Register = ({
 	) : (
 		<div className="Form">
 			<button
-				className="Form__goBack"
+				className="Form__goBack btn__cancel"
 				onClick={() => {
 					history.push("/members");
 				}}>
