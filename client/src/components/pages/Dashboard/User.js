@@ -23,11 +23,11 @@ const User = ({ currentUser, isModified }) => {
 				<div className="Dashboard__links">
 					<Link to="/user/update" className="Dashboard__links-link">
 						<FaUserAlt />{' '}
-						<span style={{ marginLeft: '1rem' }}>Update Profile</span>
+						<span>Update Profile</span>
 					</Link>
 					<Link to="/user/changepassword" className="Dashboard__links-link">
 						<FaKey />{' '}
-						<span style={{ marginLeft: '1rem' }}>Change Password</span>
+						<span>Change Password</span>
 					</Link>
 				</div>
 			</div>
