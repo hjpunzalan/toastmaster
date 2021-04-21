@@ -39,7 +39,7 @@ const MemberList = ({
 			<h1 className="MemberList__title">Member List</h1>
 			<div className="MemberList__top">
 				<Link className="MemberList__register" to="/register">
-					{Moderator && <button>Register a User</button>}
+					{Moderator && <button className="btn">Register User</button>}
 				</Link>
 
 				<div className="MemberList__switch">
