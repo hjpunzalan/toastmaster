@@ -81,6 +81,10 @@
 
         >button {
             margin-right: 3rem;
+
+            @media only screen and (max-width: 25em) {
+                margin-right: 1rem;
+            }
         }
     }
 

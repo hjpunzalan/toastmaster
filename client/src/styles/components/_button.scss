@@ -1,13 +1,18 @@
 .btn {
-    width: 20rem;
+    width: 15rem;
     height: $button-height;
     border: none;
     font-size: $size-button;
     border: 1px solid $color-grey;
+    background-color: $color-grey-light;
     @include links;
 
-    @media only screen and (max-width: 35em) {
-        width: 15rem;
+    @media only screen and (max-width: 50em) {
+        height: $button-height-450;
+    }
+
+    @media only screen and (max-width: 25em) {
+        width: 12rem;
     }
 
     &:focus {
@@ -27,6 +32,9 @@
         cursor: pointer;
         width: 10rem;
         height: 3rem;
+        background-color: $color-grey-light;
+        color: $color-black;
+        border: .1rem solid $color-black;
     }
 
     &__edit {
@@ -101,29 +109,15 @@
         cursor: pointer;
 
         @media only screen and (max-width: 35em) {
-            font-size: 0;
-            background: $color-secondary;
-            color: $color-white;
-            border-radius: 50%;
-            border: none;
-            display: block;
-            position: relative;
-            padding: 0;
-            overflow: hidden;
-            width: 3rem;
-            height: 3rem;
+            display: none;
+        }
 
-            &:focus {
-                outline: none;
-            }
+        &-small {
+            font-size: 3rem;
+            cursor: pointer;
 
-            &::before {
-                position: absolute;
-                display: block;
-                top: 0;
-                left: 25%;
-                content: '+';
-                font-size: 2.5rem;
+            @media only screen and (min-width: 35em) {
+                display: none;
             }
         }
     }
