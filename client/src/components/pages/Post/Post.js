@@ -31,7 +31,7 @@ const Post = ({
 	updatePost,
 	addComment,
 	deleteComment,
-	post: { post, totalPages },
+	post: { post },
 	textEditor,
 	onChange,
 	history,
@@ -136,7 +136,7 @@ const Post = ({
 						<PageButtons
 							page={page}
 							setPage={setPage}
-							totalPages={totalPages}
+							totalPages={post.totalPages}
 							postId={postId}
 						/>
 					)}
@@ -162,7 +162,7 @@ const Post = ({
 					<PageButtons
 						page={page}
 						setPage={setPage}
-						totalPages={totalPages}
+						totalPages={post.totalPages}
 						postId={postId}
 					/>
 					<div className="Post__addComment">
