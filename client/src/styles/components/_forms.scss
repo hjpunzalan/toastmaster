@@ -82,8 +82,12 @@
         >button {
             margin-right: 3rem;
 
-            @media only screen and (max-width: 25em) {
+            @media only screen and (max-width: 31.25em) {
                 margin-right: 1rem;
+            }
+
+            @media only screen and (max-width: 22em) {
+                margin-right: .5rem;
             }
         }
     }

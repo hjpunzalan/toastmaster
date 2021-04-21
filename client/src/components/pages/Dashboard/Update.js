@@ -48,7 +48,8 @@ export const Update = ({ auth: { currentUser }, updateMe, history }) => {
 				<input
 					type="text"
 					name="firstName"
-					value={formData.firstName}
+						value={formData.firstName}
+						maxLength={15}
 					onChange={handleChange}
 					/>
 					</label>
@@ -57,7 +58,8 @@ export const Update = ({ auth: { currentUser }, updateMe, history }) => {
 				<input
 					type="text"
 					name="lastName"
-					value={formData.lastName}
+						value={formData.lastName}
+						maxLength={15}
 					onChange={handleChange}
 					/>
 						</label>
