@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaPlusCircle } from "react-icons/fa";
 import ContentEditor from "../../utils/ContentEditor";
 
 const DiscussionHead = ({
@@ -53,8 +53,9 @@ const DiscussionHead = ({
 					<button
 						className="btn btn__submit Discussion__create"
 						onClick={handleToggle}>
-						Create a new post
+						Create post
 					</button>
+					<FaPlusCircle className="Discussion__create-small" onClick={handleToggle}/>
 					<div className="Discussion__search">
 						<form onSubmit={handleSearch}>
 							<input

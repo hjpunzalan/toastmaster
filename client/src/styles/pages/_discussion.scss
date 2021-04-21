@@ -10,31 +10,27 @@
     justify-content: center;
     margin-bottom: 2rem;
 
-    @media only screen and (max-width: 40.625em) {
-      .Discussion__create {
 
-        font-size: 0;
-        padding: .7rem;
-        // line-height: 1.2rem;
-        background: $color-secondary;
-        color: $color-white;
-        border-radius: 50%;
-        border: none;
-        width: 4rem;
-        height: 4rem;
+    .Discussion__create {
+      @media only screen and (max-width: 40.625em) {
+        display: none;
+      }
+
+      &-small {
+        font-size: 3rem;
         position: fixed;
         bottom: 2rem;
         right: 2rem;
         z-index: 1000;
-        @include boxshadow;
+        cursor: pointer;
 
-
-        &::before {
-          content: '+';
-          font-size: 2rem;
+        @media only screen and (min-width: 40.625em) {
+          display: none;
         }
       }
     }
+
+
   }
 
   &__editor {
