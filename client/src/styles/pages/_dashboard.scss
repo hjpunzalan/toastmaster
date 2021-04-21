@@ -47,6 +47,7 @@
 
     @media only screen and (max-width: 40.625em) {
       justify-content: center;
+      margin-bottom: 5rem;
     }
   }
 
@@ -91,6 +92,10 @@
           align-items: center;
         }
 
+        @media only screen and (max-width: 25em) {
+          align-items: flex-start;
+        }
+
         &-link {
           text-decoration: none;
           display: flex;
@@ -112,6 +117,10 @@
             @media only screen and (max-width: 35em) {
               margin-left: 1rem;
               margin-top: 1rem;
+            }
+
+            @media only screen and (max-width: 25em) {
+              margin-left: 0rem;
             }
           }
         }
@@ -163,18 +172,8 @@
       }
 
       @media only screen and (max-width: 28.125em) {
-        width: 8rem;
-        height: 8rem;
-      }
-
-      @media only screen and (max-width: 25em) {
-        width: 12rem;
-        height: 12rem;
-      }
-
-      @media only screen and (max-width: 20.625em) {
-        width: 8rem;
-        height: 8rem;
+        width: 10rem;
+        height: 10rem;
       }
     }
   }

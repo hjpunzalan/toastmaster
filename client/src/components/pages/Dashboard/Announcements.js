@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Moment from "react-moment";
 import "moment-timezone";
+import { FaPlusCircle } from "react-icons/fa";
 import {
 	toggleEdit,
 	createAnnouncement,
@@ -89,11 +90,13 @@ export const Announcements = ({
 		<div className="Dashboard__left">
 			<div className="Dashboard__top">
 				<h1 className="Dashboard__title">Announcements</h1>
-				{Moderator && (
+					{Moderator && (
+						<>
 					<button className="btn__announcement" onClick={toggleEdit}>
-						Post new announcement
-					</button>
-				)}
+							Post new announcement
+						</button>
+						<FaPlusCircle className="btn__announcement-small" onClick={toggleEdit}/>
+			</>	)}
 			</div>
 			<div className="Dashboard__announcements">
 				{announcements.map((el) => (
