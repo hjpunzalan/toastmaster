@@ -115,7 +115,7 @@ export const postNextPage = (page, setPage, isSearch = false) =>
 	});
 
 export const getPost = ({ id, currentPage, history, setPage }) =>
-	catchAsync("post", async (dispatch) => {
+	catchAsync("getpost", async (dispatch) => {
 		// Clear previous post state
 		dispatch({
 			type: CLEAR_POST,

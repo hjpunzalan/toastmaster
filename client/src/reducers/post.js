@@ -14,6 +14,7 @@ import {
 	LOADING_SUBMIT_POST,
 	POST_NEXT_PAGE,
 	CLEAR_POST,
+	GET_POST_ERROR
 } from "../actions/types";
 
 export const initialState = {
@@ -24,6 +25,7 @@ export const initialState = {
 	edit: false,
 	postEdit: false,
 	totalPages: null,
+	postError: false
 };
 
 const postReducer = (state = initialState, action) => {
@@ -43,6 +45,7 @@ const postReducer = (state = initialState, action) => {
 				posts: [],
 				post: null,
 				totalPages: null,
+				postError: false
 			};
 		case TOGGLE_CREATE_POST:
 			return {
@@ -68,6 +71,7 @@ const postReducer = (state = initialState, action) => {
 				postLoading: false,
 				postEdit: false,
 				post: payload,
+				postError: false
 			};
 		case GET_ALL_POST:
 		case SEARCH_POSTS:
@@ -117,9 +121,16 @@ const postReducer = (state = initialState, action) => {
 		case POST_ERROR:
 			return {
 				...state,
+				postLoading: false,
 				loading: false,
+				totalPages: null,
+			};
+		case GET_POST_ERROR:
+			return {
+				...state,
 				postLoading: false,
 				totalPages: null,
+				postError: true
 			};
 
 		default:

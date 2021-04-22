@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Comments from "./Comments";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -31,7 +31,7 @@ const Post = ({
 	updatePost,
 	addComment,
 	deleteComment,
-	post: { post },
+	post: { post, postError },
 	textEditor,
 	onChange,
 	history,
@@ -102,7 +102,7 @@ const Post = ({
 	const breakpoint = window.screen.width < 1000;
 
 	return post === null || postLoading ? (
-		<Spinner />
+		postError? <Redirect to="/discussion"/> : <Spinner />
 	) : postEdit ? (
 		<div className="Post__editor">
 			<ContentEditor
