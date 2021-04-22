@@ -30,7 +30,7 @@ const PostComment = ({
 					className="Post__commentUser-img"
 				/>
 				<span className="Post__commentUser-name">
-				{userNameLength > 12 ? <span>{convertedName}</span> :<>
+				{userNameLength > 12 && window.screen.width > 1000? <span>{convertedName}</span> :<>
 					<span>{user.firstName}&nbsp;</span>
 						<span>{user.lastName}</span></>}
 				</span>

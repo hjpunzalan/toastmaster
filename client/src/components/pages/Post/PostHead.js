@@ -24,7 +24,7 @@ const PostHead = ({
 					className="Post__postUser-img"
 				/>
 				<span className="Post__postUser-name">
-					{userNameLength > 12 ? <span>{convertedName}</span> :<>
+					{userNameLength > 12 && window.screen.width > 1000? <span>{convertedName}</span> :<>
 					<span>{post.user.firstName}&nbsp;</span>
 						<span>{post.user.lastName}</span></>}
 				</span>
