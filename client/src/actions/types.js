@@ -32,6 +32,7 @@ export const ERROR = 'ERROR';
 export const TOGGLE_CREATE_POST = 'TOGGLE_CREATE_POST';
 export const TOGGLE_EDIT_POST = 'TOGGLE_EDIT_POST';
 export const LOADING_SUBMIT_POST = 'LOADING_SUBMIT_POST';
+export const GET_POST_ERROR = 'GET_POST_ERROR'
 
 // User
 export const UPDATE_ME = 'UPDATE_ME';

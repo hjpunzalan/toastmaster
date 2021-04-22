@@ -6,6 +6,7 @@ import {
 	AUTH_ERROR,
 	UPDATE_FAILED,
 	USER_ERROR,
+	GET_POST_ERROR
 } from "../actions/types";
 import { logoutUser } from "../actions/auth";
 
@@ -16,6 +17,7 @@ const catchAsync = (type, fn = type) => {
 			// The types handles when loading is still true
 			if (err.response.data.message) dispatch(setAlert(err.response.data.message, "fail"));
 			if (type === "post") dispatch({ type: POST_ERROR });
+			if (type === "getpost") dispatch({ type: GET_POST_ERROR });
 			if (type === "auth") dispatch({ type: AUTH_ERROR });
 			if (type === "update") dispatch({ type: UPDATE_FAILED });
 			if (type === "announcement") dispatch({ type: ANNOUNCEMENT_ERROR });
