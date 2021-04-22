@@ -11,6 +11,10 @@ const PostHead = ({
 	handleDeletePost,
 	Moderator,
 }) => {
+	let userNameLength = post.user.firstName.length + post.user.lastName.length;
+	let convertedName = post.user.firstName + " " + post.user.lastName[0].toUpperCase()
+	if(userNameLength > 20) convertedName = post.user.firstName[0].toUpperCase() + post.user.lastName[0].toUpperCase()
+
 	return (
 		<div className="Post__post">
 			<div className="Post__postUser">
@@ -20,11 +24,9 @@ const PostHead = ({
 					className="Post__postUser-img"
 				/>
 				<span className="Post__postUser-name">
+					{userNameLength > 12 ? <span>{convertedName}</span> :<>
 					<span>{post.user.firstName}&nbsp;</span>
-					{(post.user.firstName.length <= 10 ||
-						post.user.lastName.length <= 10) && (
-						<span>{post.user.lastName}</span>
-					)}
+						<span>{post.user.lastName}</span></>}
 				</span>
 			</div>
 			<div className="Post__postBody">
