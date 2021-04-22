@@ -49,6 +49,7 @@
     }
 
     & input[type="text"] {
+      font-size: $size-discussion-text;
       margin-left: 1rem;
       padding: 1rem;
       width: 120%;
@@ -141,16 +142,6 @@
         border-radius: 50%;
         display: block;
         object-fit: cover;
-
-        @media only screen and (max-width: 31.25em) {
-          width: 4rem;
-          height: 4rem;
-        }
-
-        @media only screen and (max-width: 23.475em) {
-          width: 5rem;
-          height: 5rem;
-        }
       }
 
       &-name {
@@ -158,7 +149,7 @@
         text-align: center;
         width: 100%;
         margin-top: 1.5rem;
-        font-size: $size-discussion-text;
+        font-size: $size-discussion-name;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
@@ -171,7 +162,7 @@
         }
 
         @media only screen and (max-width: 31.25em) {
-          font-size: $size-discussion-text-500;
+          font-size: $size-discussion-name;
           margin-top: .7rem;
         }
 
