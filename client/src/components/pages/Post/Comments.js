@@ -18,6 +18,9 @@ const PostComment = ({
 	currentUser,
 	Moderator,
 }) => {
+		let userNameLength = user.firstName.length + user.lastName.length;
+	let convertedName = user.firstName + " " + user.lastName[0].toUpperCase()
+	if(userNameLength > 20) convertedName = user.firstName[0].toUpperCase() + user.lastName[0].toUpperCase()
 	return (
 		<div className="Post__comment">
 			<div className="Post__commentUser">
@@ -27,10 +30,9 @@ const PostComment = ({
 					className="Post__commentUser-img"
 				/>
 				<span className="Post__commentUser-name">
+				{userNameLength > 12 ? <span>{convertedName}</span> :<>
 					<span>{user.firstName}&nbsp;</span>
-					{(user.firstName.length <= 10 || user.lastName.length <= 10) && (
-						<span>{user.lastName}</span>
-					)}
+						<span>{user.lastName}</span></>}
 				</span>
 			</div>
 			<div className="Post__commentBody">
