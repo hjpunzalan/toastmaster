@@ -1,6 +1,5 @@
 # Toastmaster members platform
 > This is a MERN stack App for my Public Speaking club of around 20 members.
-> Currently adding test using Jest
 
 ## Table of contents
 * [General info](#general-info)
@@ -36,6 +35,43 @@ This is the first web application I have created from scratch. I have borrowed k
 
 ## Setup
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+1. Clone the repository
+
+```
+git clone https://github.com/hjpunzalan/toastmaster.git
+```
+
+2. Install project dependencies
+
+```
+npm install
+cd client
+npm install
+```
+
+3. Add your personal own configuration at root directory with file named "config.env"
+##### THIS FILE IS ADDED TO .gitginore for security purposes
+```
+NODE_ENV=development
+DATABASE=YOUR mongodb url
+JWT_SECRET=test
+JWT_EXPIRATION=90d
+JWT_COOKIE_EXPIRATION=90
+EMAIL_FROM=YOUR email
+S3_ACCESS_KEY=YOUR AWS S3 ACCESS KEY
+S3_SECRET_ACCESS_KEY=YOUR AWS SECRET S3 ACCESS KEY
+EMAIL_USERNAME=YOUR MAILTRAP USERNAME
+EMAIL_PASSWORD= YOUR MAILTRAP PASSWORD
+EMAIL_PORT=25
+EMAIL_HOST=smtp.mailtrap.io
+```
+
+4. Start the server in development mode
+
+```
+npm run dev
+```
 
 To-do list:
 * Client-side automated testing still in progress
