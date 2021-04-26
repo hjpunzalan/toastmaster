@@ -48,8 +48,6 @@ const ContentEditor = ({
 		handleSubmit(content);
 	};
 
-	// breakpoint: 1000px;
-	const breakpoint = window.screen.width < 1000;
 	return (
 		<div className="CreatePost">
 			<button className="btn__cancel" onClick={handleToggle}>
@@ -71,11 +69,9 @@ const ContentEditor = ({
 					onChange={(e) => setTitle(e.target.value)}
 					maxLength={80} // so it doesnt pollute the post too much
 					required
-				/>
-				{breakpoint ? (
-					<>
+				/> 
+					<div className="CreatePost__editor">
 						<textarea
-							className="CreatePost__editor"
 							type="text"
 							name="editor"
 							id="editor"
@@ -83,15 +79,15 @@ const ContentEditor = ({
 							onChange={handleChange}
 							required></textarea>
 						<button className="btn btn__submit" onClick={submitPost}>
-							Submit Post
+							Submit
 						</button>
-					</>
-				) : (
-					<TextEditor
+				</div>
+				<div className="CreatePost__textEditor">
+						<TextEditor
 						contentState={contentState} // context
 						handleSubmit={handleSubmit} // submit function
 					/>
-				)}
+					</div>
 			</div>
 		</div>
 	);
