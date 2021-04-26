@@ -99,7 +99,6 @@ const Post = ({
 	const start = (page - 1) * limit;
 	const end = page * limit;
 	const minTopPageButtonsAppear = 3;
-	const breakpoint = window.screen.width < 1000;
 
 	return post === null || postLoading ? (
 		postError? <Redirect to="/discussion"/> : <Spinner />
@@ -174,8 +173,7 @@ const Post = ({
 							/>
 							<h2 className="Post__addComment-title">Add Comment</h2>
 						</div>
-						{breakpoint ? (
-							<>
+							<div className="CreatePost__editor">
 								<textarea
 									placeholder="Add comment...."
 									className="CreatePost__editor"
@@ -194,10 +192,10 @@ const Post = ({
 									}}>
 									Submit
 								</button>
-							</>
-						) : (
-							<TextEditor handleSubmit={handleSubmit} />
-						)}
+							</div>
+						<div className="CreatePost__textEditor">
+									<TextEditor handleSubmit={handleSubmit} />
+									</div>
 					</div>
 				</>
 			)}
