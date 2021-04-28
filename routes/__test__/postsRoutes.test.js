@@ -31,7 +31,7 @@ test("should create and get all posts with page and limit query", async () => {
 	const {
 		body: { results, numPosts },
 	} = await request(app)
-		.get(`/api/posts?page=1&limit=1&sort=-lastComment,-date`)
+		.get(`/api/posts?page=1&limit=1&sort=-lastEdited,-lastComment`)
 		.set("Cookie", cookie)
 		.send()
 		.expect(200);
@@ -68,7 +68,7 @@ test("should be able to search post by title or plainText with pagination query"
 	const {
 		body: { posts, numPosts },
 	} = await request(app)
-		.post(`/api/posts/search/text?page=1&limit=1&sort=-lastComment,-date`)
+		.post(`/api/posts/search/text?page=1&limit=1&sort=-lastEdited,-lastComment`)
 		.set("Cookie", cookie)
 		.send({
 			text: "test",

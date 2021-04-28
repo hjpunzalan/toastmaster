@@ -13,13 +13,15 @@ import {
 	SEARCH_POSTS,
 	POST_NEXT_PAGE,
 	CLEAR_POST,
+	GET_POST_ERROR,
 } from "./types";
 import axios from "axios";
 import { setAlert, resetAlert } from "./alerts";
 import catchAsync from "../utils/catchAsync";
 
 // Pagination limit for get all post and post next page
-export const postLimitPerPage = 7;
+// IDEALLY EVEN NUMBER!
+export const postLimitPerPage = 6;
 export const commentsLimitPerPage = 6;
 
 export const toggleCreatePost = () => (dispatch) => {
@@ -66,9 +68,10 @@ export const getAllPost = (page = 1) =>
 		dispatch(resetAlert());
 		// Gets post by page with limit, sorts by last comment then date.
 		const res = await axios.get(
-			`/api/posts?page=${page}&limit=${postLimitPerPage}&sort=,-lastEdited,-lastComment`
+			`/api/posts?page=${page}&limit=${postLimitPerPage}&sort=-lastEdited,-lastComment`
 		);
 		// Dispatch data and change posts state
+		console.log(res.data)
 		dispatch({
 			type: GET_ALL_POST,
 			payload: {
@@ -89,17 +92,17 @@ export const postNextPage = (page, setPage, isSearch = false) =>
 			res = await axios.post(
 				`/api/posts/search/text?page=${
 					page + 1
-				}&limit=${postLimitPerPage}&sort=-lastComment,-date`,
+				}&limit=${postLimitPerPage}&sort=-lastEdited,-lastComment`,
 				{ text: isSearch }
 			);
 		} else {
 			res = await axios.get(
 				`/api/posts?page=${
 					page + 1
-				}&limit=${postLimitPerPage}&sort=-lastComment,-date`
+				}&limit=${postLimitPerPage}&sort=-lastEdited,-lastComment`
 			);
 		}
-		if (res.data) {
+		if (res.data.posts.length > 1) {
 			dispatch({
 				type: POST_NEXT_PAGE,
 				payload: {
@@ -111,7 +114,10 @@ export const postNextPage = (page, setPage, isSearch = false) =>
 			// If request fails, state does not change
 			// Page number remains the same
 			setPage(page + 1);
-		}
+		} else
+			dispatch({type: GET_POST_ERROR})
+
+		
 	});
 
 export const getPost = ({ id, currentPage, history, setPage }) =>

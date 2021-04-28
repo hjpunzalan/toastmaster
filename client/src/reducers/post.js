@@ -123,7 +123,6 @@ const postReducer = (state = initialState, action) => {
 				...state,
 				postLoading: false,
 				loading: false,
-				totalPages: null,
 			};
 		case GET_POST_ERROR:
 			return {
