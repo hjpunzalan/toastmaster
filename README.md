@@ -22,7 +22,10 @@ This is the first web application I have created from scratch. I have borrowed k
 - Responsive design - unfortunately, draft-js does not support mobile-view so I had to replace it with text-box for smaller screens.
 
 ## Screenshots
-![Demo](./demo/toastmaster.mp4)
+
+https://user-images.githubusercontent.com/47600145/116559812-60f49500-a933-11eb-8b23-dffb4eca7004.mp4
+
+
 
 ## Technologies
 * React - javascript framework/library.
