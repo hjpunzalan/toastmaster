@@ -4,7 +4,7 @@
 
 ### Demo
 [Try it out](https://srtoastmasters.herokuapp.com/)\
-email: <span>user@test.com</span>\
+email: user@<span>test.com</span>\
 password: toastmaster
 
 ## Table of contents
