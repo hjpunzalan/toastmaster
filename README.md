@@ -28,11 +28,14 @@ This is the first web application I have created from scratch. I have borrowed k
 
 ## Screenshots
 
-https://user-images.githubusercontent.com/47600145/116559812-60f49500-a933-11eb-8b23-dffb4eca7004.mp4
-
+##### Mobile-view
 https://user-images.githubusercontent.com/47600145/116561002-7b7b3e00-a934-11eb-8848-3674c6a25857.mp4
 
-![mail](https://user-images.githubusercontent.com/47600145/116595888-631c1b00-a956-11eb-9c6f-2c5763a381f9.png)
+#### Desktop-view
+https://user-images.githubusercontent.com/47600145/116559812-60f49500-a933-11eb-8b23-dffb4eca7004.mp4
+
+#### Sample welcome email
+![mail](https://user-images.githubusercontent.com/47600145/116596561-17b63c80-a957-11eb-8667-62b3acdcefb0.png)
 
 
 
