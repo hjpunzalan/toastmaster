@@ -83,7 +83,7 @@ const DiscussionHead = ({
 							handleToggle={handleToggle}
 							title={title}
 							setTitle={setTitle}
-							type={"createPost"}
+							type={"post"}
 						/>
 					</div>
 				)
