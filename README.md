@@ -1,5 +1,4 @@
 
-
 # Toastmaster members platform
 > This is a MERN stack App for my Public Speaking club of around 20 members.
 
@@ -11,7 +10,9 @@
 * [Setup](#setup)
 
 ## General info
-It is a member club with a dashboard, discussion board, speech posts and member list. Its main usage is explicitly for communication purposes within club members. There is a user-level heirarchy consisting of normal users, moderator and admin. Committee members of a toastmaster club typically are able to control user actions and are the only one able to register, activate and deactivate users.
+It is a member club with a dashboard, discussion board, speech posts and member list. Dashboard for committee members to communicate to all the club members. Discussion board for communication such as speech reviews for club members. A member list to send emails and for committee members to manage club members.
+
+There is a user-level heirarchy consisting of normal users, moderator and admin. Committee members of a toastmaster club typically are able to control user actions and are the only one able to register, activate and deactivate users.
 
 Unfortunately, sendGrid mail service without a DNS may be blocked by some email providers such as Outlook thus, some features such as forgetting password may not work in the live demo.
 
@@ -30,6 +31,8 @@ This is the first web application I have created from scratch. I have borrowed k
 https://user-images.githubusercontent.com/47600145/116559812-60f49500-a933-11eb-8b23-dffb4eca7004.mp4
 
 https://user-images.githubusercontent.com/47600145/116561002-7b7b3e00-a934-11eb-8848-3674c6a25857.mp4
+
+![mail](https://user-images.githubusercontent.com/47600145/116595888-631c1b00-a956-11eb-9c6f-2c5763a381f9.png)
 
 
 
