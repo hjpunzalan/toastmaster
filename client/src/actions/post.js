@@ -63,6 +63,7 @@ export const createPost = ({ title, contentState, history, plainText }) =>
 
 export const getAllPost = (page = 1) =>
 	catchAsync("post", async (dispatch) => {
+		dispatch({type: POST_RESET});
 		// Resets alert if searching for empty posts beforehand
 		// Empty posts from search will result in an error alert
 		dispatch(resetAlert());
@@ -71,7 +72,6 @@ export const getAllPost = (page = 1) =>
 			`/api/posts?page=${page}&limit=${postLimitPerPage}&sort=-lastEdited,-lastComment`
 		);
 		// Dispatch data and change posts state
-		console.log(res.data)
 		dispatch({
 			type: GET_ALL_POST,
 			payload: {
@@ -108,6 +108,8 @@ export const postNextPage = (page, setPage, isSearch = false) =>
 				payload: {
 					...res.data,
 					limit: postLimitPerPage,
+					setPage,
+					page
 				},
 			});
 			// Change page state only after request has been made

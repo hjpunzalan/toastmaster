@@ -89,8 +89,7 @@ const postReducer = (state = initialState, action) => {
 				edit: false,
 				postEdit: false,
 				loading: false,
-				posts: [...state.posts, ...payload.posts],
-				totalPages: Math.ceil(payload.numPosts / payload.limit),
+				posts: [...state.posts, ...payload.posts]
 			};
 		case UPDATE_POST:
 			return {
