@@ -124,6 +124,7 @@ const Post = ({
 			</div>
 			<PostHead
 				Moderator={Moderator}
+				img={img}
 				post={post}
 				currentUser={currentUser}
 				toggleEditPost={handleToggleEditPost}
@@ -167,7 +168,7 @@ const Post = ({
 					<div className="Post__addComment">
 						<div className="Post__addComment-top">
 							<img
-								src={currentUser.photo}
+								src={currentUser.photo || img}
 								alt="current user"
 								className="Post__commentUser-img"
 							/>
