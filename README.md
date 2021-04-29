@@ -3,7 +3,7 @@
 > This is a MERN stack App for my Public Speaking club of around 20 members.
 
 ### Demo
-[Try it out](https://srtoastmasters.herokuapp.com/)\
+Try it out https://srtoastmasters.herokuapp.com/ <br>
 email: user@<span>test.com</span>\
 password: toastmaster
 
