@@ -13,6 +13,8 @@
 ## General info
 It is a member club with a dashboard, discussion board, speech posts and member list. Its main usage is explicitly for communication purposes within club members. There is a user-level heirarchy consisting of normal users, moderator and admin. Committee members of a toastmaster club typically are able to control user actions and are the only one able to register, activate and deactivate users.
 
+Unfortunately, sendGrid mail service without a DNS may be blocked by some email providers such as Outlook thus, some features such as forgetting password may not work in the live demo.
+
 ## Challenges
 This is the first web application I have created from scratch. I have borrowed knowledge and experience from online courses to create this. I wanted it to be created with quality and able to be deployed for production. With these in mind I faced the following challenges:
 - Security (eg. JWT stored within cookies)
