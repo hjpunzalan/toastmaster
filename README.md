@@ -31,15 +31,13 @@ This is the first web application I have created from scratch. I have borrowed k
 - Client-side vs Server-side pagination - I have decided to utilise server-side pagination for loading posts through an infinite scrolling library and client side for comments. With mongoDB indexing, searching for posts using characters of its text or title was also added.
 - Responsive design - unfortunately, draft-js does not support mobile-view so I had to replace it with text-box for smaller screens.
 
-## Screenshots
-
-##### Mobile-view
+### Mobile-view
 https://user-images.githubusercontent.com/47600145/116561002-7b7b3e00-a934-11eb-8848-3674c6a25857.mp4
 
-#### Desktop-view
+### Desktop-view
 https://user-images.githubusercontent.com/47600145/116559812-60f49500-a933-11eb-8b23-dffb4eca7004.mp4
 
-#### Sample welcome email
+### Sample welcome email
 ![mail](https://user-images.githubusercontent.com/47600145/116596561-17b63c80-a957-11eb-8667-62b3acdcefb0.png)
 
 
@@ -52,6 +50,7 @@ https://user-images.githubusercontent.com/47600145/116559812-60f49500-a933-11eb-
 * MongoDB - NoSQL database that is easily scalable.
 * AWS S3 - A scalable microservice used for uploading photos.
 * Express.js - popular node.js framework for creating REST api.
+* Github actions - continious integration workflow straight deployment to heroku
 
 ## Setup
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
