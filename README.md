@@ -2,6 +2,12 @@
 # Toastmaster members platform
 > This is a MERN stack App for my Public Speaking club of around 20 members.
 
+### Demo
+Try it out (database periodically restored)
+https://srtoastmasters.herokuapp.com/discussion
+email: user@test.com
+password: toastmaster
+
 ## Table of contents
 * [General info](#general-info)
 * [Challenges](#challenges)
