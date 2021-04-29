@@ -1,3 +1,5 @@
+
+
 # Toastmaster members platform
 > This is a MERN stack App for my Public Speaking club of around 20 members.
 
@@ -24,6 +26,8 @@ This is the first web application I have created from scratch. I have borrowed k
 ## Screenshots
 
 https://user-images.githubusercontent.com/47600145/116559812-60f49500-a933-11eb-8b23-dffb4eca7004.mp4
+
+https://user-images.githubusercontent.com/47600145/116561002-7b7b3e00-a934-11eb-8848-3674c6a25857.mp4
 
 
 
