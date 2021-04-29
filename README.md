@@ -18,11 +18,11 @@ This is the first web application I have created from scratch. I have borrowed k
 - Draft.js - unique architecture caused difficulty to share the same context from editor to state and database.
 - Authentication - application has low-level security risk however it still has to consider potential unauthorised logins (expiring current sessions when password is changed)
 - State Concurrency - sending api request usually takes time and to maintain a pleasant UX its important to concurrently handle state changes especially during loading times.
-- Client-side vs Server-side pagination - I have decided to utilise server-side pagination for loading posts through an infinite scrolling library and client side for comments. Using mongoDB indexing, searching for posts using characters of its text or title was also added.
+- Client-side vs Server-side pagination - I have decided to utilise server-side pagination for loading posts through an infinite scrolling library and client side for comments. With mongoDB indexing, searching for posts using characters of its text or title was also added.
 - Responsive design - unfortunately, draft-js does not support mobile-view so I had to replace it with text-box for smaller screens.
 
 ## Screenshots
-![Example screenshot](./img/screenshot.png)
+![Demo](./demo/toastmaster.mp4)
 
 ## Technologies
 * React - javascript framework/library.
