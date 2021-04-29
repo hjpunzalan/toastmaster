@@ -27,6 +27,7 @@ test("should create new account and send email as committee", async () => {
 	expect(Email.mock.instances[0].constructor.mock.calls[0][0].email).toBe("user@test.com")
 	expect(Email.mock.instances[0].constructor.mock.calls[0][0].password.length).not.toBe(0)
 	// PASSWORD AUTOMATICALLY GENERATED TO BE lENGTH = 6 at USER MODEL
+	// IF GREATER THAN 6, THE EMAIL WOULD INCLUDE THE HASHED PASSWORD
 	expect(Email.mock.instances[0].constructor.mock.calls[0][0].password.length).not.toBeGreaterThan(6)
 });
 
