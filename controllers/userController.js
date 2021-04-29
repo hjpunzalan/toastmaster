@@ -26,8 +26,8 @@ exports.register = catchAsync(async (req, res, next) => {
 		lastName,
 		email,
 	});
-	await newUser.save();
 	await new Email(newUser, url).sendWelcome();
+	await newUser.save();
 
 	// remove password from json output;
 	newUser.password = undefined;

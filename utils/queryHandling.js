@@ -57,8 +57,8 @@ class QueryHandling {
 
 	paginate() {
 		// 4) Pagination (page and limit)
-		const page = parseInt(this.queryString.page, 10) || 1;
-		const limit = parseInt(this.queryString.limit, 10) || 100;
+		const page = parseInt(this.queryString.page) || 1;
+		const limit = parseInt(this.queryString.limit) || 100;
 		const skip = (page - 1) * limit;
 		// page=2&limit=10 , 1-10 : page 1, 11-20: page 2
 		this.query = this.query.skip(skip).limit(limit);

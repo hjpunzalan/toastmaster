@@ -68,12 +68,13 @@ userSchema.pre('save', function(next) {
 userSchema.pre('save', async function(next) {
 	// Only run this function if password was actually modified
 	// Changing password or password creation eg. new password
-	if (!this.isModified('password')) return next();
-
-	const saltRounds = 12;
-	this.password = await bcrypt.hash(this.password, saltRounds);
-
-	next();
+	if (this.isModified('password') || this.isNew) {
+		const saltRounds = 12;
+		this.password = await bcrypt.hash(this.password, saltRounds);
+		next();
+	} else {
+		return next();
+	}
 });
 
 userSchema.methods.checkPassword = async function(password, hashedPassword) {
