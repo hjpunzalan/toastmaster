@@ -26,7 +26,14 @@ exports.register = catchAsync(async (req, res, next) => {
 		lastName,
 		email,
 	});
-	await new Email(newUser, url).sendWelcome();
+	// If new user is destructured instead, 
+	//  test will fail and only read newUser after saved.
+	await new Email({
+		firstName: newUser.firstName,
+		lastName: newUser.lastName,
+		email: newUser.email,
+		password: newUser.password
+	}, url).sendWelcome();
 	await newUser.save();
 
 	// remove password from json output;
