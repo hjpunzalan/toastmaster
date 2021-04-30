@@ -37,13 +37,14 @@ This is the first web application I have created from scratch. I have borrowed k
 - Authorization - considering expired members are to be deactivated, posts created will need to persist as it can included important contents. Committee members should also not be allowed to edit anyones elses post due to privacy. They can however delete this post if needed.
 
 ### Mobile-view
-https://user-images.githubusercontent.com/47600145/116561002-7b7b3e00-a934-11eb-8848-3674c6a25857.mp4 <br>
-
+https://user-images.githubusercontent.com/47600145/116561002-7b7b3e00-a934-11eb-8848-3674c6a25857.mp4
+<br>
 ### Desktop-view
-https://user-images.githubusercontent.com/47600145/116559812-60f49500-a933-11eb-8b23-dffb4eca7004.mp4<br>
-
+https://user-images.githubusercontent.com/47600145/116559812-60f49500-a933-11eb-8b23-dffb4eca7004.mp4
+<br>
 ### Sample welcome email
-![mail](https://user-images.githubusercontent.com/47600145/116596561-17b63c80-a957-11eb-8667-62b3acdcefb0.png)<br><br>
+![mail](https://user-images.githubusercontent.com/47600145/116596561-17b63c80-a957-11eb-8667-62b3acdcefb0.png)
+<br><br>
 
 
 ## Technologies
