@@ -10,7 +10,7 @@ password: toastmaster
 ## Table of contents
 * [General info](#general-info)
 * [Challenges](#challenges)
-* [Screenshots](#screenshots)
+* [Samples](#samples)
 * [Technologies](#technologies)
 * [Setup](#setup)
 
@@ -19,6 +19,7 @@ This app was inspired by my toastmaster club (Southern River Toastmasters). Most
 
 ### Features
 - All club members are able to share a post that can be commented on.
+- Rich text editor for creating post, comments and announcements.
 - Search bar for posts by keyword.
 - Committee-only access to posting/deleting announcements that can be seen by everyone.
 - User/Committee level view to control club user actions.
@@ -36,13 +37,14 @@ This is the first web application I have created from scratch. I have borrowed k
 - Responsive design - unfortunately, draft-js does not support mobile-view so I had to replace it with text-box for smaller screens.
 - Authorization - considering expired members are to be deactivated, posts created will need to persist as it can included important contents. Committee members should also not be allowed to edit anyones elses post due to privacy. They can however delete this post if needed.
 
-### Mobile-view
-https://user-images.githubusercontent.com/47600145/116561002-7b7b3e00-a934-11eb-8848-3674c6a25857.mp4
-
-### Desktop-view
+## Samples
+#### Desktop-view
 https://user-images.githubusercontent.com/47600145/116559812-60f49500-a933-11eb-8b23-dffb4eca7004.mp4
 
-### Sample welcome email
+#### Mobile-view
+https://user-images.githubusercontent.com/47600145/116561002-7b7b3e00-a934-11eb-8848-3674c6a25857.mp4
+
+#### Sample welcome email
 ![mail](https://user-images.githubusercontent.com/47600145/116596561-17b63c80-a957-11eb-8667-62b3acdcefb0.png)
 <br><br>
 
