@@ -60,6 +60,6 @@ This is the first web application I have created from scratch. I have borrowed k
 - Authorization - considering expired members are to be deactivated, posts created will need to persist as it can included important contents. Committee members should also not be allowed to edit anyones elses post due to privacy. They can however delete this post if needed.
 
 
-####To-do list:
+#### To-do list:
 * Client-side automated testing still in progress
 * Add chatting system
