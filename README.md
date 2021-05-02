@@ -45,7 +45,7 @@ https://user-images.githubusercontent.com/47600145/116561002-7b7b3e00-a934-11eb-
 * MongoDB - NoSQL database that is easily scalable.
 * AWS S3 - scalable microservice used for uploading photos.
 * Express.js - popular node.js framework for creating REST api.
-* Github actions - continious integration workflow straight deployment to heroku
+* Github actions - continious integration workflow straight deployment to heroku.
 * SendGrid - unfortunately, sendGrid mail service without a DNS may be blocked by some email providers such as Outlook thus, some features such as forgetting password may not work in the live demo.
 
 ## Challenges
