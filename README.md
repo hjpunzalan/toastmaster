@@ -63,3 +63,4 @@ This is the first web application I have created from scratch. I have borrowed k
 #### To-do list:
 * Client-side automated testing still in progress
 * Add chatting system
+* Add voting system within posts and announcements
