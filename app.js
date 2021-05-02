@@ -29,12 +29,12 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // Rate limiter that prevents excessive request attacks
-// const limiter = rateLimit({
-// 	max: 200,
-// 	windowMs: 60 * 60 * 1000,
-// 	message: 'Too many requests from this IP. please try again in an hour!'
-// });
-// app.use('/api', limiter);
+const limiter = rateLimit({
+	max: 200,
+	windowMs: 60 * 60 * 1000,
+	message: 'Too many requests from this IP. please try again in an hour!'
+});
+app.use('/api', limiter);
 
 // Converts incoming json data to js object ---- Body parser that reads data from body into req.body
 app.use(express.json({ limit: "30kb" })); // package will parse 10kb into meaningful data
@@ -67,13 +67,13 @@ app.use("/api/posts", authController.protect, postsRouter); // all posts are pro
 app.use("/api/upload", authController.protect, uploadRouter); // all posts are protected
 
 // Handle all unhandled routes
-// app.all('*', (req, res, next) => {
-// 	const err = new AppError(
-// 		`Can't find ${req.originalUrl} on this server!`,
-// 		404
-// 	);
-// 	next(err); // whatever is passed into next is assumed to be an error
-// });
+app.all('*', (req, res, next) => {
+	const err = new AppError(
+		`Can't find ${req.originalUrl} on this server!`,
+		404
+	);
+	next(err); // whatever is passed into next is assumed to be an error
+});
 
 app.use(globalErrorHandler);
 // Serve static assets in production
