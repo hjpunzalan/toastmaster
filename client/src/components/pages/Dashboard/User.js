@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import { FaUserAlt, FaKey } from 'react-icons/fa';
 import img from '../../../img/anonymous.png';
 
-const User = ({ currentUser, isModified }) => {
+export const User = ({ currentUser, isModified }) => {
+	// IGNORES browser image caching when timestamp added
+	// Only required for user component
 	const newImageSrc = `${currentUser.photo}?` + Date.now();
 	return (
 		<div className="Dashboard__right">
