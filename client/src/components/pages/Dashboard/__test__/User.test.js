@@ -1,12 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { User } from "../User";
-import { createBrowserHistory } from "history";
-import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
-
-
-const history = createBrowserHistory();
-jest.spyOn(history, "push");
 
 const initialProps = {
         currentUser: {
@@ -51,10 +45,33 @@ describe('render user details', () => {
         let firstNameFound = false;
         wrapper.find(".Dashboard__user-name").props()
             .children.forEach(el => {
-                if (el.props && el.props.children === "test") firstNameFound = true;
+                if (el.props && el.props.children === initialProps.currentUser.firstName) firstNameFound = true;
             })
-        
             expect(firstNameFound).toBe(true)
+    })
+
+    test('display links', () => {
+        const updateProfileProps = wrapper.find(".Dashboard__links .Dashboard__links-link").get(0).props;
+        const changePasswordProps = wrapper.find(".Dashboard__links .Dashboard__links-link").get(1).props
+           
+        // Check attribute link is correct
+        expect(updateProfileProps.to).toBe(("/user/update"))
+        expect(changePasswordProps.to).toBe(("/user/changepassword"))
+
+        // Check link keywords are correct
+        let updateProfileFound = false;
+        let changePasswordFound = false;
+        updateProfileProps.children.forEach(el => {
+            if (el.props && el.props.children === "Update Profile")
+                updateProfileFound = true
+        })
+          changePasswordProps.children.forEach(el => {
+              if (el.props && el.props.children === "Change Password")
+                  changePasswordFound = true
+          })
+        
+        expect(updateProfileFound).toBe(true);
+        expect(changePasswordFound).toBe(true);
     })
     
 })
