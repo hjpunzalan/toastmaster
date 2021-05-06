@@ -42,3 +42,21 @@ describe('render user photo', () => {
     })
     
 })
+
+describe('render user details', () => {
+    const wrapper = setup();
+    expect(wrapper.find(".Dashboard__user-details").length).toBe(1)
+    
+    test('display user first name', () => {
+        let firstNameFound = false;
+        wrapper.find(".Dashboard__user-name").props()
+            .children.forEach(el => {
+                if (el.props && el.props.children === "test") firstNameFound = true;
+            })
+        
+            expect(firstNameFound).toBe(true)
+    })
+    
+})
+
+
