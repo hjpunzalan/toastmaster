@@ -14,10 +14,9 @@ import DiscussionHead from "./DiscussionHead";
 import DiscussionPost from "./DiscussionPost";
 import SpinnerSmall from "../../../components/utils/SpinnerSmall";
 
-const Discussion = ({
-	post: { posts, edit, totalPages },
+export const Discussion = ({
+	post: { posts, edit, totalPages, loading },
 	getAllPost,
-	loading,
 	contentState,
 	createPost,
 	toggleCreatePost,
@@ -83,7 +82,6 @@ const Discussion = ({
 
 Discussion.propTypes = {
 	post: PropTypes.object.isRequired,
-	loading: PropTypes.bool,
 	contentState: PropTypes.object,
 	getAllPost: PropTypes.func.isRequired,
 	createPost: PropTypes.func.isRequired,
@@ -94,7 +92,6 @@ Discussion.propTypes = {
 
 const mapStateToProps = (state) => ({
 	post: state.post,
-	loading: state.post.loading,
 	contentState: state.textEditor.contentState,
 });
 
