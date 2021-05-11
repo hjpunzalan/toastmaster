@@ -10,6 +10,8 @@ import {
 	searchPost,
 	postNextPage,
 } from "../../../../actions/post";
+import DiscussionHead from "../DiscussionHead";
+import DiscussionPost from "../DiscussionPost";
 
 
 const history = createBrowserHistory();
@@ -48,6 +50,20 @@ test('render Discussion component', () => {
     const wrapper = setup();
     expect(wrapper.find(".Discussion").length).toBe(1)
 })
+test('render Discussion head component', () => {
+    const wrapper = setup();
+    
+    expect(wrapper.find(".Discussion").containsMatchingElement(
+        <DiscussionHead />)).toBe(true)
+})
+
+test('render Discussion post', () => {
+       const wrapper = setup();
+    
+    expect(wrapper.find(".Discussion").containsMatchingElement(
+        <DiscussionPost />)).toBe(true)
+})
+
 
 
 
