@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaSearch, FaPlusCircle } from "react-icons/fa";
 import ContentEditor from "../../utils/ContentEditor";
 
-const DiscussionHead = ({
+export const DiscussionHead = ({
 	createPost,
 	contentState,
 	edit,
