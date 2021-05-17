@@ -20,10 +20,10 @@ const setPageMock = jest.fn()
 const setIsSearchMock = jest.fn()
 
 const initialProps = {
-     loading: false,
+    loading: false,
     edit: false,
     setPage: setPageMock,
-     setIsSearch: setIsSearchMock,
+    setIsSearch: setIsSearchMock,
     getAllPost,
 	contentState: {},
 	createPost,
@@ -40,4 +40,15 @@ const setup = (props = {}) => {
 test('render Discussion head component', () => {
     const wrapper = setup();
     expect(wrapper.find(".Discussion__head").length).toBe(1)
+})
+
+test('render Discussion create button and click action calls handleToggle', () => {
+	const toggleCreatePostMock = jest.fn()
+	const wrapper = setup({toggleCreatePost: toggleCreatePostMock});
+	const discussionCreateBtn = wrapper.find(".btn.btn__submit.Discussion__create")
+
+	expect(discussionCreateBtn.length).toBe(1)
+	discussionCreateBtn.simulate("click")
+		expect(toggleCreatePostMock.mock.calls.length).toBe(1);
+	
 })
