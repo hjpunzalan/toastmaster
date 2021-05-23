@@ -1,15 +1,14 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { Discussion } from "../Discussion";
 import { createBrowserHistory } from "history";
 import {
 	getAllPost,
 	createPost,
 	toggleCreatePost,
 	searchPost,
-	postNextPage,
 } from "../../../../actions/post";
-import {DiscussionHead} from "../DiscussionHead";
+import { DiscussionHead } from "../DiscussionHead";
+import {ContentEditor} from "../../../utils/ContentEditor";
 
 
 const history = createBrowserHistory();
@@ -32,6 +31,7 @@ const initialProps = {
 	searchPost,
 }
 
+
 const setup = (props = {}) => {
 	const setupProps = { ...initialProps, ...props };
 	return shallow(<DiscussionHead {...setupProps} />);
@@ -42,13 +42,35 @@ test('render Discussion head component', () => {
     expect(wrapper.find(".Discussion__head").length).toBe(1)
 })
 
-test('render Discussion create button and click action calls handleToggle', () => {
+describe('Handle toggle', () => {
+	let handleToggle;
+
+
+	test('render Discussion create button and click action calls handleToggle', () => {
 	const toggleCreatePostMock = jest.fn()
 	const wrapper = setup({toggleCreatePost: toggleCreatePostMock});
 	const discussionCreateBtn = wrapper.find(".btn.btn__submit.Discussion__create")
-
 	expect(discussionCreateBtn.length).toBe(1)
+	// Set handle toggle and should be in sync with content editor
+	handleToggle = discussionCreateBtn.props().onClick;
 	discussionCreateBtn.simulate("click")
-		expect(toggleCreatePostMock.mock.calls.length).toBe(1);
+	expect(toggleCreatePostMock.mock.calls.length).toBe(1);
+	})
 	
+	describe('render Discussion editor when edit is true', () => {
+		const wrapper = setup({ edit: true });
+		const discussionEditor = wrapper.find(".Discussion__editor");
+		expect(discussionEditor.length).toBe(1);
+
+		// ContentEditor wrapper
+		const contentEditorProps = discussionEditor.props().children.props;
+		const contentEditorWrapper = shallow(<ContentEditor {...contentEditorProps} />)
+
+		test('render create post', () => {
+			expect(contentEditorWrapper.find(".CreatePost").length).toBe(1)
+		})
+		
+	})
+	
+
 })
