@@ -98,8 +98,9 @@ describe('Display each announcement', () => {
 	})
 	test('Show time and and date at the bottom', () => {
 		announcementList.forEach((a, i) => {
-			if(announcements[i].lastEdited >announcements[i].date ) expect(a.find(".Dashboard__announcement-bottom t").props().children).toEqual(announcements[i].lastEdited)
-			else expect(a.find(".Dashboard__announcement-bottom t").props().children).toEqual(announcements[i].date)
+			if (announcements[i].lastEdited > announcements[i].date)
+				expect(a.find(".Dashboard__announcement-bottom n").props().children).toEqual(announcements[i].lastEdited)
+			else expect(a.find(".Dashboard__announcement-bottom n").props().children).toEqual(announcements[i].date)
 		})
 	})
 
