@@ -7,7 +7,7 @@ import { ContentState, convertToRaw } from "draft-js";
 
 // Test all component props that utilise ContentEditor
 
-const ContentEditor = ({
+export const ContentEditor = ({
 	handleSubmit,
 	handleToggle,
 	title,
