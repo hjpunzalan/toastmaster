@@ -8,7 +8,7 @@ import {
 	searchPost,
 } from "../../../../actions/post";
 import { DiscussionHead } from "../DiscussionHead";
-import {ContentEditor} from "../../../utils/ContentEditor";
+import ContentEditorConnected, {ContentEditor} from "../../../utils/ContentEditor";
 
 
 const history = createBrowserHistory();
@@ -63,12 +63,17 @@ describe('Handle toggle', () => {
 		expect(discussionEditor.length).toBe(1);
 
 		// ContentEditor wrapper
-		const contentEditorProps = discussionEditor.props().children.props;
+		const contentEditorProps =discussionEditor.find(ContentEditorConnected).props();
 		const contentEditorWrapper = shallow(<ContentEditor {...contentEditorProps} />)
 
-		test('render create post', () => {
-			expect(contentEditorWrapper.find(".CreatePost").length).toBe(1)
+		test('should change input title then handle toggle should reset title and call handle toggle', () => {
+			// Change text
+			contentEditorWrapper.find("#title").simulate("change",
+				{ target: { value: "test typing" } })
+			expect(wrapper.find(ContentEditorConnected).props().title).toBe("test typing")
+
 		})
+		
 		
 	})
 	
