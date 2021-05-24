@@ -58,7 +58,8 @@ describe('Handle toggle', () => {
 	})
 	
 	describe('render Discussion editor when edit is true', () => {
-		const wrapper = setup({ edit: true });
+			const toggleCreatePostMock = jest.fn()
+		const wrapper = setup({ edit: true, toggleCreatePost: toggleCreatePostMock });
 		const discussionEditor = wrapper.find(".Discussion__editor");
 		expect(discussionEditor.length).toBe(1);
 
@@ -71,7 +72,10 @@ describe('Handle toggle', () => {
 			contentEditorWrapper.find("#title").simulate("change",
 				{ target: { value: "test typing" } })
 			expect(wrapper.find(ContentEditorConnected).props().title).toBe("test typing")
-
+			// Handle toggle shoulpd reset title and call toggleCreatePost
+			wrapper.find(ContentEditorConnected).props().handleToggle()
+			expect(wrapper.find(ContentEditorConnected).props().title).toBe("")
+				expect(toggleCreatePostMock.mock.calls.length).toBe(1);
 		})
 		
 		
