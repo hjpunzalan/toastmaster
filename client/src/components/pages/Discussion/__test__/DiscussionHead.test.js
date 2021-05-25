@@ -1,12 +1,14 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { createBrowserHistory } from "history";
+import { FaPlusCircle } from "react-icons/fa";
 import {
 	getAllPost,
 	createPost,
 	toggleCreatePost,
 	searchPost,
 } from "../../../../actions/post";
+import { onChange } from "../../../../actions/textEditor";
 import { DiscussionHead } from "../DiscussionHead";
 import ContentEditorConnected, {ContentEditor} from "../../../utils/ContentEditor";
 
@@ -42,44 +44,46 @@ test('render Discussion head component', () => {
     expect(wrapper.find(".Discussion__head").length).toBe(1)
 })
 
-describe('Handle toggle', () => {
-	let handleToggle;
-
-
-	test('render Discussion create button and click action calls handleToggle', () => {
+	test('render Discussion create button and click action calls toggleCreatePost', () => {
 	const toggleCreatePostMock = jest.fn()
 	const wrapper = setup({toggleCreatePost: toggleCreatePostMock});
 	const discussionCreateBtn = wrapper.find(".btn.btn__submit.Discussion__create")
-	expect(discussionCreateBtn.length).toBe(1)
-	// Set handle toggle and should be in sync with content editor
-	handleToggle = discussionCreateBtn.props().onClick;
+		expect(discussionCreateBtn.length).toBe(1)
+		
 	discussionCreateBtn.simulate("click")
-	expect(toggleCreatePostMock.mock.calls.length).toBe(1);
+		expect(toggleCreatePostMock.mock.calls.length).toBe(1);
 	})
 	
+	test('create post button for smaller screens should call toggleCreatePost', () => {
+		const toggleCreatePostMock = jest.fn()
+		const wrapper = setup({ toggleCreatePost: toggleCreatePostMock });
+		wrapper.find(FaPlusCircle).simulate("click");
+		expect(toggleCreatePostMock.mock.calls.length).toBe(1);
+
+	})
+	
+	
 	describe('render Discussion editor when edit is true', () => {
-			const toggleCreatePostMock = jest.fn()
+		const toggleCreatePostMock = jest.fn()
 		const wrapper = setup({ edit: true, toggleCreatePost: toggleCreatePostMock });
 		const discussionEditor = wrapper.find(".Discussion__editor");
-		expect(discussionEditor.length).toBe(1);
 
 		// ContentEditor wrapper
 		const contentEditorProps =discussionEditor.find(ContentEditorConnected).props();
-		const contentEditorWrapper = shallow(<ContentEditor {...contentEditorProps} />)
+		const contentEditorWrapper = shallow(<ContentEditor {...contentEditorProps} onChange={onChange}/>)
 
 		test('should change input title then handle toggle should reset title and call handle toggle', () => {
+			// Test contentEditor component with discussion head parent props
 			// Change text
 			contentEditorWrapper.find("#title").simulate("change",
 				{ target: { value: "test typing" } })
 			expect(wrapper.find(ContentEditorConnected).props().title).toBe("test typing")
 			// Handle toggle shoulpd reset title and call toggleCreatePost
-			wrapper.find(ContentEditorConnected).props().handleToggle()
+			contentEditorWrapper.find(".btn__cancel").simulate("click")
 			expect(wrapper.find(ContentEditorConnected).props().title).toBe("")
-				expect(toggleCreatePostMock.mock.calls.length).toBe(1);
+			expect(toggleCreatePostMock.mock.calls.length).toBe(1);
 		})
 		
 		
 	})
-	
 
-})
