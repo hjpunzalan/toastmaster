@@ -52,10 +52,10 @@ export const DiscussionHead = ({
 				<>
 					<button
 						className="btn btn__submit Discussion__create"
-						onClick={handleToggle}>
+						onClick={toggleCreatePost}>
 						Create post
 					</button>
-					<FaPlusCircle className="Discussion__create-small" onClick={handleToggle}/>
+					<FaPlusCircle className="Discussion__create-small" onClick={toggleCreatePost}/>
 					<div className="Discussion__search">
 						<form onSubmit={handleSearch}>
 							<input
