@@ -44,7 +44,7 @@ test('render Discussion head component', () => {
     expect(wrapper.find(".Discussion__head").length).toBe(1)
 })
 
-	test('render Discussion create button and click action calls toggleCreatePost', () => {
+test('render Discussion create button and click action calls toggleCreatePost', () => {
 	const toggleCreatePostMock = jest.fn()
 	const wrapper = setup({toggleCreatePost: toggleCreatePostMock});
 	const discussionCreateBtn = wrapper.find(".btn.btn__submit.Discussion__create")
@@ -54,13 +54,40 @@ test('render Discussion head component', () => {
 		expect(toggleCreatePostMock.mock.calls.length).toBe(1);
 	})
 	
-	test('create post button for smaller screens should call toggleCreatePost', () => {
+test('create post button for smaller screens should call toggleCreatePost', () => {
 		const toggleCreatePostMock = jest.fn()
 		const wrapper = setup({ toggleCreatePost: toggleCreatePostMock });
 		wrapper.find(FaPlusCircle).simulate("click");
 		expect(toggleCreatePostMock.mock.calls.length).toBe(1);
 
+})
+
+test('search bar should work', () => {
+	const searchPostMock = jest.fn()
+	const setPageMock = jest.fn()
+	const setIsSearchMock = jest.fn()
+	const toggleCreatePostMock = jest.fn()
+	const wrapper = setup({
+			searchPost: searchPostMock,
+	setPage: setPageMock,
+		setIsSearch: setIsSearchMock,
+	toggleCreatePost: toggleCreatePostMock 
 	})
+
+	// find search input text
+	const inputText = wrapper.find("form input[type='text']");
+	expect(inputText.props().value).toBe("")
+	const search = "test"
+	inputText.simulate("change", { target: { value: search } })
+	expect(wrapper.find("form input[type='text']").props().value).toBe(search)
+
+	wrapper.find("form").simulate("submit", {preventDefault: () => {}});
+	expect(setIsSearchMock).toBeCalledWith(search);
+	expect(searchPostMock).toBeCalledWith(search);
+	expect(setPageMock).toBeCalledWith(1);
+})
+
+
 	
 	
 	describe('render Discussion editor when edit is true', () => {
@@ -72,7 +99,7 @@ test('render Discussion head component', () => {
 		const contentEditorProps =discussionEditor.find(ContentEditorConnected).props();
 		const contentEditorWrapper = shallow(<ContentEditor {...contentEditorProps} onChange={onChange}/>)
 
-		test('should change input title then handle toggle should reset title and call handle toggle', () => {
+		test('change input title then handle toggle should reset title and call handle toggle', () => {
 			// Test contentEditor component with discussion head parent props
 			// Change text
 			contentEditorWrapper.find("#title").simulate("change",
