@@ -10,8 +10,8 @@ export const DiscussionHead = ({
 	history,
 	searchPost,
 	setPage,
-	loading,
 	setIsSearch,
+	loading,
 	getAllPost,
 }) => {
 	const [title, setTitle] = useState("");
