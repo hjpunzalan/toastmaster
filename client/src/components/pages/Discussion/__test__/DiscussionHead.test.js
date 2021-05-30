@@ -86,8 +86,29 @@ test('search bar should work', () => {
 	expect(searchPostMock).toBeCalledWith(search);
 	expect(setPageMock).toBeCalledWith(1);
 })
+test('reset search bar button should work', () => {
+		const setPageMock = jest.fn()
+	const setIsSearchMock = jest.fn()
+	const getAllPostMock = jest.fn()
+	const wrapper = setup({setPage: setPageMock,
+		setIsSearch: setIsSearchMock,
+		getAllPost: getAllPostMock
+	})
+	// find search input text
+	const inputText = wrapper.find("form input[type='text']");
+	expect(inputText.props().value).toBe("")
+	const search = "test"
+	inputText.simulate("change", { target: { value: search } })
+	expect(wrapper.find("form input[type='text']").props().value).toBe(search)
+
+	wrapper.find(".Discussion__search-reset.btn").simulate('click');
+	expect(wrapper.find("form input[type='text']").props().value).toBe("")
+	expect(setIsSearchMock).toHaveBeenCalledWith(false)
+	expect(getAllPostMock).toHaveBeenCalledTimes(1);
+	expect(setPageMock).toHaveBeenCalledWith(1)
 
 
+})
 	
 	
 	describe('render Discussion editor when edit is true', () => {
