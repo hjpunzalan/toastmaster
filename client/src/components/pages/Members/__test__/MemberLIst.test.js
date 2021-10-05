@@ -2,8 +2,9 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { createBrowserHistory } from "history";
-import { getAllUsers } from "../../../../actions/users";
-import MemberList from "../MemberList";
+import { getAllUsers,deActivateUser,activateUser,changeRole } from "../../../../actions/users";
+import { setAlert,resetAlert } from "../../../../actions/alerts";
+import {MemberList} from "../MemberList";
 
 
 const history = createBrowserHistory();
@@ -28,7 +29,12 @@ const initialProps = {
            email:"user@test.com"
             
     }},
-    getAllUsers
+    getAllUsers,
+    deActivateUser,
+    activateUser,
+    setAlert,
+    resetAlert,
+    changeRole
 }
 
 const setup = (props = {}) => {
@@ -36,6 +42,9 @@ const setup = (props = {}) => {
 	return shallow(<MemberList {...setupProps} />);
 };
 
-
+test('render MemberList component', () => {
+    const wrapper = setup();
+    expect(wrapper.find(".MemberList").length).toBe(1)
+})
 
 
