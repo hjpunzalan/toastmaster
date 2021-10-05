@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import 'moment-timezone';
 
-const DiscussionPost = ({
+export const DiscussionPost = ({
 	img,
 	count,
 	id,
