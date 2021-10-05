@@ -13,7 +13,7 @@ import Spinner from '../../utils/Spinner';
 import Table from './Table';
 import SmallList from './SmallList';
 
-const MemberList = ({
+export const MemberList = ({
 	getAllUsers,
 	users: { users, loading, Moderator },
 	auth: { currentUser },
@@ -23,12 +23,12 @@ const MemberList = ({
 	resetAlert,
 	changeRole
 }) => {
+	const [active, setActive] = useState(true);
 	useEffect(() => {
 		getAllUsers(active);
 		//eslint-disable-next-line
 	}, []);
 
-	const [active, setActive] = useState(true);
 	const activeUsers = users.filter(user => user.active === true);
 	const unActiveUsers = users.filter(user => user.active === false);
 
