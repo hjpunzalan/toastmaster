@@ -32,9 +32,20 @@ const setup = (props = {}) => {
 	return shallow(<DiscussionPost {...setupProps} />);
 };
 
-test('render Discussion component', () => {
+test('render Discussion post component', () => {
     const wrapper = setup();
     expect(wrapper.find(".Discussion__post").length).toBe(1)
+})
+test('render Discussion post user with img and two span elements', () => {
+	const wrapper = setup();
+	const postUser = wrapper.find(".Discussion__postUser")
+	expect(postUser.length).toBe(1)
+	const img = wrapper.find(".Discussion__postUser-img")
+	  expect(img.length).toBe(1)
+	expect(img.props().src).toBe("imgurl")
+expect(postUser.find(".Discussion__postUser-name span").getElements().length).toBe(2)
+	
+
 })
 
 
