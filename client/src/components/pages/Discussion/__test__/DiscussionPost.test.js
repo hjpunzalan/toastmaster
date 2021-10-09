@@ -1,17 +1,10 @@
 
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
 import { shallow } from "enzyme";
 import renderer from 'react-test-renderer';
-import { Discussion } from "../Discussion";
 import { createBrowserHistory } from "history";
-import {
-	getAllPost,
-	createPost,
-	toggleCreatePost,
-	searchPost,
-	postNextPage,
-} from "../../../../actions/post";
-import {DiscussionPost} from "../DiscussionPost";
+import DiscussionPostRouter, {DiscussionPost} from "../DiscussionPost";
 
 
 
@@ -34,14 +27,16 @@ const setup = (props = {}) => {
 	return shallow(<DiscussionPost {...setupProps} />);
 };
 
-test('render Discussion post component', () => {
+test('render Discussion post ', () => {
     const wrapper = setup();
     expect(wrapper.find(".Discussion__post").length).toBe(1)
 })
 
 
 test("Snapshot renders correctly", () => {
-	const tree = renderer.create(DiscussionPost).toJSON();
+	const tree = renderer
+		.create(<BrowserRouter><DiscussionPostRouter {...initialProps} /></BrowserRouter>)
+		.toJSON();
 	expect(tree).toMatchSnapshot()
 
 })
