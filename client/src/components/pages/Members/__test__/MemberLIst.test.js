@@ -57,3 +57,8 @@ test("Snapshot renders correctly", () => {
 
 })
 
+test('should render spinner if loading is true', () => {
+    const wrapper = setup({ loading: true });
+    expect(wrapper.find(".MemberList").length).toBe(0)
+    expect(wrapper.contains(<Spinner />)).toBe(true)
+})
