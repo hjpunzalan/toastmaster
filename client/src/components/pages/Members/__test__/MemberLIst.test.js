@@ -1,10 +1,12 @@
 
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import renderer from 'react-test-renderer';
 import { shallow } from "enzyme";
 import { createBrowserHistory } from "history";
 import { getAllUsers,deActivateUser,activateUser,changeRole } from "../../../../actions/users";
 import { setAlert,resetAlert } from "../../../../actions/alerts";
-import {MemberList} from "../MemberList";
+import MemberListRouter, {MemberList} from "../MemberList";
 
 
 const history = createBrowserHistory();
@@ -47,4 +49,11 @@ test('render MemberList component', () => {
     expect(wrapper.find(".MemberList").length).toBe(1)
 })
 
+test("Snapshot renders correctly", () => {
+	const tree = renderer
+		.create(<BrowserRouter><MemberListRouter {...initialProps} /></BrowserRouter>)
+		.toJSON();
+	expect(tree).toMatchSnapshot()
+
+})
 

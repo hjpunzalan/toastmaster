@@ -1,8 +1,8 @@
 
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import { shallow } from "enzyme";
 import renderer from 'react-test-renderer';
+import { shallow } from "enzyme";
 import { createBrowserHistory } from "history";
 import DiscussionPostRouter, {DiscussionPost} from "../DiscussionPost";
 
