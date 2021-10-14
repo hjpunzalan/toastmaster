@@ -4,8 +4,6 @@ import { createBrowserHistory } from "history";
 import { storeFactory } from "../../../utils/testUtils";
 import { setAlert } from "../../alerts";
 import {
-	toggleCreatePost,
-	toggleEditPost,
 	createPost,
 	postLimitPerPage,
 	getAllPost,
@@ -66,7 +64,7 @@ describe("Test for error handling post actions", () => {
 		const page = 1;
 		mock
 			.onGet(
-				`/api/posts?page=${page}&limit=${postLimitPerPage}&sort=,-lastEdited,-lastComment`
+				`/api/posts?page=${page}&limit=${postLimitPerPage}&sort=-lastEdited,-lastComment`
 			)
 			.reply(400, error);
 
