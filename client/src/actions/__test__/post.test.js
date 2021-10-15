@@ -134,7 +134,7 @@ describe("POST request patterns", () => {
 		expect(alerts.msg.length).toEqual(0);
 	});
 
-	test("should get next page", async () => {
+	test("should get next page with search", async () => {
 		const store = storeFactory();
 		const page = 1;
 
@@ -145,22 +145,13 @@ describe("POST request patterns", () => {
 			.onPost(
 				`/api/posts/search/text?page=${
 					page + 1
-				}&limit=${postLimitPerPage}&sort=-lastComment,-date`
+				}&limit=${postLimitPerPage}&sort=-lastEdited,-lastComment`
 			)
 			.reply(200, {
 				posts: [testPost],
 				numPosts: 1,
 			})
-			.onGet(
-				`/api/posts?page=${
-					page + 1
-				}&limit=${postLimitPerPage}&sort=-lastComment,-date`
-			)
-			.reply(200, {
-				posts: [testPost],
-				numPosts: 1,
-			});
-
+		
 		const mockSetPage = jest.fn();
 		// Dispatch action
 		await store.dispatch(postNextPage(page, mockSetPage, "test"));
@@ -168,25 +159,45 @@ describe("POST request patterns", () => {
 		const { post } = store.getState();
 		// Assert posts list updated
 		expect(post.posts.length).toEqual(1);
+		expect(post.posts[0]).toEqual(testPost)
 		// Assert edit and loading
-		expect(post.postEdit).toEqual(initialState.postEdit);
-		expect(post.loading).not.toEqual(initialState.loading);
-		// Assert post total pages
-		expect(post.totalPages).toEqual(1);
+		expect(post.postEdit).toEqual(false);
+		expect(post.loading).toEqual(false);
 
-		// Test without search //
+	});
+
+	test('should get next page without search', async () => {
+const store = storeFactory();
+		const page = 1;
+		const mock = new MockAdapter(axios);
+
+		// Mock axios request get post list next page
+		mock
+			.onGet(
+				`/api/posts?page=${
+					page + 1
+				}&limit=${postLimitPerPage}&sort=-lastEdited,-lastComment`)
+			.reply(200, {
+				posts: [testPost],
+				numPosts: 1
+			});
+
+		const mockSetPage = jest.fn();
+
+
+			// Test without search //
 		await store.dispatch(postNextPage(page, mockSetPage));
 
-		const newState = store.getState();
+		const {post} = store.getState();
 		// Assert posts list updated
-		// Should be two as list includes prev page posts
-		expect(newState.post.posts.length).toEqual(2);
+		expect(post.posts.length).toEqual(1);
+		expect(post.posts[0]).toEqual(testPost)
 		// Assert edit and loading
-		expect(newState.post.postEdit).toEqual(initialState.postEdit);
-		expect(newState.post.loading).not.toEqual(initialState.loading);
-		// Assert post total pages
-		expect(newState.post.totalPages).toEqual(1);
-	});
+		expect(post.postEdit).toEqual(false);
+		expect(post.loading).toEqual(false);
+
+	})
+	
 
 	test("should get post by id", async () => {
 		const store = storeFactory();
