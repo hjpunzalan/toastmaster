@@ -69,7 +69,7 @@ export const Register = ({
 			<h1>Register a User</h1>
 			<p className="Form__text">Please fill the form as per member's details</p>
 			<hr />
-			<form className="Form__form">
+			<form className="Form__form" onSubmit={handleSubmit}>
 		<label key={inputs[0].label}>
 								<b>{inputs[0].label}</b>
 
@@ -110,13 +110,13 @@ export const Register = ({
 						autoComplete="on"
 						required
 					/>
-				</label>
+						</label>
 				<div className="Form__btns">
 					<button className="btn" onClick={handleCancel}>
 						Clear
 					</button>
-					<button className="btn btn__submit" onClick={handleSubmit}>Register</button>
-				</div>
+					<input type="submit" className="btn btn__submit" value="Register" />
+					</div>
 			</form>
 		</div>
 	);
