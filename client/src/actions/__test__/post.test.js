@@ -106,7 +106,7 @@ describe("POST request patterns", () => {
 		// Mock axios request for login and logout
 		mock
 			.onGet(
-				`/api/posts?page=${page}&limit=${postLimitPerPage}&sort=,-lastEdited,-lastComment`
+				`/api/posts?page=${page}&limit=${postLimitPerPage}&sort=-lastEdited,-lastComment`
 			)
 			.reply(200, {
 				posts: [testPost],
