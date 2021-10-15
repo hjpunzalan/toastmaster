@@ -104,7 +104,7 @@ test("form renders all the children", () => {
 
 	// Renders input submit
 	const submitButton = form.find("[type='submit']");
-	expect(submitButton.props().value).toEqual("Change Password");
+	expect(submitButton.props().value).toEqual("Submit");
 });
 
 test("input passwords should be initially blank and handleChange works", () => {
