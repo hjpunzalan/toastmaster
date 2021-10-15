@@ -83,7 +83,7 @@ describe("should send auth error when request fails", () => {
 		expect(auth).toEqual({ ...initialState, loading: false });
 	});
 
-	test("should send error if user doesnt not exist/sending email when forgetting password", async () => {
+	test("should send error if user doesnt exist/sending email when forgetting password", async () => {
 		const mock = new MockAdapter(axios);
 		mock
 			.onPost("/api/auth/forgotPassword")
