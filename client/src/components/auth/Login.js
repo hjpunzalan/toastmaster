@@ -81,9 +81,8 @@ export const Login = ({
 						autoComplete="on"
 					/>
 				</label>
-				<div className="Form__btns">
 					<input type="submit" className="btn btn__submit" value="Login" />
-				</div>
+					
 				<Link className="Form__link" to="/forgotpassword">
 					Forgot your password?
 				</Link>

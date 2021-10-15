@@ -98,7 +98,7 @@ export const ChangePassword = ({
 						</label>
 					);
 				})}
-<input type="submit" className="btn btn__submit" value="Submit" />
+		<input type="submit" className="btn btn__submit" value="Submit" />
 			</form>
 		</div>
 	);
