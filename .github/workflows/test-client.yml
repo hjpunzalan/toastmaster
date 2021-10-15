@@ -11,4 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd client && npm install && npm run test:ci
+      - name: Test client
+        working-directory: ./client
+        run: cd client && npm install && npm run test:ci
