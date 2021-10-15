@@ -140,7 +140,10 @@ describe("should send auth error when request fails", () => {
 	test("send error when changing password", async () => {
 		const mock = new MockAdapter(axios);
 		mock
-			.onPost("/api/auth/updatePassword", user.password, "test12345")
+			.onPost("/api/users/updatePassword",{
+					currentPassword: user.password,
+					newPassword: "test12345",
+				})
 			.reply(401, error)
 			.onGet("/api/auth/logout")
 			.reply(200);
