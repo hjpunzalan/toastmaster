@@ -123,7 +123,7 @@ describe("should send auth error when request fails", () => {
 		const history = createBrowserHistory();
 		jest.spyOn(history, "push");
 
-		await store.dispatch(resetPassword("test", token));
+		await store.dispatch(resetPassword({password: "test", resetToken: token, history}));
 		// GET CURRENT STATE
 		const { auth, alerts } = store.getState();
 
