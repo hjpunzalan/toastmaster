@@ -119,7 +119,7 @@ test("should send error at post next page without search", async () => {
 			.onGet(
 				`/api/posts?page=${
 					page + 1
-				}&limit=${postLimitPerPage}&sort=-lastComment,-date`
+				}&limit=${postLimitPerPage}&sort=-lastEdited,-lastComment`
 			)
 			.reply(400, error);
 
