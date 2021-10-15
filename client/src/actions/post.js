@@ -100,16 +100,15 @@ export const postNextPage = (page, setPage, isSearch = false) =>
 				`/api/posts?page=${
 					page + 1
 				}&limit=${postLimitPerPage}&sort=-lastEdited,-lastComment`
-			);
-		}
-		if (res.data.posts.length > 1) {
+				);
+			}
+			
+		if (res.data.posts.length >= 1) {
 			dispatch({
 				type: POST_NEXT_PAGE,
 				payload: {
 					...res.data,
-					limit: postLimitPerPage,
-					setPage,
-					page
+					limit: postLimitPerPage
 				},
 			});
 			// Change page state only after request has been made

@@ -45,8 +45,7 @@ Moderator.propTypes = {
 	users: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => (alerts:
-	{
+const mapStateToProps = (state) => ({
 	auth: state.auth,
 	users: state.users,
 });
