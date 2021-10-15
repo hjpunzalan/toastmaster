@@ -14,4 +14,4 @@ jobs:
       - uses: actions/checkout@v2
       - name: Test client
         working-directory: ./client
-        run: cd client && npm install && npm run test:ci
+        run: npm install && npm run test:ci
