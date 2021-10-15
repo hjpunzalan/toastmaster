@@ -83,7 +83,7 @@ describe("Test for error handling post actions", () => {
 		// Reset alert
 		expect(alerts.msg.length).toEqual(1);
 	});
-	test("should send error at post next page", async () => {
+	test("should send error at post next page with search", async () => {
 		const store = storeFactory();
 		const mock = new MockAdapter(axios);
 		const page = 1;
@@ -91,18 +91,13 @@ describe("Test for error handling post actions", () => {
 			.onPost(
 				`/api/posts/search/text?page=${
 					page + 1
-				}&limit=${postLimitPerPage}&sort=-lastComment,-date`
+				}&limit=${postLimitPerPage}&sort=-lastEdited,-lastComment`
 			)
 			.reply(400, error)
-			.onGet(
-				`/api/posts?page=${
-					page + 1
-				}&limit=${postLimitPerPage}&sort=-lastComment,-date`
-			)
-			.reply(400, error);
 
 		const mockSetPage = jest.fn();
 		// Dispatch action
+		// postNextPage = (page, setPage, isSearch = false)
 		await store.dispatch(postNextPage(page, mockSetPage, "test"));
 
 		const { post, alerts } = store.getState();
@@ -114,18 +109,36 @@ describe("Test for error handling post actions", () => {
 		// Reset alert
 		expect(alerts.msg.length).toEqual(1);
 
-		// Test without search //
+	});
+
+test("should send error at post next page without search", async () => {
+		const store = storeFactory();
+		const mock = new MockAdapter(axios);
+		const page = 1;
+		mock
+			.onGet(
+				`/api/posts?page=${
+					page + 1
+				}&limit=${postLimitPerPage}&sort=-lastComment,-date`
+			)
+			.reply(400, error);
+
+		const mockSetPage = jest.fn();
+		// Dispatch action
 		await store.dispatch(postNextPage(page, mockSetPage));
 
-		const newState = store.getState();
+		const {post,alerts} = store.getState();
 		// Assert edit and loading
-		expect(newState.post.postLoading).toEqual(false);
-		expect(newState.post.loading).toEqual(false);
+		expect(post.postLoading).toEqual(false);
+		expect(post.loading).toEqual(false);
 		// Alert sent to user
-		expect(newState.alerts.alertType).toEqual("fail");
+		expect(alerts.alertType).toEqual("fail");
 		// Alert msg must be 2
-		expect(newState.alerts.msg.length).toEqual(2);
+		expect(alerts.msg.length).toEqual(1);
 	});
+	
+
+
 	test("should send error when getting a post", async () => {
 		const store = storeFactory();
 		const mock = new MockAdapter(axios);
