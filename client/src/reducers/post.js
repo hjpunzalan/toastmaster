@@ -86,7 +86,6 @@ const postReducer = (state = initialState, action) => {
 		case POST_NEXT_PAGE:
 			return {
 				...state,
-				edit: false,
 				postEdit: false,
 				loading: false,
 				posts: [...state.posts, ...payload.posts]
