@@ -6,7 +6,8 @@ import { shallow } from "enzyme";
 import { createBrowserHistory } from "history";
 import { getAllUsers,deActivateUser,activateUser,changeRole } from "../../../../actions/users";
 import { setAlert,resetAlert } from "../../../../actions/alerts";
-import MemberListRouter, {MemberList} from "../MemberList";
+import {MemberList} from "../MemberList";
+import Spinner from "../../../utils/Spinner";
 
 
 const history = createBrowserHistory();
@@ -51,14 +52,23 @@ test('render MemberList component', () => {
 
 test("Snapshot renders correctly", () => {
 	const tree = renderer
-		.create(<BrowserRouter><MemberListRouter {...initialProps} /></BrowserRouter>)
+		.create(<BrowserRouter><MemberList {...initialProps} /></BrowserRouter>)
 		.toJSON();
 	expect(tree).toMatchSnapshot()
 
 })
 
 test('should render spinner if loading is true', () => {
-    const wrapper = setup({ loading: true });
+    const wrapper = setup({
+        users: {
+            users: [{
+                _id: "test",
+                 firstName: "test",
+            }
+        ],
+        loading: true,
+        Moderator: false
+    }});
     expect(wrapper.find(".MemberList").length).toBe(0)
     expect(wrapper.contains(<Spinner />)).toBe(true)
 })
