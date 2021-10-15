@@ -6,7 +6,8 @@ import {
 	AUTH_ERROR,
 	UPDATE_FAILED,
 	USER_ERROR,
-	GET_POST_ERROR
+	GET_POST_ERROR,
+	LOGOUT
 } from "../actions/types";
 import { logoutUser } from "../actions/auth";
 
@@ -14,6 +15,9 @@ import { logoutUser } from "../actions/auth";
 const catchAsync = (type, fn = type) => {
 	return async (dispatch) => {
 		await fn(dispatch).catch(async (err) => {
+			// If server fails logout user
+			if (err.response.status === 500) return dispatch({ type: LOGOUT })
+			
 			// The types handles when loading is still true
 			if (err.response.data.message) dispatch(setAlert(err.response.data.message, "fail"));
 			if (type === "post") dispatch({ type: POST_ERROR });
