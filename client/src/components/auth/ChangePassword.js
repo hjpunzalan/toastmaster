@@ -73,7 +73,13 @@ export const ChangePassword = ({
 			</p>
 			<hr />
 			<form
-				className="Form__form">
+				className="Form__form"
+				onSubmit={
+					formData[names[1]] !== formData[names[2]]
+						? passwordNotMatch
+						: handleSubmit
+				}
+				>
 				{inputs.map((input) => {
 					return (
 						<label key={input.label}>
@@ -92,17 +98,7 @@ export const ChangePassword = ({
 						</label>
 					);
 				})}
-
-				<div className="Form__btns">
-					<button
-							className="btn btn__submit"
-							onClick={
-					formData[names[1]] !== formData[names[2]]
-						? passwordNotMatch
-						: handleSubmit
-				}
-					>Submit</button>
-				</div>
+<input type="submit" className="btn btn__submit" value="Submit" />
 			</form>
 		</div>
 	);
