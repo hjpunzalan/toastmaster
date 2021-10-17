@@ -8,6 +8,8 @@ import { getAllUsers,deActivateUser,activateUser,changeRole } from "../../../../
 import { setAlert,resetAlert } from "../../../../actions/alerts";
 import {MemberList} from "../MemberList";
 import Spinner from "../../../utils/Spinner";
+import Table from '../Table'
+import SmallList from '../SmallList'
 
 
 const history = createBrowserHistory();
@@ -71,4 +73,11 @@ test('should render spinner if loading is true', () => {
     }});
     expect(wrapper.find(".MemberList").length).toBe(0)
     expect(wrapper.contains(<Spinner />)).toBe(true)
+})
+
+test('should render Table and SmallList component', () => {
+    const wrapper = setup();
+     
+    expect(wrapper.containsMatchingElement(<Table />)).toBe(true)
+    expect(wrapper.containsMatchingElement(<SmallList />)).toBe(true)
 })
