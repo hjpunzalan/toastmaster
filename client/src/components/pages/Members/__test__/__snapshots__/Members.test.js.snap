@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot renders correctly 1`] = `
+<tr
+  className="MemberList__member"
+>
+  <td>
+    <img
+      alt="user avatar"
+      className="MemberList__member-photo"
+      src="anonymous.png"
+    />
+  </td>
+  <td>
+    <span
+      className="MemberList__member-name"
+    >
+      test
+    </span>
+  </td>
+  <td>
+    <span
+      className="MemberList__member-name"
+    />
+  </td>
+  <td>
+    <span
+      style={
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <a
+        className="MemberList__member-email"
+        href="mailto:undefined"
+        target="_top"
+      >
+        <svg
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          strokeWidth="0"
+          style={
+            Object {
+              "color": undefined,
+            }
+          }
+          viewBox="0 0 24 24"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+          />
+        </svg>
+      </a>
+    </span>
+  </td>
+</tr>
+`;
