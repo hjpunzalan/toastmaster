@@ -3,7 +3,7 @@ import { MdEmail } from 'react-icons/md';
 import { FaUserTimes, FaUserPlus } from 'react-icons/fa';
 import img from '../../../img/anonymous.png';
 
-const List = ({
+export const Members = ({
 	user,
 	Moderator,
 	active,
@@ -78,4 +78,4 @@ const List = ({
 	);
 };
 
-export default List;
+export default Members;
