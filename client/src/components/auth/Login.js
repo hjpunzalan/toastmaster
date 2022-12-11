@@ -1,9 +1,9 @@
-import React from "react";
-import { Link, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import useForms from "../../hooks/useForms";
+import React from "react";
+import { connect } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
 import { loginUser } from "../../actions/auth";
+import useForms from "../../hooks/useForms";
 import Spinner from "../utils/Spinner";
 
 export let inputs;
@@ -81,8 +81,25 @@ export const Login = ({
 						autoComplete="on"
 					/>
 				</label>
+				<div style={{ display: "flex", gap: "2rem", marginBottom: "4rem" }}>
+					<button
+						onClick={async (e) => {
+							e.preventDefault();
+
+							await loginUser({
+								formData: {
+									email: "test@example.com",
+									password: "test123",
+								},
+								history,
+							});
+						}}
+						className="btn btn__submit-trial">
+						TEST USER
+					</button>
 					<input type="submit" className="btn btn__submit" value="Login" />
-					
+				</div>
+
 				<Link className="Form__link" to="/forgotpassword">
 					Forgot your password?
 				</Link>
