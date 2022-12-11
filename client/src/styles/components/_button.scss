@@ -1,125 +1,129 @@
 .btn {
-    width: 15rem;
-    height: $button-height;
-    border: none;
-    font-size: $size-button;
-    border: 1px solid $color-grey;
-    background-color: $color-grey-light;
-    @include links;
+	width: 15rem;
+	height: $button-height;
+	border: none;
+	font-size: $size-button;
+	border: 1px solid $color-grey;
+	background-color: $color-grey-light;
+	@include links;
 
-    @media only screen and (max-width: 50em) {
-        height: $button-height-450;
-    }
+	@media only screen and (max-width: 50em) {
+		height: $button-height-450;
+	}
 
-    @media only screen and (max-width: 25em) {
-        width: 12rem;
-    }
+	@media only screen and (max-width: 25em) {
+		width: 12rem;
+	}
 
-    &:focus {
-        outline: none;
-    }
+	&:focus {
+		outline: none;
+	}
 
-    &:hover {
-        cursor: pointer;
-    }
+	&:hover {
+		cursor: pointer;
+	}
 
-    &:active {
-        transform: scale(.95);
-    }
+	&:active {
+		transform: scale(0.95);
+	}
 
-    &__cancel {
-        // for editting post mainly
-        cursor: pointer;
-        width: 10rem;
-        height: 3rem;
-        background-color: $color-grey-light;
-        color: $color-black;
-        border: .1rem solid $color-black;
-    }
+	&__cancel {
+		// for editting post mainly
+		cursor: pointer;
+		width: 10rem;
+		height: 3rem;
+		background-color: $color-grey-light;
+		color: $color-black;
+		border: 0.1rem solid $color-black;
+	}
 
-    &__edit {
-        &-xs {
-            font-size: $size-alert;
-            background-color: $color-grey;
-            color: $color-black;
-            height: auto;
-            width: auto;
-            max-width: 7rem;
-            padding: .5rem;
-            border-radius: 5px;
-            @include boxshadow;
-        }
-    }
+	&__edit {
+		&-xs {
+			font-size: $size-alert;
+			background-color: $color-grey;
+			color: $color-black;
+			height: auto;
+			width: auto;
+			max-width: 7rem;
+			padding: 0.5rem;
+			border-radius: 5px;
+			@include boxshadow;
+		}
+	}
 
-    &__delete {
-        background: $color-danger;
-        color: $color-white;
+	&__delete {
+		background: $color-danger;
+		color: $color-white;
 
-        &-small {
-            background: $color-danger;
-            color: $color-white;
-            width: 10rem;
-            height: 3rem;
-            font-size: $size-alert;
-        }
+		&-small {
+			background: $color-danger;
+			color: $color-white;
+			width: 10rem;
+			height: 3rem;
+			font-size: $size-alert;
+		}
 
-        &-xs {
-            font-size: $size-alert;
-            background: $color-danger;
-            color: $color-white;
-            height: auto;
-            width: auto;
-            max-width: 7rem;
-            padding: .5rem;
-            border-radius: 5px;
-            @include boxshadow;
-        }
-    }
+		&-xs {
+			font-size: $size-alert;
+			background: $color-danger;
+			color: $color-white;
+			height: auto;
+			width: auto;
+			max-width: 7rem;
+			padding: 0.5rem;
+			border-radius: 5px;
+			@include boxshadow;
+		}
+	}
 
-    &__submit,
-    &__activate {
-        background: $color-secondary;
-        color: $color-white;
+	&__submit,
+	&__activate {
+		background: $color-secondary;
+		color: $color-white;
 
-        &-small {
-            background: $color-secondary-light;
-            color: $color-white;
-            width: 10rem;
-            height: 3rem;
-            font-size: $size-alert;
-        }
+		&-small {
+			background: $color-secondary-light;
+			color: $color-white;
+			width: 10rem;
+			height: 3rem;
+			font-size: $size-alert;
+		}
 
-        &-xs {
-            font-size: $size-alert;
-            background: $color-secondary;
-            color: $color-white;
-            height: auto;
-            width: auto;
-            max-width: 7rem;
-            padding: .5rem;
-            border-radius: 5px;
-            @include boxshadow;
-        }
-    }
+		&-xs {
+			font-size: $size-alert;
+			background: $color-secondary;
+			color: $color-white;
+			height: auto;
+			width: auto;
+			max-width: 7rem;
+			padding: 0.5rem;
+			border-radius: 5px;
+			@include boxshadow;
+		}
 
-    &__announcement {
-        width: fit-content;
-        max-height: $size-title;
-        padding: 0 3rem;
-        cursor: pointer;
+		&-trial {
+			background-color: $color-primary;
+			color: $color-white;
+		}
+	}
 
-        @media only screen and (max-width: 35em) {
-            display: none;
-        }
+	&__announcement {
+		width: fit-content;
+		max-height: $size-title;
+		padding: 0 3rem;
+		cursor: pointer;
 
-        &-small {
-            font-size: 3rem;
-            cursor: pointer;
+		@media only screen and (max-width: 35em) {
+			display: none;
+		}
 
-            @media only screen and (min-width: 35em) {
-                display: none;
-            }
-        }
-    }
+		&-small {
+			font-size: 3rem;
+			cursor: pointer;
 
+			@media only screen and (min-width: 35em) {
+				display: none;
+			}
+		}
+	}
 }
