@@ -37,10 +37,11 @@ const createToken = (user, res) => {
 		expiresIn: process.env.JWT_EXPIRATION,
 	});
 
+	let date = new Date();
+	date.setDate(date.getDate() + 7);
+
 	let cookieOptions = {
-		expires: new Date(
-			Date.now() + process.env.JWT_COOKIE_EXPIRATION * 24 * 60 * 60 * 1000
-		),
+		expires: date,
 		secure: true, // send in https
 		httpOnly: true, // cannot be modified by browser
 	};
