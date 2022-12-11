@@ -1,243 +1,244 @@
 .Navbar {
-    list-style-type: none;
-    display: flex;
-    width: 100%;
-    height: $navbar-height;
-    background-color: $color-primary;
-    background: linear-gradient(0deg, rgb(91, 0, 17) 0%, rgba(112, 0, 32, 1) 50%, rgba(131, 0, 44, 1) 100%);
-    align-items: center;
-    padding: .5rem 5rem;
-    box-shadow: 0px 3px 5px -1px $color-grey;
+	list-style-type: none;
+	display: flex;
+	width: 100%;
+	height: $navbar-height;
+	background-color: $color-primary;
+	background: linear-gradient(
+		0deg,
+		rgb(91, 0, 17) 0%,
+		rgba(112, 0, 32, 1) 50%,
+		rgba(131, 0, 44, 1) 100%
+	);
+	align-items: center;
+	padding: 0.5rem 5rem;
+	box-shadow: 0px 3px 5px -1px $color-grey;
 
-    @media only screen and (max-width: 32.5em) {
-        padding: .5rem 1rem;
-    }
+	@media only screen and (max-width: 32.5em) {
+		padding: 0.5rem 1rem;
+	}
 
-    @media only screen and (max-width: 62.5em) {
-        position: relative;
-        height: auto;
-        align-items: flex-start;
-        flex-direction: column;
+	@media only screen and (max-width: 62.5em) {
+		position: relative;
+		height: auto;
+		align-items: flex-start;
+		flex-direction: column;
 
-        &-withLogin {
-            flex-direction: row;
-            align-items: center;
-        }
-    }
+		&-withLogin {
+			flex-direction: row;
+			align-items: center;
+		}
+	}
 
-    &__left {
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        width: 100%;
+	&__left {
+		text-decoration: none;
+		display: flex;
+		align-items: center;
+		text-decoration: none;
+		width: 100%;
 
-        @media only screen and (max-width: 62.5em) {
-            width: 100%;
+		@media only screen and (max-width: 62.5em) {
+			width: 100%;
+		}
 
-        }
+		input[type="checkbox"]#hamburger {
+			display: none;
+			width: 0;
+			height: 0;
 
+			&:checked + .Navbar__button span {
+				height: 0;
+			}
 
-        input[type='checkbox']#hamburger {
-            display: none;
-            width: 0;
-            height: 0;
+			&:checked + .Navbar__button span::before {
+				transform: rotate(-45deg);
+				top: 0;
+			}
 
-            &:checked+.Navbar__button span {
-                height: 0;
-            }
+			&:checked + .Navbar__button span::after {
+				transform: rotate(45deg);
+				top: 0;
+			}
+		}
 
-            &:checked+.Navbar__button span::before {
-                transform: rotate(-45deg);
-                top: 0;
-            }
+		.Navbar__button span,
+		.Navbar__button span::before,
+		.Navbar__button span::after {
+			width: 3rem;
+			height: 0.3rem;
+			background: white;
 
-            &:checked+.Navbar__button span::after {
-                transform: rotate(45deg);
-                top: 0;
-            }
-        }
+			@media only screen and (max-width: 35em) {
+				width: 2rem;
+				height: 0.3rem;
+			}
+		}
 
+		.Navbar__button {
+			display: none;
 
-        .Navbar__button span,
-        .Navbar__button span::before,
-        .Navbar__button span::after {
-            width: 3rem;
-            height: .3rem;
-            background: white;
+			@media only screen and (max-width: 62.5em) {
+				margin-left: auto;
+				cursor: pointer;
+				display: inline-block;
 
-            @media only screen and (max-width: 35em) {
-                width: 2rem;
-                height: .3rem;
-            }
-        }
+				& span {
+					display: inline-block;
+					position: relative;
 
-        .Navbar__button {
-            display: none;
+					&::before,
+					&::after {
+						position: absolute;
+						display: inline-block;
+						transition: all 0.2s ease;
+						content: "";
+					}
 
-            @media only screen and (max-width: 62.5em) {
-                margin-left: auto;
-                cursor: pointer;
-                display: inline-block;
+					&::before {
+						top: -0.7rem;
+					}
 
-                & span {
-                    display: inline-block;
-                    position: relative;
+					&::after {
+						top: 0.7rem;
+					}
+				}
+			}
+		}
+	}
 
-                    &::before,
-                    &::after {
-                        position: absolute;
-                        display: inline-block;
-                        transition: all 0.2s ease;
-                        content: '';
-                    }
+	&__right {
+		margin-left: auto;
+		position: relative;
+		flex-shrink: 0;
 
-                    &::before {
-                        top: -.7rem;
-                    }
+		@media only screen and (max-width: 62.5em) {
+			width: 100%;
+			margin-left: 0;
+			display: flex; // This is for login to be aligned towards the right
+			justify-content: flex-end; // wont affect other nav because there's only one item
+			flex-shrink: 1;
+		}
 
-                    &::after {
-                        top: .7rem;
-                    }
-                }
-            }
-        }
+		#nav {
+			transition: all 0.2s ease;
+			max-height: 500rem;
+			overflow: hidden;
 
-    }
+			@media only screen and (max-width: 62.5em) {
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+			}
+		}
 
-    &__right {
-        margin-left: auto;
-        position: relative;
-        flex-shrink: 0;
+		.Navbar__closed#nav {
+			@media only screen and (max-width: 62.5em) {
+				max-height: 0;
+			}
+		}
 
-        @media only screen and (max-width: 62.5em) {
-            width: 100%;
-            margin-left: 0;
-            display: flex; // This is for login to be aligned towards the right
-            justify-content: flex-end; // wont affect other nav because there's only one item
-            flex-shrink: 1;
-        }
+		.Navbar__open#nav {
+			@media only screen and (max-width: 62.5em) {
+				margin-top: 2rem;
+				border-top: 2px solid $color-white;
+				padding: 2rem 0;
+			}
+		}
+	}
 
+	&__item {
+		display: inline-block;
+		font-size: $size-link;
+		margin: 0 1rem;
+		color: $color-white;
 
-        #nav {
-            transition: all .2s ease;
-            max-height: 500rem;
-            overflow: hidden;
+		@media only screen and (max-width: 22.5em) {
+			margin: 0 0.5rem;
+			font-size: 1.4rem;
+		}
+	}
 
-            @media only screen and (max-width: 62.5em) {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-            }
-        }
+	&__logo {
+		display: block;
+		height: logoHeight($navbar-height);
 
-        .Navbar__closed#nav {
-            @media only screen and (max-width: 62.5em) {
-                max-height: 0;
-            }
-        }
+		@media only screen and (max-width: 40.625em) {
+			height: 5rem;
+		}
 
-        .Navbar__open#nav {
-            @media only screen and (max-width: 62.5em) {
-                margin-top: 2rem;
-                border-top: 2px solid $color-white;
-                padding: 2rem 0;
-            }
-        }
-    }
+		@media only screen and (max-width: 25em) {
+			height: 4rem;
+		}
 
-    &__item {
-        display: inline-block;
-        font-size: $size-link;
-        margin: 0 1rem;
-        color: $color-white;
+		@media only screen and (max-width: 22.5em) {
+			height: 3rem;
+		}
+	}
 
-        @media only screen and (max-width: 22.5em) {
-            margin: 0 .5rem;
-            font-size: 1.4rem;
-        }
-    }
+	&__header {
+		display: flex;
+		flex-direction: column;
+		flex-shrink: 0;
 
-    &__logo {
-        display: block;
-        height: logoHeight($navbar-height);
+		&-text {
+			font-size: 2.3rem;
+			font-weight: 600;
+			padding-bottom: 0.7rem;
 
-        @media only screen and (max-width: 40.625em) {
-            height: 5rem;
-        }
+			@media only screen and (max-width: 40.625em) {
+				font-size: 1.7rem;
+			}
 
-        @media only screen and (max-width: 25em) {
-            height: 4rem;
-        }
+			@media only screen and (max-width: 25em) {
+				font-size: 1.5rem;
+			}
 
-        @media only screen and (max-width: 22.5em) {
-            height: 3rem;
-        }
-    }
+			@media only screen and (max-width: 22.5em) {
+				font-size: 1.4rem;
+			}
+		}
 
-    &__header {
-        display: flex;
-        flex-direction: column;
-        flex-shrink: 0;
+		&-caption {
+			font-size: 1.3rem;
+			padding-left: 2rem;
 
-        &-text {
-            font-size: 2.3rem;
-            font-weight: 600;
-            padding-bottom: 0.7rem;
+			@media only screen and (max-width: 25em) {
+				font-size: 1.2rem;
+				padding-left: 1.5rem;
+			}
 
-            @media only screen and (max-width: 40.625em) {
-                font-size: 1.7rem;
-            }
+			@media only screen and (max-width: 20.625em) {
+				font-size: 1.1rem;
+			}
+		}
+	}
 
-            @media only screen and (max-width: 25em) {
-                font-size: 1.5rem;
-            }
+	&__link {
+		text-decoration: none;
+		color: $color-white;
+		position: relative;
+		display: inline-block;
+		padding: 0.7rem 0;
 
-            @media only screen and (max-width: 22.5em) {
-                font-size: 1.4rem;
-            }
-        }
+		&:before {
+			content: "";
+			position: absolute;
+			width: 100%;
+			height: 2px;
+			bottom: 0;
+			left: 0;
+			background-color: $color-white;
+			visibility: hidden;
+			-webkit-transform: scaleX(0);
+			transform: scaleX(0);
+			-webkit-transition: all 0.3s ease-in-out 0s;
+			transition: all 0.3s ease-in-out 0s;
+		}
 
-        &-caption {
-            font-size: 1.3rem;
-            padding-left: 2rem;
-
-            @media only screen and (max-width: 25em) {
-                font-size: 1.2rem;
-                padding-left: 1.5rem;
-            }
-
-            @media only screen and (max-width: 20.625em) {
-                font-size: 1.1rem;
-            }
-        }
-    }
-
-    &__link {
-        text-decoration: none;
-        color: $color-white;
-        position: relative;
-        display: inline-block;
-        padding: 0.7rem 0;
-
-        &:before {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: $color-white;
-            visibility: hidden;
-            -webkit-transform: scaleX(0);
-            transform: scaleX(0);
-            -webkit-transition: all 0.3s ease-in-out 0s;
-            transition: all 0.3s ease-in-out 0s;
-        }
-
-        &:hover:before {
-            visibility: visible;
-            -webkit-transform: scaleX(1);
-            transform: scaleX(1);
-        }
-    }
+		&:hover:before {
+			visibility: visible;
+			-webkit-transform: scaleX(1);
+			transform: scaleX(1);
+		}
+	}
 }
