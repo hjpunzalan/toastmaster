@@ -4,12 +4,12 @@
 	"description": "An API for Southern River Toastmasters",
 	"main": "app.js",
 	"scripts": {
-		"start": "node server.js",
+		"start": "NODE_ENV=production node server.js",
 		"server": "nodemon server.js",
 		"start:prod": "set NODE_ENV=production&& nodemon server.js",
 		"client": "npm start --prefix client",
 		"dev": "concurrently \"npm run server\" \"npm run client\"",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
+		"deploy": "npm install --prefix client && npm run build --prefix client",
 		"test": "jest --watch",
 		"test:ci": "jest"
 	},
