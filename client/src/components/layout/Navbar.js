@@ -12,11 +12,12 @@ export const Navbar = ({ auth: { isAuthenticated }, logoutUser }) => {
 	return (
 		<>
 			<ul className={`Navbar ${!isAuthenticated ? "Navbar-withLogin" : ""}`}>
-				<Link to="/" style={{ textDecoration: "none", width:"100%" }}>
 					<div className="Navbar__left">
+						<Link to="/" style={{ textDecoration: "none" }}> 
 						<li className="Navbar__item">
 							<img className="Navbar__logo" src={logo} alt="logo" />
 						</li>
+						</Link>
 						<div className="Navbar__header">
 							<li className="Navbar__item Navbar__header-text">
 								Southern River Toastmasters
@@ -38,7 +39,6 @@ export const Navbar = ({ auth: { isAuthenticated }, logoutUser }) => {
 							</label>
 						)}
 					</div>
-				</Link>
 				<div className="Navbar__right">
 					{isAuthenticated ? (
 						<ul id="nav" className={nav ? "Navbar__open" : "Navbar__closed"}>
