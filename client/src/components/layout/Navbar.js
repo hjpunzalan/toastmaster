@@ -12,7 +12,7 @@ export const Navbar = ({ auth: { isAuthenticated }, logoutUser }) => {
 	return (
 		<>
 			<ul className={`Navbar ${!isAuthenticated ? "Navbar-withLogin" : ""}`}>
-				<Link to="/" style={{ textDecoration: "none" }}>
+				<Link to="/" style={{ textDecoration: "none", width:"100%" }}>
 					<div className="Navbar__left">
 						<li className="Navbar__item">
 							<img className="Navbar__logo" src={logo} alt="logo" />
