@@ -28,7 +28,7 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 mongoose
-  .connect(DB + "?directConnection=true", {
+  .connect(DB, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
@@ -37,7 +37,7 @@ mongoose
   .then(() => console.log("DB connection is successful"));
 
 console.log(`Server running on: ${process.env.NODE_ENV} mode`);
-console.log("new version");
+console.log("newer version");
 
 const port = process.env.PORT || 7000;
 const server = app.listen(port, () => {
