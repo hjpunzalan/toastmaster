@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
-import Comments from "./Comments";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { faker } from "@faker-js/faker";
 import { ContentState, convertToRaw } from "draft-js";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
 import {
-  getPost,
   addComment,
   deleteComment,
-  toggleEditPost,
   deletePost,
+  getPost,
+  toggleEditPost,
   updatePost,
 } from "../../../actions/post";
-import TextEditor from "../../utils/draft-js/TextEditor";
-import Spinner from "../../utils/Spinner";
-import PostHead from "./PostHead";
-import PageButtons from "./PageButtons";
-import ContentEditor from "../../utils/ContentEditor";
 import { onChange } from "../../../actions/textEditor";
-import { faker } from "@faker-js/faker";
+import ContentEditor from "../../utils/ContentEditor";
+import Spinner from "../../utils/Spinner";
+import TextEditor from "../../utils/draft-js/TextEditor";
+import Comments from "./Comments";
+import PageButtons from "./PageButtons";
+import PostHead from "./PostHead";
 
 const Post = ({
   match: {
@@ -148,7 +148,6 @@ const Post = ({
             {post.comments.slice(start, end).map((c) => (
               <Comments
                 key={c._id}
-                img={faker.image.avatar()}
                 contentState={c.contentState}
                 id={c._id}
                 postId={postId}

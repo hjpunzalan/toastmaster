@@ -1,17 +1,13 @@
-import React, { useMemo } from "react";
-import { faker } from "@faker-js/faker";
+import React from "react";
+import { FaKey, FaUserAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { FaUserAlt, FaKey } from "react-icons/fa";
-import img from "../../../img/anonymous.png";
 
 export const User = ({ currentUser, isModified }) => {
-  const placeholderPhoto = useMemo(() => faker.image.avatar(), []);
-
   return (
     <div className="Dashboard__right">
       <img
         className="Dashboard__user-photo"
-        src={currentUser.photo || placeholderPhoto}
+        src={currentUser?.photo}
         alt="user avatar"
       />
 

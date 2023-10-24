@@ -37,7 +37,6 @@ mongoose
   .then(() => console.log("DB connection is successful"));
 
 console.log(`Server running on: ${process.env.NODE_ENV} mode`);
-console.log("newer version");
 
 const port = process.env.PORT || 7000;
 const server = app.listen(port, () => {

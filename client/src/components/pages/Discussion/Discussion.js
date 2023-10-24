@@ -1,18 +1,17 @@
-import React, { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
+import { connect } from "react-redux";
 import {
-  getAllPost,
   createPost,
-  toggleCreatePost,
-  searchPost,
+  getAllPost,
   postNextPage,
+  searchPost,
+  toggleCreatePost,
 } from "../../../actions/post";
+import SpinnerSmall from "../../../components/utils/SpinnerSmall";
 import DiscussionHead from "./DiscussionHead";
 import DiscussionPost from "./DiscussionPost";
-import SpinnerSmall from "../../../components/utils/SpinnerSmall";
-import { faker } from "@faker-js/faker";
 
 export const Discussion = ({
   post: { posts, edit, totalPages, loading },
@@ -23,6 +22,7 @@ export const Discussion = ({
   history,
   searchPost,
   postNextPage,
+  currentUser,
 }) => {
   useEffect(() => {
     if (edit) {
@@ -40,12 +40,13 @@ export const Discussion = ({
       key={post._id}
       title={post.title}
       id={post._id}
-      img={post.user.photo || faker.image.avatar()}
+      user={post.user}
       date={post.date}
       count={post.comments.length}
       text={post.plainText}
       firstName={post.user.firstName}
       lastName={post.user.lastName}
+      currentUser={currentUser}
     />
   ));
   return (
@@ -94,6 +95,7 @@ Discussion.propTypes = {
 const mapStateToProps = (state) => ({
   post: state.post,
   contentState: state.textEditor.contentState,
+  currentUser: state.auth.currentUser,
 });
 
 export default connect(mapStateToProps, {
