@@ -1,7 +1,7 @@
-import React from "react";
-import { MdEmail } from "react-icons/md";
-import { FaUserTimes, FaUserPlus } from "react-icons/fa";
 import { faker } from "@faker-js/faker";
+import React, { useMemo } from "react";
+import { FaUserPlus, FaUserTimes } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 
 export const Members = ({
   user,
@@ -12,12 +12,20 @@ export const Members = ({
   currentUser,
   changeRole,
 }) => {
+  const fakePhoto = useMemo(() => faker.image.avatar(), []);
+
+  let photo = user.photo || fakePhoto;
+
+  if (user._id === currentUser._id) {
+    photo = currentUser.photo;
+  }
+
   return (
     <tr key={user._id} className="MemberList__member">
       <td>
         <img
           className="MemberList__member-photo"
-          src={user.photo || faker.image.avatar()}
+          src={photo}
           alt="user avatar"
         />
       </td>
